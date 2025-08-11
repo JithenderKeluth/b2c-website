@@ -1,0 +1,32 @@
+<div *ngIf="sbloading" class="loader-overlay">
+  <div class="loader-spinner"></div>
+</div>
+<div
+  class="landing_page" id="landingPage"
+  [style.height]="navService.isNavOpen() ? '0px' : '100%'">
+  <div class="landing_page_bg" *ngIf="navFrom === ''">
+          <app-back-button
+          *ngIf="region === 'SB'" class="search-sec-header" [isTextWhite]="true" translate
+          (onBack)="backButtonNavLink()"
+          ><span translate>Book a Flight</span>
+        </app-back-button>
+    <div class="container" >
+      <app-search ></app-search>
+      <div *ngIf="region === 'SB'" class="container pb-4 w-100 px-0">
+        <div class="travel-insurance-banner">
+          <a href="https://www.standardbank.co.za/southafrica/personal/products-and-services/insure-what-matters/yourself/travel-insurance" rel="noopener" target="_blank">
+            <img ImageSrc src="../../../assets/images/travel_insurance_banner.jpg" alt="conditions" />
+          </a>
+        </div>
+        <div class="search-notification-warning">
+          <img ImageSrc src="./../../../assets/icons/info_hme_yellow.svg" alt="info" class="apply-orange-color" />
+          <div>
+            <!-- font-weight-bold -->
+            <h5 class="mb-1" translate [translate]="notificationTitle"></h5>
+            <span translate [translate]="notificationMessage"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

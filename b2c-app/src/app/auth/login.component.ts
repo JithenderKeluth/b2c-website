@@ -32,7 +32,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { GoogleAuthService } from './google-auth.service';
 import { MessagingService } from '../general/services/messaging/messaging.service';
 import { IterableService } from '../_core/tracking/services/iterable.service';
-import { ApiService } from '../general/services/api/api.service';
 
 declare const $: any;
 declare var google: any;
@@ -61,7 +60,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('signUpEmail') signUpEmail: ElementRef;
   @Output() showLoader = new EventEmitter<boolean>();
   @Output() ts_user = new EventEmitter<boolean>();
-  @Output() prompt_navigation = new EventEmitter<boolean>();
   signupResponse: string = '';
 
   pwdNotMatch: string;
@@ -82,7 +80,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   errorMsg: any;
   @Input() travelstartPlus = false;
   isTsPlus: boolean;
-  isMastercardCountry = false;
   @Output() closeSignup: EventEmitter<boolean> = new EventEmitter();
   btnDisable = false;
   private timer: any;
@@ -112,8 +109,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object,
     private googleAuth: GoogleAuthService,
     private messagingService: MessagingService,
-    private iterableService: IterableService,
-    private apiService: ApiService
+    private iterableService: IterableService
   ) {
     this.createForm();
     this.initSignUpForm();
@@ -128,10 +124,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.animateData();
     }, 3500);
     this.forgotPassword = false;
-    
-    const hostname = window.location.hostname;
-    this.isMastercardCountry = hostname.includes('mastercard.travelstart.co.za');
-    
     this.authenticationService.currentCloseForgotPwd.subscribe((value: any) => {
       if (value) {
         this.forgotPassword = false;
@@ -178,11 +170,9 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.errorMsg = 'The Account is in a Pending status. Please check your email for activation link';
             }
           } else {
-            this.authenticationService.isLoggedInSubject.next(true);
-                if (!credentials?.data?.isTSPlusSubscriptionActive) { 
-                                this.prompt_navigation.emit(true);
-                            }
-            
+            if (credentials.data?.isTSPlusSubscriber && credentials.data?.isTSPlusSubscriptionActive) {
+              this.ts_user.emit(true);
+            }
             this.errorMsg = '';
              const userInfo = credentials?.data;
             var email = userInfo?.contactInfo?.email;
@@ -346,7 +336,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.submitSignUp = false;
           this.signupResponse = '';
           if (data?.data) {
-            this.authenticationService.isLoggedInSubject.next(true);
             const value = this.signUpForm.value.email;
             this.iterableService.generateJWT1(value);
             setTimeout(() => {
@@ -513,14 +502,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.authenticationService.validateOTP(otpToValidate).subscribe(
         (data: any) => {
           if (data?.code === 200) {
-            this.authenticationService.isLoggedInSubject.next(true);
             this.myaccount.getUserDataOTPFlow(data.data.token, true).subscribe((data: any) => {
               this.otpData = null;
               this.storage.setItem('credentials', JSON.stringify(data), 'session');
               this.sessionService.updateSessionData('credentials', data);
-              if (!data?.data?.isTSPlusSubscriptionActive) { 
-                   this.prompt_navigation.emit(true);
-                    }
                 const email  = data?.data.contactInfo?.email; 
                  this.googleTagManagerServiceService.setUserEmail(email);
                  setTimeout(() => {
@@ -539,7 +524,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           } else if (data?.code === 1550) {
             this.errorMsg = '';
             this.errorMsg = data.result;
-            this.authenticationService.isLoggedInSubject.next(false);
           }
         },
         (error) => {

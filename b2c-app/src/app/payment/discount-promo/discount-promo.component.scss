@@ -1,0 +1,57 @@
+.discount-promo {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: var(--productsBgColor);
+  border-radius: var(--border_radius);
+  margin: 10px 0px;
+
+  &__body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__name {
+    font-family: var(--heading_font_family);
+    font-size: 1rem;
+  }
+
+  &__price {
+    text-align: right;
+  }
+
+  &__footer {
+    text-align: right;
+  }
+
+  &__info-icon {
+    margin-top: -3px; /* Align with discount text */
+  }
+
+  &__total {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.5rem;
+  }
+
+  &__total--discounted {
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: line-through;
+    color: var(--text_danger_color);
+  }
+
+  &__footer {
+    font-size: 0.8125rem;
+  }
+}
+
+#booking_feeAmt{
+  p{
+    font-size: 14px;
+    .feeAmt{
+      font-weight: 600;
+    }
+  }
+}

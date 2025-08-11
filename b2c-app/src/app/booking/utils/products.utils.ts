@@ -1,12 +1,14 @@
 export function updateProducts(productId: string, isSelected: boolean) {
-  let products = sessionStorage.getItem('products') ? JSON.parse(sessionStorage.getItem('products')) : null;
-  if (products) {
-    products.forEach((x: any) => {
-      if (x.id == productId) {
-        x.initSelected = isSelected;
-      }
-    });
-    sessionStorage.setItem('products', JSON.stringify(products));
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    let products = sessionStorage.getItem('products') ? JSON.parse(sessionStorage.getItem('products')) : null;
+    if (products) {
+      products.forEach((x: any) => {
+        if (x.id == productId) {
+          x.initSelected = isSelected;
+        }
+      });
+      sessionStorage.setItem('products', JSON.stringify(products));
+    }
   }
 }
 export function isCheckedbaggageAvl(priceData: any) {

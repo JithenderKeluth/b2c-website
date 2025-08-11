@@ -449,18 +449,20 @@ function airportsList(origin: string, destination: string) {
 }
 /**compares city codes from flight search and deeplink params and returns true if they match*/
 function getAirlineParam() {
-  if (sessionStorage.getItem('queryStringParams')) {
-    let deepLinkParams = JSON.parse(sessionStorage.getItem('queryStringParams'));
-    let searchInfo = JSON.parse(sessionStorage.getItem('flightsearchInfo'));
-    if (
-      (searchInfo.itineraries[0].dept_city.code == deepLinkParams.from &&
-        searchInfo.itineraries[0].arr_city.code == deepLinkParams.to) ||
-      searchInfo.itineraries[0].dept_city.code == deepLinkParams.from_0 ||
-      (searchInfo.itineraries[0].arr_city.code == deepLinkParams.to_0 && deepLinkParams.airline)
-    ) {
-      return true;
-    } else {
-      return false;
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    if (sessionStorage.getItem('queryStringParams')) {
+      let deepLinkParams = JSON.parse(sessionStorage.getItem('queryStringParams'));
+      let searchInfo = JSON.parse(sessionStorage.getItem('flightsearchInfo'));
+      if (
+        (searchInfo.itineraries[0].dept_city.code == deepLinkParams.from &&
+          searchInfo.itineraries[0].arr_city.code == deepLinkParams.to) ||
+        searchInfo.itineraries[0].dept_city.code == deepLinkParams.from_0 ||
+        (searchInfo.itineraries[0].arr_city.code == deepLinkParams.to_0 && deepLinkParams.airline)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 }
@@ -511,7 +513,7 @@ function recentSearchesInfo(recentSearchData: any) {
   let multiUniqueKey = '';
   let uniqueIndex: number;
   let searchesArray: any[] = [];
-  if (localStorage.getItem('flightSearchData')) {
+  if (typeof window !== 'undefined' && window.localStorage && localStorage.getItem('flightSearchData')) {
     searchesArray = JSON.parse(localStorage.getItem('flightSearchData'));
     if (searchesArray.length == 10) {
       searchesArray = searchesArray.slice!(7, 10);
@@ -683,14 +685,16 @@ function mergeDomesticFlights(flights: any) {
 }
 /**checking the airline query param and deleting when the user performs new search*/
 function checkAirlineParam() {
-  if (sessionStorage.getItem('queryStringParams')) {
-    const params = JSON.parse(sessionStorage.getItem('queryStringParams'));
-    const deepLinkParams = { ...params };
-    if (deepLinkParams.airline) {
-      delete deepLinkParams.airline;
-      sessionStorage.removeItem('queryStringParams');
-      sessionStorage.setItem('queryStringParams', JSON.stringify(deepLinkParams));
-      return deepLinkParams;
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    if (sessionStorage.getItem('queryStringParams')) {
+      const params = JSON.parse(sessionStorage.getItem('queryStringParams'));
+      const deepLinkParams = { ...params };
+      if (deepLinkParams.airline) {
+        delete deepLinkParams.airline;
+        sessionStorage.removeItem('queryStringParams');
+        sessionStorage.setItem('queryStringParams', JSON.stringify(deepLinkParams));
+        return deepLinkParams;
+      }
     }
   }
 }
@@ -815,9 +819,9 @@ function stopsWithLocations(odoList: any) {
   const stops = getStopsNum(odoList?.segments);
   const stopLocations = getStopsName(odoList);
   let stopsLocationsText: any;
-  if (stops !== 'Non Stop') {
+  if (stops !== 'Non Stop' && stops !== 'Direct') {
     stopsLocationsText = `${stops}   |  ${stopLocations}`;
-  } else if (stops == 'Non Stop') {
+  } else if (stops == 'Non Stop' || stops === 'Direct') {
     stopsLocationsText = stops;
   }
   return stopsLocationsText;
@@ -825,9 +829,13 @@ function stopsWithLocations(odoList: any) {
 
 /*Returns No.of stops */
 function getStopsNum(segments: any) {
+  let country;
+  if(typeof window !== 'undefined' && typeof sessionStorage !== 'undefined'){
+    country = sessionStorage.getItem('country-language')?.split('-')[1] || 'ZA';
+  }
   const numStops = parseInt(segments.length) - 1;
   if (numStops === 0) {
-    return 'Non Stop';
+    return country === 'SB' ? 'Direct' : 'Non Stop';
   } else if (numStops === 1) {
     return numStops + ' Stop';
   } else {
@@ -846,7 +854,7 @@ function getTechStopsByOdoList(odoList: any) {
 
 /**Technical stops text */
 function getTechStopsText(techStopsCount: number, stopLocations: any) {
-  let techStopsText: any;
+  let techStopsText: any = null;
   const stopsText = stopLocations.length > 1 ? stopLocations.join(', ') : stopLocations;
   if (techStopsCount > 1) {
     techStopsText = `${techStopsCount} Technical stops at ${stopsText}`;
@@ -857,8 +865,12 @@ function getTechStopsText(techStopsCount: number, stopLocations: any) {
 }
 
 function displayItinPrice(itinerary: any, isPPS?: boolean, isIntl?: boolean,isBundleFlight?:boolean ) {
+
+  let credentials;
   // Safely retrieve the wallet from sessionStorage
-  const credentials = sessionStorage.getItem('credentials');
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    credentials = sessionStorage.getItem('credentials');
+  }
   const wallet = credentials ? JSON.parse(credentials)?.data?.subscriptionResponse?.wallet : null;
 
   // Get voucher lists by regionality
@@ -882,7 +894,7 @@ function displayItinPrice(itinerary: any, isPPS?: boolean, isIntl?: boolean,isBu
   // Calculate PPS and total amounts
   const ppsAmt = (itinerary?.ppsAmount || 0) ;
   const amount = (itinerary?.amount || 0) ;
-  const ItinAmount = isPPS ? ppsAmt : amount;  
+  const ItinAmount = isPPS ? ppsAmt : amount;
   // Calculate saving amount
   const savingAmt = Math.abs(discountAmount) + voucherAmt;
   // Calculate strike and final amounts

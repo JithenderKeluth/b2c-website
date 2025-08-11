@@ -633,9 +633,11 @@ export function searchOrUpdatePrice(param: string) {
 /**retrieves an array of countries from the session storage.finally, it returns the sorted array.*/
 export function getCountriesArray() {
   let countriesArray = [];
-  if (sessionStorage.getItem('countries')) {
-    countriesArray = JSON.parse(sessionStorage.getItem('countries'));
-    countriesArray = countriesArray.sort((a: any, b: any) => a.name.localeCompare(b.name));
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    if (sessionStorage.getItem('countries')) {
+      countriesArray = JSON.parse(sessionStorage.getItem('countries'));
+      countriesArray = countriesArray.sort((a: any, b: any) => a.name.localeCompare(b.name));
+    }
   }
   return countriesArray;
 }
@@ -735,24 +737,26 @@ export function getTravellerType(travellers: any, param: string) {
 
 /**check passengers have youngAdult or not in search and update fare breakdown  */
 export function updateFareInfoTravellers(travellers: any) {
-  let flightSearchInfo = sessionStorage.getItem('flightsearchInfo')
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    let flightSearchInfo = sessionStorage.getItem('flightsearchInfo')
     ? JSON.parse(sessionStorage.getItem('flightsearchInfo'))
     : null;
-  let travellersList = travellers;
-  let youngAdultAmont = 0;
-  if (flightSearchInfo?.travellers?.youngAdults && !travellersList?.youngAdults && travellersList?.adults.qty > 1) {
-    youngAdultAmont = travellersList.adults.baseFare / travellersList.adults.qty;
-    travellersList.adults.qty = travellersList.adults.qty - flightSearchInfo.travellers.youngAdults;
-    travellersList.adults.baseFare =
-      travellersList.adults.baseFare - youngAdultAmont * flightSearchInfo.travellers.youngAdults;
-    travellersList.youngAdults = {
-      baseFare: youngAdultAmont * flightSearchInfo.travellers.youngAdults,
-      qty: flightSearchInfo.travellers.youngAdults,
-      isModified: true,
-    };
-    return travellersList;
-  } else {
-    return travellersList;
+    let travellersList = travellers;
+    let youngAdultAmont = 0;
+    if (flightSearchInfo?.travellers?.youngAdults && !travellersList?.youngAdults && travellersList?.adults.qty > 1) {
+      youngAdultAmont = travellersList.adults.baseFare / travellersList.adults.qty;
+      travellersList.adults.qty = travellersList.adults.qty - flightSearchInfo.travellers.youngAdults;
+      travellersList.adults.baseFare =
+        travellersList.adults.baseFare - youngAdultAmont * flightSearchInfo.travellers.youngAdults;
+      travellersList.youngAdults = {
+        baseFare: youngAdultAmont * flightSearchInfo.travellers.youngAdults,
+        qty: flightSearchInfo.travellers.youngAdults,
+        isModified: true,
+      };
+      return travellersList;
+    } else {
+      return travellersList;
+    }
   }
 }
 

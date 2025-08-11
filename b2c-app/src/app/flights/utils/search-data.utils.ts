@@ -307,7 +307,9 @@ function getDefaultAirports(language: any) {
     case 'ABSA': {
       return airports.defalutAirports[0]['en-ZA'];
     }
-     
+    case 'SB': {
+      return airports.defalutAirports[0]['en-ZA'];
+    }
     default: {
       return airports.defalutAirports[0].default;
     }

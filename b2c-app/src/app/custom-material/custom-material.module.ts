@@ -27,6 +27,34 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 
+const materialComponents = [
+  MatButtonModule,
+  MatAutocompleteModule,
+  MatInputModule,
+  MatIconModule,
+  MatSelectModule,
+  MatTabsModule,
+  MatProgressSpinnerModule,
+  MatChipsModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatListModule,
+  MatMenuModule,
+  MatTooltipModule,
+  MatSnackBarModule,
+  MatSlideToggleModule,
+  MatDividerModule,
+  MatSidenavModule,
+  MatToolbarModule,
+  MatExpansionModule,
+  MatSliderModule,
+  MatDatepickerModule,
+  MatProgressBarModule,
+  MatRadioModule,
+  MatNativeDateModule,
+  MatDialogModule,
+];
+
 @NgModule({
   imports: [
     CommonModule,

@@ -127,6 +127,10 @@
     font-weight: 500;
     color: var(--text_primary_color);
 
+    .bold{
+    font-weight: 600;
+    }
+
     a {
       color: var(--text_link_color);
     }
@@ -161,7 +165,7 @@
   }
   .payment_view_page {
     padding: 15px;
-    min-height: 50vh;
+    min-height: 75vh;
     .container {
       padding: 0;
       .pl-xs-15 {
@@ -227,7 +231,7 @@
 
   .payment_view_page {
     padding: 7px 15px 15px 15px;
-    min-height: 50vh;
+    min-height: 75vh;
   }
 }
 
@@ -264,4 +268,26 @@
   top: 10px;
   left: 0;
   z-index: 1000;
+}
+
+.discount-promo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  width: 100%;
+  background: var(--primary_Body_bg);
+  border: 1px solid var(--border_light_color);
+  border-radius: var(--border_radius);
+
+  &__header {
+    font-family: var(--heading_font_family);
+    font-size: 1.125rem;
+  }
+
+  &__btn {
+    width: auto;
+    min-width: 6rem;
+    align-self: end;
+  }
 }

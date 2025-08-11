@@ -44,6 +44,8 @@ import { MomentumApiService } from './../../general/services/momentum-api.servic
 import { AbsaAuthService } from './../../general/services/absa-auth.service';
 import { UniversalStorageService } from '../../general/services/universal-storage.service';
 import Swal from 'sweetalert2';
+import { TravellersNumberSelectDialogComponent } from '@app/flights/travellers-number-select-dialog/travellers-number-select-dialog.component';
+import { BridgeService } from '../../general/services/standardbank/bridge.service';
 
 export interface flight {
   airports: string;
@@ -94,7 +96,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public currentDepartureIndex: number;
   public currentArrivalIndex: number;
   public isValidPaxSelected: boolean = true;
-  public loading = false;
+  public absaLoading = false;
   public paxCount: any;
   public passengerCabinClass: any;
   public myFormData: any;
@@ -148,7 +150,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   isPaxCollapsed = false;
   isClassCollapsed = false;
   region: string = 'ZA';
-
+  sessionId: string | null = null;
   private subscriptions: Subscription[] = [];
   private cid: string;
   private isAlertTriggered: boolean = false;
@@ -175,7 +177,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     private meiliIntegrationService: MeiliIntegrationService,
     private dialog: MatDialog,
     private absaAuthService: AbsaAuthService,
-    private storage: UniversalStorageService
+    private storage: UniversalStorageService,
+    private bridgeService: BridgeService
   ) {
     this.maxDate = new Date();
     this.return_mindate = new Date();
@@ -196,7 +199,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.handleAbsaAutoLogin(0); /* Handles the ABSA auto-login process.*/
+
+    this.initiateHandShake(); //Initiate the handshake 
     this.showMask = false;
     this.region = this.apiService.extractCountryFromDomain() || 'ZA';
     const pax = JSON.parse(this.storage.getItem('travellers', 'session') || '{}');
@@ -234,7 +238,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
-  private showAbsaLoginErrorPopup(): void {
+  private showAbsaLoginErrorPopup(errMessage?: String): void {
+    const isSB = this.apiService.extractCountryFromDomain() === 'SB';
     // After 2 retries, show alert with retry option
     const errorMessage = 'Please try again later.';
     const popupHtml = `
@@ -243,7 +248,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     </div>
     <div class="responsive-content">
       <p>Don't worry, we're working on it. <br />Please try again later.</p>
-      <p>Tip: Make sure you're connected to Wifi or have data when using Absa Rewards Travel.</p>
+      <p>Tip: Make sure you're connected to Wifi or have data when using ${isSB ? 'Standard Bank Travel' : 'Absa Rewards Travel'} .</p>
     </div>
   `;
 
@@ -255,8 +260,8 @@ export class SearchComponent implements OnInit, OnDestroy {
       },
       html: popupHtml,
       padding: '50px 25px',
-      text: errorMessage,
-      confirmButtonColor: '#F0325A',
+      text: `${errorMessage} \n ${errMessage}`,
+      confirmButtonColor: isSB ? '#033ECA': '#F0325A',
       confirmButtonText: 'Done',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -265,22 +270,28 @@ export class SearchComponent implements OnInit, OnDestroy {
     });
   }
 
+  //Initiating the handshake for StandardBank & Absa
+  initiateHandShake(){
+    const isAbsa = this.apiService.extractCountryFromDomain() === 'ABSA';
+    if(isAbsa){
+      this.handleAbsaAutoLogin(0); /* Handles the ABSA auto-login process.*/
+    }
+  }
+
   /**
    * Handles the ABSA auto-login process.
    * Shows a loader, checks for ABSA country and session credentials,
    * and attempts to fetch session ID and log the user in.
    */
   handleAbsaAutoLogin(retryCount: number = 0): void {
-    // Check if the user is coming from an ABSA domain
-    const isAbsa = this.apiService.extractCountryFromDomain() === 'ABSA';
-
+    
     // Check if the user is already logged in (credentials stored)
     const hasCredentials = this.storage.getItem('credentials', 'session') !== null;
 
     // Proceed only if ABSA user and not logged in
-    if (isAbsa && !hasCredentials) {
+    if (!hasCredentials) {
       // Show loader while login is in progress
-      this.loading = true;
+      this.absaLoading = true;
 
       // Try to fetch session ID and auto-login
       this.absaAuthService
@@ -297,7 +308,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           }
         })
         .finally(() => {
-          this.loading = false;
+          this.absaLoading = false;
         });
     }
   }
@@ -309,6 +320,13 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.showWidget = true;
     this.navService.setShowNav(true);
   }
+   backButtonNavLink(): void {
+      console.log('Back button clicked');
+      if(this.apiService.extractCountryFromDomain() === 'SB'){
+        this.bridgeService.tearDownWebView();
+      }
+    }
+
 
   public onresize() {
     const getMobileStatusSubscription = this.responsiveservice.getMobileStatus().subscribe((isMobile) => {
@@ -364,6 +382,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
   closeTravellersDialog(param: string) {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (param === 'apply' && this.paxCount) {
       this.travellers = new Travellers(
         this.paxCount.adults,
@@ -387,6 +406,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   closeClassDialog(param: string, selectedClass?: string) {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (param === 'apply' && selectedClass) {
       this.onChange(selectedClass);
     }
@@ -400,7 +420,34 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   togglePaxCollapse() {
-    this.isPaxCollapsed = !this.isPaxCollapsed;
+    if (this.country === 'SB') {
+      const dialogData = {
+        totalAdults: this.travellers.adults,
+        totalYoungAdults: this.travellers.youngAdults,
+        totalChildren: this.travellers.children,
+        totalInfants: this.travellers.infants,
+      }
+
+      const dialog = this.dialog.open(TravellersNumberSelectDialogComponent, {
+        data: dialogData,
+        panelClass: 'fullscreen-dialog',
+      });
+
+      dialog.afterClosed().subscribe((result) => {
+        if (result) {
+          this.travellers = new Travellers(
+            result.totalAdults,
+            result.totalYoungAdults,
+            result.totalChildren,
+            result.totalInfants
+          );
+          this.storage.setItem('travellers', JSON.stringify(this.travellers), 'session');
+          this.sendEvent.emit(this.travellers);
+        }
+      });
+    } else {
+      this.isPaxCollapsed = !this.isPaxCollapsed;
+    }
   }
 
   toggleClassCollapse() {
@@ -440,6 +487,9 @@ export class SearchComponent implements OnInit, OnDestroy {
       travellers: this.travellers,
       itineraries: (() => {
         if (!this.storage.getItem('flightsearchInfo', 'session')) {
+          if(this.apiService.extractCountryFromDomain() === 'SB'){
+            this.cabinClass = new CabinClass('', '')
+          }
           return this.initItineraries();
         } else {
           return this.assignItineraries();
@@ -657,7 +707,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     controls.removeAt(i);
   }
 
-  public onDateChange(newDate: Date) {}
+  public onDateChange(newDate: Date) { }
 
   public getSelectedItineraries() {
     this.tripSel = TripType.find((Item) => Item.value === this.tripSelected) || TripType[0];
@@ -732,6 +782,18 @@ export class SearchComponent implements OnInit, OnDestroy {
   // }
 
   public async searchFlights(tripSelected: Trips, index?: number) {
+
+
+    if(this.region === 'SB'){
+      if (!this.cabinClass?.display) {
+        $('#classSelector').collapse('show');
+        return;
+      } else if (!this.travellers?.adults) {
+        this.togglePaxCollapse();
+        return;
+      }
+    }
+
     /**  Here for momentum, we are checking whether the passenger is selected or not
      *   If the user selects the pax, but the pax list doesn't have adult pax, then we display this popup message and do not allow the booking flow
      */
@@ -901,6 +963,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   clearItenary(index: number, type: any) {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.filteredOptions = getDefaultAirports(this.country);
     if (this.responsiveservice.screenWidth === 'sm' || this.responsiveservice.screenWidth === 'md') {
       let indexId = type + index.toString();
@@ -941,6 +1004,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   autoValue(index: number, type: any, inputType?: any) {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.dept_cityAutoValue(index, type, inputType);
     this.arr_cityAutoValue(index, type, inputType);
     if (type === 'arr_date') {
@@ -956,6 +1020,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   dept_cityAutoValue(index: number, type: any, inputType?: any) {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (type === 'dept_city') {
       const deptCity = this.itenariesForm?.controls[index]?.get('dept_city')?.value;
       const arrCity = this.itenariesForm?.controls[index]?.get('arr_city')?.value;
@@ -983,6 +1048,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   arr_cityAutoValue(index: number, type: any, inputType?: any) {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (type === 'arr_city') {
       const indexId = 'dept_date' + index.toString();
       const deptCity = this.itenariesForm?.controls[index]?.get('dept_city')?.value;
@@ -1075,6 +1141,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   /* oneway /multi type  open date widget for small devices */
 
   nonRountripDatepicker(datepicker: any, index: number, type: any) {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (this.responsiveservice.screenWidth === 'sm' || this.responsiveservice.screenWidth === 'md') {
       const indexId = type + index.toString();
       const element = document.getElementById(indexId);
@@ -1091,6 +1158,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   /* return type  open date widget for small devices */
 
   roundTripDatepicker(datepicker: any, index: number = 0, type?: string) {
+    if (!isPlatformBrowser(this.platformId)) return;
     if (this.responsiveservice.screenWidth === 'sm' || this.responsiveservice.screenWidth === 'md') {
       const indexId = type + index.toString();
       const element = document.getElementById(indexId);
@@ -1129,6 +1197,11 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.fromDate = dateval.fromDate;
       this.minDate = dateval.fromDate;
       this.toDate = dateval.toDate;
+      if (!this.fromDate){
+        setTimeout(() => {
+          this.roundTripDatepicker(this.datepicker1, 0, 'dept_date');
+        }, 500);
+      }
       if (!this.toDate) {
         setTimeout(() => {
           this.roundTripDatepicker(this.datepicker1, 0, 'arr_date');
@@ -1295,20 +1368,21 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     checkAirlineParam()
       ? this.router.navigate(['/flights/results'], {
-          relativeTo: this.activatedRoute,
-          queryParams: params,
-          queryParamsHandling: 'merge',
-        })
+        relativeTo: this.activatedRoute,
+        queryParams: params,
+        queryParamsHandling: 'merge',
+      })
       : this.router.navigate(['/flights/results'], {
-          queryParams: paramStrings,
-          relativeTo: this.activatedRoute,
-          queryParamsHandling: 'merge',
-        });
+        queryParams: paramStrings,
+        relativeTo: this.activatedRoute,
+        queryParamsHandling: 'merge',
+      });
     this.searchModify();
     this.freshSearch.emit();
   }
 
   addItineraries() {
+    if (!isPlatformBrowser(this.platformId)) return;
     const controls = <UntypedFormArray>this.myForm.controls['itineraries'];
     const lastControl = controls[controls.length - 1];
     
@@ -1385,10 +1459,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   closeMultiCity() {
     return Boolean(
       this.showCross_icon &&
-        this.tripVal === 'multi' &&
-        this.tripSelected === 'multi' &&
-        this.responsiveservice.screenWidth !== 'sm' &&
-        this.responsiveservice.screenWidth !== 'md',
+      this.tripVal === 'multi' &&
+      this.tripSelected === 'multi' &&
+      this.responsiveservice.screenWidth !== 'sm' &&
+      this.responsiveservice.screenWidth !== 'md'
     );
   }
 
@@ -1420,5 +1494,44 @@ export class SearchComponent implements OnInit, OnDestroy {
         const infantsList = pax.filter((infants: any) => infants.paxType == 'INFANT');
       }
     }
+  }
+  /**To set class name for departure date div based on triptype and user domain  */
+  getClassName(tripType:any,index:number){
+    if(tripType === 'return'){
+      return 'col-6';
+    }
+    if(tripType === 'multi' && this.country === 'SB' && index > 0){
+      return 'col-10';
+    }else if(tripType === 'multi' && this.country !== 'SB'){
+      return 'col-6';
+    }
+    else{
+      return 'col-12';
+    }
+  }
+  isAllInputFieldsFilled(){
+  let isCTA_Enabled : boolean = false;
+  if(this.country === 'SB'){
+   if(this.tripSelected == 'oneway'){
+    isCTA_Enabled = Boolean(
+      this.itenariesForm?.controls[0]?.get('dept_city')?.value &&
+      this.itenariesForm?.controls[0]?.get('arr_city')?.value &&
+      this.itenariesForm?.controls[0]?.get('dept_date')?.value)
+   }else if(this.tripSelected === 'return'){
+    isCTA_Enabled = Boolean(
+      this.itenariesForm?.controls[0]?.get('dept_city')?.value &&
+      this.itenariesForm?.controls[0]?.get('arr_city')?.value &&
+      this.itenariesForm?.controls[0]?.get('dept_date')?.value &&  
+      this.itenariesForm?.controls[0]?.get('arr_date')?.value)
+   }else if(this.tripSelected === 'multi'){
+    isCTA_Enabled = Boolean(
+      this.itenariesForm?.controls[this.itenariesForm?.controls.length-1]?.get('dept_city')?.value &&
+      this.itenariesForm?.controls[this.itenariesForm?.controls.length-1]?.get('arr_city')?.value &&
+      this.itenariesForm?.controls[this.itenariesForm?.controls.length-1]?.get('dept_date')?.value)
+   }
+  } else{
+    isCTA_Enabled = true;
+  }
+    return isCTA_Enabled;
   }
 }

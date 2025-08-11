@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookingViewComponent } from './booking-view/booking-view.component';
-import { ItineraryInfoComponent } from './itinerary-info/itinerary-info.component';
 import { FareInfoComponent } from './fare-info/fare-info.component';
-// import { CouponsInfoComponent } from './coupons-info/coupons-info.component';
 import { ContactInfoComponent } from './contact-info/contact-info.component';
 import { TravellerInfoComponent } from './traveller-info/traveller-info.component';
 import { BookingRoutingModule } from './booking-routing.module';
@@ -12,7 +10,6 @@ import { CustomMaterialModule } from './../custom-material/custom-material.modul
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BaggageSelectionComponent } from './baggage-selection/baggage-selection.component';
 import { AddOnSelectionComponent } from './add-on-selection/add-on-selection.component';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
@@ -45,9 +42,7 @@ const maskConfig: Partial<IConfig> = {
 @NgModule({
   declarations: [
     BookingViewComponent,
-    ItineraryInfoComponent,
     FareInfoComponent,
-    // CouponsInfoComponent,
     ContactInfoComponent,
     TravellerInfoComponent,
     BaggageSelectionComponent,
@@ -73,7 +68,6 @@ const maskConfig: Partial<IConfig> = {
     CustomMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxSkeletonLoaderModule,
     NgxMaskModule.forRoot(maskConfig),
     NgbTooltipModule,
     CarouselModule,

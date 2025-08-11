@@ -98,6 +98,8 @@
 @media (max-width: map-get($grid-breakpoints, lg)) {
   .fare_info {
     background-color: var(--text_primary_color);
+    max-height: 70vh;
+    overflow-y: scroll;
     .tripType .sec_heading {
       color: $white;
     }

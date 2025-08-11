@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, ElementRef, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { responsiveService } from '../../_core/services/responsive.service';
-import { SearchData } from '../models/search/search-data.model';
-import { normalizeSearchData, fetchFlightsJson } from '../utils/search-data.utils';
-import { I18nService } from '../../i18n/i18n.service';
+import { responsiveService } from '../../../app/_core';
+import { SearchData } from './../models/search/search-data.model';
+import { normalizeSearchData, fetchFlightsJson } from './../utils/search-data.utils';
+import { I18nService } from '@app/i18n';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { SearchService } from '../service/search.service';
-import { getBestFlights, getGroupedItineraries } from '../utils/results.utils';
-import { SearchComponent } from '../search/search.component';
-import { BookingService } from '../../booking/services/booking.service';
-import { DeepLinkService } from '../../general/deeplinks/deep-link.service';
+import { ApiService } from '@app/general/services/api/api.service';
+import { SearchService } from './../service/search.service';
+import { getBestFlights, getGroupedItineraries } from './../utils/results.utils';
+import { SearchComponent } from './../search/search.component';
+import { BookingService } from '@app/booking/services/booking.service';
+import { DeepLinkService } from '@app/general/deeplinks/deep-link.service';
 import { SessionStorageService } from 'ngx-webstorage';
 import { GoogleTagManagerServiceService } from '../../_core/tracking/services/google-tag-manager-service.service';
 import { SharedFlightService } from '../service/sharedFlight.service';
@@ -36,6 +37,7 @@ import { getStorageData, removeStorageData, setStorageData } from '../../general
 import { SessionUtils } from '../../general/utils/session-utils';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 import { isPlatformBrowser } from '@angular/common';
+import { UiStateService } from '@shared/services/ui-state.service';
 
 @Component({
   selector: 'app-flights-view',
@@ -71,6 +73,8 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
   public noFlightsMatch = false;
   public isErrorFromApi: any;
 
+  region?: string;
+
   // Declare subscription variables
   private isFiltersShowSubscription: Subscription;
   private noFiltersMsgSubscription: Subscription;
@@ -87,7 +91,7 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
     id: 'priceAsc',
     display: 'Cheapest',
   };
-  @ViewChild('flightsViewSection') elementView: ElementRef;
+  @ViewChild('flightsViewSection', { static: false }) flightsViewSection: ElementRef;
   public isShowFilters: boolean = false;
   showDomMwebStrip: boolean = false;
   flightHeight: number = 0;
@@ -98,11 +102,13 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
   filtersSelected: boolean = false;
   searchErrorType: any;
   showtimeHoursDiff: EventEmitter<any> = new EventEmitter(false);
+  flightsearchInfo?: any;
   constructor(
     public responsiveService: responsiveService,
     private i18Service: I18nService,
     private router: Router,
     private ngbDateParserFormatter: NgbDateParserFormatter,
+    private apiService: ApiService,
     private searchService: SearchService,
     private sharedFlightService: SharedFlightService,
     private bookingService: BookingService,
@@ -114,16 +120,19 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
     private filterServiceService: FilterServiceService,
     private logStorageService: StorageService,
     private bookingCountdownService: BookingCountdownService,
-    private sessionUtils: SessionUtils,
     private storage: UniversalStorageService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    public sessionUtils: SessionUtils,
+    private uiState: UiStateService,
   ) {}
 
   ngOnInit(): void {
+    this.region = this.apiService.extractCountryFromDomain();
     this.googleTagManagerServiceService.pushPageLoadEvent(
       '/flights/results',
-      'Search and Book Cheap Flights | Travelstart'
+      'Search and Book Cheap Flights | Travelstart',
     );
+    this.storage.removeItem('priceData');    
     this.storage.removeItem('showInitAddons');
     this.storage.removeItem('selectedPrice');
     this.storage.removeItem('standardAmount');
@@ -155,6 +164,13 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
     this.isRedirected();
     this.checkTimeOutModal();
     this.flightSearchData = JSON.parse(this.storage.getItem('flightsearchInfo', 'session'));
+    this.flightsearchInfo = JSON.parse(this.storage.getItem('flightsearchInfo', 'session'));
+    this.searchService.currentsearch.subscribe((data: any) => {
+      if (data) {
+        this.flightsearchInfo = JSON.parse(this.storage.getItem('flightsearchInfo', 'session'));
+      }
+    })
+    
     this.getMultiTripSearch(this.flightSearchData);
     if (getStorageData('flightResults')) {
       this.flightslist = JSON.parse(getStorageData('flightResults'));
@@ -241,6 +257,7 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
     this.labeled_Itineraries = null;
     this.bestRank = [];
     this.showMask = true;
+    this.uiState.setShowMask(true);
     this.resultSort_option = {
       id: 'priceAsc',
       display: 'Cheapest',
@@ -268,12 +285,12 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
         ) {
           if (typeof this.flightSearchData.itineraries[i].dept_date === 'object') {
             this.flightSearchData.itineraries[i].dept_date = this.ngbDateParserFormatter.format(
-              this.flightSearchData.itineraries[i].dept_date
+              this.flightSearchData.itineraries[i].dept_date,
             );
           }
           if (typeof this.flightSearchData.itineraries[i].arr_date === 'object') {
             this.flightSearchData.itineraries[i].arr_date = this.ngbDateParserFormatter.format(
-              this.flightSearchData.itineraries[i].arr_date
+              this.flightSearchData.itineraries[i].arr_date,
             );
           }
         }
@@ -283,7 +300,7 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
         ) {
           if (typeof this.flightSearchData.itineraries[i].dept_date === 'object') {
             this.flightSearchData.itineraries[i].dept_date = this.ngbDateParserFormatter.format(
-              this.flightSearchData.itineraries[i].dept_date
+              this.flightSearchData.itineraries[i].dept_date,
             );
           }
         }
@@ -325,15 +342,17 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
           this.triggerWebEngageEvents(normalizedSearchDataInfo);
           this.getAllFlightsData();
           this.showMask = false;
+          this.uiState.setShowMask(false);
           this.updateFlightHandler();
           this.startBookingflowCoundownTimer();
           this.logStorage();
         },
         (searchError: any) => {
           this.showMask = false;
+          this.uiState.setShowMask(false);
           this.isErrorFromApi = true;
           this.triggerWebEngageEvents(normalizedSearchDataInfo, searchError);
-        }
+        },
       );
   }
 
@@ -455,7 +474,7 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
       this.airportsArray = domesticDestAirportsCheck(
         this.outBoundSelected,
         this.inBoundSelected,
-        this.flightSearchData.tripType
+        this.flightSearchData.tripType,
       );
       const destinAirports = {
         airports: this.airportsArray,
@@ -557,7 +576,7 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
       this.flightslist.itineraries,
       this.resultSort_option,
       this.flightSearchData,
-      this.flightslist
+      this.flightslist,
     );
   }
 
@@ -575,7 +594,7 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
         flightslist,
         this.resultSort_option,
         this.flightSearchData,
-        this.flightslist
+        this.flightslist,
       );
     } else {
       this.flightslist.itineraries = flightslist;
@@ -624,8 +643,10 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
     if (event) {
       this.noFilters = true;
       this.sendEvent.emit(true);
+      this.showDomMwebStrip = true;
     } else if (event == false) {
       this.noFilters = false;
+      this.showDomMwebStrip = false;
     }
   }
   showFilters(param: boolean) {
@@ -657,6 +678,9 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
   collapseSrpHeader() {
     if(isPlatformBrowser(this.platformId)){
       $('#res_Modify').collapse('hide');
+      $('#more_Flights').modal('hide');
+      $('#res_filters').modal('hide');
+      $('#res_sorting').modal('hide');
     }
     this.showDomMwebStrip = false;
   }
@@ -691,13 +715,13 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
         this.flightslist.itineraries,
         this.resultSort_option,
         this.flightSearchData,
-        this.flightslist
+        this.flightslist,
       );
       let labelItinResults = getBestFlights(
         this.flightslist.itineraries,
         this.flightslist,
         'outBound',
-        this.flightslist?.isIntl
+        this.flightslist?.isIntl,
       );
       this.labeled_Itineraries = labelItinResults;
     } else if (this.flightslist?.outboundItineraries.length > 0 && this.flightslist?.inboundItineraries.length > 0) {
@@ -729,7 +753,7 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
         this.flightslist.itineraries,
         this.flightslist,
         'outBound',
-        this.flightslist?.isIntl
+        this.flightslist?.isIntl,
       );
       this.sharedFlightService?.editpriceModalValue(null);
     } else if (res && res.itinerary?.flightType == 'isUnBundle') {
@@ -788,7 +812,7 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
     let outBoundArrivalDate: any = new Date(
       this.outBoundSelected?.odoList[this.outBoundSelected?.odoList?.length - 1].segments[
         this.outBoundSelected?.odoList[this.outBoundSelected?.odoList?.length - 1]?.segments.length - 1
-      ]?.arrivalDateTime
+      ]?.arrivalDateTime,
     );
     let inboundDepatureDate: any = new Date(this.inBoundSelected?.odoList[0]?.segments[0]?.departureDateTime);
     if (this.outBoundSelected && this.inBoundSelected && outBoundArrivalDate >= inboundDepatureDate) {
@@ -802,4 +826,35 @@ export class FlightsViewComponent implements OnInit, OnDestroy {
     }
     return ishaveTimeDifference;
   }
+
+  
+handleModifyClick(event: Event): void {
+  // Stop propagation to prevent back button navigation
+  event.stopPropagation();
+  event.preventDefault();
+
+  // Collapse other sections
+  $('#res_filters').collapse('hide');
+  $('#more_Flights').modal('hide');
+  $('#res_sorting').collapse('hide');
+  
+  // Show the modify search section
+  $('#res_Modify').collapse('show');
+  
+  // Update the search display based on trip type
+  // if (this.flightsearchInfo?.tripType === 'multi' || this.flightSearchData?.tripType === 'multi') {
+  //   this.showmultiCity = true;
+  //   this.showSearch_page = true;
+  // } else {
+  //   this.showSearch_page = false;
+  //   this.showmultiCity = false;
+  // }
+
+  this.showSearch_page = true;
+  this.showmultiCity = false;
+  
+  // Set the DOM strip flag for mobile
+  this.showDomMwebStrip = true;
+}
+
 }

@@ -31,6 +31,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 import { IterableService } from './_core/tracking/services/iterable.service';
 import { MessagingService } from './general/services/messaging/messaging.service';
+import { UiStateService } from '@shared/services/ui-state.service';
 
 declare const $: any;
 const log = new Logger('App');
@@ -54,6 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedVertical: string | null = null;
   domainCountry : any = null;
   isAppInitialized = false;
+  showMask = false;
   constructor(
     public router: Router,
     private activatedRoute: ActivatedRoute,
@@ -75,6 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private storage: UniversalStorageService,
     @Inject(PLATFORM_ID) private platformId: any,
     private iterableService: IterableService,
+    private uiState: UiStateService
   ) {}
 
   ngOnInit() {
@@ -106,6 +109,8 @@ export class AppComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId) && country === 'MM') {
       window.addEventListener('message', this.handleMessage.bind(this), false);
     }
+
+    this.uiState.showMask$.subscribe(val => this.showMask = val);
   }
 
   async initializeUser() {
@@ -264,6 +269,9 @@ export class AppComponent implements OnInit, OnDestroy {
       case 'ABSA':
         this.changeTheme('absa');
         break;
+      case 'SB':
+          this.changeTheme('standardbank');
+          break;
       default:
         this.changeTheme('default');
     }

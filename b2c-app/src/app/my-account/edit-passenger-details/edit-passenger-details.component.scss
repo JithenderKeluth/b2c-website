@@ -6,6 +6,7 @@
       background-color: $white;
       padding: 25px 15px;
       border-radius: 0px 0px 12px 12px;
+      position: relative;
       .edit_header {
         h4 {
           font-size: 18px;
@@ -26,17 +27,29 @@
               font-weight: 500;
             }
           }
+          overflow: visible;
+          position: relative;
         }
+      }
+
+      .validation_msg {
+        position: relative;
+        z-index: 5; // Same level as button
+        margin: 10px 0;
       }
       .passenger_list {
         border-radius: 5px;
         color: var(--text_primary_color);
         padding: 15px;
         background-color: #f1f4f8;
+        position: relative;
+        z-index: 21; // Highest z-index for form content
+
         label {
           font-size: 12px;
           margin: 0px;
         }
+
         .form-control {
           height: 30px;
           font-size: 13px !important;
@@ -47,6 +60,8 @@
   .sub_btn {
     padding: 10px 50px;
     border: none;
+    position: relative;
+    z-index: 5; // Same as container, stays below accordion
   }
 }
 // .dob_pick_date ::ng-deep ngb-datepicker {
@@ -95,6 +110,7 @@
   border-radius: 3px;
   position: relative;
   top: 25%;
+  z-index: 22; // Above passenger list content
 }
 .viewQuery_dialog {
   position: fixed;
@@ -123,57 +139,111 @@
     position: relative;
     top: 10px;
     padding: 0px;
+    z-index: 10; // Add z-index to establish stacking context
   }
+
   #fare #fare_accordian .card {
     border: none;
     overflow: unset;
+    position: relative;
+    z-index: 15; // Higher than the base fare element
   }
+
   #fare #fare_accordian .card .card-header {
     border: 0;
     border-radius: 2px;
     padding: 0;
+    position: relative;
+    z-index: 16; // Header above card
   }
+
+  // Ensure expanded content has highest z-index
+  #fare #fare_accordian .card .collapse.show {
+    position: relative;
+    z-index: 20; // Highest priority for expanded content
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
   #fare #fare_accordian .card .card-header .btn-header-link:focus {
     box-shadow: none;
   }
+
   #fare #fare_accordian .card .card-header .btn-header-link {
-    display: block;
-    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: $color-neutral-25;
-    padding: 13px 19.5px 13px 13px;
-    border-bottom: 1px solid var(--border_default_color); //not added color code
+    border-bottom: 1px solid var(--border_default_color);
     border-radius: 0;
     font-size: 13px;
-    font-weight: 550;
+    font-weight: 500;
+    position: relative;
+    z-index: 17; // Button link above header
   }
 
   #fare #fare_accordian .card .card-header .btn-header-link:after {
     content: "❯";
     float: right;
     transform: rotate(-90deg);
-    color: var(--text_info_color); //not added color code
+    color: var(--text_info_color);
   }
 
   #fare #fare_accordian .card .card-header .btn-header-link.collapsed:after {
     transform: rotate(90deg);
     content: "❯";
-    color: var(--text_info_color); //not added color code
+    color: var(--text_info_color);
   }
+
   #fare #fare_accordian .card .collapsing {
     line-height: 30px;
+    position: relative;
+    z-index: 18; // Collapsing state
   }
+
   #fare #fare_accordian .card .collapse {
     border: 0;
+    position: relative;
+    z-index: 19; // Collapsed state
   }
 }
+
 .form-control[readonly] {
   background-color: #e9ecef !important;
+  opacity: 0.5;
 }
-.dob_pick_date ::ng-deep {
-  ngb-datepicker {
-    transform: translate(15px, -54px) !important;
+
+::ng-deep .dob_pick_date {
+  position: relative;
+  width: 100%;
+}
+
+
+
+::ng-deep .dob_pick_date ngb-datepicker.dropdown-menu.show {
+    transform: translate(15px, 58px) !important;
+    padding: 0px !important;
+    position: absolute !important;
+    top: 0px !important;
+    left: 0px !important;
+
+  .ngb-dp-arrow {
+    top: 42px
   }
-  ngb-datepicker-navigation-select > .custom-select {
+
+  .ngb-dp-arrow.left {
+    right: -8px !important;
+    justify-content:flex-start
+  }
+  .ngb-dp-arrow.right {
+    right: -8px !important;
+  }
+
+  .ngb-dp-day, .ngb-dp-week-number, .ngb-dp-weekday {
+    width: 3.5rem !important;
+  }
+}
+::ng-deep  ngb-datepicker-navigation-select > .custom-select {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 0 0.5rem;
@@ -181,8 +251,8 @@
     /* display: block; */
     //height: 1.85rem;
     display: block !important;
-  }
-  .changepick_date .ngb-dp-arrow-btn {
+}
+::ng-deep .changepick_date .ngb-dp-arrow-btn {
     padding: 0 0.25rem;
     margin: 0 0.5rem;
     /* border: none; */
@@ -190,7 +260,14 @@
     z-index: 1;
     display: none !important;
   }
+
+
+.footer-button-container {
+  position: relative;
+  z-index: 5; 
+  clear: both; 
 }
+
 @media (min-width: map-get($grid-breakpoints, md)) {
   .collapse {
     display: block !important;
@@ -202,8 +279,9 @@
 
 @media (max-width: map-get($grid-breakpoints, sm)) {
   .passenger_list {
-    padding: 15px 0px 15px 15px !important;
+    padding: 15px 0px 15px 15px;
     background-color: #fff !important;
+    z-index: 21;
     label {
       font-size: 12px;
       margin: 0px;
@@ -216,6 +294,7 @@
   }
   #fare #fare_accordian .card {
     border: 1px solid rgba(0, 0, 0, 0.125) !important;
+    z-index: 15;
   }
   .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
     background: #f4fbff !important;
@@ -233,6 +312,14 @@
   // }
   .sub_btn {
     width: 100% !important;
+    z-index: 5;
+  }
+
+  .fare_rules {
+    #fare #fare_accordian .card .collapse.show {
+      z-index: 20; // Maintain high z-index for expanded content
+      margin-bottom: 20px; // Add space before button
+    }
   }
   .edit_passenger_page .edit_passenger_section .edit_passenger_body .edit_header h4 {
     font-size: 16px;
@@ -240,4 +327,29 @@
   .dropdown-menu {
     border-radius: 6px !important;
   }
+
+  ::ng-deep .dob_pick_date ngb-datepicker.dropdown-menu.show {
+    transform: translate(15px, 58px) !important;
+    padding: 0px !important;
+    position: absolute !important;
+    top: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+
+  .ngb-dp-arrow {
+    top: 42px
+  }
+
+  .ngb-dp-arrow.left {
+    left: -8px !important;
+    justify-content:flex-start
+  }
+  .ngb-dp-arrow.right {
+    right: -8px !important;
+  }
+
+  .ngb-dp-day, .ngb-dp-week-number, .ngb-dp-weekday {
+    width: 3.5rem !important;
+  }
+}
 }

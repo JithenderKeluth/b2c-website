@@ -3,7 +3,7 @@
   .myAct_bg {
     background-image: var(--myAccount_header_Bg);
     width: 100%;
-    height: 225px;
+    height: 200px;
     position: absolute;
   }
   .sec_header {
@@ -11,7 +11,6 @@
     display: inline-block;
     h1 {
       font-size: 18px;
-
       .back_page {
         cursor: pointer;
       }
@@ -53,7 +52,7 @@
     top: -10px;
     .op_airlines {
       position: relative;
-      top: 10px;
+      top: 8px;
     }
   }
   .resendBtn {
@@ -215,10 +214,8 @@
     border-radius: 3px;
     color: var(--text_primary_color);
     .sec_title {
-      label {
-        font-size: 17px;
-        font-weight: bold;
-      }
+      font-size: 17px;
+      font-weight: bold;
     }
     .email {
       overflow: hidden;
@@ -293,7 +290,7 @@
         margin-bottom: 12px;
         text-align: center;
         font-size: 12px;
-        padding: 4px 17px;
+        padding: 8px 17px;
       }
       .trip_space {
         border-top: 1px solid var(--border_default_color);
@@ -320,30 +317,147 @@
       }
 
       .seg_legs {
-        font-weight: bold;
-        .airLine_block {
-          margin-top: 17px;
-          .airLine_logo {
-            float: left;
-            img {
-              margin-right: 15px;
-              width: 40px;
-            }
-          }
-          .airLine_name_num {
-            span {
-              display: block;
-            }
+        .airLane-operator {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding-left: 25px;
+
+          .operate_airline {
+            font-size: 10px !important;
           }
         }
+
+        .booking-flight-segment-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          width: 100%;
+          margin: 10px 0;
+          gap: 20px;
+
+          .airLine_block {
+            display: flex;
+            margin-top: 0;
+            justify-content: center;
+            align-items: center;
+            padding-left: 5px;
+            padding-right: 5px;
+            width: 22%;
+          }
+          .airLine_details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+          }
+
+          .airLine_logo {
+            display: flex;
+            justify-content: center;
+          }
+
+          .air_name {
+            color: var(--text_color_new);
+            font-size: 11px;
+          }
+
+          // .airLine_name_num {
+          //   span {
+          //     display: block;
+          //   }
+          // }
+
+          .flt_num {
+            font-weight: 500;
+            color: var(--text_info_color);
+            font-size: 11px;
+          }
+        }
+
+        .flight_block {
+          display: flex;
+          margin-top: 0;
+          flex-direction: column;
+          width: 100%;
+          .flight-location-details-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+
+            .dept_city_block,
+            .arrival_city_block {
+              display: flex;
+              flex-direction: column;
+              gap: 3px;
+            }
+
+            .arrival_city_block {
+              text-align: right;
+            }
+
+            .time_labl,
+            .date_labl {
+              color: var(--text_info_color);
+              font-size: 13px;
+              font-weight: normal;
+            }
+
+            .dept_city {
+              color: var(--text_color_new);
+              overflow: hidden;
+            }
+            .arr_city {
+              color: var(--text_color_new);
+              overflow: hidden;
+            }
+
+            .distance_block {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+            }
+
+            .fly_icon {
+              position: relative;
+              color: var(--text_info_color);
+              font-size: 12px;
+              img {
+                width: 100%;
+              }
+            }
+            .dur {
+              text-align: center;
+              color: var(--label_color);
+              font-size: 12px;
+            }
+          }
+          .non-ref-block {
+            min-height: 40px; /* adjust as needed */
+            display: flex;
+            align-items: center;
+            // width: 100%;
+          }
+
+          .non_ref {
+            margin: 0;
+            min-height: 1.2em; /* ensures consistent height */
+          }
+        }
+
         .layover_section {
           // border-top: 1px dashed #e4e5ea;
           // border-bottom: 1px dashed #e4e5ea;
           padding: 6px;
-          margin: 5px 0;
+          margin: 5px 0 0 70px;
           color: var(--text_info_color);
           font-size: 12px;
           font-weight: normal;
+          text-align: center;
           .layover_labl {
             color: #faa3b5;
           }
@@ -353,14 +467,7 @@
             margin-right: 3px;
           }
         }
-        .air_name {
-          color: var(--text_color_new);
-          font-size: 12px;
-        }
-        .flt_num {
-          color: var(--text_info_color);
-          font-size: 12px;
-        }
+
         .dept_city {
           color: var(--text_color_new);
           overflow: hidden;
@@ -369,28 +476,7 @@
           color: var(--text_color_new);
           overflow: hidden;
         }
-        .time_labl,
-        .date_labl {
-          color: var(--text_info_color);
-          font-size: 13px;
-          font-weight: normal;
-        }
-        .fly_icon {
-          position: relative;
-          color: var(--text_info_color);
-          font-size: 12px;
-          padding-left: 4%;
-          img {
-            width: 60%;
-          }
-          .dur {
-            margin-left: 13%;
-            color: var(--label_color);
-          }
-          .cls_labl {
-            text-transform: capitalize;
-          }
-        }
+
         .non_ref {
           color: #f5607e;
           font-size: 12px;
@@ -452,7 +538,6 @@
     }
     .price_breakup {
       .fares {
-        // border-bottom: 1px dashed #e4e5ea;
         padding: 0px 15px 15px;
         .table {
           font-size: 14px;
@@ -462,14 +547,12 @@
           }
           .txt_align {
             text-align: left;
-
+            border: none;
             font-weight: normal;
             color: var(--text_info_color);
-            border: none;
           }
           .txt_des {
             text-align: right;
-            // padding: 5px 0px;
             color: var(--text_color_new);
             font-size: 14px;
             width: 38%;
@@ -481,22 +564,19 @@
     }
     .total_amt {
       padding: 20px 15px;
-      // position: relative;
-      // top: 12px;
       min-height: 50px;
-      font-size: 18px;
+      font-size: 16px;
       background-color: #f4f7f8;
       border-top: 1px dashed var(--border_default_color);
       .labl {
         color: var(--text_primary_color);
-        color: 18px;
         font-weight: bold;
       }
       .amt {
         float: right;
         color: var(--text_primary_color);
-        font-size: 20px;
-        font-weight: bold;
+        font-size: 16px;
+        font-weight: 700;
         position: relative;
         bottom: 26px;
       }
@@ -525,7 +605,46 @@
   box-shadow: none !important;
 }
 @media (max-width: map-get($grid-breakpoints, sm)) {
+  h1 {
+    font-size: 18px;
+    padding: 0 !important;
+    margin: 0 20px 20px 0px !important;
+  }
   .email {
     text-align: right !important;
   }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .booking-flight-segment-container {
+    gap: 7px !important;
+    .airLine_block {
+      flex-direction: column;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      width: 44% !important;
+    }
+  }
+
+  .time_labl,
+  .date_labl {
+    font-size: 11px !important;
+  }
+
+  .fly_icon {
+    img {
+      width: 65% !important;
+    }
+  }
+  .itinerary_info .route_details .segments .seg_legs .layover_section {
+    margin: 5px 0;
+
+    .layover {
+      border-bottom: none !important;
+    }
+  }
+
+  // .itinerary_info .route_details .segments .seg_legs .layover_section .layover {
+  //   border-bottom: none !important;
+  // }
 }

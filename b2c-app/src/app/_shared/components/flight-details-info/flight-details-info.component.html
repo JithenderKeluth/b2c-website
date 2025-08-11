@@ -18,8 +18,8 @@
           </span>
           <span *ngIf="tripType && tripType !== 'multi'">
             <span class="dept_seg" *ngIf="idx === 0 && index === 0 && tripType && tripType !== 'multi'">
-              <span translate class="way_def">DEPARTURE</span>
-              <span class="date_Info">{{
+              <span translate [ngClass]="isPaymentPageView ? 'paymentpageViewWayDef' : 'way_def'">Departure</span>
+              <span class="date_Info" *ngIf="!isPaymentPageView">{{
                 itinerary_Data_Info.itineraries[0].odoList[idx].segments[0].departureDateTime | date: 'd MMM yy'
               }}</span>
             </span>
@@ -34,8 +34,9 @@
                 index > 0
               "
             >
-              <span translate class="way_def">RETURN</span>
-              {{ itinerary_Data_Info.itineraries[index].odoList[idx].segments[0].departureDateTime | date: 'd MMM yy' }}
+              <span translate [ngClass]="isPaymentPageView ? 'paymentpageViewWayDef' : 'way_def'">Return</span>
+              <span *ngIf="!isPaymentPageView">{{ itinerary_Data_Info.itineraries[index].odoList[idx].segments[0].departureDateTime | date: 'd MMM yy' }}</span>
+              
             </span>
           </span>
 
@@ -43,11 +44,11 @@
             class="dept_seg"
             *ngIf="itinerary_Data_Info.itineraries[0].odoList.length > 1 && tripType && tripType === 'multi'"
           >
-            <span class="way_def">TRIP {{ idx + 1 }}</span>
+            <span [ngClass]="isPaymentPageView ? 'paymentpageViewWayDef' : 'way_def'">Trip {{ idx + 1 }}</span>
             {{ itinerary_Data_Info.itineraries[0].odoList[idx].segments[0].departureDateTime | date: 'd MMM yy' }}
           </span>
           <span class="float-lg-right d-block text-right">
-            <div class="fare_ref" *ngIf="itinerary_Data_Info?.fareChargesRules">
+            <div class="fare_ref" *ngIf="itinerary_Data_Info?.fareChargesRules && !isPaymentPageView">
               <span
                 translate
                 class="non-ref-text"
@@ -94,7 +95,7 @@
         </div>
 
         <div class="row mb-2" *ngFor="let segments of odoList.segments; let index = index; let last = last">
-          <div class="d-flex align-items-center align-items-lg-start col-lg-3 col-sm-12 mb-2 mb-lg-0 pr-lg-0">
+          <div [ngClass]="isPaymentPageView ? 'col-12 mb-2' : 'col-lg-3 col-sm-12 mb-2 mb-lg-0 pr-lg-0'" class="d-flex align-items-center align-items-lg-start ">
             <span class="airl_logo">
               <img
                 class="carrier_logo airLineXs"
@@ -123,7 +124,7 @@
                   }}
                 </div>
               </div>
-              <div class="d-none d-lg-block">
+              <div  [ngClass]="isPaymentPageView ? 'd-none' : 'd-none d-lg-block'">
                 <ng-container
                   *ngTemplateOutlet="baggage_InfoData; context: { $implicit: { segments: odoList.segments[0] } }"
                 >
@@ -131,7 +132,7 @@
               </div>
             </span>
           </div>
-          <div class="col-md-12 col-lg-9 col-12">
+          <div  [ngClass]="isPaymentPageView ? 'col-12' : 'col-md-12 col-lg-9 col-12'">
             <div class="row">
               <div class="col-lg-4 col-4 text-center">
                 <div class="airp_name">{{ segments.departureDateTime | date: 'd MMM yy' }}</div>
@@ -143,7 +144,7 @@
                 </div>
               </div>
 
-              <div class="text-center col-lg-3 col-4">
+              <div class="text-center" [ngClass]="isPaymentPageView ? 'col-4' : 'col-lg-3 col-4'">
                 <div class="flight_data w-100">
                   <div class="dur">
                     {{ getTimeInHours(segments.duration) }}
@@ -175,8 +176,8 @@
               </div>
             </div>
           </div>
-          <div class="extras mt-1 offset-0 offset-lg-3 pl-lg-0 col-12 col-lg-8">
-            <div class="d-block d-lg-none">
+          <div class="extras mt-1 pl-lg-0" [ngClass]="isPaymentPageView ? 'pl-lg-0 col-12' : 'offset-0 offset-lg-3 pl-lg-0 col-12 col-lg-8'">
+            <div  [ngClass]="isPaymentPageView ? 'd-block' : 'd-block d-lg-none'">
               <ng-container
                 *ngTemplateOutlet="baggage_InfoData; context: { $implicit: { segments: odoList.segments[0] } }"
               >
@@ -244,9 +245,9 @@
           ><span translate class="baggage_val">No baggage</span>
         </span>
         <span *ngIf="bag !== 'No baggage allowance'" class="handLaggage"
-          ><span class="baggage_val">{{ baggageDes(bag) }}</span>
+          ><span class="baggage_val"> {{ baggageDes(bag) }}</span>
         </span>
-      </span>
+      </span> &nbsp;
     </span>
   </div>
 </ng-template>

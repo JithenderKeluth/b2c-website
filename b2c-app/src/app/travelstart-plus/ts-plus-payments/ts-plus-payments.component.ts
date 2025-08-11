@@ -41,10 +41,7 @@ export class TsPlusPaymentsComponent implements OnInit {
   ngOnInit(): void {
     this.appendPeachCustomJs();
     this.currency = this.storage.getItem('currencycode', 'session');
-    this.isRenew = this.checkSubscriptionRenewal();
-    if (this.isRenew) {
-      this.amount = 0;
-    }
+    this.getTsPLUSAmountData();
     if (this.storage.getItem('credentials', 'session')) {
       this.credentials = JSON.parse(this.storage.getItem('credentials', 'session'));
       this.email = this.credentials?.data?.contactInfo.email;
@@ -63,7 +60,7 @@ export class TsPlusPaymentsComponent implements OnInit {
 
   public prepareCheckouts(email: string) {
     this.isLoading = true;
-    this.paymentService.getCheckout(this.amount, this.currency, 'DB', email).subscribe((response: any) => {
+    this.paymentService.getCheckout(this.amount, this.currency, 'DB', email, this.isRenew).subscribe((response: any) => {
       this.checkoutId = response?.id;
 
       if (this.checkoutId) {
@@ -127,5 +124,30 @@ export class TsPlusPaymentsComponent implements OnInit {
     const expiration = new Date(expirationDate);
     const nextYearDate = new Date(expiration.getFullYear() + 1, expiration.getMonth(), expiration.getDate());
     return nextYearDate;
+  }
+  getTsPLUSAmountData(){
+    this.paymentService.getTSPLUSAmount().subscribe((data:any)=>{
+      if(data){
+         // Default amount
+        this.amount = data.subscriptionAmount;
+
+        // Check if it's a renewal case
+        this.isRenew = this.checkSubscriptionRenewal();
+
+        // If renewal, override with renewal amount
+        if (this.isRenew) {
+          this.amount = data.subscriptionRenewalAmount;
+        }
+
+        console.log('Final subscription amount:', this.amount);
+      }
+    },(error:any)=>{
+        console.error('Failed to load subscription config:', error);
+        this.isRenew = this.checkSubscriptionRenewal();
+        if (this.isRenew) {
+          this.amount = 1999;
+
+        }
+    })
   }
 }

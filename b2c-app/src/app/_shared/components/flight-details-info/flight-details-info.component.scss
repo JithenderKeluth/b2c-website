@@ -9,11 +9,12 @@
       margin-right: 8px;
     }
     .dept_seg {
-      .way_def {
+      .way_def,.paymentpageViewWayDef {
         color: var(--text_link_color);
         padding: 0 10px;
         font-weight: 500;
         font-size: 12px;
+        text-transform: uppercase;
       }
       .date_Info {
         font-size: 13px;

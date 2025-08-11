@@ -27,7 +27,7 @@ export const FOOTER_PATH = '/api/footers';
 export const WEBAPI_PATH = '/webapi';
 export const VALIDATE_WALLET_VOUCHER = '/validate-wallet-voucher';
 export const WALLET_BALANCE_UPDATE = 'api/v1/wallet/balance/update';
-
+export const SBSA_AUTH_PATH = '/auth/start?session_id=';
 /**
  * api server path
  */
@@ -287,8 +287,10 @@ export const MOMENTUM_PROXY_API_TEST = 'https://partner-proxy-test-80142608037.e
 export const MOMENTUM_PROXY_API_LIVE = 'https://partner-proxy-prod-80142608037.europe-west2.run.app/';
 export const MOMENTUM_REDUMPTION_API = '/redeemPartnerRewards';
 
-/**absa proxi API */
-export const ABSA_AUTH_PROXY_BETA = 'https://connect-staging.travelstart.com';
+/**handshake proxi API */
+export const AUTH_PROXY_BETA = 'https://connect-staging.travelstart.com';
+export const AUTH_PROXY_PROD = 'https://connect.travelstart.com';
+
 /**momentum redumptiom API */
 export const AMADEUS_SEAT_API_TEST = 'https://bff-apigw-test.travelstart.com/amadeus/seatmaps';
 export const AMADEUS_SEAT_API_LIVE = 'https://bff-apigw.travelstart.com/amadeus/seatmaps';
@@ -310,8 +312,6 @@ export const PROXY_My_ACCOUNT_PAYMENT_CARD = '/payment/card';
 export const PROXY_ACCOUNT_CHANGE_PASSWORD_PATH = '/account/change-password';
 export const PROXY_HOTELS_MYBOOKINGS_PATH = '/hotelsMyBookings';
 export const PROXY_TS_PLUS_SUBSCRIPTION_UPDATE = '/tsplus-subscription/update';
-export const PROXY_MASTER_CARD_SUBSCRIPTION = '/mastercard-subscription';
-export const PROXY_MASTER_CARD_MONTHLY_COUNT = '/retrieve-mastercard-monthly-count';
 
 export const PROXY_FRESHDESK_EMAIL_CONFIG = '/freshdesk/email-config';
 export const PROXY_FRESHDESK_CREATE_TICKET = '/freshdesk/create-ticket';
@@ -341,3 +341,5 @@ export const PROXY_ITERABLE_JWT_TOKEN = '/iterableJWTToken';
 export const PROXY_MM_REFRESH_SESSION = '/refresh/session';
 export const PROXY_MM_PARTNER_REWARDS = '/getPartnerRewards';
 export const PROXY_MM_REDEMPTION = '/redeemPartnerRewards';
+export const PROXY_SB_HANDSHAKE = '/standardBankHandshake';
+export const PROXY_TSPLUSCONFIG = '/tsplusconfig';

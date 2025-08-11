@@ -21,6 +21,8 @@ export class SearchData {
   public searchIdentifier: string;
 
   public country: any;
+  public travellerId: string;
+  public loggedOnToken: string;
   /**
    * For backwards compatibility, keep previous default values
    */
@@ -34,5 +36,7 @@ export class SearchData {
     this.itineraries = [new SearchItinerary(), new SearchItinerary()];
     this.searchIdentifier = '';
     this.country = '';
+    this.travellerId = '';
+    this.loggedOnToken = '';
   }
 }
