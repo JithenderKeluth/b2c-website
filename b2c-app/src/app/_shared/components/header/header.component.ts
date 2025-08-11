@@ -338,6 +338,7 @@ getUserCredentials(){
   }
   /**set header tab active based on pathnames */
   activeTabsByPathName(){
+    if (!this.isBrowser) return;
     let flightTabList = [ '/flights/results', '/booking/flight-details','/booking/products','/payments','/payments/bookingConfirm']
     if(this.isBrowser && flightTabList.includes(window.location.pathname)){
       this.activeButton = 'flights';

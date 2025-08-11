@@ -11,9 +11,9 @@
   <!-- side bar-->
   <div class="side-nav-bar-menu-container" [ngStyle]="getSideNavBarStyle(showSideNav | async)">
     <!-- close button -->
-    <div>
+    <div class="side-nav-bar-close-container">
       <span class="side-nav-bar-close" (click)="onSidebarClose()">
-        <img ImageSrc src="../../../../assets/icons/srp_Icons/close-icn-new-all.svg" alt="close" />
+        <img ImageSrc [src]="this.tsCountry === 'SB' ? '../../../../assets/icons/left-short-arrow.svg' : '../../../../assets/icons/srp_Icons/close-icn-new-all.svg'" alt="close" />
       </span>
     </div>
 

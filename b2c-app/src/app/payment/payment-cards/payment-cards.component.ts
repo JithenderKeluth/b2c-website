@@ -20,7 +20,7 @@ import { languageArray } from '@app/i18n/language-selection';
 import { IframeWidgetService } from '@app/general/services/iframe-widget.service';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { getBaggageFee } from '@app/booking/utils/traveller.utils';
-import { checkPaymentTypeFee } from '../utils/payment-utils';
+import { BinListResponse, checkPaymentTypeFee } from '../utils/payment-utils';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BookingService } from '@app/booking/services/booking.service';
 import { SessionService } from '../../general/services/session.service';
@@ -31,6 +31,7 @@ import {AddCardComponent} from "@app/my-account/add-card/add-card.component";
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
+import { DiscountDisplayModel, DiscountsDisplayModel } from '@app/flights/utils/discount.utils';
 declare const $: any;
 @Component({
   selector: 'app-payment-cards',
@@ -71,11 +72,11 @@ export class PaymentCardsComponent implements OnInit {
   public reDirect_enable: boolean = false;
   public redirect_PaymentMethods: any = [];
   public selectCard: boolean = false;
-  public totalPrice = 0;
   public rewardPoints = new UntypedFormControl('');
   public travelRegulations = new UntypedFormControl('');
   public airlineRules = new UntypedFormControl('');
   public paymentErrors: any;
+  public isPaymentErrorDismissed = false;
   public isConnected = false;
   @ViewChild('card_number') card_number: ElementRef;
   @ViewChild('cc_name') cc_name: ElementRef;
@@ -101,20 +102,19 @@ export class PaymentCardsComponent implements OnInit {
       this.bookingAmountVal = val;
     }
   }
+  @Input() discounts?: DiscountsDisplayModel;
+  @Input() selectedDiscount?: DiscountDisplayModel;
+  @Input() totalPrice?: number;
   isMobile: boolean = false;
   savedCardCvv = new UntypedFormControl('');
   countryValue: string;
   isCreditCardAvl: boolean = false;
   public BookApiError: any = null;
-  binListResponse: any = null;
+  binListResponse: BinListResponse | null = null;
   invalid_debitCard: boolean = false;
   showAbsaCardMessageForSix = false;
+  showStandardBankCardMessageForSix = false;
   showAbsaCardMessageForEight = false;
-  showMasterCardMessageForSix = false;
-  showVisaCardMessage = false;
-  showMasterCardMessageForEight = false;
-  masterCardDiscountNotAvailable = false;
-  discountAppliedForMasterCard = false;
   invalid_PaymentType: boolean = false;
   languagesArray: any = languageArray;
   paxNamelengthError: boolean = false;
@@ -136,6 +136,8 @@ export class PaymentCardsComponent implements OnInit {
   cpySource: string;
   @Output('setSaveCardDetails') setSaveCardDetails = new EventEmitter<boolean>();
   private isBrowser: boolean;
+  @Output() binListResponseChanged = new EventEmitter<BinListResponse | null>();
+  @Output() discountInfo = new EventEmitter<void>();
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -161,11 +163,9 @@ export class PaymentCardsComponent implements OnInit {
     this.selectedTab = 'CC';
     this.countryValue = this.apiService.extractCountryFromDomain();
     if(this.isBrowser){
-      this.cpySource = this.countryValue === 'ABSA' 
+      this.cpySource = this.countryValue === 'ABSA'
       ? 'absatravel'
-      :this.countryValue === 'mastercardtravel' 
-      ? 'mastercardtravel'
-      : new URLSearchParams(window.location.search).get('cpysource') ?? '';
+      : this.countryValue === 'SB' ? 'standardbank' : new URLSearchParams(window.location.search).get('cpysource') ?? '';
     }
 
     for (let i = 0; i <= 30; i++) {
@@ -198,13 +198,11 @@ export class PaymentCardsComponent implements OnInit {
       { months: 6, amount: 0, currencyCode: currency },
       { months: 12, amount: 0, currencyCode: currency },
     ];
-    this.currencyVal = this.storage.getItem('currencycode', 'session');
+    this.currencyVal = currency;
     if (this.rewardPointsArray.length > 0) {
       this.selectedRewards('', 0);
-    } 
-      this.processingFee(this.selectedTab, this.selectedCardMethod, false);
-     
-    
+    }
+    this.processingFee(this.selectedTab, this.selectedCardMethod);
     this.bookingService.currentVoucherAmount.subscribe((voucherdata: any) => {
       this.voucherAmount = voucherdata;
     });
@@ -267,13 +265,13 @@ export class PaymentCardsComponent implements OnInit {
 
   binValidator() : ValidatorFn {
     return (control) => {
-      if (this.showAbsaCardMessageForSix && this.showAbsaCardMessageForEight) { 
+      if (this.showAbsaCardMessageForSix && this.showAbsaCardMessageForEight) {
         return {
           notAbsaCard: true
         }
-      }else if (this.showVisaCardMessage) {
+      } else if (this.showStandardBankCardMessageForSix) {
         return {
-          notVisaCard: true
+          notStandardBankCard: true
         }
       } else {
         return null;
@@ -285,63 +283,42 @@ export class PaymentCardsComponent implements OnInit {
     let userCardNum = event.target.value.split(' ').join('');
     this.invalidCvv = false;
     this.paymentErrors = null;
+    this.isPaymentErrorDismissed = false;
     this.selectedCard = '';
     let isNewCardNumber = this.getBinCardNumbers(userCardNum);
     if (event.target.value) {
-      if (userCardNum.length > 5 && (!this.selectedCardMethod || isNewCardNumber)) {
-        this.getCardType(userCardNum);
-      }
-       
       if (userCardNum.length > 5 && isNewCardNumber) {
         this.invalid_card = false;
         this.invalid_PaymentType = false;
         this.card_detailsForm.get('cvv')!.setValue('');
 
-        this.tempCardBinData = (this.countryValue === 'ABSA' || this.countryValue === 'mastercardtravel') && userCardNum.length > 7 
-          ? userCardNum.slice(0, 8) 
+        this.tempCardBinData = (this.countryValue === 'ABSA') && userCardNum.length > 7
+          ? userCardNum.slice(0, 8)
           : userCardNum.slice(0, 6);
 
-        
+        this.validateCreditCardNumber(userCardNum.slice(0, 6));
         //For ABSA, trigger BIN validation for length of 6 and then length of 8, if possible.
-        setTimeout(() => {
-            this.validate_IsMasterCard(userCardNum);
-          },500
-        ); 
-        if(this.countryValue !== 'mastercardtravel'){
-          this.validateCreditCardNumber(userCardNum.slice(0, 6)); 
-        }
-        
         if (this.countryValue === 'ABSA' && userCardNum.length > 7) {
           this.validateCreditCardNumber(userCardNum.slice(0, 8));
-        } else if (this.countryValue === 'ABSA'  && userCardNum.length <= 7) {
+        } else if (this.countryValue === 'ABSA' && userCardNum.length <= 7) {
           this.showAbsaCardMessageForEight = true; // For ABSA, set to true if less than 8 digits to show error message for first six digits
+        } else if (this.countryValue === 'SB' && userCardNum.length <= 7) {
+          this.showStandardBankCardMessageForSix = true; // For Standard Bank, set to true if less than 8 digits to show error message for first six digits
         }
-
-
-
 
       } else if (userCardNum.length < 5) {
         this.tempCardBinData = null;
         this.invalid_PaymentType = false;
         this.invalid_card = false;
         this.selectedCardMethod = null;
-        this.showMasterCardMessageForSix = false;
-        this.showAbsaCardMessageForEight = false;
-        this.showAbsaCardMessageForSix = false;
-        this.showAbsaCardMessageForEight = false;
-        this.masterCardDiscountNotAvailable = false;
-        this.showVisaCardMessage = false;
-        this.binListResponse = null;  
-        this.discountAppliedForMasterCard = false;
-        this.processingFee(this.selectedPaymentOption, this.selectedCardMethod, false);
-        this.disableDiscountSection();
-         
+        this.setBinListResponse(null);
       }
-      
- 
-       
+      if (userCardNum.length > 5 && (!this.selectedCardMethod || isNewCardNumber)) {
+        this.getCardType(userCardNum);
+      }
       // this.invalid_payment_details = false;
       this.paymentErrors = null;
+      this.isPaymentErrorDismissed = false;
       this.encryptionKey = '';
     } else {
       this.selectedCardMethod = null;
@@ -350,35 +327,17 @@ export class PaymentCardsComponent implements OnInit {
       this.invalid_PaymentType = false;
       // this.invalid_payment_details = false;
       this.paymentErrors = null;
+      this.isPaymentErrorDismissed = false;
       this.encryptionKey = '';
       this.validateCreditCardNumber(null);
-      this.disableDiscountSection();
     }
-  }
-  /**To validate mastercard or not for check bin validation  */
-  validate_IsMasterCard(userCardNum:any){
-                  if(this.countryValue === 'mastercardtravel' && this.selectedCardMethod === "MC"){
-                this.showVisaCardMessage = false; 
-                 this.validateCreditCardNumber(userCardNum.slice(0, 6));  
-                  setTimeout(() => {
-                    if (userCardNum.length >= 7 && this.showMasterCardMessageForSix) {
-                      this.validateCreditCardNumber(userCardNum.slice(0, 8));
-                    }  else if ( this.countryValue === 'mastercardtravel' && userCardNum.length <= 7) {
-                      this.showMasterCardMessageForEight = true; // For MasterCard, set to true if less than 8 digits to show error message for first six digits
-                    }
-                  },200);
-              }
-              if(this.countryValue === 'mastercardtravel' && this.selectedCardMethod != "MC"){ 
-                  this.showVisaCardMessage = true; 
-                  this.disableDiscountSection();
-              }
   }
   getBinCardNumbers(userCardNum: any) {
     let newCardBinNum: any;
     if (!this.tempCardBinData) {
       this.tempCardBinData = userCardNum.slice(0, 6);
     } else {
-      if ((this.countryValue === 'ABSA' || this.countryValue === 'mastercardtravel') && userCardNum.length > 7)
+      if (this.countryValue === 'ABSA' && userCardNum.length > 7)
         newCardBinNum = userCardNum.slice(0, 8);
       else
         newCardBinNum = userCardNum.slice(0, 6);
@@ -395,19 +354,16 @@ export class PaymentCardsComponent implements OnInit {
   selectCardDetails(cardChecked: any, cardDetails: any) {
     this.invalid_card = false;
     this.paymentErrors = null;
+    this.isPaymentErrorDismissed = false;
     this.invalid_PaymentType = false;
     this.card_detailsForm.get('cvv').setValue('');
     this.savedCardCvv.setValue('');
     if (cardChecked) {
       this.selectCard = cardChecked;
       this.encryptionKey = cardDetails?.cardToken;
-      this.getCardType(cardDetails?.cardBin); 
-      if(this.countryValue === 'mastercardtravel'){
-          this.validate_IsMasterCard(cardDetails?.cardBin)
-      }else{
-        this.validateCreditCardNumber(cardDetails?.cardBin);
-      }
-      if (this.isMobile || this.countryValue === 'ABSA' ) {
+      this.validateCreditCardNumber(cardDetails?.cardBin);
+      this.getCardType(cardDetails?.cardBin);
+      if (this.isMobile || this.countryValue === 'ABSA' || this.countryValue === 'SB') {
         this.savedCardCvv.setValidators(Validators.required);
         this.card_detailsForm.get('cvv').setValidators(null);
         this.card_detailsForm.get('cvv').updateValueAndValidity();
@@ -464,6 +420,7 @@ export class PaymentCardsComponent implements OnInit {
     this.invalid_debitCard = false;
     this.invalid_card = false;
     this.paymentErrors = null;
+    this.isPaymentErrorDismissed = false;
     // this.invalid_card_fromAPI = false;
     this.invalid_PaymentType = false;
     if(this.isBrowser){
@@ -479,8 +436,8 @@ export class PaymentCardsComponent implements OnInit {
       this.selectedCardMethod = null;
       this.processingFeeAmount = null;
       this.selectedTab = param;
-      this.selectedCard = null; 
-      this.processingFee(this.selectedPaymentOption, this.selectedCardMethod, false);
+      this.selectedCard = null;
+      this.processingFee(this.selectedPaymentOption, this.selectedCardMethod);
       this.initForm();
       this.submitted = false;
       this.card_detailsForm.removeControl('selectBank');
@@ -508,7 +465,7 @@ export class PaymentCardsComponent implements OnInit {
       this.selectedCardMethod = null;
       this.selectedEftMethod = null;
       this.selectedCard = null;
-      this.changePaymentTab(); 
+      this.changePaymentTab();
       this.processingFee(this.selectedPaymentOption, this.selectedEftMethod);
     } else if (this.selectedPaymentOption === 'MOBICRED') {
       this.selectedTab = 'MOBICRED';
@@ -516,7 +473,7 @@ export class PaymentCardsComponent implements OnInit {
       this.selectedEftMethod = null;
       this.selectedCard = null;
       this.processingFeeAmount = null;
-      this.changePaymentTab(); 
+      this.changePaymentTab();
       this.processingFee(this.selectedPaymentOption, this.selectedEftMethod);
     } else if (this.selectedPaymentOption === 'MPESA') {
       this.selectedTab = 'MPESA';
@@ -537,7 +494,7 @@ export class PaymentCardsComponent implements OnInit {
       this.selectedEftMethod = null;
       this.selectedCard = null;
       this.processingFeeAmount = null;
-      this.changePaymentTab(); 
+      this.changePaymentTab();
       this.processingFee(this.selectedPaymentOption, this.selectedEftMethod);
     }
   }
@@ -571,7 +528,7 @@ export class PaymentCardsComponent implements OnInit {
         }
       }
     }
-    if (Object.keys(paymentMethodSelected).length == 0 && this.countryValue !== 'ABSA') {
+    if (Object.keys(paymentMethodSelected).length == 0 && (this.countryValue !== 'ABSA' && this.countryValue !== 'SB')) {
       this.invalid_PaymentType = true;
       this.invalid_card = false;
     } else {
@@ -600,13 +557,17 @@ export class PaymentCardsComponent implements OnInit {
     } else {
       this.invalid_card = true;
       this.selectedCardMethod = null;
-      this.tempCardBinData = null; 
+      this.tempCardBinData = null;
       this.processingFee(this.selectedTab, this.selectedCardMethod);
       this.selectedCardTypePaymentData = null;
       this.showAbsaCardMessageForSix = false;
       this.showAbsaCardMessageForEight = false;
-      this.disableDiscountSection();
+      this.showStandardBankCardMessageForSix = false;
     }
+  }
+
+  public dismissPaymentError(): void {
+  this.isPaymentErrorDismissed = true;
   }
   /**
    * getpayment card type based on binlist API response
@@ -684,7 +645,7 @@ export class PaymentCardsComponent implements OnInit {
   }
   public selectEftMethod(param: string) {
     this.selectedCardMethod = '';
-    this.selectedEftMethod = param; 
+    this.selectedEftMethod = param;
     this.processingFee(this.selectedPaymentOption, this.selectedEftMethod);
   }
 
@@ -716,7 +677,7 @@ export class PaymentCardsComponent implements OnInit {
   isActive(item: any) {
     return this.selectedEftMethod === item;
   }
-  public processingFee(paymentOption: any, Paymentmethod: any, isBankNameMatched: boolean = false) {
+  public processingFee(paymentOption: any, Paymentmethod: any) {
     if (
       (this.paymentMethods?.paymentOptions?.length && paymentOption === 'CC') ||
       this.selectedTab === 'CC' ||
@@ -732,11 +693,11 @@ export class PaymentCardsComponent implements OnInit {
                 y.paymentMethodName == Paymentmethod ||
                 (y.paymentMethodIdentifier && y.paymentMethodIdentifier.split(':')[1] == Paymentmethod)
               ) {
-                this.checkSelectCardTypeamount(y, isBankNameMatched);
+                this.checkSelectCardTypeamount(y);
               }
             });
           } else {
-            this.checkSelectCardTypeamount(x.paymentMethods[0], isBankNameMatched);
+            this.checkSelectCardTypeamount(x.paymentMethods[0]);
           }
         }
       });
@@ -763,24 +724,21 @@ export class PaymentCardsComponent implements OnInit {
   }
 
   /*to check selected paymentmethod (Visa,mastercard ..etc) product amount else check all products of payment method */
-  checkSelectCardTypeamount(data: any, isBankNameMatched: boolean = false) {
+  checkSelectCardTypeamount(data: any) {
     if (data?.amount) {
-      this.emitPaymentTypeFee(data.amount, isBankNameMatched);
+      this.emitPaymentTypeFee(data.amount);
     } else if (data?.products) {
-      this.checkPaymentProductsData(data.products,isBankNameMatched);
+      this.checkPaymentProductsData(data.products);
     }
   }
   /**To check selected card type have products with in object for processing fee */
-  checkPaymentProductsData(products: any, isBankNameMatched: boolean = false) {
-    this.emitPaymentTypeFee(products, isBankNameMatched);
+  checkPaymentProductsData(products: any) {
+    this.emitPaymentTypeFee(products);
   }
   /**TO send payment processing fee to paymentUtils and get updated values */
-  emitPaymentTypeFee(data: any, isBankNameMatched: boolean = false) {
+  emitPaymentTypeFee(data: any) {
     this.processingFeeAmount = null;
-    let proceessFee = checkPaymentTypeFee(data, this.tempCardBinData, isBankNameMatched); 
-    if(proceessFee.discountAmount){
-      this.discountAppliedForMasterCard = true;
-    }
+    let proceessFee = checkPaymentTypeFee(data, this.tempCardBinData);
     this.processingFeeAmount = proceessFee;
     this.cc_ProcessingFee.emit(proceessFee);
     this.paymentService.changeProcessingFee(proceessFee);
@@ -964,16 +922,17 @@ export class PaymentCardsComponent implements OnInit {
    */
   getPaymentCardType(cardNumber: string) {
     //Check BIN number for six digits by default if not Absa
-    const checkingForSix = (this.countryValue !== 'ABSA' &&  this.countryValue === 'mastercardtravel') || cardNumber.length === 6;
+    const checkingForSix = (this.countryValue !== 'ABSA') || cardNumber.length === 6;
     const binValidationRun = new Subject<void>();
     let binResponse;
-      this.disableDiscountSection();
+
     if (checkingForSix) this.paymentService.getBinData(cardNumber, this.cpySource);
     else this.paymentService.getBinDataForEight(cardNumber, this.cpySource);
-    
+
     binResponse = checkingForSix
-      ? this.paymentService.currentbinResponse 
-      : this.paymentService.currentbinResponseForEight; 
+      ? this.paymentService.currentbinResponse
+      : this.paymentService.currentbinResponseForEight;
+
     //Filter null to ignore initial null responses and takeUntil to ensure function triggers only once
     binResponse
       .pipe(
@@ -981,94 +940,69 @@ export class PaymentCardsComponent implements OnInit {
         takeUntil(binValidationRun)
       )
       .subscribe(
-        (x: any) => { 
-          if (this.countryValue === 'ABSA' ) {
-            if (checkingForSix) this.showAbsaCardMessageForSix = !x || x.status !== '200';
-            else this.showAbsaCardMessageForEight = !x || x.status !== '200';
+        (x: any) => {
+          let parsed: any;
+          try {
+            parsed = typeof x === 'string' ? JSON.parse(x) : x;
+          } catch (e) {
+            this.setCardMessage(true, checkingForSix); // fallback on parse error
+            this.invalid_card = true;
+            binValidationRun.next();
+            return;
           }
 
-          if (this.countryValue === 'mastercardtravel' ) {
-            if (checkingForSix) this.showMasterCardMessageForSix = !x || x.status !== '200';
-            else this.showMasterCardMessageForEight = !x || x.status !== '200';
-          } 
- 
-          if (x && x.data) {
-            this.binListResponse = x.data;
-             
-            // Handle ABSA or MastercardTravel bin name matching
-            if (['ABSA', 'mastercardtravel'].includes(this.countryValue)) {
-              const bankNameIncludesCpySource = this.binListResponse?.bank?.name?.toLowerCase().includes(this.cpySource);
-              if(this.countryValue === 'ABSA'){
-                if (checkingForSix){
-                  this.showAbsaCardMessageForSix = !bankNameIncludesCpySource;
-                }else{
-                  this.showAbsaCardMessageForEight = !bankNameIncludesCpySource;
-                }
-              }else if(this.countryValue === 'mastercardtravel') {
-                 if (checkingForSix){
-                    this.showMasterCardMessageForSix = !bankNameIncludesCpySource;
-                }else{
-                    this.showMasterCardMessageForEight = !bankNameIncludesCpySource;
-                }
-              } 
-               
-                
-                if(bankNameIncludesCpySource){
-                  this.processingFee(this.selectedPaymentOption, this.selectedCardMethod, bankNameIncludesCpySource);
-                } 
-                if(cardNumber.length > 7 && !bankNameIncludesCpySource){
-                  this.masterCardDiscountNotAvailable = true;
-                }
-              console.log(this.masterCardDiscountNotAvailable)
-              if(this.countryValue === 'mastercardtravel' && cardNumber.length < 7){
-                  this.masterCardDiscountNotAvailable = false;
-              } 
+          // Initial fallback check using status
+          const isValid = parsed?.status === '200';
+          this.setCardMessage(!isValid, checkingForSix);
+
+          const binList = parsed?.data;
+          if (binList) {
+            this.setBinListResponse(binList);
+
+            const bankName = binList?.bank?.name?.toLowerCase() || '';
+            if (this.countryValue === 'ABSA') {
+              this.setCardMessage(!bankName.includes('absatravel'), checkingForSix);
+            } else if (this.countryValue === 'SB') {
+              this.setCardMessage(!bankName.includes('standardbank'), checkingForSix);
             }
-            
 
             const cardNumberControl = this.card_detailsForm.get('cardNumber');
-            if (cardNumberControl) {
-              cardNumberControl.updateValueAndValidity();
-            }
+            cardNumberControl?.updateValueAndValidity();
 
             this.invalid_debitCard = false;
             this.invalid_card = false;
             this.getSelectedPaymentmethod();
-           
-          } else { 
+          } else {
             this.invalid_card = true;
-            if (this.countryValue === 'mastercardtravel' && cardNumber.length >=6) {
-                this.masterCardDiscountNotAvailable = true; 
-            }   
           }
 
           binValidationRun.next();
         },
         (error) => {
-          if (this.countryValue === 'ABSA') {
-            if (checkingForSix) this.showAbsaCardMessageForSix = true;
-            else this.showAbsaCardMessageForEight = true; 
-              this.processingFee(this.selectedPaymentOption, this.selectedCardMethod, false);
-             
-          }  
-         if (this.countryValue === 'mastercardtravel') {
-            if (checkingForSix) this.showMasterCardMessageForSix = true;
-            else this.showMasterCardMessageForEight = true; 
-            this.processingFee(this.selectedPaymentOption, this.selectedCardMethod, false);
-             if(cardNumber.length >=6){
-                this.masterCardDiscountNotAvailable = true;
-              } 
-          }  
+          this.setCardMessage(true, checkingForSix);
         }
       );
   }
+
+  // ✅ Helper method to avoid repeated logic
+    private setCardMessage(showError: boolean, checkingForSix: boolean): void {
+      if (this.countryValue === 'ABSA') {
+        if (checkingForSix) {
+          this.showAbsaCardMessageForSix = showError;
+        } else {
+          this.showAbsaCardMessageForEight = showError;
+        }
+      } else if (this.countryValue === 'SB') {
+          this.showStandardBankCardMessageForSix = showError;
+      }
+    }
 
   selectedRewards(event: any, index: number) {
     this.rewardPointsArray.forEach((x: any) => (x.initSelected = false));
     this.rewardPointsArray[index].initSelected = true;
     this.selectedreward = this.rewardPointsArray[index].id;
   }
-  
+
   /**get investec redeem points list array */
   getTBIRedeemPointsArray() {
     if (
@@ -1129,12 +1063,8 @@ export class PaymentCardsComponent implements OnInit {
       } else if (card_Val.match(discover_regex)) {
         this.selectedCardMethod = 'DC';
       }
-      // Additional actions 
-     if(this.countryValue !== 'mastercardtravel'){
-        this.processingFee(this.selectedPaymentOption, this.selectedCardMethod, false);
-     }
-      
-      
+      // Additional actions
+      this.processingFee(this.selectedPaymentOption, this.selectedCardMethod);
       this.getSelectedCardInfo();
     }
   }
@@ -1276,6 +1206,7 @@ export class PaymentCardsComponent implements OnInit {
   getNetWorkStatus() {
     if (!this.isConnected && this.submitted) {
       this.paymentErrors = null;
+      this.isPaymentErrorDismissed = false;
       this.invalid_PaymentType = false;
       this.invalidVoucher = false;
       this.invalid_card = false;
@@ -1293,9 +1224,35 @@ export class PaymentCardsComponent implements OnInit {
       $subscription.unsubscribe();
     });
   }
-  /**here we are make it discount related keys as false to hide the section */
-  disableDiscountSection(){
-        this.discountAppliedForMasterCard = false;
-        this.masterCardDiscountNotAvailable = false;
+
+  setBinListResponse(binListResponse: BinListResponse | null) {
+    this.binListResponse = binListResponse;
+    this.binListResponseChanged.next(this.binListResponse);
+  }
+
+  clearCardInput() {
+    const cardNumberFormControl = this.card_detailsForm.controls['cardNumber'];
+    if (cardNumberFormControl) {
+      cardNumberFormControl.setValue('');
+      cardNumberFormControl.updateValueAndValidity();
+
+      // Set focus after clearing
+      setTimeout(() => {
+        if(this.isBrowser){
+          const inputElement = document.getElementById('cardNumberInput') as HTMLInputElement;
+          if (inputElement) {
+            inputElement.focus();
+          }
+        }
+      });
+    }
+  }
+
+  onDiscountInfoClicked() {
+    this.discountInfo.next();
+  }
+
+  closeInvalidPayment() {
+    this.invalid_PaymentType = false;
   }
 }

@@ -42,6 +42,7 @@ export class PaymentsComponent implements OnInit {
   public submitted = false;
   public isLoading = false;
   showAbsaCardMessage = false;
+  showStandardBankMessage = false;
   cardExp: any;
   credentials: any;
   countriesList: any;
@@ -81,10 +82,8 @@ export class PaymentsComponent implements OnInit {
     this.binValidationThreshold = this.country === 'ABSA' ? 7 : 5;
     if(this.isBrowser){
       this.cpySource = this.country === 'ABSA' 
-      ? 'absatravel'
-      : new URLSearchParams(window.location.search).get('cpysource') ?? '';
+      ? 'absatravel' :this.country === 'SB' ? 'standardbank' : new URLSearchParams(window.location.search).get('cpysource') ?? '';
     }
-
     this.countriesList = getCountriesArray();
     for (let i = 0; i <= 30; i++) {
       this.yearsArray.push({ year: this.year + i });
@@ -107,7 +106,7 @@ export class PaymentsComponent implements OnInit {
   }
 
   initForm(): void {
-    if (this.country === 'ABSA') {
+    if (this.country === 'ABSA' || this.country === 'SB') {
       this.card_detailsForm = this.fb.group({
         cardNumber: ['', Validators.required, this.binValidator() ],
         cardName: ['', Validators.required],
@@ -191,13 +190,14 @@ export class PaymentsComponent implements OnInit {
     this.paymentService.getBinData(cardNumber, this.cpySource);
     this.paymentService.currentbinResponse.subscribe((data) => {
       this.showAbsaCardMessage = this.country === 'ABSA' && (!data || data.status !== '200');
+      this.showStandardBankMessage = this.country === 'SB' && (!data || data.status !== '200');
 
       if (data && JSON.parse(data).data) {
         const binListResponse = JSON.parse(data).data;
 
         this.showAbsaCardMessage = this.country === 'ABSA' && !binListResponse?.bank?.name.toLowerCase().includes(this.cpySource);
-
-        if (this.showAbsaCardMessage) {
+        this.showStandardBankMessage = this.country === 'SB' && binListResponse?.bank?.name.toLowerCase().includes(this.cpySource);
+        if (this.showAbsaCardMessage || this.showStandardBankMessage) {
           const cardNumberControl = this.card_detailsForm.get('cardNumber');
           if (cardNumberControl) {
             cardNumberControl.updateValueAndValidity();
@@ -239,7 +239,7 @@ export class PaymentsComponent implements OnInit {
         userAgent: this.userAgent,
       };
 
-      if (this.country === 'ABSA') {
+      if (this.country === 'ABSA' || this.country === 'SB') {
         cardData.paymentCard.address = {
           streetNmbr: '255',
           postalCode: '8001',
@@ -317,6 +317,10 @@ export class PaymentsComponent implements OnInit {
         return {
           notAbsaCard: true
         }
+      } else if (this.showStandardBankMessage) {
+        return {
+          notStandardBankCard: true
+        }
       } else {
         return null;
       }
@@ -327,7 +331,7 @@ export class PaymentsComponent implements OnInit {
     const userCardNum = event.target.value.split(' ').join('');
     const isNewCardNumber = this.getBinCardNumbers(userCardNum);
     if (event.target.value) {
-      if (userCardNum.length > this.binValidationThreshold && isNewCardNumber && this.country === 'ABSA') {
+      if (userCardNum.length > this.binValidationThreshold && isNewCardNumber && (this.country === 'ABSA' || this.country === 'SB') ) {
         this.tempCradBinData = this.getCardPrefix(userCardNum);
         this.validateBinNumber(this.getCardPrefix(userCardNum));
       } else if (userCardNum.length < this.binValidationThreshold) {
@@ -336,6 +340,7 @@ export class PaymentsComponent implements OnInit {
       }
     } else {
       this.showAbsaCardMessage = false;
+      this.showStandardBankMessage = false;
       this.tempCradBinData = null;
     }
   }

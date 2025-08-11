@@ -91,5 +91,18 @@
       "tenantId": 6,
       "tenantName": "absa"
     }
+  },
+  "standardbank": {
+    "id": 7,
+    "name": "standardbank",
+    "userName": "standardbank",
+    "externalCSS": "standardbank.css",
+    "icon": "https://www.travelstart.co.za/assets/images/TS-logo.svg",
+    "assetsPath": "https://cdn1.standardbank.com/b2c/",
+    "isWhiteLabelInstance": true,
+    "tenant": {
+      "tenantId": 7,
+      "tenantName": "standardbank"
+    }
   }
 }

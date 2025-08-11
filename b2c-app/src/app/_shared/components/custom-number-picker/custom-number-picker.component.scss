@@ -1,0 +1,23 @@
+.spinner-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.spinner-selected-number {
+  margin: 0 1rem;
+  line-height: 100%;
+  width: 0.625rem;
+}
+
+.spinner-button {
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  outline: none;
+}
+
+.spinner-button:disabled {
+  filter: grayscale(100%);
+}

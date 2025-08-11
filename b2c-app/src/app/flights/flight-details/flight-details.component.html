@@ -382,12 +382,14 @@
       <div class="price_info">
         <span class="total_labl" translate> Total Price</span>
         <span class="ml-auto text-right">
-          <span class="fare_breakdown_labl mr-1" translate>
-            <span *ngIf="region === 'ABSA'">Fare Breakdown</span>
+          <span class="fare_breakdown_labl" translate>
+            <span class="fare_breakdown_labl_text" *ngIf="region === 'ABSA' || region === 'SB'" translate>Fare breakdown</span>
             <img
               ImageSrc
               class="infoImg"
               src="../../../assets/icons/srp_Icons/fare-breakdown-info.svg"
+              [width]="region === 'SB' ? 16 : 12"
+              [height]="region === 'SB' ? 16 : 12"
               alt="info"
               loading="lazy"
               data-toggle="collapse"
@@ -395,33 +397,14 @@
               data-target="#priceInfo"
             />
           </span>
-          <span
-            class="total_Amt"
-            [ngClass]="{ strikeOut: region === 'MM' && displayItnPrice(selectedFlightDetails)?.savingAmt > 0 }"
-          >
-            <span *ngIf="region !== 'MM'">
-              {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
-              selectedFlightDetails.inboundItineraries.amount + selectedFlightDetails.outboundItineraries.amount
-                | currencyCode
-                | currency: '' + '
-        ':'symbol':'2.0'
-            }}</span>
 
-            <span *ngIf="region === 'MM'">
-              {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
-              displayItnPrice(selectedFlightDetails)?.strikeAmt | currency: '' + ' ' + ' ':'symbol':'2.0'
-            }}</span>
-          </span>
+          <ng-container *ngIf="region === 'MM'">
+            <ng-container *ngTemplateOutlet="mmPriceTemplate"></ng-container>
+          </ng-container>
 
-          <span
-            *ngIf="region === 'MM' && displayItnPrice(selectedFlightDetails).savingAmt > 0"
-            class="strikeoutOrginalAmount"
-          >
-            <span>
-              {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode
-              }}{{ displayItnPrice(selectedFlightDetails).finalAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
-            </span>
-          </span>
+          <ng-container *ngIf="region === 'SB' && discounts?.availableDiscounts[0] as discount; else standardPriceTemplate">
+            <ng-container *ngTemplateOutlet="discountedPriceTemplate; context: { $implicit: discount }"></ng-container>
+          </ng-container>
 
           <div class="clearfix"></div>
           <span
@@ -453,17 +436,18 @@
           <ul>
             <li class="w-37" *ngFor="let odoList of selectedFlightDetails.outboundItineraries.odoList | slice: 0:1">
               <div class="flight_Info">
-                <div>
+                <div class="carrier_logo_container">
                   <img
                     ImageSrc
                     class="carrier_logo"
-                    width="20px"
+                    [width]="region === 'SB' ? 24 : 20"
+                    [height]="region === 'SB' ? 24 : 20"
                     src="assets/img/carriers/retina48px/carrier-{{ odoList.segments[0].airlineCode }}.png"
                     alt="{{ odoList.segments[0].airlineCode }}"
                     loading="lazy"
                   />
                 </div>
-                <div>
+                <div class="date_container">
                   <div class="info">
                     <span *ngIf="region !== 'ABSA'" class="date_labl">
                       {{ selectedFlightDetails.outboundItineraries.odoList[0].segments[0].departureDateTime | date: 'HH:mm' }}
@@ -472,11 +456,22 @@
                       {{ selectedFlightDetails.outboundItineraries.odoList[0].segments[0].origCode }}
                     </span>
                     <span>
-                      <img
+                      <img *ngIf="region === 'SB'"
+                        class="flight_icon"
+                        ImageSrc
+                        src="./../../../assets/icons/one-way-icn.svg"
+                        alt="flight_icn"
+                        width="14"
+                        height="14"
+                        loading="lazy"
+                      />
+                      <img *ngIf="region !== 'SB'"
+                        class="flight_icon"
                         ImageSrc
                         src="../../../assets/icons/srp_Icons/flight_icn.svg"
                         alt="flight_icn"
-                        width="16px"
+                        width="16"
+                        height="16"
                         loading="lazy"
                       />
                     </span>
@@ -519,17 +514,18 @@
 
             <li class="w-37" *ngFor="let odoList of selectedFlightDetails.inboundItineraries.odoList | slice: 0:1">
               <div class="flight_Info">
-                <div>
+                <div class="carrier_logo_container">
                   <img
                     ImageSrc
                     class="carrier_logo"
-                    width="20px"
+                    [width]="region === 'SB' ? 24 : 20"
+                    [height]="region === 'SB' ? 24 : 20"
                     src="assets/img/carriers/retina48px/carrier-{{ odoList.segments[0].airlineCode }}.png"
                     alt="{{ odoList.segments[0].airlineCode }}"
                     loading="lazy"
                   />
                 </div>
-                <div>
+                <div class="date_container">
                   <div class="info">
                     <span *ngIf="region !== 'ABSA'" class="date_labl">
                       {{ selectedFlightDetails.inboundItineraries.odoList[0].segments[0].departureDateTime | date: 'HH:mm' }}
@@ -538,11 +534,22 @@
                       {{ selectedFlightDetails.inboundItineraries.odoList[0].segments[0].origCode }}
                     </span>
                     <span>
-                      <img
+                      <img *ngIf="region === 'SB'"
+                        class="flight_icon"
+                        ImageSrc
+                        src="./../../../assets/icons/one-way-icn.svg"
+                        alt="flight_icn"
+                        width="14"
+                        height="14"
+                        loading="lazy"
+                      />
+                      <img *ngIf="region !== 'SB'"
+                        class="flight_icon"
                         ImageSrc
                         src="../../../assets/icons/srp_Icons/flight_icn.svg"
                         alt="flight_icn"
-                        width="16px"
+                        width="16"
+                        height="16"
                         loading="lazy"
                       />
                     </span>
@@ -632,10 +639,64 @@
       <li>
         <span>Return to {{ getCityName(itinOdoList[0].segments[0].origCode) }}</span>
         <span class="float-right"
-          >{{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode
-          }}{{ selectedFlightDetails.inboundItineraries.amount | currency: '' + ' ':'symbol':'2.0' }}</span
+          >{{ selectedFlightDetails?.inboundItineraries?.currencyCode | currencyCode
+          }}{{ selectedFlightDetails?.inboundItineraries?.amount | currency: '' + ' ':'symbol':'2.0' }}</span
         >
       </li>
     </ul>
   </div>
 </div>
+
+<ng-template #standardPriceTemplate>
+  <span class="total_Amt" >
+    <span>
+      {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
+      selectedFlightDetails.inboundItineraries.amount + selectedFlightDetails.outboundItineraries.amount
+        | currencyCode
+        | currency: '' + '
+':'symbol':'2.0'
+    }}</span>
+  </span>
+</ng-template>
+
+<ng-template #discountedPriceTemplate let-discount>
+  <span class="total_Amt total_Amt--discounted">
+    {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
+    selectedFlightDetails.inboundItineraries.fareBreakdown.originalAmount + selectedFlightDetails.outboundItineraries.fareBreakdown.originalAmount
+      | currencyCode
+      | currency: '' + '
+':'symbol':'2.0'
+  }}
+  </span>
+
+  <span class="total_Amt">
+    {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
+    selectedFlightDetails.inboundItineraries.amount + selectedFlightDetails.outboundItineraries.amount
+      | currencyCode
+      | currency: '' + '
+':'symbol':'2.0'
+  }}
+  </span>
+</ng-template>
+
+<ng-template #mmPriceTemplate>
+  <span
+    class="total_Amt"
+    [ngClass]="{ strikeOut: displayItnPrice(selectedFlightDetails)?.savingAmt > 0 }"
+  >
+    <span>
+      {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
+      displayItnPrice(selectedFlightDetails)?.strikeAmt | currency: '' + ' ' + ' ':'symbol':'2.0'
+    }}</span>
+  </span>
+
+  <span
+    *ngIf="displayItnPrice(selectedFlightDetails).savingAmt > 0"
+    class="strikeoutOrginalAmount"
+  >
+    <span>
+      {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode
+      }}{{ displayItnPrice(selectedFlightDetails).finalAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+    </span>
+  </span>
+</ng-template>

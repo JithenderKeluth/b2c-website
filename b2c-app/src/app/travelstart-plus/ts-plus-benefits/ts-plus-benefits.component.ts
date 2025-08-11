@@ -73,7 +73,7 @@ export class TsPlusBenefitsComponent implements OnInit {
     } else {
       this.getUserData();
       setTimeout(() => {
-        if (this.apiService.isTS_PLUSUser()) { alert("already and TS Subscriber...");
+        if (this.apiService.isTS_PLUSUser()) {
           $('#subscribed_modal').modal('show');
         } else if (!this.apiService.isTS_PLUSUser() && this.credentials?.status !== 'PENDING') {
           this.googleTagManagerServiceService.upGradetoTSplus(this.credentials?.username);

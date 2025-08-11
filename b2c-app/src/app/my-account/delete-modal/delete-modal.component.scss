@@ -1,3 +1,19 @@
 .modal-content {
   border: none;
 }
+
+
+.modal-dialog.mdl_dialog{
+  width: 100% !important;
+}
+
+.modal-btn-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+.theme__modal-cancel-button,
+.theme__modal-accept-button {
+  flex: 1 1 0;
+  min-width: 0;
+}

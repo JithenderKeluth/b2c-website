@@ -4,6 +4,7 @@ import { Credentials } from './../auth/credentials.service';
 import {
   GUEST_VIEW_BOOKINGS_PATH,
   PROXY_SERVER_PATH,
+  PROXY_SB_HANDSHAKE,
   PROXY_USER_DATA,
   PROXY_MY_BOOKINGS,
   PROXY_My_ACCOUNT_TRAVELLERS,
@@ -18,7 +19,8 @@ import {
   PROXY_RESEND_ETICKET,
   PROXY_ACCOUNT_DELETE,
   PROXY_CANCEL_HOTEL_BOOKING,
-  PROXY_USER_OTP_DATA
+  PROXY_USER_OTP_DATA,
+  SBSA_AUTH_PATH
 } from '@app/general/services/api/api-paths';
 import { ApiService } from '@app/general/services/api/api.service';
 import { SearchService } from '@app/flights/service/search.service';
@@ -259,5 +261,14 @@ export class MyAccountServiceService {
   }
   cancelHotelBooking(reqData:any,token:any){
     return this.httpClient.post(`${PROXY_SERVER_PATH}${PROXY_CANCEL_HOTEL_BOOKING}`,reqData);
+  }
+
+  //Processing StandardBank Handshake process
+   processStandardBankHandShake(sessionID: string) {
+    const fullUrl = `${PROXY_SERVER_PATH}${PROXY_SB_HANDSHAKE}`; 
+    let reqPayload = {
+      sessionId: sessionID 
+    }; 
+    return this.httpClient.post(fullUrl, reqPayload);
   }
 }

@@ -3,15 +3,17 @@
     <div class="card-body">
       <div class="section_heading">
         <h4 translate>Contact details</h4>
-        <label for="booking confirmation" translate class="mb-0"
-          >We will send your booking confirmation to these contact details.</label
-        >
+        <label for="booking confirmation" translate>
+          {{ infoText }}
+        </label>
       </div>
 
       <form class="mb-2 mb-xs-0" [formGroup]="contactForm" (ngSubmit)="saveContactDetails()">
         <div class="row pt-2">
           <div class="form-group col-lg-5 col-md-6 mb-1">
-            <label for="Mobile Number" translate class="control-label">Mobile Number</label>
+            <label for="phone" translate class="control-label">
+              {{ mobileNumberLabel }}
+            </label>
 
             <ngx-intl-tel-input
               #phone
@@ -21,6 +23,7 @@
               [preferredCountries]="preferredCountries"
               [enableAutoCountrySelect]="true"
               [enablePlaceholder]="true"
+              [customPlaceholder]="mobileNumberPlaceholder"
               [searchCountryFlag]="true"
               [searchCountryField]="[
                 SearchCountryField.Iso2,
@@ -38,9 +41,9 @@
               [phoneValidation]="false"
             >
             </ngx-intl-tel-input>
-            
+
             <div translate class="validation_msg" *ngIf="submitForm && contactForm?.get('phone')?.errors?.required">
-              Mobile number is required.
+              {{ mobileNumberLabel }} is required.
             </div>
             <div
               translate
@@ -52,7 +55,7 @@
                 !mobileNumLengthFailed
               "
             >
-              Mobile number should have minimum 6 digits.
+              {{ mobileNumberLabel }} should have minimum 6 digits.
             </div>
             <div
               class="validation_msg"
@@ -65,26 +68,28 @@
                 !mobileNumLengthFailed
               "
             >
-              Mobile number should have maximum 14 digits.
+              {{ mobileNumberLabel }} should have maximum 14 digits.
             </div>
 
             <div *ngIf="mobileCodeInvalid">
               <div translate class="validation_msg">Please check your mobile code</div>
             </div>
             <div *ngIf="mobileNumLengthFailed">
-              <div translate class="validation_msg">Please check your mobile number you have entered</div>
+              <div translate class="validation_msg">Please check your {{ mobileNumberLabel }} you have entered</div>
             </div>
 
             <div class="clearfix"></div>
           </div>
 
           <div class="form-group col-lg-5 col-md-6 mb-1">
-            <label for="Email" translate class="control-label">Email</label>
+            <label for="email" translate class="control-label">
+              {{ emailLabel }}
+            </label>
             <input
               class="form-control rounded-0"
               (input)="keyEvent()"
               appAutoTrim
-              placeholder="{{ 'name@mail.com' | translate }}"
+              placeholder="{{ emailPlaceholder | translate }}"
               id="email"
               formControlName="email"
               (input)="filterEmailCharacters($event)"
@@ -97,10 +102,10 @@
               translate
               *ngIf="submitForm && (contactForm?.get('email')?.errors?.required || !contactForm?.get('email')?.value)"
             >
-              Email is required.
+              {{ emailLabel }} is required.
             </div>
             <div class="validation_msg" translate *ngIf="submitForm && contactForm?.get('email')?.errors?.pattern">
-              Invalid Email
+              Invalid {{ emailLabel }}
             </div>
 
             <div class="validation_msg" *ngIf="submitForm && invalidEmail" translate>Please enter valid email</div>
@@ -108,58 +113,111 @@
         </div>
       </form>
       <!-- WhatsApp Section -->
-      <div class="isWhatsApp_alerts mb-2 mt-2" *ngIf="country !== 'ABSA' && whatsappProduct && !iframeWidgetService.isB2BApp()">
-        <div class="wtsupIcon float-left mr-1">
-          <img ImageSrc src="../../../assets/icons/whatsapp-circle.svg" alt="whatsapp" />
-        </div>
-        <div
-          class="text_info float-left mr-2"
-          [style.width]="responseService.screenWidth === 'sm' || responseService.screenWidth === 'md' ? '55%' : ''"
-        >
-          <div class="wtsupTxt" translate *ngIf="whatsappProduct.initSelected">
-            We’ll send your E-Ticket straight to your WhatsApp
-            <img class="theme__info-icon" ImageSrc src="../../../assets/icons/wt-info-icon.svg" alt="info" [ngbTooltip]="tipContent" />
-          </div>
-          <div class="wtsupTxt" translate *ngIf="!whatsappProduct.initSelected">
-            Over 2,000,000 customers are benefiting from our WhatsApp service
-            <img class="theme__info-icon" ImageSrc src="../../../assets/icons/wt-info-icon.svg" alt="info" [ngbTooltip]="tipContent" />
-          </div>
-        </div>
-        <div class="wtsupToggle ml-auto float-right float-lg-none d-flex align-items-center">
-          <span *ngIf="whatsappProduct" class="mr-1 whatsapp_Amount">
-            +{{ currency | currencyCode }}{{ whatsappProduct.amount }}
-          </span>
-          <label class="toggle-switch float-right mb-0">
-            <input
-              type="checkbox"
-              name=""
-              class="d-none"
-              (change)="onWhatsappChange(whatsappProduct)"
-              [checked]="whatsappProduct.initSelected"
-            />
-            <div class="slider_switch"></div>
-          </label>
-        </div>
+      <ng-container *ngIf="country !== 'ABSA' && whatsappProduct && !iframeWidgetService.isB2BApp()">
+        <ng-container *ngTemplateOutlet="country === 'SB' ? whatsAppProductWhitelabelAlphaTemplate : whatsAppProductTemplate"></ng-container>
+      </ng-container>
 
-        <ng-template #tipContent
-          ><span translate>We’ll send your E-Ticket straight to your WhatsApp only for</span> +{{
-            currency | currencyCode
-          }}{{ whatsappProduct.amount }}.
-        </ng-template>
-      </div>
       <div *ngIf="smsProduct && smsProduct.amount > 0">
-        <label class="sms_ser">
-          <mat-checkbox
-            class="form-switch radio_1set"
-            name="isSms_subscribed"
-            [checked]="smsProduct.initSelected"
-            (change)="onSMSChange(smsProduct)"
-          ></mat-checkbox>
-          <span>
-            <span translate>Booking details via SMS</span> {{ currency | currencyCode }}{{ smsProduct.amount }}
-          </span>
-        </label>
+        <ng-container *ngTemplateOutlet="smsProductTemplate"></ng-container>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Standard WhatsApp template using inline styles -->
+<ng-template #whatsAppProductTemplate>
+  <div class="isWhatsApp_alerts mb-2 mt-2" >
+    <div class="wtsupIcon float-left mr-1">
+      <img ImageSrc src="../../../assets/icons/whatsapp-circle.svg" alt="whatsapp" />
+    </div>
+    <div
+      class="text_info float-left mr-2"
+      [style.width]="responseService.screenWidth === 'sm' || responseService.screenWidth === 'md' ? '55%' : ''"
+    >
+      <div class="wtsupTxt" translate *ngIf="whatsappProduct.initSelected">
+        {{ whatsAppText }}
+        <img class="theme__info-icon" ImageSrc src="../../../assets/icons/wt-info-icon.svg" alt="info" [ngbTooltip]="tipContent" />
+      </div>
+      <div class="wtsupTxt" translate *ngIf="!whatsappProduct.initSelected">
+        {{ whatsAppDisabledText }}
+        <img class="theme__info-icon" ImageSrc src="../../../assets/icons/wt-info-icon.svg" alt="info" [ngbTooltip]="tipContent" />
+      </div>
+    </div>
+    <div class="wtsupToggle ml-auto float-right float-lg-none d-flex align-items-center">
+      <span *ngIf="whatsappProduct && !whatsappProduct.hidePrice" class="mr-1 whatsapp_Amount">
+        +{{ currency | currencyCode }}{{ whatsappProduct.amount }}
+      </span>
+      <label class="toggle-switch float-right mb-0">
+        <input
+          type="checkbox"
+          name=""
+          class="d-none"
+          (change)="onWhatsappChange(whatsappProduct)"
+          [checked]="whatsappProduct.initSelected"
+        />
+        <div class="slider_switch"></div>
+      </label>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Alternative WhatsApp template using flexbox -->
+<ng-template #whatsAppProductWhitelabelAlphaTemplate>
+  <div class="whatsapp-product" *ngIf="whatsappProduct">
+    <img
+      class="whatsapp-product__icon"
+      ImageSrc
+      src="../../../assets/icons/whatsapp-circle.svg"
+      alt="whatsapp" />
+
+    <div class="whatsapp-product__text">
+      {{ whatsappProduct.initSelected ? whatsAppText : whatsAppDisabledText }}
+    </div>
+
+    <img
+      class="whatsapp-product__info-icon theme__info-icon"
+      ImageSrc
+      src="../../../assets/icons/wt-info-icon.svg"
+      alt="info"
+      [ngbTooltip]="tipContent" />
+
+    <div class="whatsapp-product__price">
+      <ng-container *ngIf="!whatsappProduct.hidePrice">
+        <span>+</span>
+        <span>{{ currency | currencyCode }}</span>
+        <span>{{ whatsappProduct.amount }}</span>
+      </ng-container>
+    </div>
+
+    <label class="whatsapp-product__toggle toggle-switch">
+      <input
+        type="checkbox"
+        name=""
+        class="d-none"
+        (change)="onWhatsappChange(whatsappProduct)"
+        [checked]="whatsappProduct.initSelected"
+      />
+      <div class="slider_switch"></div>
+    </label>
+  </div>
+</ng-template>
+
+<ng-template #tipContent
+  ><span translate>We’ll send your E-Ticket straight to your WhatsApp only for</span> +{{
+    currency | currencyCode
+  }}{{ whatsappProduct.amount }}.
+</ng-template>
+
+<ng-template #smsProductTemplate>
+  <label class="sms_ser">
+    <mat-checkbox
+      class="form-switch radio_1set"
+      name="isSms_subscribed"
+      [checked]="smsProduct.initSelected"
+      (change)="onSMSChange(smsProduct)"
+    ></mat-checkbox>
+    <span>
+      <span translate>Booking details via SMS</span> {{ currency | currencyCode }}{{ smsProduct.amount }}
+    </span>
+  </label>
+</ng-template>

@@ -28,6 +28,7 @@ export class BookingCountdownService implements OnDestroy {
   private isSessionExtended = false;
   private readonly showTimeoutModules: string[] = [
     '/flights/results',
+    '/flights/results/detail',
     '/booking/flight-details',
     '/booking/products',
     '/payments',

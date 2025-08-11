@@ -1,0 +1,34 @@
+<div class="results_filters">
+  <h4 class="results_filters__total" *ngIf="totalResults">
+    <span class="results_filters__total_count">{{ totalResults }}</span>
+    <span class="results_filters__total_lbl" translate>Results found</span>
+  </h4>
+
+  <div class="results_filters__actions">
+    <button class="results_filters__btn results_filters__btn--filter btn" data-toggle="modal" data-target="#res_filters">
+      <img
+        class="results_filters__btn_icn"
+        ImageSrc
+        src="../../../assets/icons/srp_Icons/filter-new-icn.svg"
+        width="20"
+        height="20"
+        alt="filter"
+        loading="lazy"
+        aria-hidden="true"
+      />
+    </button>
+    <button class="results_filters__btn results_filters__btn--sort btn" data-toggle="modal" data-target="#res_sorting">
+      <img
+        class="results_filters__btn_icn"
+        ImageSrc
+        src="../../../assets/icons/srp_Icons/sort-new-icn.svg"
+        width="16"
+        height="16"
+        alt="filter"
+        loading="lazy"
+        aria-hidden="true"
+      />
+      <span class="results_filters__btn_text" translate>Sorting</span>
+    </button>
+  </div>
+</div>

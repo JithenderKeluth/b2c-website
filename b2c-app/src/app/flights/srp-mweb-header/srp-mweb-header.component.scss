@@ -112,3 +112,46 @@
     }
   }
 }
+
+.jour_info__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.jour_info__title {
+  margin: 0;
+  padding: 0;
+
+  /* Typography */
+  font-family: var(--heading_font_family);
+  font-size: var(--heading_font_size, 18px);
+  font-weight: 400;
+  line-height: 1rem;
+}
+
+.jour_info__route {
+  display: flex;
+  align-items: center;
+  gap: .125rem;
+
+  /* Spacing */
+  padding: 0.3rem 0.5rem;
+
+  /* Colour */
+  background-color: var(--secondary_Body_bg);
+
+  /* Shape */
+  border-radius: 0.375rem; /* 6px */
+
+  /* Typography */
+  font-family: var(--label_font_family);
+  font-size: var(--label_font_size_xs, 12px);
+  font-weight: 400;
+  line-height: 1rem;
+}
+
+.jour_info__direction_icon {
+  display: flex;
+  align-items: center;
+}

@@ -2,8 +2,9 @@ import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '@app/general/services/api/api.service';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
-import {responsiveService} from "@core";
+import {responsiveService} from "./../../_core/services/responsive.service";
 import { isPlatformBrowser } from '@angular/common';
+import { BridgeService } from '../../general/services/standardbank/bridge.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,10 +13,9 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class DashboardComponent implements OnInit {
   private isBrowser: boolean;
-  constructor(private router: Router, private apiService: ApiService, public responsiveService: responsiveService, 
-  private storage: UniversalStorageService, @Inject(PLATFORM_ID) private platformId: Object) { 
-    this.isBrowser = isPlatformBrowser(this.platformId);
-  }
+  constructor(private router: Router, private apiService: ApiService, public responsiveService: responsiveService, private bridgeService: BridgeService, 
+    private storage: UniversalStorageService, @Inject(PLATFORM_ID) private platformId: Object
+  ) { this.isBrowser = isPlatformBrowser(this.platformId); }
   tabVal: any;
   routeUrl: any;
   selected: any;
@@ -34,7 +34,9 @@ export class DashboardComponent implements OnInit {
       } else if (this.routeUrl === '/my-account/dashboard') {
         this.getTab('My Bookings');
       } else if (this.routeUrl === '/my-account/dashboards') {
-        this.getTab(this.tabVal);
+        this.getTab('My Bookings');
+      }else if (this.routeUrl === '/my-account/help') {
+        this.getTab('Help');
       } else if (this.routeUrl === '/my-account/wallet') {
         this.getTab('Wallet');
       }
@@ -59,4 +61,13 @@ export class DashboardComponent implements OnInit {
     }
     this.routeUrl = window.location.pathname;
   }
+  handleBackClick(): void {
+      console.log('Back button clicked');
+  
+      if (this.tsCountry === 'SB') {
+      this.bridgeService.tearDownWebView();
+      } else {
+        this.router.navigate(['/']); 
+      }
+    }
 }

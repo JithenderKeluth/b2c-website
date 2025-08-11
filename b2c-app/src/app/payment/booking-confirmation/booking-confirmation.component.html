@@ -1,16 +1,16 @@
-<app-header></app-header>
+<app-header *ngIf="region !== 'SB'"></app-header>
 <div class="booking_confiramtion_page" *ngIf="bookingInformation">
   <div class="container">
     <div class="row">
       <div
         class=""
         [ngClass]="
-          showAppBanner()
+          !iframeWidget.isB2BApp() && apiService.extractCountryFromDomain() !== 'FS' && apiService.extractCountryFromDomain() !== 'MM'
             ? 'col-12 col-lg-9 pl-lg-0'
             : 'col-12 p-lg-0'
         "
       >
-        <section *ngIf="region !== 'ABSA'" class="confirmation_Card mt-0 bookingStatusCard_expanded">
+        <section *ngIf="region !== 'ABSA' && region !== 'SB'" class="confirmation_Card mt-0 bookingStatusCard_expanded">
           <div class="booking_status">
             <div class="row m-0 align-items-center">
               <div class="col-lg-2 col-12 icon_booking_wrapper">
@@ -102,7 +102,7 @@
                   >
                     <label class="confirm_labls">
                       <span translate>You can view all your trip info,</span>
-                      <span translate>as well as check the status of your bookings in </span>
+                      <span translate>as well as check the status of your bookings in</span>
                       <a
                         *ngIf="!credentialsService.isAuthenticated()"
                         rel="nofollow"
@@ -222,8 +222,8 @@
             </div>
           </div>
         </section>
-        <div translate *ngIf="region === 'ABSA'" class="theme__booking-info-header">Booking Confirmation</div>
-        <section *ngIf="region === 'ABSA'" class="confirmation_Card mt-0 bookingStatusCard_expanded">
+        <div *ngIf="region === 'ABSA' || region === 'SB'" class="theme__booking-info-header" translate>Booking Confirmation</div>
+        <section *ngIf="region === 'ABSA' || region === 'SB'" class="confirmation_Card mt-0 bookingStatusCard_expanded">
           <div class="booking_status">
             <div class="row m-0 align-items-center">
               <div class="col-lg-2 col-12 icon_booking_wrapper">
@@ -258,13 +258,54 @@
                     <span translate>Booking has been completed but payment was unsuccessful</span>,
                     <span translate>contact us for assistance or make a new booking</span>
                   </label>
-                  <label class="mt-5">
-                    <span class="theme__light-label">Booking details sent to:</span>
-                    <strong class="booking_details_send">{{ bookingInformation.bookingInformation.confirmationEmailAddress }}</strong>
+                  <label class="mt-2 mb-2">
+                    <span class="theme__city-label">{{ bookingInformation.bookingInformation.origin }}</span>
+                    <span class="pr-2 pl-2">
+
+                      <img  *ngIf="bookingInformation.bookingInformation.tripType == 'oneway'"
+                        ImageSrc 
+                        src="./../../../assets/icons/oneway_arw_icn.svg" 
+                        alt="one-way" 
+                        loading="lazy"
+                      />
+
+                      <img  *ngIf="bookingInformation.bookingInformation.tripType == 'return'"
+                        ImageSrc 
+                        src="./../../../assets/icons/two_way_route.svg" 
+                        alt="round-trip" 
+                        loading="lazy"
+                      />
+
+                      <img  *ngIf="bookingInformation.bookingInformation.tripType == 'multi'"
+                        ImageSrc 
+                        src="./../../../assets/icons/multy_city_arrows_dark.svg" 
+                        alt="multi-trip" 
+                        loading="lazy"
+                      />
+
+                    </span>
+                    <span class="theme__city-label" *ngIf="bookingInformation.bookingInformation.tripType !== 'multi'">
+                      {{  bookingInformation.bookingInformation.destination }}
+                    </span>
+                    <span class="theme__city-label" *ngIf="bookingInformation.bookingInformation.tripType == 'multi'">{{
+                      getCityName(
+                        bookingInformation.itineraries[0].odoList[
+                          this.bookingInformation.itineraries[0].odoList.length - 1
+                        ].segments[
+                          this.bookingInformation.itineraries[0].odoList[
+                            this.bookingInformation.itineraries[0].odoList.length - 1
+                          ].segments.length - 1
+                        ].destCode
+                      )
+                    }}</span>
                   </label>
-                  <label class="ref_details mt-2">
+                  <label>
+                    <span class="theme__light-label">Booking details sent to:</span><br>
+                    <span class="word-break">{{ bookingInformation.bookingInformation.confirmationEmailAddress }}</span>
+                  </label>
+                  <label class="mt-2">
                     <span translate class="theme__light-label">Booking Reference Number:</span><br>
-                    <span>{{ bookingInformation.bookingInformation.bookingReferenceNo }}</span>
+                    <span class="theme__medium-bold">{{ bookingInformation.bookingInformation.bookingReferenceNo }}</span>
                   </label>
                 </div>
                 <div *ngIf="paymentError">
@@ -305,12 +346,16 @@
             </div>
           </div>
         </section>
+        <div *ngIf="region === 'SB'" class="text-center mt-4">
+          <button class="btn primary_btn mb-4 w-100 mb-2 d-block" (click)="goToMyAccount()" translate >MANAGE BOOKING</button>
+          <button class="btn outline_btn w-100 mb-2 d-block" (click)="goToHomePage()" translate>DONE</button>
+        </div> 
         <section
           class="confirmation_Card flightDetailsCard_expanded"
           [ngClass]="{
             'notvalid-visa': showNGNotValidVisa()
           }"
-          *ngIf="region !== 'ABSA' && bookingInformation?.itineraries"
+          *ngIf="region !== 'ABSA' && region !== 'SB' && bookingInformation?.itineraries"
         >
           <div class="sec_head">
             <div translate class="sec_title theme__booking-confirmation-section-title">Flight Details</div>
@@ -337,6 +382,7 @@
           }"
           *ngIf="
             region !== 'ABSA' &&
+            region !== 'SB' &&
             (
               !iframeWidget.isB2BApp() ||
               (iframeWidget.isB2BApp() &&
@@ -686,7 +732,7 @@
             </div>
           </div>
         </section>
-        <section class="travellers_details confirmation_Card travellerDetailsCard_expanded">
+        <section *ngIf="region !== 'SB'" class="travellers_details confirmation_Card travellerDetailsCard_expanded">
           <div class="sec_head">
             <div translate class="sec_title theme__booking-confirmation-section-title">{{ region === 'ABSA' ? 'Traveller Information' : 'Traveller(s)' }}</div>
             <div class="float-right ml-auto d-none">
@@ -852,7 +898,7 @@
           </div>
         </section>
         <!--Invoice Details-->
-        <section class="confirmation_Card invoiceDetailsCard_expanded">
+        <section *ngIf="region !== 'SB'" class="confirmation_Card invoiceDetailsCard_expanded">
           <div class="sec_head">
             <div translate class="sec_title theme__booking-confirmation-section-title">Invoice details</div>
             <div *ngIf="region !== 'ABSA'" class="float-right ml-auto" (click)="expandCard('invoiceDetailsCard_expanded')">
@@ -1218,6 +1264,15 @@
           </div>
           <app-car-widget [itinDetails]="bookingInformation.itineraries"></app-car-widget>
         </div>
+
+        <!-- <div *ngIf="region === 'SB'" class="mt-4">
+          <button type="button" class="btn primary_btn w-100" (click)="goToMyAccount()">
+            <span translate>MANAGE BOOKING</span>
+          </button>
+          <button type="button" class="btn outline_btn w-100 mt-4" (click)="goToHomePage()">
+            <span translate>DONE</span>
+          </button>
+        </div> -->
 
         <div *ngIf="region === 'ABSA'" class="mb-2">
           <button type="button" class="btn w-100 theme__booking-btn theme__secondary-btn" aria-label="Book another flight" (click)="bookAnotherFlight()">

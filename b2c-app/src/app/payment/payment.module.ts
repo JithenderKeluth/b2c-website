@@ -19,6 +19,7 @@ import { MwebFlightTripSummaryComponent } from './mweb-flight-trip-summary/mweb-
 import { FindItineraryComponent } from './find-itinerary/find-itinerary.component';
 import { FareBreakdownComponent } from './fare-breakdown/fare-breakdown.component';
 import { AddOnsComponent } from './add-ons/add-ons.component';
+import { DiscountPromoComponent } from './discount-promo/discount-promo.component';
 
 import { PaymentErrorDeeplinkComponent } from './payment-error-deeplink/payment-error-deeplink.component';
 import { MWebPaymentDeeplinkBookingSummaryComponent } from './m-web-payment-deeplink-booking-summary/m-web-payment-deeplink-booking-summary.component';
@@ -38,6 +39,9 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { WalletVouchersComponent } from './wallet-vouchers/wallet-vouchers.component';
 import { PeachCheckoutFormComponent } from './peach-checkout-form/peach-checkout-form.component';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { DiscountAlertComponent } from './discount-alert/discount-alert.component';
+// import { SbViewNotificationComponent } from '../sb-view/sb-view.component';
+// import { SbViewNotificationModule } from '../sb-view/sb-view-notification.module';
 
 const maskConfig: Partial<IConfig> = {
   validation: true,
@@ -78,6 +82,9 @@ const maskConfig: Partial<IConfig> = {
     CardPaymentsComponent,
     WalletVouchersComponent,
     PeachCheckoutFormComponent,
+    DiscountPromoComponent,
+    DiscountAlertComponent,
+    // SbViewNotificationComponent,
   ],
   imports: [
     CommonModule,
@@ -93,6 +100,7 @@ const maskConfig: Partial<IConfig> = {
     NgxDatatableModule,
     NgbTooltipModule,
     NgxIntlTelInputModule,
+    // SbViewNotificationModule
   ],
   exports: [],
 })

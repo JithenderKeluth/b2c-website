@@ -1,26 +1,248 @@
-<div class="saved-cards-container">
+<div class="saved-cards-container sb-saved_cards-container">
   <div class="d-flex flex-column theme__hide-overflow">
-    <div translate class="cards-header">
-      Saved Cards
-    </div>
+    <div translate class="cards-header sb_cards-header">Saved Cards</div>
     <div class="theme__scroll-overflow">
       <div class="card-container" *ngFor="let card of cards; let i = index">
-          <div class="card-number-container">
-            <span class="card-filler">XXXX</span>
-            <span class="card-number">{{ formatCardNumber(card.cardNumber) }}</span>
-          </div>
+        <div class="card-number-container">
+          <span class="card-filler sb-card-filler">XXXX</span>
+          <span class="card-number sb_card_number">{{ formatCardNumber(card.cardNumber) }}</span>
+        </div>
+        <div class="icon-container">
           <img
             ImageSrc
-            class="show"
+            class="float-right"
+            src="assets/svg/payment-icons/{{ card.cardCode }}-dark.svg"
+            width="35px"
+            alt="{{ card.cardCode }}"
+            loading="lazy"
+          />
+          <img
+            ImageSrc
+            class="show ml-2"
             src="../../../assets/icons/delete_icn.svg"
-            width="13px"
+            width="20px"
             alt=""
             (click)="deleteCard(card)"
           />
+        </div>
       </div>
     </div>
   </div>
 
-  <button class="theme__button-primary" (click)="addCard()" translate>Add Card</button>
-</div>
+  <div *ngIf="isSB" class="sb-add-card-form">
+    <form [formGroup]="sbCardForm" class="add-card-form">
+      <div class="sb_new-card-section-header mb-3" translate>New card</div>
 
+      <div class="form-group">
+        <label class="sb_new_card_label" translate>Card number</label>
+        <input
+          type="tel"
+          class="form-control sb_input-form-control"
+          autocomplete="off"
+          maxlength="19"
+          appCreditCardInput
+          title="Credit card number"
+          formControlName="cardNumber"
+          placeholder="{{ 'Enter your card number' | translate }}"
+           
+
+          (input)="onKeyEnterEvent($event)"
+          (paste)="onKeyEnterEvent($event)"
+          (keypress)="onlyNumbers($event)"
+          (change)="onKeyEnterEvent($event)"
+          required
+        />
+        <div translate class="validation_msg" *ngIf="submitted && sbCardFormControls?.cardNumber?.errors?.required">
+          Card number is required
+        </div>
+        <div
+          translate
+          class="validation_msg"
+          *ngIf="
+            !(showStandardBankCardMessageForSix) &&
+            sbCardFormControls?.cardNumber?.errors?.minlength
+          "
+        >
+          Please enter a valid Card Number
+        </div>
+         
+         <div translate class="validation_msg" *ngIf="showStandardBankCardMessageForSix">
+          Please use your Standard Bank card
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="sb_new_card_label" translate>Name on card</label>
+        <input
+          type="text"
+          class="form-control sb_input-form-control"
+          formControlName="cardName"
+          placeholder="{{ 'Card holder name' | translate }}"
+          (input)="filterCardName($event)"
+          required
+        />
+        <div translate class="validation_msg" *ngIf="submitted && sbCardFormControls?.cardName?.errors?.required">
+          Name on card is required
+        </div>
+      </div>
+
+      
+      <div class="form-group">
+        <div class="card-detail-numbers">
+          <div class="w-100">
+            <label translate class="sb_new_card_label">Expiration date</label>
+            
+            <mat-select
+              matNativeControl
+              disableOptionCentering
+              panelClass="mtSelection"
+              panelClass="mtSelection"
+              disableOptionCentering
+              #card_expiry
+              class="form-control selectExpiry col-sm-12"
+              formControlName="cardExpiryMonth"
+              placeholder="{{ 'MM' | translate }}"
+              required
+            >
+              <mat-option value="01">01</mat-option>
+              <mat-option value="02">02</mat-option>
+              <mat-option value="03">03</mat-option>
+              <mat-option value="04">04</mat-option>
+              <mat-option value="05">05</mat-option>
+              <mat-option value="06">06</mat-option>
+              <mat-option value="07">07</mat-option>
+              <mat-option value="08">08</mat-option>
+              <mat-option value="09">09</mat-option>
+              <mat-option value="10">10</mat-option>
+              <mat-option value="11">11</mat-option>
+              <mat-option value="12">12</mat-option>
+            </mat-select>
+
+            <div
+              translate
+              class="validation_msg"
+              *ngIf="submitted && sbCardFormControls?.cardExpiryMonth?.errors?.required"
+            >
+              Month is required
+            </div>
+          </div>
+          <div class="w-100">
+            <label class="sb_new_card_label" translate>&nbsp;</label>
+            <mat-select
+              matNativeControl
+              disableOptionCentering
+              panelClass="mtSelection"
+              required
+              class="form-control selectExpiry col-sm-12"
+              formControlName="cardExpiry"
+              #cardExpiryYear
+              (selectionChange)="getExpiryYear()"
+              placeholder="{{ 'YY' | translate }}"
+            >
+              <mat-option value="{{ val.year }}" *ngFor="let val of yearsArray">{{ val.year }}</mat-option>
+            </mat-select>
+            <div translate class="validation_msg" *ngIf="submitted && sbCardFormControls?.cardExpiry?.errors?.required">
+              Year is required
+            </div>
+          </div>
+          <div class="w-100">
+            <label class="sb_new_card_label" translate>CVV</label>
+            <input
+              type="tel"
+              class="form-control sb_input-form-control"
+              maxlength="4"
+              formControlName="cvv"
+              placeholder="{{ 'CVV' | translate }}"
+              (keypress)="onlyNumbers($event)"
+              required
+            />
+            <div translate class="validation_msg" *ngIf="submitted && sbCardFormControls?.cvv?.errors?.required">
+              CVV is required
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+
+      <div class="form-group">
+        <label class="sb_new_card_label" translate>Postal code</label>
+        <input
+          type="text"
+          class="form-control sb_input-form-control"
+          formControlName="postalCode"
+          placeholder="{{ 'Postal code' | translate }}"
+          required
+        />
+        <div translate class="validation_msg" *ngIf="submitted && sbCardFormControls?.postalCode?.errors?.required">
+          Postal code is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="sb_new_card_label" translate>Address</label>
+        <input
+          type="text"
+          class="form-control sb_input-form-control"
+          formControlName="address"
+          placeholder="{{ 'Address' | translate }}"
+          required
+        />
+        <div translate class="validation_msg" *ngIf="submitted && sbCardFormControls?.address?.errors?.required">
+          Address is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="sb_new_card_label" translate>City</label>
+        <input
+          type="text"
+          class="form-control sb_input-form-control"
+          formControlName="city"
+          placeholder="{{ 'City' | translate }}"
+          required
+        />
+        <div translate class="validation_msg" *ngIf="submitted && sbCardFormControls?.city?.errors?.required">
+          City is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="sb_new_card_label" translate>Country</label>
+        <input
+          type="text"
+          class="form-control sb_input-form-control"
+          formControlName="country"
+          required
+          placeholder="{{ 'Country' | translate }}"
+        />
+        <div translate class="validation_msg" *ngIf="submitted && sbCardFormControls?.country?.errors?.required">
+          Country is required
+        </div>
+      </div>
+
+      <div translate class="validation_msg" *ngIf="showCardExpiredMessage">
+        Please enter a valid card that hasn't expired
+      </div>
+
+      <div
+        class="button-container"
+        style="display: flex; gap: 10px; margin-top: 25px; margin-bottom: 20px; justify-content: flex-end"
+      >
+        <button type="button" class="theme__button-outline mt-3 mb-3" (click)="resetSBForm()" translate>CANCEL</button>
+        <button
+          type="button"
+          class="theme__button-primary mt-3 mb-3"
+          (click)="onSubmitSB()"
+          [disabled]="isLoading"
+          translate
+        >
+          ADD CARD
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Button for other companies (opens dialog) -->
+  <button *ngIf="!isSB" class="theme__button-primary" (click)="addCard()" translate>Add Card</button>
+</div>

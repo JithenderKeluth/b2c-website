@@ -41,7 +41,8 @@ import { getFrequentFlyerCode } from '../utils/booking-data-traveller.utils';
 import { getStorageData } from '@app/general/utils/storage.utils';
 import { TravelOptionsComponent } from './../travel-options/travel-options.component';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
-import { AffiliateService } from '../../general/services/affiliate.service';
+import { DiscountsDisplayModel, aggregateDiscounts, getItineraryDiscounts } from '@app/flights/utils/discount.utils';
+import { Subscription } from 'rxjs';
 
 declare let $: any;
 @Component({
@@ -59,6 +60,8 @@ export class BookingViewComponent implements OnInit {
   public isShowTravellerDetails = false;
   public flightsResultsResponse: SearchResults;
   public selectedFlight: SearchResultsItinerary;
+  public selectedDomesticFlight: any;
+  public discounts?: DiscountsDisplayModel;
   public pricedResult_data: any;
   public showMask = true;
   public bookingInfo: any = {};
@@ -123,9 +126,13 @@ export class BookingViewComponent implements OnInit {
 
   country: string;
   isSeatSelectionDone: boolean = false;
+  travellerHeading = 'Traveller Information & Contact Details';
+  travellersSubheading = 'Who’s travelling?';
+  continueBtnText = 'Continue';
+  showModalBackground = false;
 
   backButtonNavLink = '';
-
+  getPricingSubscription : Subscription;
 
   constructor(
     private bookingService: BookingService,
@@ -146,8 +153,7 @@ export class BookingViewComponent implements OnInit {
     private sharedFlightService: SharedFlightService,
     private el: ElementRef,
     private storage: UniversalStorageService,
-    @Inject(PLATFORM_ID) private platformId: Object,
-     private affiliateService: AffiliateService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     this.country = apiservice.extractCountryFromDomain();
@@ -191,6 +197,13 @@ export class BookingViewComponent implements OnInit {
   sidenavLoaded: boolean = false;
   duplicateBookingInfo: any = null;
   ngOnInit(): void {
+    if (this.country === 'SB') {
+      this.travellerHeading = 'Traveller contact details';
+      this.travellersSubheading = 'Traveller details';
+      this.continueBtnText = 'Next';
+      this.showModalBackground = true;
+    }
+
     this.googleTagManagerServiceService.pushPageLoadEvent(
       '/booking/flight-details',
       'Search and Book Cheap Flights | Travelstart'
@@ -205,6 +218,7 @@ export class BookingViewComponent implements OnInit {
     this.flightsearchInfo = JSON.parse(this.storage.getItem('flightsearchInfo', 'session'));
     this.flightsResultsResponse = JSON.parse(getStorageData('flightResults'));
     this.selectedFlight = JSON.parse(this.storage.getItem('selectedFlight', 'session'));
+    this.selectedDomesticFlight = JSON.parse(this.storage.getItem('selectedDomesticFlight', 'session'));
     let standardamount = JSON.parse(this.storage.getItem('standardAmount', 'session'));
     if (standardamount) {
       this.standardAmount = standardamount;
@@ -283,6 +297,17 @@ export class BookingViewComponent implements OnInit {
     this.storage.removeItem('voucherAmount');
     this.bookingService.changeVoucherInfo(null);
     this.bookingService.changeVoucheramount(0);
+
+    if (this.selectedFlight) {
+      this.discounts = getItineraryDiscounts(this.selectedFlight);
+    }
+
+    if (this.selectedDomesticFlight) {
+      this.discounts = aggregateDiscounts([
+        this.selectedDomesticFlight.inboundItineraries,
+        this.selectedDomesticFlight.outboundItineraries,
+      ]);
+    }
   }
 
   /* check required data for this component if data not available its redirect to home page */
@@ -406,7 +431,7 @@ export class BookingViewComponent implements OnInit {
       this.storage.removeItem('priceData');
       this.storage.removeItem('seatMapInfoObject');
       this.storage.removeItem('travelOptionsOpt');
-      this.bookingService.getPricing(rePriceData).subscribe(
+     this.getPricingSubscription = this.bookingService.getPricing(rePriceData).subscribe(
         (res: any) => {
           if (res.itineraries) {
             this.storage.setItem('priceData', JSON.stringify(res), 'session');
@@ -1022,7 +1047,7 @@ export class BookingViewComponent implements OnInit {
       this.isLoading = false;
       this.contact.saveContactDetails();
       this.contactFormData = this.contact.contactForm.value;
-      if (this.contact.contactForm.get('phone').valid && !this.contact.contactForm.get('email').value) {
+      if (this.isBrowser && this.contact.contactForm.get('phone').valid && !this.contact.contactForm.get('email').value) {
         this.contact.contactForm.get('email').setErrors({ invalid: true });
         document.getElementById('email').focus();
       }
@@ -1064,6 +1089,7 @@ export class BookingViewComponent implements OnInit {
   }
   ngOnDestroy() {
     if(!this.isBrowser) return;
+    this.getPricingSubscription?.unsubscribe();
     $('#flexi_ticket_terms_Condtions').modal('hide');
     $('#fare_increased_Modal').modal('hide');
     $('#noFlightsModal').modal('hide');
@@ -1296,7 +1322,7 @@ export class BookingViewComponent implements OnInit {
       if(this.country === 'ABSA') {
         this.proceedToPaymet(false);
       }
-        
+
       this.collapseCardList['seatCard_Expanded'] = false;
       this.showWidget = false;
       this.navService.setShowNav(false);
@@ -1437,7 +1463,12 @@ export class BookingViewComponent implements OnInit {
       this.collapseCardList['baggageCard_Expanded'] = false;
       this.collapseCardList['add_onsCard_Expanded'] = true;
       this.googleTagManagerServiceService.virtualPageview('add_onsCard_Expanded');
-      this.showAddons_param = this.country === 'ABSA'? 'all_Addons': 'traveller_Addons';
+
+      if (this.country === 'ABSA' || this.country === 'SB') {
+        this.showAddons_param = 'all_Addons';
+      } else {
+        this.showAddons_param = 'traveller_Addons';
+      }
     } else if (this.isBrowser && window.location.pathname === '/booking/flight-details') {
       this.isShowTravellerDetails = false;
       this.isEnable_Addons_View = false;
@@ -1479,8 +1510,16 @@ export class BookingViewComponent implements OnInit {
     this.storage.setItem('travelOptionsOpt', JSON.stringify(this.travelOptionsOpt), 'session');
   }
 
-  public performMetaCpySourceCheck() {
-      return this.affiliateService.performMetaCpySourceCheck();
+  public performMetaCpySourceCheck(): boolean {
+    if(!this.isBrowser) return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryCpySource =
+      urlParams.get('cpysource') ||
+      urlParams.get('cpy_source') ||
+      urlParams.get('cpy_Source') ||
+      urlParams.get('cpySource');
+
+    return !!queryCpySource && queryCpySource.toLowerCase() !== 'absatravel';
   }
 
   checkWithTravelOptions(): boolean {
@@ -1517,6 +1556,10 @@ export class BookingViewComponent implements OnInit {
   }
 
   getPageTitle(): string {
+    if (this.country === 'SB') {
+      return this.isShowTravellerDetails ? 'Review your flight' : 'Traveller Information';
+    }
+
     return this.isShowTravellerDetails ? 'Add-ons' : 'Review your flights';
   }
   /**here we are construct the data for GTM events in traveller page */

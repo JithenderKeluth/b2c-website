@@ -1,3 +1,5 @@
+<!-- Absolute positioned so that it can be in the side nav header bar -->
+<div class="city-selection-title" translate *ngIf="tsCountry === 'SB'">Choose airport</div>
 <div class="search_form">
   <div class="row">
     <div class="col-sm-12 ng-autocomplete">
@@ -35,9 +37,10 @@
                   loading="lazy"
                 />
               </div>
-              <div class="d-inline-block" style="margin-left: 10px">
-                <span class="">{{ option['city'] }},</span>
-                <span class="">{{ option['airport'] }}</span>
+              <div class="d-inline-block " style="margin-left: 10px">
+                <span class="head_txt" [ngClass]="{'font-weight-bold': isBoldSb(option)}">{{ option['city'] }},</span>
+                <span class="head_txt" [ngClass]="{'font-weight-bold': isBoldSb(option)}">{{ option['airport'] }}</span>
+                <span *ngIf="tsCountry === 'SB'" class="head_txt" [ngClass]="{'font-weight-bold': isBoldSb(option)}">{{ option['code'] }}</span>
                 <div class="clearfix"></div>
                 <span class="sub_txt">{{ option['city'] }},</span>
                 <span class="sub_txt">{{ option['country'] }}</span>

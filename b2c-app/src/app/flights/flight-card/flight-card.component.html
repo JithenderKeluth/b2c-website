@@ -111,16 +111,18 @@
               </div>
             </span>
             <span
-              class="mr-1 ml-auto"
+              class="selected_indicator"
               *ngIf="isUnBundleFlight() && (itinerary.flightType == 'outBound' || itinerary.flightType == 'inBound')"
             >
               <img
+                class="selected_indicator_icon"
                 *ngIf="!isActive(itinerary)"
                 ImageSrc
                 src="../../../assets/icons/travellerpage_Icons/tick_default.svg"
                 alt="tick_default"
               />
               <img
+                class="selected_indicator_icon selected_indicator_icon--active"
                 *ngIf="isActive(itinerary)"
                 ImageSrc
                 src="../../../assets/icons/travellerpage_Icons/tick_selected.svg"
@@ -142,8 +144,8 @@
                   {{ odoList.segments[0].departureDateTime | date: 'HH:mm' }}
                 </div>
                 <div
-                  class="airp_name theme__flight-airport"
-                  *ngIf="((isUnBundleFlight() || isBundleFlight()) && !(isUnBundleFlight() && isMobile())) || region === 'ABSA'"
+                  class="airp_name"
+                  *ngIf="showAirportName"
                 >
                   {{ getAirportName(odoList.segments[0].origCode) }}
                 </div>
@@ -165,7 +167,19 @@
                       ></div>
                     </div>
                     <div class="theme__flight-duration-icon-container" *ngIf="region === 'ABSA'">
-                      <img ImageSrc class="theme__flight-duration-icon" src="./../../../assets/icons/absa_icons/flight-duration-icon.svg" alt="flight duration icon">
+                      <img ImageSrc class="theme__flight-duration-icon" src="./../../../assets/icons/absa_icons/flight-duration-icon.svg" alt="flight duration icon"/>
+                    </div>
+
+                    <div class="plane_icon_container d-block d-lg-none" *ngIf="region === 'SB'">
+                      <img
+                        class="plane_icon"
+                        ImageSrc
+                        src="./../../../assets/icons/one-way-icn.svg"
+                        width="14"
+                        height="14"
+                        alt="hand"
+                        loading="lazy"
+                      />
                     </div>
                   </div>
                   <div class="stops" *ngIf="isWeb() || (isMobile() && !isUnBundleFlight())">
@@ -194,8 +208,8 @@
                   </sup>
                 </div>
                 <div
-                  class="airp_name theme__flight-airport"
-                  *ngIf="((isUnBundleFlight() || isBundleFlight()) && !(isUnBundleFlight() && isMobile())) || region === 'ABSA'"
+                  class="airp_name"
+                  *ngIf="showAirportName"
                 >
                   {{ getAirportName(odoList.segments[odoList.segments.length - 1].destCode) }}
                 </div>
@@ -526,7 +540,7 @@
             </span>
             <div class="perPerson" *ngIf="showPerson_Price()" translate>Per Person</div>
           </span>
-        
+
         </span>
       </div>
     </div>

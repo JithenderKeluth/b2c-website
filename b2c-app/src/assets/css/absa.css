@@ -257,7 +257,7 @@ div.passengerSubmit {
 }
 
 .travellers {
-  padding: 20px 5px 5px 5px;
+  padding: 20px 5px;
 }
 
 .theme__travellers-header-container {
@@ -745,6 +745,10 @@ div.passengerSubmit {
   }
 }
 
+.booking_summary .fare-info{
+  z-index: 9999 !important;
+}
+
 /*
 ## END Seat Selection Screen
 */
@@ -1198,6 +1202,10 @@ div.passengerSubmit {
   padding-bottom: 20px;
 }
 
+.sec_header {
+  margin-top: 10px;
+}
+
 .booking_Itinerary_page {
   background-color: unset !important;
 
@@ -1212,7 +1220,7 @@ div.passengerSubmit {
   }
 
   .segments {
-    padding: 0 10px !important;
+    padding: 0px !important;
   }
 }
 .theme__back-page-label {
@@ -1222,6 +1230,10 @@ div.passengerSubmit {
 .theme__view-itinerary-header-container {
   color: #fff !important;
   font-size: 14px;
+}
+
+.layover_section {
+  margin: 0px !important; 
 }
 
 .theme__view-itinerary-reference-and-status-container {
@@ -1276,6 +1288,7 @@ div.passengerSubmit {
 
   .theme__pnr-reference {
     color: var(--text_primary_color);
+    margin-left: 5px;
   }
 }
 
@@ -1337,8 +1350,8 @@ div.passengerSubmit {
 
 .theme__flight-location-details-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  gap:10px;
 
   .dept_city,
   .arr_city {
@@ -1431,6 +1444,10 @@ div.passengerSubmit {
 
 .booking_section .cancel_booking .route_traveller {
   padding: 5px 15px !important;
+
+  .travellers {
+    padding: 0px;
+  }
 }
 
 .booking_section .nav-tabs {
@@ -1495,6 +1512,12 @@ div.passengerSubmit {
   .proceed_body {
     padding: 10px 0 !important;
   }
+
+}
+
+.proceed_des ul {
+  list-style-type: disc !important;
+  padding: 0 0 0 40px !important;
 }
 
 .form-switch[type="radio"] + *::before {
@@ -1510,7 +1533,7 @@ div.passengerSubmit {
 
   .theme__calendar-icon {
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 15px;
     color: #999;
   }
@@ -1520,6 +1543,49 @@ div.passengerSubmit {
   position: fixed;
   bottom: 15px;
   width: 100%;
+}
+
+@media (max-width: 576px) {
+  .changedate_booking_section .footer-button-container[class*="theme__footer-button-container"],
+  .edit_passenger_page .footer-button-container[class*="theme__footer-button-container"] {
+    &.absa-fixed-footer {
+      position: fixed !important;
+      bottom: 0;
+      left: 15px;
+      right: 15px;
+      width: calc(100% - 30px);
+      margin: 0 !important;
+      background-color: var(--primary_Body_bg);
+      
+      .col-sm-12 {
+        padding: 0;
+      }
+      
+      .sub_btn {
+        width: 100%;
+        margin: 15px 0;
+      }
+    }
+  }
+
+  .modal-dialog,
+  .modal-content {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+
+  .changedate_booking_section,
+  .edit_passenger_page {
+    &.absa-container {
+      
+      .changedate_body,
+      .edit_passenger_body {
+        max-height: auto;
+        height: auto;
+        padding-bottom: 20px;
+      }
+    }
+  }
 }
 /*
 ## END Profile Screens, Cancel ticket
@@ -1543,6 +1609,34 @@ div.passengerSubmit {
     border-radius: 10px;
   }
 }
+
+.sb_theme_date-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.theme__date-wrap {
+  text-transform: uppercase;
+  color: var(--text_primary_color) !important;
+
+  .d_date {
+    font-size: 22px !important;
+    font-weight: 500 !important;
+    padding-right: 2px !important;
+    font-family: var(--sb_secondary_font_family) !important;
+    color: var(--text_primary_color) !important;
+  }
+
+  .d_week,
+  .d_month {
+    color: #4c4949 !important;
+    font-size: 10px !important;
+    line-height: 10px;
+    font-family: var(--sb_secondary_font_family) !important;
+    font-weight: 500 !important;
+  }
+}
+
 
 .edit_passenger_page .theme__edit-passenger-container {
   background-color: #fff;
@@ -1568,6 +1662,58 @@ div.passengerSubmit {
       padding-top: 0 !important;
     }
   }
+}
+
+::ng-deep .dob_pick_date ngb-datepicker.dropdown-menu.show {
+    transform: translate(15px, 58px) !important;
+    padding: 0px !important;
+    position: absolute !important;
+    top: 0px !important;
+    left: 0px !important;
+
+  .ngb-dp-arrow {
+    top: 42px
+  }
+
+  .ngb-dp-arrow.left {
+    right: -8px !important;
+    justify-content:flex-start
+  }
+  .ngb-dp-arrow.right {
+    right: -8px !important;
+  }
+
+  .ngb-dp-day, .ngb-dp-week-number, .ngb-dp-weekday {
+    width: 3.5rem !important;
+  }
+}
+
+@media (max-width: 992px) {
+  ::ng-deep .dob_pick_date ngb-datepicker.dropdown-menu.show {
+    transform: translate(15px, 58px) !important;
+    padding: 0px !important;
+    position: absolute !important;
+    top: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+
+  .ngb-dp-arrow {
+    top: 42px
+  }
+
+  .ngb-dp-arrow.left {
+    right: -8px !important;
+    justify-content:flex-start
+  }
+  .ngb-dp-arrow.right {
+    right: -8px !important;
+  }
+
+  .ngb-dp-day, .ngb-dp-week-number, .ngb-dp-weekday {
+    width: 3.5rem !important;
+  }
+}
+  
 }
 /*
 ## END Profile Screens, Edit Passenger
@@ -2570,8 +2716,6 @@ div.passengerSubmit {
 
 .theme__flex-column-full {
   height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 .theme__hide-overflow {
@@ -2762,6 +2906,22 @@ app-header .wrapper {
 }
 .layover_section .lap_txt{
   color: #2B82DA !important;
-;
 }
-  
+.back-button-header{
+  background: #F8F6F6 !important;
+  top: 4px !important;
+}
+#paymentMwebHeader{
+  padding-top: 0 !important;
+}
+.back-button-header .sb_add_traveller_heading{
+  color: #131010;
+}
+#newFlightBtn {
+  width: 86%;
+  height: 44px !important;
+}
+
+.priceApiFailedError .searchDifferentFlight{
+  padding: 30px 20px 60px 20px !important;
+}

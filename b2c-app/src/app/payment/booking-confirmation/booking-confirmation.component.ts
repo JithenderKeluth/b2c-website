@@ -54,9 +54,8 @@ export class BookingConfirmationComponent implements OnInit {
     travellerDetailsCard_expanded: false,
     invoiceDetailsCard_expanded: false,
   };
-  hotelWidgetUrl: any = null;
+  hotelWidgetUrl: any = null;f
   public supplierCashOverride: any;
-
   nameAndTitle: string;
   shouldIncludeWhatsAppService: boolean = false;
   shouldIncludeSMSService: boolean = false;
@@ -91,13 +90,15 @@ export class BookingConfirmationComponent implements OnInit {
     */
    this.isBrowser = isPlatformBrowser(this.platformId);
    if(this.isBrowser){
-    window.history.pushState(null, null, window.location.href);
-    window.onpopstate = function () {
-      if (location.pathname == '/payments/bookingConfirm') {
-        window.history.go(1);
-      }
-    };
-   }
+      window.history.pushState(null, null, window.location.href);
+      window.onpopstate = function () {
+        if (location.pathname == '/payments/bookingConfirm') {
+          window.history.go(1);
+        }
+      };
+    }
+
+    this.region = this.apiService.extractCountryFromDomain();
   }
 
   ngOnInit(): void { 
@@ -105,10 +106,12 @@ export class BookingConfirmationComponent implements OnInit {
       '/bookingConfirm',
       'Search and Book Cheap Flights | Travelstart'
     );
-    this.region = this.apiService.extractCountryFromDomain();
-    if (this.region === 'ABSA' && this.storage.getItem('credentials', 'local')) {
-      const credentials = JSON.parse(this.storage.getItem('credentials', 'local') ?? '');
-      this.nameAndTitle = `${credentials.data.contactInfo.personName.nameTitle} ${credentials.data.firstName} ${credentials.data.surname}`;
+
+    if (this.region === 'ABSA' || this.region === 'SB') {
+      if (this.storage.getItem('credentials', 'local')) {
+        const credentials = JSON.parse(this.storage.getItem('credentials', 'local') ?? '');
+        this.nameAndTitle = `${credentials.data?.contactInfo?.personName?.nameTitle} ${credentials.data.firstName} ${credentials.data.surname}`;
+      }
     }
 
     this.sessionStorageService.clear(SessionUtils.CORRELATION_ID);
@@ -130,7 +133,8 @@ export class BookingConfirmationComponent implements OnInit {
       this.addJsToElement('https://cdn1.travelstart.com/assets/js/clickscript.js').onload = (teste) => {};
     }
 
-    this.bookingInformation = JSON.parse(this.storage.getItem('bookingDetails', 'session') ?? '');
+    const storedBookingDetails = this.storage.getItem('bookingDetails', 'session');
+    this.bookingInformation = storedBookingDetails ? JSON.parse(storedBookingDetails) : null;
 
     if(this.region === 'ABSA')
       this.checkIfShouldIncludeServicesSection();
@@ -420,6 +424,7 @@ export class BookingConfirmationComponent implements OnInit {
   /**This method is to showing cars Iframe*/
   showCarsIframe() {
     return (
+      this.apiService.extractCountryFromDomain() !== 'SB' &&
       this.apiService.extractCountryFromDomain() !== 'IB' &&
       this.apiService.extractCountryFromDomain() !== 'FS' &&
       this.apiService.extractCountryFromDomain() !== 'ZA' &&
@@ -428,7 +433,6 @@ export class BookingConfirmationComponent implements OnInit {
       this.apiService.extractCountryFromDomain() !== 'MM' &&
       this.apiService.extractCountryFromDomain() !== 'ABSA' &&
       !this.iframeWidget.isB2BApp() &&
-      !this.iframewidgetService.isWhiteLabelSite() && 
       this.bookingInformation?.promotionals?.widgetLinks?.CARS
     );
   }
@@ -443,6 +447,7 @@ export class BookingConfirmationComponent implements OnInit {
   /**showing the hotels */
   showHotels() {
     return (
+      this.apiService.extractCountryFromDomain() !== 'SB' &&
       this.apiService.extractCountryFromDomain() != 'ZA' &&
       this.apiService.extractCountryFromDomain() !== 'IB' &&
       this.apiService.extractCountryFromDomain() !== 'FS' &&
@@ -450,7 +455,6 @@ export class BookingConfirmationComponent implements OnInit {
       this.apiService.extractCountryFromDomain() !== 'MM' &&
       this.apiService.extractCountryFromDomain() !== 'ABSA' &&
       !this.iframeWidget.isB2BApp() &&
-      !this.iframewidgetService.isWhiteLabelSite() && 
       this.bookingInformation?.promotionals?.staticLinks?.HOTELS
     );
   }
@@ -459,11 +463,11 @@ export class BookingConfirmationComponent implements OnInit {
     return (
       !this.iframeWidget.isB2BApp() &&
       this.iframewidgetService.isFrameWidget() &&
+      this.apiService.extractCountryFromDomain() !== 'SB' &&
       this.apiService.extractCountryFromDomain() !== 'FS' &&
       this.apiService.extractCountryFromDomain() !== 'GI' &&
       this.apiService.extractCountryFromDomain() !== 'MM' &&
-      this.apiService.extractCountryFromDomain() !== 'ABSA' &&
-      !this.iframewidgetService.isWhiteLabelSite()
+      this.apiService.extractCountryFromDomain() !== 'ABSA'
     );
   }
   /**here we are checking amount is postive or negetive if its negetive(voucher case) then return 0 value  */
