@@ -1,7 +1,20 @@
-.container {
+.back-button-section{
+  margin-bottom: 56px;
+}
+.back-button-header {
   display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999; /* ensure it stays above content */
 }
 
-.content {
-  margin: .75rem 1rem
+.back-button-header__content {
+  margin: .75rem 1rem;
+}
+
+.back-button-header__content.no-arrow {
+  margin-left: 0 !important;
 }

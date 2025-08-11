@@ -47,7 +47,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     if (this.tsCountry === 'GI') this.tsCountry = 'NG';
     else if (this.tsCountry === 'MM') this.tsCountry = 'ZA';
     else if (this.tsCountry === 'ABSA') this.tsCountry = 'xb';
-    else if (this.tsCountry === 'mastercardtravel') this.tsCountry = 'GO';
+    else if (this.tsCountry === 'SB') this.tsCountry = 'TT';
 
     const authToken = this.storage.getItem('authToken', 'session') || '';
 
@@ -75,8 +75,8 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
       'TS-language': 'en',
     };
 
-    if (['https://bnc.lt/c/OMhkL9AOUjb', 
-         'https://travel.api.amadeus.com/v1/security/oauth2/token', 
+    if (['https://bnc.lt/c/OMhkL9AOUjb',
+         'https://travel.api.amadeus.com/v1/security/oauth2/token',
          'https://travel.api.amadeus.com/v1/shopping/seatmaps'].includes(request.url)) {
       headers['Content-Type'] = 'application/x-www-form-urlencoded';
     }

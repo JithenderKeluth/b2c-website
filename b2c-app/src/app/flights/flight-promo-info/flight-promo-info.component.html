@@ -3,9 +3,9 @@
       <ng-template #tipContent><span>{{ itinarary_data.promoInfo }}</span></ng-template>
       <span *ngIf="itinarary_data.promoInfo" class="d-flex align-items-center">
         <div class="promo_content">
-          <span class="mr-1 mr-lg-0">
+          <span class="mr-1 mr-lg-0 d-flex">
             <img ImageSrc *ngIf="!itinarary_data.promoInfo.includes('Mastercard Discount')"
-              src="../../../assets/icons/v1-icons/promo-info-new-icn.svg" alt="promo-info-new-icn" width="12px" loading="lazy" class="info"
+              src="../../../assets/icons/v1-icons/promo-info-new-icn.svg" alt="promo-info-new-icn" width="14px" loading="lazy" class="info"
               [ngbTooltip]="tipContent" />
             <img ImageSrc *ngIf="itinarary_data.promoInfo.includes('Mastercard Discount')" src="../../../assets/icons/card_dis_applied.svg" loading="lazy"
               width="18px" alt="master_card" />

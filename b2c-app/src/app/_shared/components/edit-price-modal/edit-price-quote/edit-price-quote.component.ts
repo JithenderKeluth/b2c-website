@@ -52,6 +52,7 @@ export class EditPriceQuoteComponent implements OnInit {
   }
 
   downloadQuote() {
+    if(typeof document === 'undefined') return;
     const data:any = document.getElementById('bookingQuote');
     html2canvas(data).then((canvas) => {
       // Generated PDF

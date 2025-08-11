@@ -1,22 +1,22 @@
-<div *ngIf="!iframeWidgetService.isMasterCardRegistrationWhiteLabelSite() && region !== 'MM'">
+<div *ngIf="region !== 'MM' && region !== 'SB'">
   <app-header #header></app-header>
 </div>
 
-<div *ngIf="iframeWidgetService.isWhiteLabelSite() && region !== 'MM'">
+<div *ngIf="iframeWidgetService.isWhiteLabelSite() && region !== 'MM' && region !== 'SB'">
   <app-white-label></app-white-label>
-</div>
-
-<div *ngIf="!iframeWidgetService.isWhiteLabelSite() && iframeWidgetService.isMasterCardRegistrationWhiteLabelSite() && region !== 'MM'">
-  <app-mastercard-landing></app-mastercard-landing>
 </div>
 
 <div *ngIf="region === 'MM'">
   <app-web-view></app-web-view>
 </div>
 
+<div *ngIf="region === 'SB'">
+  <app-sb-view-notification [notificationTitle]="'Cancellations'" [notificationMessage]="'Any discounts that are applied will be forfeited in the event that a booking is cancelled.'"></app-sb-view-notification>
+</div>
+
 <div
-  *ngIf="!iframeWidgetService.isWhiteLabelSite() && !iframeWidgetService.isMasterCardRegistrationWhiteLabelSite() && region !== 'MM'"
-  class="landing_page"
+  *ngIf="!iframeWidgetService.isWhiteLabelSite() && region !== 'MM' && region !== 'SB'"
+  class="landing_page" id="landingPage"
   [style.height]="navService.isNavOpen() ? '0px' : '100%'"
 >
   <div class="landing_page_bg">
@@ -34,6 +34,7 @@
       <app-search></app-search>
 
       <app-recent-searches></app-recent-searches>
+
       <app-view-your-bookings *ngIf="this.region === 'ABSA'"></app-view-your-bookings>
       <div *ngIf="region == 'ABSA'">
         <ng-container  *ngTemplateOutlet="cookie_consent_display;">
@@ -52,7 +53,7 @@
     <app-home-benefits-tiles></app-home-benefits-tiles>
   </div>
 
-  <div class="hm_content" *ngIf="region !== 'ABSA' && iframeWidgetService.isShowComponent()">
+  <div class="hm_content" *ngIf="region !== 'ABSA' && region !== 'SB' && iframeWidgetService.isShowComponent()">
     <div
       *ngIf="apiService.extractCountryFromDomain() !== 'FS'"
       class="container whats_new_section"
@@ -238,8 +239,9 @@
     ></app-what-does-travelstart>
 
     <app-footer></app-footer>
-    <ng-container *ngTemplateOutlet="cookie_consent_display;">
-    </ng-container>
+    <div *ngIf="region !== 'SB'">
+    <ng-container *ngTemplateOutlet="cookie_consent_display;"></ng-container>
+    </div>
   </div>
 </div>
 

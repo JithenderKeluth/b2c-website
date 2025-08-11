@@ -1,90 +1,125 @@
 <div id="head_print">
   <app-header></app-header>
-  <div class="myaccount_page">
+  <div class="myaccount_page theme__dashboard-page">
     <div>
       <div *ngIf="country !== 'ABSA'" class="myAct_bg"></div>
-      <div class="dashboard pt-md-5 theme__view-itinerary-dashboard">
-        <div class="container">
+      <div class="dashboard theme__view-itinerary-dashboard" [ngClass]="{ 'pt-md-5': country !== 'ABSA' && country !== 'SB' }">
+        <div class="container" [ngClass]="{ 'h-100': country === 'ABSA' || country === 'SB' }">
           <div class="row">
-            <div class="col-12">
+            <div class="col-12" [ngClass]="{ 'theme__flex-column-full': country === 'ABSA' || country === 'SB' }">
+              <app-back-button
+                *ngIf="
+                  country === 'SB' && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+                "
+                [navigationLink]="'/my-account/dashboard'"
+                [isTextWhite]="true"
+              >
+                <span translate>My Profile</span>
+              </app-back-button>
               <div class="mt-4">
                 <div class="main-tab-section">
-                  <div class="sec_header">
-                    <div>
-                      <h1>
-                        <img
-                          ImageSrc
-                          class="mr-2 back_page"
-                          width="22px"
-                          src="./../../../assets/icons/Shape.svg"
-                          alt="requirements"
-                          (click)="goToProfile()"
-                        />
-                        <span class="theme__back-page-label" *ngIf="country === 'ABSA'">View Itinerary</span>
-                        <span *ngIf="country !== 'ABSA'">
-                          <span
-                            ><img
-                              ImageSrc
-                              class="mr-2 remove_for_MM"
-                              width="16px"
-                              src="./../../../assets/icons/plane.svg"
-                              alt="requirements"
-                            />{{ deptCity }}</span
-                          >
-                          <span *ngIf="tripType == 'OneWay'"
-                            ><img
-                              ImageSrc
-                              src="./../../../assets/icons/gng_flight.svg"
-                              alt="dir"
-                              width="80px"
-                              class="m-1"
-                          /></span>
-                          <span *ngIf="tripType !== 'MultiCity' && tripType !== 'OneWay'"
-                            ><img
-                              ImageSrc
-                              src="./../../../assets/icons/roundtrip_icn_mytrips (1).svg"
-                              alt="dir"
-                              width="50px"
-                              class="m-1"
-                          /></span>
-                          <span *ngIf="tripType == 'MultiCity'"
-                            ><img
-                              ImageSrc
-                              src="./../../../assets/icons/multy_city_arrows.svg"
-                              alt="dir"
-                              width="16px"
-                              class="m-1 mr-3 ml-3"
-                          /></span>
-                          {{ arrCity }}
+                  <div class="sec_header d-lg-inline-block">
+                    <h1>
+                      <img
+                        [ngClass]="country === 'SB' && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md') ? 'd-none' : ''"
+                        ImageSrc
+                        class="mr-2 back_page"
+                        width="22px"
+                        src="./../../../assets/icons/Shape.svg"
+                        alt="requirements"
+                        (click)="goToProfile()"
+                        [routerLink]="'/my-account/dashboard'"
+                        routerLinkActive="active"
+                      />
+                      <span class="theme__back-page-label" *ngIf="country === 'ABSA'">View Itinerary</span>
+                      <span *ngIf="country !== 'ABSA'">
+                        <span
+                          ><img
+                            ImageSrc
+                            class="mr-2 remove_for_MM"
+                            width="16px"
+                            src="./../../../assets/icons/plane.svg"
+                            alt="requirements"
+                            *ngIf="country !== 'SB'"
+                          />{{ deptCity }}</span
+                        >
+                        <span *ngIf="tripType == 'OneWay' && country !== 'SB'"
+                          ><img
+                            ImageSrc
+                            src="./../../../assets/icons/gng_flight.svg"
+                            alt="dir"
+                            width="80px"
+                            class="m-1"
+                          />
                         </span>
-                      </h1>
-                      <p class="theme__view-itinerary-header-container travelInfo ml-0 ml-md-5 mb-0" *ngIf="viewResultData">
-                        <span class="theme__view-itinerary-travel-details" *ngIf="country === 'ABSA'">
-                          <span>{{  deptCity  }}</span>
-                          <span><img ImageSrc src="../../../assets/icons/absa_icons/fly-city-light-filled.svg" alt="from to" /></span>
-                          <span>{{ arrCity }}</span>
+                        <span *ngIf="tripType == 'OneWay' && country === 'SB'">
+                          <img
+                            ImageSrc
+                            src="./../../../assets/icons/sb-one-way-flight.svg"
+                            alt="dir"
+                            width="80px"
+                            class="m-1"
+                          />
                         </span>
-                        <span>
-                          {{ viewResultData.createdDateTime | date: 'MMM d, yyyy' }}
-                        </span>
-                        |
-                        <span>
-                          {{ viewResultData.airReservationList[0].travellerList.length }}
-                          <span translate>Traveller(s)</span>
+                        <span *ngIf="tripType !== 'MultiCity' && tripType !== 'OneWay'"
+                          ><img
+                            ImageSrc
+                            src="./../../../assets/icons/roundtrip_icn_mytrips (1).svg"
+                            alt="dir"
+                            width="50px"
+                            class="m-1"
+                        /></span>
+                        <span *ngIf="tripType == 'MultiCity'"
+                          ><img
+                            ImageSrc
+                            src="./../../../assets/icons/multy_city_arrows_mytrips.svg"
+                            alt="dir"
+                            width="16px"
+                            class="m-1 mr-3 ml-3"
+                        /></span>
+                        {{ arrCity }}
+                      </span>
+                    </h1>
+                    <p
+                      class="theme__view-itinerary-header-container travelInfo ml-0 ml-md-5 mb-0 mr-md-5"
+                      *ngIf="viewResultData"
+                    >
+                      <span class="theme__view-itinerary-travel-details" *ngIf="country === 'ABSA'">
+                        <span>{{ deptCity }}</span>
+                        <span
+                          ><img ImageSrc src="../../../assets/icons/absa_icons/fly-city-light-filled.svg" alt="from to"
+                        /></span>
+                        <span>{{ arrCity }}</span>
+                      </span>
+                      <span>
+                        {{ viewResultData.createdDateTime | date: 'MMM d, yyyy' }}
+                      </span>
+                      <span class="itinerary_divider">|</span>
+
+                      <span class="mr-1">
+                        {{ viewResultData.airReservationList[0].travellerList.length }}
+                        <span translate>Traveller(s)</span>
+                      </span>
+                      <span class="theme__conditionally-hidden">|</span>
+                      <span class="theme__view-itinerary-reference-and-status-container">
+                        <span class="ml-1 mr-1">
+                          <span class="theme__booking-reference-number_text" translate>Booking Reference Number</span>:
+                          <span class="theme__booking-reference-number">{{ viewResultData.tccReference }}</span>
                         </span>
                         <span class="theme__conditionally-hidden">|</span>
-                        <span class="theme__view-itinerary-reference-and-status-container">
-                          <span>
-                            <span translate>Booking Reference Number</span>: <span class="theme__booking-reference-number">{{ viewResultData.tccReference }}</span>
-                          </span>
-                          <span class="theme__conditionally-hidden">|</span>
-                          <span class="theme__view-itinerary-status-container">
-                            <span translate>Booking Status</span>:
-                            <span class="theme__booking-status {{ viewResultData.bookingStatus }}">{{ viewResultData.bookingStatus }}</span>
-                          </span>
+                        <span class="theme__view-itinerary-status-container">
+                          <span class="theme__booking-reference-number_text ml-1" translate>Booking Status</span>:
+                          <span *ngIf="country === 'SB'" class="theme__booking-status">{{
+                            viewResultData.createdDateTime | date: 'd MMM  yyyy'
+                          }}</span>
+                          <span
+                            *ngIf="country !== 'SB'"
+                            class="theme__booking-status {{ viewResultData.bookingStatus }}"
+                            >{{ viewResultData.bookingStatus }}</span
+                          >
                         </span>
-                      </p>
-                    </div>
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -115,89 +150,86 @@
                 >
                   <div class="trip">
                     <div class="row">
-                      <div
-                        id="printOnly"
-                        class="col-sm-12"
-                        [ngClass]="[
-                          viewResultData.airReservationList[0].originDestinationOptionsList.length == '2' && idx == '1'
-                            ? 'trip_space'
-                            : ''
-                        ]"
-                      >
-                        <div *ngIf="country !== 'ABSA'" class="direction">
-                          <span
-                            translate
-                            *ngIf="
-                              idx === 0 &&
-                              itin === 0 &&
-                              viewResultData.trip !== 'MultiCity' &&
-                              viewResultData.trip !== 'OpenJaw'
-                            "
-                            >Departure Journey</span
-                          >
-
-                          <span
-                            translate
-                            *ngIf="
-                              (viewResultData.airReservationList[0].originDestinationOptionsList.length === 2 &&
-                                idx === 1 &&
-                                viewResultData.trip !== 'OneWay' &&
-                                viewResultData.trip !== 'MultiCity' &&
-                                viewResultData.trip !== 'OpenJaw') ||
-                              (itin > 0 &&
-                                viewResultData.trip !== 'OneWay' &&
-                                viewResultData.trip !== 'MultiCity' &&
-                                viewResultData.trip !== 'OpenJaw')
-                            "
-                            >Return Journey</span
-                          >
-                          <span *ngIf="viewResultData.trip == 'MultiCity' || viewResultData.trip == 'OpenJaw'"
-                            ><span translate>Trip</span>{{ idx + 1 }}</span
-                          >
-                        </div>
-                        <span [ngClass]="country === 'ABSA' ? '' : 'float-right'">
-                          <ul class="p-0 theme__buttons-container">
-                            <li *ngIf="country === 'ABSA'" class="theme__pnr-container">
-                              PNR <span class="theme__pnr-reference">{{ itineraries.pnrReference }}</span>
-                            </li>
-                            <li
-                              class="mr-2"
+                        <div
+                          id="printOnly"
+                          class="col-sm-12"
+                          [ngClass]="[
+                            viewResultData.airReservationList[0].originDestinationOptionsList.length == '2' &&
+                            idx == '1'
+                              ? 'trip_space'
+                              : '',
+                          ]"
+                        >
+                          <div *ngIf="country !== 'ABSA'" class="direction">
+                            <span
+                              translate
                               *ngIf="
-                                getQueryBtn(
-                                  odoList.bookingFlightSegmentList[0].departureAirport,
-                                  odoList.bookingFlightSegmentList[odoList.bookingFlightSegmentList.length - 1]
-                                    .arrivalAirport,
-                                  idx
-                                )
+                                idx === 0 &&
+                                itin === 0 &&
+                                viewResultData.trip !== 'MultiCity' &&
+                                viewResultData.trip !== 'OpenJaw'
                               "
+                              >Departure Journey</span
                             >
-                              <span
-                                ><span translate class="list_data" (click)="queryRecord(idx, itin)"
+
+                            <span
+                              translate
+                              *ngIf="
+                                (viewResultData.airReservationList[0].originDestinationOptionsList.length === 2 &&
+                                  idx === 1 &&
+                                  viewResultData.trip !== 'OneWay' &&
+                                  viewResultData.trip !== 'MultiCity' &&
+                                  viewResultData.trip !== 'OpenJaw') ||
+                                (itin > 0 &&
+                                  viewResultData.trip !== 'OneWay' &&
+                                  viewResultData.trip !== 'MultiCity' &&
+                                  viewResultData.trip !== 'OpenJaw')
+                              "
+                              >Return Journey</span
+                            >
+                            <span *ngIf="viewResultData.trip == 'MultiCity' || viewResultData.trip == 'OpenJaw'"
+                              ><span translate>Trip</span>{{ idx + 1 }}</span
+                            >
+                          </div>
+                          <span [ngClass]="country === 'ABSA' ? '' : 'float-right'">
+                            <ul class="p-0 theme__buttons-container">
+                              <li *ngIf="country === 'ABSA'" class="theme__pnr-container">
+                                PNR<span class="theme__pnr-reference">{{ itineraries.pnrReference }}</span>
+                              </li>
+                              <li
+                                class="mr-2"
+                                *ngIf="
+                                  getQueryBtn(
+                                    odoList.bookingFlightSegmentList[0].departureAirport,
+                                    odoList.bookingFlightSegmentList[odoList.bookingFlightSegmentList.length - 1]
+                                      .arrivalAirport,
+                                    idx
+                                  )
+                                "
+                              >
+                                <span translate class="list_data" (click)="queryRecord(idx, itin)"
                                   >Request Status</span
-                                ></span
-                              >
-                            </li>
+                                >
+                              </li>
 
-                            <li *ngIf="showBtns">
-                              <span
-                                ><span translate class="list_data" (click)="manageBookings(idx, itin)"
+                              <li *ngIf="showManageBookingCTA()">
+                                <span translate class="list_data sb-manage-book-btn" (click)="manageBookings(idx, itin)"
                                   >Manage Booking</span
-                                ></span
-                              >
-                            </li>
+                                >
+                              </li>
 
-                            <div *ngIf="idx < 1 && viewResultData.bookingStatus == 'Paid'">
-                              <button [disabled]="loading" class="resendBtn" (click)="resendingEticket()">
-                                <i
-                                  *ngIf="loading"
-                                  class="fa fa-spinner fa-spin"
-                                  style="font-size: 15px"
-                                  aria-hidden="true"
-                                ></i>
-                                <span translate>Resend Ticket</span>
-                              </button>
-                            </div>
-                            <!-- <li>
+                              <div *ngIf="idx < 1 && viewResultData.bookingStatus == 'Paid'">
+                                <button [disabled]="loading" class="resendBtn" (click)="resendingEticket()">
+                                  <i
+                                    *ngIf="loading"
+                                    class="fa fa-spinner fa-spin"
+                                    style="font-size: 15px"
+                                    aria-hidden="true"
+                                  ></i>
+                                  <span class="sb-manage-book-btn" translate>Resend Ticket</span>
+                                </button>
+                              </div>
+                              <!-- <li>
                               <a class="list_data"
                                 >View Invoice<img
                                   class="ml-2"
@@ -206,32 +238,73 @@
                                   width="16px"
                               /></a>
                             </li>  -->
-                          </ul>
-                          <!-- To Do print Data -->
-                          <!-- <img
+                            </ul>
+                            <!-- To Do print Data -->
+                            <!-- <img
                             class="mr-3"
                             src="./../../../assets/icons/print_icon.svg"
                             (click)="printInvoice()"
                             alt="print"
                             width="20px"
                           /> -->
-                          <!-- <img
+                            <!-- <img
                             src="./../../../assets/icons/share.icon.svg"
                             (click)="printData()"
                             alt="share"
                             width="19px"
                           /> -->
-                        </span>
-                      </div>
-
+                          </span>
+                        </div>
+                        <!-- <div
+                          class="mr-2 btn outline_btn sb-manage-book-btn"
+                          *ngIf="
+                            getQueryBtn(
+                              odoList.bookingFlightSegmentList[0].departureAirport,
+                              odoList.bookingFlightSegmentList[odoList.bookingFlightSegmentList.length - 1]
+                                .arrivalAirport,
+                              idx
+                            )
+                          "
+                        >
+                          <span translate class="list_data" (click)="queryRecord(idx, itin)">Request Status</span>
+                        </div> -->
+                        <!-- <div *ngIf="idx < 1 && viewResultData.bookingStatus == 'Paid'">
+                          <button
+                            [disabled]="loading"
+                            class="resendBtn btn outline_btn sb-manage-book-btn"
+                            (click)="resendingEticket()"
+                          >
+                            <i
+                              *ngIf="loading"
+                              class="fa fa-spinner fa-spin"
+                              style="font-size: 15px"
+                              aria-hidden="true"
+                            ></i>
+                            <span translate>Resend Ticket</span>
+                          </button>
+                        </div> -->
+                       
                       <div class="bookRef pl-4" *ngIf="idx === 0">
                         <div>
-                          <span class="pnr pr-3" *ngIf="country !== 'ABSA' && itineraries.pnrReference"
+                          <span
+                            class="pnr pr-3"
+                            *ngIf="country !== 'ABSA' && country !== 'SB' && itineraries.pnrReference"
                             ><span translate>PNR</span> : {{ itineraries.pnrReference }}</span
                           >
-                          <span class="pnr" *ngIf="country !== 'ABSA' && viewResultData.tccReference"
+                          <span
+                            class="pnr"
+                            *ngIf="country !== 'ABSA' && country !== 'SB' && viewResultData.tccReference"
                             ><span translate>Booking Reference Number</span> : {{ viewResultData.tccReference }}</span
                           >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" *ngIf="country === 'SB'">
+                      <div class="bookRef pl-3" *ngIf="idx === 0">
+                        <div>
+                          <span class="pnr pr-1" translate>PNR</span>
+                          <span class="pnr_number">{{ itineraries.pnrReference }} </span>
                         </div>
                       </div>
                     </div>
@@ -241,158 +314,251 @@
                     *ngFor="let segments of odoList.bookingFlightSegmentList; let index = index; let last = last"
                   >
                     <div *ngIf="country !== 'ABSA'" class="row">
-                      <div class="col-lg-6 col-12">
+                      <div class="airLane-operator">
                         <div *ngIf="segments.operatingAirline" class="op_airlines">
-                          <span translate class="operate_airline">Operated by</span>
+                          <span translate class="operate_airline">Operated by </span>
                           <span class="operate_airline">{{ segments.operatingAirline }}</span>
                         </div>
                       </div>
                     </div>
-                    <div class="row theme__booking-flight-segment-container">
-                      <div [ngClass]="country === 'ABSA' ? '' : 'col-2'">
-                        <div class="airLine_block">
-                          <div class="airLine_logo">
-                            <img
-                              ImageSrc
-                              class="theme__airline-logo-image"
-                              src="assets/img/carriers/retina48px/carrier-{{ segments.operatingAirlineCode }}.png"
-                              width="40px"
-                              alt="{{ segments.operatingAirlineCode }}"
-                            />
-                          </div>
-                          <div class="airLine_name_num">
-                            <span class="air_name">{{ segments.marketingAirline }}</span>
-                            <span class="flt_num">
-                              <span *ngIf="country !== 'ABSA'">
-                                ( {{ segments.marketingAirlineCode }}{{ segments.flightNumber }} )
-                              </span>
-                              <span *ngIf="country === 'ABSA'">
-                                {{ segments.marketingAirlineCode }}{{ segments.flightNumber }}
-                              </span>
+
+                    <div *ngIf="country === 'ABSA'" class="row">
+                      <div class="col-sm-12 d-flex align-items-center">
+                        <div class="airLine_logo">
+                          <img
+                            ImageSrc
+                            class="theme__airline-logo-image"
+                            src="assets/img/carriers/retina48px/carrier-{{ segments.operatingAirlineCode }}.png"
+                            width="35px"
+                            alt="{{ segments.operatingAirlineCode }}"
+                          />
+                        </div>
+                         <div class="airLine_name_num ml-2 mr-2">
+                          <span class="air_name">{{ segments.marketingAirline }}</span>
+                        </div>
+                        <div class="airlane_flt_num">
+                          <span class="flt_num">
+                            <span *ngIf="country === 'ABSA'">
+                              {{ segments.marketingAirlineCode }}{{ segments.flightNumber }}
                             </span>
-                          </div>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="booking-flight-segment-container">
+                      <div [ngClass]="country === 'ABSA' ? 'd-none' : 'airLine_block'">
+                        <div class="airLine_logo">
+                          <img
+                            ImageSrc
+                            class="theme__airline-logo-image"
+                            src="assets/img/carriers/retina48px/carrier-{{ segments.operatingAirlineCode }}.png"
+                            width="35px"
+                            alt="{{ segments.operatingAirlineCode }}"
+                          />
+                        </div>
+                        <div [ngClass]="country === 'ABSA' || country === 'SB' ? 'd-none' : 'airLine_details'">
+                           <div class="airLine_name_num">
+                          <span class="air_name">{{ segments.marketingAirline }}</span>
+                        </div>
+                        <div class="airlane_flt_num">
+                          <span [ngClass]="country === 'ABSA' ? 'd-none' : 'flt_num'">
+                              {{ segments.marketingAirlineCode }}{{ segments.flightNumber }}
+                          </span>
+                        </div>
+                        </div>
+                        <div [ngClass]="country === 'ABSA' || country === 'SB' ? 'airLine_name_num' : 'd-none'">
+                          <span class="air_name">{{ segments.marketingAirline }}</span>
+                        </div>
+                        <div [ngClass]="country === 'ABSA' || country === 'SB' ? 'airlane_flt_num' : 'd-none'">
+                          <span class="flt_num">
+                            <span *ngIf="country !== 'ABSA'">
+                              {{ segments.marketingAirlineCode }}{{ segments.flightNumber }}
+                            </span>
+                            <span *ngIf="country === 'ABSA'">
+                              {{ segments.marketingAirlineCode }}{{ segments.flightNumber }}
+                            </span>
+                          </span>
                         </div>
                         <label> </label>
                         <div class="clearfix"></div>
                         <label> </label>
                       </div>
-                      <div [ngClass]="country === 'ABSA' ? '' : 'col-10'">
-                        <div class="row mb-2 mt-3">
-                          <div class="col-4 col-md-2 text-left theme__flight-location-details-container">
-                            <div class="clearfix"></div>
-                            <label class="time_labl">{{ segments.departureDateTime | date: 'd MMM yy' }}</label>
-                            <div class="clearfix"></div>
-                            <label class="dept_city">{{ segments.departureAirport }}</label>
-                            <div class="clearfix"></div>
-                            <label class="time_labl theme__time-label">{{ segments.departureDateTime | date: 'HH:mm' }}</label>
+                      <div class="flight_block">
+                        <div class="flight-location-details-container theme__flight-location-details-container">
+                          <div class="dept_city_block">
+                            <label class="time_labl sb_time_labl">{{
+                              segments.departureDateTime | date: 'd MMM yy'
+                            }}</label>
+                            <label class="dept_city sb_dept_city">{{ segments.departureAirport }}</label>
+                            <label class="time_labl sb_dept_time_labl">{{
+                              segments.departureDateTime | date: 'HH:mm'
+                            }}</label>
                           </div>
-                          <div class="col-4 col-md-3 fly_icon text-left">
+                          <div class="distance_block fly_icon">
                             <div class="clearfix"></div>
-                            <img
-                              ImageSrc
-                              src="./../../../assets/icons/gng_flight.svg"
-                              alt="dir" />
+                            <img ImageSrc src="./../../../assets/icons/gng_flight.svg" alt="dir" />
                             <div class="clearfix"></div>
-                            <label class="dur theme__view-itinerary-duration">{{ getTimeInHours(segments.tsDuration) }}</label>
+                            <label class="dur theme__view-itinerary-duration">{{
+                              getTimeInHours(segments.tsDuration)
+                            }}</label>
                           </div>
-                          <div class="col-4 col-md-2 text-right text-md-left theme__flight-location-details-container">
+
+                          <div class="arrival_city_block">
+                            <label class="time_labl sb_time_labl"
+                              >{{ segments.arrivalDateTime | date: 'd MMM yy' }}
+                            </label>
                             <div class="clearfix"></div>
-                            <label class="time_labl">{{ segments.arrivalDateTime | date: 'd MMM yy' }} </label>
+                            <label class="arr_city sb_arr_city">{{ segments.arrivalAirport }}</label>
                             <div class="clearfix"></div>
-                            <label class="arr_city">{{ segments.arrivalAirport }}</label>
+                            <label class="time_labl sb_arr_time_labl"
+                              >{{ segments.arrivalDateTime | date: 'HH:mm' }}
+                            </label>
                             <div class="clearfix"></div>
-                            <label class="time_labl theme__time-label">{{ segments.arrivalDateTime | date: 'HH:mm' }} </label>
                           </div>
-                          <div class="col-md-3 d-none" [ngClass]="country !== 'ABSA' ? 'd-md-block' : ''">
-                            <p class="non_ref" [style.display]="index === 0 ? 'block' : 'none'">
+
+                          <div
+                            class="d-none"
+                            [ngClass]="country !== 'ABSA' ? 'd-md-flex justify-content-end' : ''"
+                            style="min-width: 120px; min-height: 40px"
+                          >
+                            <p class="non_ref" *ngIf="index === 0">
                               <span translate>NON REFUNDABLE</span>
                             </p>
                           </div>
+                          <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
-                        <div
-                          class="layover_section"
-                          *ngIf="(getLayoverTime(odoList) && !last) || segments.fareBaggageAllowanceList.length > 0"
-                          [ngClass]="
-                            (getLayoverTime(odoList) && !last) ||
-                            (segments.fareBaggageAllowanceList.length > 0 &&
-                              segments.fareBaggageAllowanceList[0].baggageDescription &&
-                              segments.fareBaggageAllowanceList[0].baggageDescription != '')
-                              ? 'set_border'
-                              : 'unset_border'
-                          "
-                        >
-                          <span class="pr-2 layover" *ngIf="!last && odoList.bookingFlightSegmentList.length > 1">
-                            <span class="layover_labl pr-1"
-                              ><i class="fa fa-wheelchair pr-1" aria-hidden="true"></i
-                              ><span translate>{{ getLayoverTxt(odoList)[index] }}</span></span
-                            >
-                            <span translate>Transfer</span> {{ getLayoverTime(odoList)[index] }}
-                          </span>
-                          <span
-                            [ngClass]="country === 'ABSA' ? '' : 'pr-2'"
-                            *ngFor="let baggage of segments.fareBaggageAllowanceList; let first = first"
-                          >
-                            <span>
-                              <span
-                                class="baggage-seperate"
-                                *ngIf="
-                                  baggage.baggageDescription &&
-                                  baggage.baggageDescription !== 'No baggage allowance' &&
-                                  !first
-                                "
-                              ></span>
-                              <img
-                                ImageSrc
-                                *ngIf="
-                                  baggage.baggageDescription && baggage.baggageDescription !== 'No baggage allowance'
-                                "
-                                class="ic_baggage"
-                                [src]="country !== 'ABSA'
-                                  ? './../../../assets/icons/bag_srp.svg'
-                                  : isHandBaggage(baggage.baggageDescription)
-                                    ? './../../../assets/icons/srp_Icons/new_hand_baggage.svg'
-                                    : './../../../assets/icons/srp_Icons/new_checked_baggage.svg'"
-                                alt="baggage"
-                                width="14px" />
-                              <img
-                                ImageSrc
-                                *ngIf="baggage.baggageDescription === 'No baggage allowance'"
-                                class="ic_baggage"
-                                src="./../../../assets/icons/Baggage Icon.svg"
-                                alt="baggage"
-                                width="16px"
-                            /></span>
-                            <span
-                              class="handLaggage"
-                              *ngIf="
-                                baggage.baggageDescription !== 'No baggage allowance' &&
-                                baggage.baggageDescription !== ''
-                              "
-                              >{{ getBaggageDesc(baggage.baggageDescription) }}
-                            </span>
-                            <span
-                              translate
-                              class="handLaggage"
-                              *ngIf="baggage.baggageDescription === 'No baggage allowance'"
-                              >No Checked baggage</span
-                            >
-                            <span
-                              translate
-                              *ngIf="
-                                country !== 'ABSA' &&
-                                baggage.baggageCategory === 'CHECKED' &&
-                                baggage.baggageDescription !== 'No baggage allowance'
-                              "
-                              class="handLaggage"
-                            >
-                              Checked baggage
-                            </span>
-                          </span>
+                        <div class="sb_luggage_icons_row">
+                          <div>
+                            <ng-container *ngIf="country === 'SB'">
+                              <span *ngFor="let baggage of segments.fareBaggageAllowanceList; let first = first">
+                                <img
+                                  ImageSrc
+                                  *ngIf="
+                                    baggage.baggageDescription && baggage.baggageDescription !== 'No baggage allowance'
+                                  "
+                                  class="ic_baggage"
+                                  [src]="
+                                    isHandBaggage(baggage.baggageDescription)
+                                      ? './../../../assets/icons/srp_Icons/new_hand_baggage.svg'
+                                      : './../../../assets/icons/srp_Icons/new_checked_baggage.svg'
+                                  "
+                                  alt="baggage"
+                                  width="12px"
+                                />
+                                <span
+                                  class="sb_baggage_weight"
+                                  *ngIf="
+                                    baggage.baggageDescription !== 'No baggage allowance' &&
+                                    baggage.baggageDescription !== ''
+                                  "
+                                  >{{ getWeightOnly(baggage.baggageDescription) }}
+                                </span>
+                              </span>
+                            </ng-container>
+                          </div>
                         </div>
+                        <!-- <div class="clearfix"></div> -->
+
                         <!-- <p class="rules" [style.display]="last==odoList.bookingFlightSegmentList.length-1 || last==odoList.bookingFlightSegmentList.length ?'block':'none'">
                                 Baggage and Fare rules</p> -->
                       </div>
+                    </div>
+                    <div
+                      class="layover_section sb_layover_section"
+                      *ngIf="(getLayoverTime(odoList) && !last) || (!last && viewResultData.trip !== 'OneWay' && segments.fareBaggageAllowanceList.length > 0)"
+                      [ngClass]="
+                        (getLayoverTime(odoList) && !last) ||
+                        (segments.fareBaggageAllowanceList.length > 0 &&
+                          segments.fareBaggageAllowanceList[0].baggageDescription &&
+                          segments.fareBaggageAllowanceList[0].baggageDescription != '')
+                          ? 'set_border'
+                          : 'unset_border'
+                      "
+                    >
+                      <span
+                        class="pr-2 layover sb-layover"
+                        *ngIf="!last && odoList.bookingFlightSegmentList.length > 1"
+                      >
+                        <span *ngIf="country === 'SB'" class="sb_layover_labl pr-1">
+                          <img
+                            ImageSrc
+                            src="./../../../assets/icons/flight_dt_layover_1.svg"
+                            alt="dir"
+                            class="pr-1"
+                          />
+                          <span translate>{{ getLayoverTxt(odoList)[index] }}</span>
+                        </span>
+                        <span class="layover_labl pr-1" *ngIf="country !== 'SB'">
+                          <i class="fa fa-wheelchair pr-1" aria-hidden="true"></i
+                          ><span translate>{{ getLayoverTxt(odoList)[index] }}</span></span
+                        >
+                        <span translate>Transfer</span> {{ getLayoverTime(odoList)[index] }}
+                      </span>
+
+                      <ng-container *ngIf="country !== 'SB'">
+                        <span
+                          [ngClass]="country === 'ABSA' ? '' : 'pr-2'"
+                          *ngFor="let baggage of segments.fareBaggageAllowanceList; let first = first"
+                        >
+                          <span>
+                            <span
+                              class="baggage-seperate"
+                              *ngIf="
+                                baggage.baggageDescription &&
+                                baggage.baggageDescription !== 'No baggage allowance' &&
+                                !first
+                              "
+                            ></span>
+                            <img
+                              ImageSrc
+                              *ngIf="
+                                baggage.baggageDescription && baggage.baggageDescription !== 'No baggage allowance'
+                              "
+                              class="ic_baggage"
+                              [src]="
+                                country !== 'ABSA'
+                                  ? './../../../assets/icons/bag_srp.svg'
+                                  : isHandBaggage(baggage.baggageDescription)
+                                    ? './../../../assets/icons/srp_Icons/new_hand_baggage.svg'
+                                    : './../../../assets/icons/srp_Icons/new_checked_baggage.svg'
+                              "
+                              alt="baggage"
+                              width="14px" />
+                            <img
+                              ImageSrc
+                              *ngIf="baggage.baggageDescription === 'No baggage allowance'"
+                              class="ic_baggage"
+                              src="./../../../assets/icons/Baggage Icon.svg"
+                              alt="baggage"
+                              width="16px"
+                          /></span>
+                          <span
+                            class="handLaggage"
+                            *ngIf="
+                              baggage.baggageDescription !== 'No baggage allowance' && baggage.baggageDescription !== ''
+                            "
+                            >{{ getBaggageDesc(baggage.baggageDescription) }}
+                          </span>
+                          <span
+                            translate
+                            class="handLaggage"
+                            *ngIf="baggage.baggageDescription === 'No baggage allowance'"
+                            >No Checked baggage</span
+                          >
+                          <span
+                            translate
+                            *ngIf="
+                              country !== 'ABSA' &&
+                              baggage.baggageCategory === 'CHECKED' &&
+                              baggage.baggageDescription !== 'No baggage allowance'
+                            "
+                            class="handLaggage"
+                          >
+                            Checked baggage
+                          </span>
+                        </span>
+                      </ng-container>
                     </div>
                   </div>
                 </div>
@@ -410,31 +576,31 @@
         viewResultData.airReservationList[0].originDestinationOptionsList.length == 0 ? '0px' : '10px'
       "
     >
-      <div class="sec_title mb-2">
+      <div class="sec_title sb_sec_title mb-2">
         <label translate>Traveller Information</label>
       </div>
       <ul class="list" *ngIf="viewResultData.airReservationList[0].travellerList.length > 0">
         <li *ngFor="let pax of viewResultData.airReservationList[0].travellerList">
           <div class="row mt-1 mb-1 theme__traveller-information-container">
-            <div [ngClass]="country === 'ABSA' ? '' : 'col-6'" class="col-md-2 mb-2 mb-md-0">
+            <div [ngClass]="country === 'ABSA' ? '' : 'col-6'" class="col-md-2 mb-2 mb-md-0 mb-sm-3">
               <label translate class="trav_labl" for="">First name</label>
               <p class="mb-0 trav_data">
                 <span *ngIf="pax.personName.nameTitle">{{ pax.personName.nameTitle }}.</span>
                 {{ pax.personName.givenName | titlecase }}
               </p>
             </div>
-            <div [ngClass]="country === 'ABSA' ? '' : 'col-6 text-right'" class="col-md-2 text-md-left">
+            <div [ngClass]="country === 'ABSA' ? '' : 'col-6 text-right'" class="col-md-2 text-md-left mb-sm-3">
               <label translate class="trav_labl" for="">Middle name</label>
               <p translate class="mb-0 trav_data" *ngIf="!pax.personName.middleName">N/A</p>
               <p class="mb-0 trav_data" *ngIf="pax.personName.middleName">
                 {{ pax.personName.middleName | titlecase }}
               </p>
             </div>
-            <div [ngClass]="country === 'ABSA' ? '' : 'col-6'" class="col-md-2 text-md-left">
+            <div [ngClass]="country === 'ABSA' ? '' : 'col-6'" class="col-md-2 text-md-left mb-sm-3">
               <label translate class="trav_labl" for="">Surname</label>
               <p class="mb-0 trav_data">{{ pax.personName.surname | titlecase }}</p>
             </div>
-            <div [ngClass]="country === 'ABSA' ? '' : 'col-6 email'" class="col-md-2 mb-2 mb-md-0">
+            <div [ngClass]="country === 'ABSA' ? '' : 'col-6 email'" class="col-md-2 mb-2 mb-md-0 mb-sm-3">
               <label translate class="trav_labl" for="">Email Address</label>
               <p translate class="mb-0 trav_data" *ngIf="!pax.email">N/A</p>
               <p class="mb-0 trav_data" *ngIf="pax.email">{{ pax.email }}</p>
@@ -481,6 +647,20 @@
       </ul>
     </section>
 
+    <div class="payment_method_container" *ngIf="country === 'SB'">
+      <div *ngIf="viewResultData && viewResultData.invoiceList.length !== 0">
+        <div class="payment_method">
+          <div class="payment_method_heading">Payment method</div>
+          <div class="payment_type">
+            <div>Payment type</div>
+            <div>
+              {{ getPaymentTypeDisplay(viewResultData.invoiceList[0].paymentType) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!--Invoice Details-->
 
     <div class="fare_breakdown theme__raise-priority">
@@ -489,16 +669,35 @@
           <div translate class="sec_heading">Trip cost details</div>
         </div>
         <div class="price_breakup">
-          <div class="fares" *ngIf="viewResultData.invoiceList">
-            <table class="table" aria-describedby="fares">
+          <div class="fares" *ngIf="viewResultData.invoiceList?.length > 0">
+            <table *ngIf="country === 'SB'" class="table" aria-describedby="fares">
+              <!-- Adults row -->
+              <tr>
+                <td id="description" class="txt_align">Adults x {{ viewResultData.travellers }}</td>
+                <td class="txt_des">
+                  {{ viewResultData.totalCurrency | currencyCode
+                  }}{{ getAdultsFare() | currency: '' + ' ' : 'symbol' : '2.0' }}
+                </td>
+              </tr>
+              <tr class="table_row_border">
+                <td id="description" class="txt_align">Taxes and Fee</td>
+                <td class="txt_des">
+                  {{ viewResultData.totalCurrency | currencyCode
+                  }}{{ getTaxesAndFees() | currency: '' + ' ' : 'symbol' : '2.0' }}
+                </td>
+              </tr>
+            </table>
+
+            <table *ngIf="country !== 'SB'" class="table" aria-describedby="fares">
               <tr *ngFor="let data of viewResultData.invoiceList[0].invoiceLineList">
                 <th id="invoice" class="d-none"></th>
-                <td  id="description" class="txt_align">{{ productDesc(data.description) }}</td>
+                <td id="description" class="txt_align">{{ productDesc(data.description) }}</td>
                 <td *ngIf="data.amount > 0" class="txt_des">
-                  {{ data.currencyCode | currencyCode }}{{ data.amount | currency: '' + ' ':'symbol':'1.0' }}
+                  {{ data.currencyCode | currencyCode }}{{ data.amount | currency: '' + ' ' : 'symbol' : '1.0' }}
                 </td>
                 <td *ngIf="data.amount < 0" class="txt_des">
-                  -{{ data.currencyCode | currencyCode }}{{ getMinusVal(data.amount) | currency: '' + ' ':'symbol':'1.0' }}
+                  -{{ data.currencyCode | currencyCode
+                  }}{{ getMinusVal(data.amount) | currency: '' + ' ' : 'symbol' : '1.0' }}
                 </td>
               </tr>
             </table>
@@ -509,11 +708,21 @@
           <label class="amt">
             <span
               >{{ viewResultData.totalCurrency | currencyCode
-              }}{{ viewResultData.totalAmount | currency: '' + ' ':'symbol':'2.0' }}</span
+              }}{{ viewResultData.totalAmount | currency: '' + ' ' : 'symbol' : '2.0' }}</span
             >
           </label>
         </div>
       </div>
+    </div>
+
+    <div class="mt-3 app_warning_container" *ngIf="country === 'SB'" >
+      <app-warning-notification
+        [notificationTitle]="'Travel Insurance'"
+        [hideTitle]="false"
+        [hideIcon]="true"
+      >
+        <app-travel-insurance-info></app-travel-insurance-info>
+      </app-warning-notification>
     </div>
   </div>
 </div>

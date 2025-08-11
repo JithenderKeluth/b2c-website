@@ -32,6 +32,5 @@ export const languageArray = [
   { id: 22, country: 'South Africa', currency: 'ZAR', flag: 'f192', code: 'en-ZA', symbol: 'R', domain: 'TB' },
   { id: 23, country: 'Momentum', currency: 'ZAR', flag: 'f192', code: 'en-MM', symbol: 'R', domain: 'MM' },
   { id: 24, country: 'Absa', currency: 'ZAR', flag: 'f192', code: 'en-AB', symbol: 'R', domain: 'ABSA' },
-  { id: 24, country: 'MasterCard', currency: 'USD', flag: 'f192', code: 'en-GO', symbol: 'USD', domain: 'mastercardtravel' },
-  
+  { id: 25, country: 'Standard Bank', currency: 'ZAR', flag: 'f192', code: 'en-SB', symbol: 'R', domain: 'SB' },
 ];

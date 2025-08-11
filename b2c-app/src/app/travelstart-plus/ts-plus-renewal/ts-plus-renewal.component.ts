@@ -56,7 +56,8 @@ export class TsPlusRenewalComponent implements OnInit {
   renew_Subscription() {
     if (!this.credentialsService.isAuthenticated()) {
       return this.signUser();
-    }else if(this.apiService.isTS_PLUSUser() && this.isBrowser){
+    }
+    else if(this.apiService.isTS_PLUSUser() && this.isBrowser){
        $('#subscribed_modal').modal('show');
     }
     else if (this.allowToTSPlusRenewal()) {
@@ -86,8 +87,7 @@ export class TsPlusRenewalComponent implements OnInit {
       }
     });
   }
-  
-  /**here we are checking user is TSPlus Subscriber but subscription active status is false then only we are allow to renewal */
+    /**here we are checking user is TSPlus Subscriber but subscription active status is false then only we are allow to renewal */
     allowToTSPlusRenewal(){
       return Boolean(this.credentials?.isTSPlusSubscriber && !this.credentials?.isTSPlusSubscriptionActive);
     }
@@ -98,7 +98,7 @@ export class TsPlusRenewalComponent implements OnInit {
         }
       },(error: any) => {
         console.error('Failed to load subscription config:', error);
-        this.renewalAmount = 1999; 
+        this.renewalAmount = 1999;
       }
     )
     }

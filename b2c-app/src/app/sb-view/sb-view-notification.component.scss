@@ -1,0 +1,51 @@
+.apply-orange-color {
+  filter: invert(65%) sepia(75%) saturate(1000%) hue-rotate(360deg) brightness(100%) contrast(105%);
+}
+
+.search-notification-warning {
+  margin-top: 6%;
+  border: 1px solid #FF780F !important;
+  border-left: 4px solid #FF780F !important;
+  border-radius: 8px 8px 8px 8px;
+  padding: 12px;
+  display: flex;
+  background: #FFFCF7 !important;
+  line-height: 16px;
+  font-size: 12px;
+
+  img {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    position: relative;
+    top: 1px;
+  }
+  h5{
+    font-size: 14px;
+    color: #000000;
+  }
+  span{
+    color: #101828 !important;
+  }
+}
+
+.loader-spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #0161E1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+.loader-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

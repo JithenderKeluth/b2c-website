@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Injectable, OnInit, Inject } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CMSService } from '../cms.service';
 import moment from 'moment';
@@ -30,7 +29,7 @@ export class AirlinePageComponent implements OnInit {
   public flightRoutes: any = {};
   public accordianItems: any = [];
   public footerItems: any = [];
-  constructor(private route: Router, private cmsService: CMSService, @Inject(DOCUMENT) private doc: any) {}
+  constructor(private route: Router, private cmsService: CMSService) {}
 
   async ngOnInit(): Promise<void> {
     this.loading = true;

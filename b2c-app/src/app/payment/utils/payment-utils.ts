@@ -1,3 +1,22 @@
+export interface BinListResponse {
+  bank?: any; // {}
+  scheme?: "visa" | string; // visa
+  number?: {
+    length: number; // 16
+    luhn?: boolean; // true
+  };
+  bin: string; // 424242
+  prepaid?: "True" | "False"; // False
+  brand?: string; // Traditional
+  country?: {
+    alpha2: string; // US
+    name: string; // United States of America
+    numeric: string; // 840
+    currency: string; // USD
+  };
+  type?: "credit" | "debit" | string;
+}
+
 /**Here it is cheking the validation results from the API and returns corresponding error messages*/
 export function paymentValidations(bookingDetails: any, appSessionService: any) {
   let errorObj: any;
@@ -7,7 +26,7 @@ export function paymentValidations(bookingDetails: any, appSessionService: any) 
     msg: msg,
     img: img,
   };
-  
+
   if (bookingDetails.validationResults.paymentDetailsValidationResults.invalidFields.expirationDateValid == false) {
     errorObj.msg = '';
     errorObj.img = '';
@@ -37,7 +56,7 @@ export function paymentValidations(bookingDetails: any, appSessionService: any) 
   if (bookingDetails.validationResults.paymentDetailsValidationResults.invalidFields.cvvValid === false) {
     errorObj.msg = '';
     errorObj.img = '';
-    errorObj.msg = 'Invalid CVV.';
+    errorObj.msg = 'Invalid CVV';
     errorObj.img = `/assets/icons/Icon/Negative-scenarios/booking_failed_icon.svg`;
     return errorObj;
   }
@@ -45,7 +64,10 @@ export function paymentValidations(bookingDetails: any, appSessionService: any) 
 
 /**Here it is to load the car widget in booking confirmation page */
 export function meiliTripInfo(itinDetails: any) {
-  const bookingInformation = JSON.parse(sessionStorage.getItem('bookingDetails'));
+  let bookingInformation:any;
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    bookingInformation = JSON.parse(sessionStorage.getItem('bookingDetails'));
+  }
   let tripInfo: any;
   let tripInfo_1: any;
   let tripInfo_2: any;
@@ -135,14 +157,16 @@ export function getFormattedTime(reqTime: string) {
 /**It returns the booking reference */
 export function getBookRef(){
   let bookingRef: string;
-  if (sessionStorage.getItem('paymentMethods')) {
-    bookingRef = JSON.parse(sessionStorage.getItem('paymentMethods')).tccReference;
-    return bookingRef;
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    if (sessionStorage.getItem('paymentMethods')) {
+      bookingRef = JSON.parse(sessionStorage.getItem('paymentMethods')).tccReference;
+      return bookingRef;
+    }
   }
 }
 
 /**checking the processing with products*/
-export function checkPaymentTypeFee(data: any ,cardNumber? :any, isBankNameMatched: boolean = false) {
+export function checkPaymentTypeFee(data: any ,cardNumber? :any) {
   let paymentTypeFeeData = {
     discountAmount: 0,
     processingFee: 0,
@@ -154,20 +178,18 @@ export function checkPaymentTypeFee(data: any ,cardNumber? :any, isBankNameMatch
     paymentTypeFeeData.discountAmount = 0;
     return paymentTypeFeeData;
   } else if (data && data.constructor == Array) {
-    paymentTypeFeeData = paymentProducts(data,cardNumber, isBankNameMatched);
+    paymentTypeFeeData = paymentProducts(data,cardNumber);
   }
   return paymentTypeFeeData;
 }
-export function paymentProducts(products: any,cardNumber?:any, isBankNameMatched: boolean = false) {
+export function paymentProducts(products: any,cardNumber?:any) {
   let procAmount = {
     discountAmount: 0,
     processingFee: 0,
     showDiscount: false,
   };
   products.forEach((z: any) => {
-    //if (z?.id == 'CARD_BIN_DISCOUNT_PRODUCT' && checkCardBinDiscountNumbers(z,cardNumber)  ) {
-    
-    if (z?.id == 'CARD_BIN_DISCOUNT_PRODUCT' && isBankNameMatched) {
+    if (z?.id == 'CARD_BIN_DISCOUNT_PRODUCT' && checkCardBinDiscountNumbers(z,cardNumber)  ) {
       procAmount.showDiscount = true;
       procAmount.discountAmount = z.amount;
     } else if(z.id != 'CARD_BIN_DISCOUNT_PRODUCT') {
@@ -192,8 +214,9 @@ export function modifyProduct_Desc(productDescription:any){
     return productDescription;
   }
 }
- /**here we are constructing the common data for payment events  */
-  export function getEventsSharedData(){
+/**here we are constructing the common data for payment events  */
+export function getEventsSharedData(){
+  if (typeof window !== 'undefined' && window.sessionStorage) {
     const bookingInfo = JSON.parse(sessionStorage.getItem('bookingInfo'));
     const itinResponse = bookingInfo.itineraryData;
     const flightResultsData = JSON.parse(sessionStorage.getItem('flightResults'));
@@ -206,6 +229,7 @@ export function modifyProduct_Desc(productDescription:any){
     };
       return {itinResponse,flightResultsData,searchInfoData,additionalDataInfo}
   }
+}
 
 
 

@@ -1,31 +1,33 @@
 <app-header></app-header>
-<div class="manage_booking_section">
-  <div class="manage_bookings_page">
-    <div>
-      <div class="mybkng_bg"></div>
-      <div class="dashboard">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="">
-                <div class="main-tab-section">
-                  <div class="sec_header">
-                    <div>
-                      <h1>
-                        <img
-                          ImageSrc
-                          class="mr-2 back_page"
-                          width="22px"
-                          src="./../../../assets/icons/Shape.svg"
-                          alt="requirements"
-                          (click)="goToProfile()"
-                        />
-                        <span translate>Manage Bookings</span>
-                      </h1>
-                    </div>
-                  </div>
-                  <!-- <div class="float-right qry_record mr-3">Query Record</div> -->
-                </div>
+<div class="manage_booking_section theme__dashboard-page">
+  <div class="myAct_bg"></div>
+  <div class="manage_bookings_page" [ngClass]="{ 'pt-md-4': country !== 'ABSA' && country !== 'SB' }">
+    <div class="container" [ngClass]="{ 'h-100': country === 'ABSA' || country === 'SB' }">
+      <div class="row">
+        <div class="col-12" [ngClass]="{ 'theme__flex-column-full p-0': country === 'ABSA' || country === 'SB' }">
+          <app-back-button
+            *ngIf="(country === 'ABSA' || country === 'SB') && responsiveservice.screenWidth == 'sm'"
+            (click)="goToProfile()"
+            [isTextWhite]="true"
+          >
+            <span translate>Manage Bookings</span>
+          </app-back-button>
+          <div class="mt-0">
+            <div class="main-tab-section">
+              <div class="sec_header d-lg-inline-block" [ngClass]="{ 'd-none': country === 'ABSA' || country === 'SB' }">
+                <h1>
+                  <img
+                    ImageSrc
+                    class="mr-2 back_page"
+                    width="22px"
+                    src="./../../../assets/icons/Shape.svg"
+                    alt="requirements"
+                    (click)="goToProfile()"
+                      [routerLink]="'/my-account/dashboard'"
+                      routerLinkActive="active"
+                  />
+                  <span class="manage-bookings-heading theme__back-page-label" translate>Manage Bookings</span>
+                </h1>
               </div>
             </div>
           </div>
@@ -37,8 +39,8 @@
     <div class="container total_viewcontainer p-0 pl-md-3 pr-md-3">
       <div class="row m-0">
         <div class="col-sm-12 p-0">
-          <div class="view_Bookings">
-            <div class="outer">
+          <div class="view_Bookings theme_view_Bookings">
+            <div class="outer sb_outer_tab_container">
               <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                 <li
                   class="nav-item"
@@ -47,7 +49,7 @@
                 >
                   <a
                     translate
-                    class="nav-link p-2 theme__bookings-tab"
+                    class="nav-link pb-2 mr-lg-4 theme__bookings-tab"
                     [ngClass]="{ active: isActive('cancelTicket') }"
                     id="one-tab-mb"
                     data-toggle="tab"
@@ -68,7 +70,7 @@
                 >
                   <a
                     translate
-                    class="nav-link p-2 theme__bookings-tab"
+                    class="nav-link pb-2 mr-lg-4 theme__bookings-tab"
                     [ngClass]="{ active: isActive('changeDate') }"
                     id="two-tab-mb"
                     data-toggle="tab"
@@ -80,15 +82,15 @@
                   >
                 </li>
                 <li
-                  class="nav-item"
                   *ngIf="
-                    (view == 'manage' && !showTabsVal && showEditTab) ||
-                    (view == 'viewQuery' && editQId.length != 0 && !showTabsVal && !showEditTab)
+                    ((view == 'manage' && !showTabsVal && showEditTab) ||
+                    (view == 'viewQuery' && editQId.length != 0 && !showTabsVal && !showEditTab)) &&
+                    country !== 'SB'
                   "
                   (click)="tabVal('editPassenger')"
                 >
                   <a
-                    class="nav-link p-2 theme__bookings-tab"
+                    class="nav-link pb-2 theme__bookings-tab"
                     [ngClass]="{ active: isActive('editPassenger') }"
                     id="three-tab-mb"
                     data-toggle="tab"
@@ -123,7 +125,7 @@
                             let last = last
                           "
                         > -->
-                        <h5 *ngIf="country !== 'ABSA'" class="route_info">
+                        <h5 *ngIf="country !== 'ABSA' && country !== 'SB'" class="route_info">
                           {{
                             itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList[0]
                               .departureAirport
@@ -143,19 +145,19 @@
                             ].arrivalAirport
                           }}
                         </h5>
-                        <div class="travellers mt-3">
+                        <div class="travellers" [ngClass]="{ 'mt-3': country !== 'SB' }">
                           <div aria-describedby="user journey details" class="dataTableCss internalListTable mb-0">
                             <div class="table_Head d-none d-md-block">
                               <div class="d-flex table_head_row">
-                                <span translate id="passender" class="col-2">PASSENGER</span>
-                                <span translate id="date" class="col-3">TRAVEL DATE</span>
-                                <span translate id="status" class="col-2">STATUS</span>
-                                <span translate id="pnr" class="col-1">PNR</span>
-                                <span translate id="bookedDate" class="col-2">BOOKED ON</span>
-                                <span translate id="queryCreated" class="col-2"></span>
+                                <span translate id="passender" class="col-lg-4 col-md-3">PASSENGER</span>
+                                <span translate id="date" class="col-md-3">TRAVEL DATE</span>
+                                <span translate id="status" class="col-md-2">STATUS</span>
+                                <span translate id="pnr" class="col-md-1">PNR</span>
+                                <span translate id="bookedDate" class="col-md-2">BOOKED ON</span>
+                                <span translate id="queryCreated" class="col-md-1"></span>
                               </div>
                             </div>
-                            <div class="table_body">
+                            <div class="table_body sb_cancel_table_body">
                               <ng-container *ngFor="let traveller of itineraries.travellerList">
                                 <div
                                   class="table_body_row row theme__raise-priority"
@@ -163,6 +165,7 @@
                                     view == 'manage' ||
                                     (view !== 'manage' &&
                                       getQuery(
+                                        traveller.personName.nameTitle,
                                         traveller.personName.givenName,
                                         traveller.personName.surname,
                                         itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList[0]
@@ -174,11 +177,12 @@
                                       ))
                                   "
                                 >
-                                  <div class="col-8 col-md-2">
+                                  <div class="col-12 col-lg-4 col-md-4">
                                     <span
                                       class="d-none"
                                       *ngIf="
                                         !getQuery(
+                                          traveller.personName.nameTitle,
                                           traveller.personName.givenName,
                                           traveller.personName.surname,
                                           itineraries.originDestinationOptionsList[showIndex]
@@ -205,7 +209,8 @@
                                         "
                                       ></mat-checkbox
                                     ></span>
-                                    <span class="traveller_data">
+                                    <span class="traveller_data sb_traveller_data">
+                                      {{ traveller.personName.nameTitle | titlecase }}
                                       {{ traveller.personName.givenName | titlecase }}
                                       {{ traveller.personName.surname | titlecase }}
                                     </span>
@@ -217,6 +222,7 @@
                                         (click)="
                                           viewmobileRecord(
                                             getQuery(
+                                              traveller.personName.nameTitle,
                                               traveller.personName.givenName,
                                               traveller.personName.surname,
                                               itineraries.originDestinationOptionsList[showIndex]
@@ -231,6 +237,7 @@
                                         "
                                         *ngIf="
                                           getQuery(
+                                            traveller.personName.nameTitle,
                                             traveller.personName.givenName,
                                             traveller.personName.surname,
                                             itineraries.originDestinationOptionsList[showIndex]
@@ -248,7 +255,7 @@
                                   </div>
                                   <div class="col-12 col-md-3">
                                     <div class="date_flights">
-                                      <span *ngIf="country !== 'ABSA'" class="date_Wrap">
+                                      <span *ngIf="country !== 'ABSA' && country !== 'SB'" class="date_Wrap">
                                         <div class="d_mnth">
                                           {{
                                             itineraries.originDestinationOptionsList[showIndex]
@@ -281,7 +288,7 @@
                                           <div class="d_month">
                                             {{
                                               itineraries.originDestinationOptionsList[showIndex]
-                                              .bookingFlightSegmentList[0].departureDateTime | date: 'MMM'
+                                                .bookingFlightSegmentList[0].departureDateTime | date: 'MMM'
                                             }}
                                           </div>
                                           <div class="d_week">
@@ -292,10 +299,38 @@
                                           </div>
                                         </div>
                                       </span>
+                                      <span *ngIf="country === 'SB'" class="theme__date-container">
+                                        <div class="sb_theme_date-wrap">
+                                          <div class="theme__date-wrap">
+                                            <div class="d_date mr-1">
+                                              {{
+                                                itineraries.originDestinationOptionsList[showIndex]
+                                                  .bookingFlightSegmentList[0].departureDateTime | date: 'dd'
+                                              }}
+                                            </div>
+                                          </div>
+                                          <div>
+                                            <div class="theme__date-wrap">
+                                              <div class="d_week">
+                                                {{
+                                                  itineraries.originDestinationOptionsList[showIndex]
+                                                    .bookingFlightSegmentList[0].departureDateTime | date: 'EEE'
+                                                }}
+                                              </div>
+                                              <div class="d_month">
+                                                {{
+                                                  itineraries.originDestinationOptionsList[showIndex]
+                                                    .bookingFlightSegmentList[0].departureDateTime | date: 'MMM'
+                                                }}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </span>
                                       <span class="flights_details">
                                         <img
                                           ImageSrc
-                                          *ngIf="country !== 'ABSA'"
+                                          *ngIf="country !== 'ABSA' && country !== 'SB'"
                                           class="mr-1"
                                           width="12px"
                                           src="./../../../assets/icons/plane.svg"
@@ -310,11 +345,22 @@
                                         <span
                                           ><img
                                             ImageSrc
+                                            *ngIf="country !== 'SB'"
                                             src="./../../../assets/icons/flight_icn_devide.svg"
                                             alt="dir"
                                             width="40px"
                                             class="img_flights theme__flights-icon"
                                         /></span>
+                                        <span>
+                                          <img
+                                            ImageSrc
+                                            *ngIf="country === 'SB'"
+                                            [src]="'./../../../assets/icons/flight_icn_devide_alternative.svg'"
+                                            alt="dir"
+                                            width="20px"
+                                            class="img_flights theme__flights-icon"
+                                          />
+                                        </span>
                                         <span class="route_view theme__raise-priority theme__raise-priority-higher">
                                           {{
                                             itineraries.originDestinationOptionsList[showIndex]
@@ -328,33 +374,42 @@
                                     </div>
                                   </div>
                                   <div class="col-4 col-md-2">
-                                    <div class="resposive_lbl d-md-none theme__booking-label">{{ country === 'ABSA' ? 'Status' : 'STATUS' }}</div>
+                                    <div class="resposive_lbl d-md-none theme__booking-label">
+                                      {{ country === 'ABSA' ? 'Status' : 'STATUS' }}
+                                    </div>
                                     <span class="{{ viewResultData.bookingStatus }} theme__booking-text">
                                       {{ viewResultData.bookingStatus }}
                                     </span>
                                   </div>
                                   <div class="col-3 col-md-1">
                                     <div class="resposive_lbl d-md-none theme__booking-label">PNR</div>
-                                    <span class="theme__booking-text" translate *ngIf="!itineraries.pnrReference">N/A</span>
-                                    <span class="theme__booking-text" *ngIf="itineraries.pnrReference"> {{ itineraries.pnrReference }}</span>
+                                    <span class="theme__booking-text" translate *ngIf="!itineraries.pnrReference"
+                                      >N/A</span
+                                    >
+                                    <span class="theme__booking-text" *ngIf="itineraries.pnrReference">
+                                      {{ itineraries.pnrReference }}</span
+                                    >
                                   </div>
                                   <div class="col-5 col-md-2">
-                                    <div class="resposive_lbl d-md-none theme__booking-label">{{ country === 'ABSA' ? 'Booked On' : 'BOOKED ON' }}</div>
+                                    <div class="resposive_lbl d-md-none theme__booking-label">
+                                      {{ country === 'ABSA' ? 'Booked On' : 'BOOKED ON' }}
+                                    </div>
                                     <span class="theme__booking-text">
                                       {{
-                                        country === 'ABSA'
+                                        country === 'ABSA' || country === 'SB'
                                           ? (viewResultData.createdDateTime | date: 'EEE, MMM d')
                                           : (viewResultData.createdDateTime | date: 'EEE, MMM d, yyyy')
                                       }}
                                     </span>
                                   </div>
-                                  <div class="col-md-2 d-none d-md-block">
+                                  <div class="col-md-1 d-none d-md-block">
                                     <span *ngIf="querydata.length != 0">
                                       <a
                                         class="q_recordLink"
                                         (click)="
                                           viewRecord(
                                             getQuery(
+                                              traveller.personName.nameTitle,
                                               traveller.personName.givenName,
                                               traveller.personName.surname,
                                               itineraries.originDestinationOptionsList[showIndex]
@@ -369,6 +424,7 @@
                                         "
                                         *ngIf="
                                           getQuery(
+                                            traveller.personName.nameTitle,
                                             traveller.personName.givenName,
                                             traveller.personName.surname,
                                             itineraries.originDestinationOptionsList[showIndex]
@@ -400,105 +456,120 @@
                       </p>
                     </div>
                     <div *ngIf="view == 'manage' && !showTabsVal">
-                      <div class="cancel_reasons" *ngIf="!showTabsVal">
-                        <div class="reason_head">
-                          <h5 *ngIf="country !== 'ABSA'" translate>What is the reason for cancelling your booking?</h5>
-                          <span *ngIf="country === 'ABSA'" class="theme__reason-header" translate>What is the reason for cancelling your booking?</span>
+                      <ng-container *ngIf="country !== 'SB'">
+                        <div class="cancel_reasons" *ngIf="!showTabsVal">
+                          <div class="reason_head">
+                            <h5 *ngIf="country !== 'ABSA'" translate>
+                              What is the reason for cancelling your booking?
+                            </h5>
+                            <span *ngIf="country === 'ABSA'" class="theme__reason-header" translate
+                              >What is the reason for cancelling your booking?</span
+                            >
+                          </div>
+                          <div class="reason_body">
+                            <ul class="mb-0 theme__reasons-list-container">
+                              <li>
+                                <label class="btn p-0">
+                                  <input
+                                    type="radio"
+                                    class="form-switch radio_1set"
+                                    name="gender"
+                                    (change)="selectReason('I want to cancel my booking (includes penalty fee).')"
+                                    value="1"
+                                  />
+                                  <span translate>I want to cancel my booking (includes penalty fee).</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="btn p-0">
+                                  <input
+                                    type="radio"
+                                    class="form-switch radio_1set"
+                                    name="gender"
+                                    (change)="
+                                      selectReason(
+                                        'I directly cancelled my booking with the airline (includes penalty).'
+                                      )
+                                    "
+                                    value="2"
+                                  />
+                                  <span translate>I directly cancelled cancel my booking (includes penalty fee).</span>
+                                </label>
+                              </li>
+                              <!-- <li>
+                                    <label class="btn p-0">
+                                      <input
+                                        type="radio"
+                                        class="form-switch radio_1set"
+                                        name="gender"
+                                        (change)="selectReason('I directly cancelled my booking with the airline (includes penalty).')"
+                                        value="2"
+                                      />
+                                      <span translate>I directly cancelled my booking with the airline (includes penalty).</span>
+                                    </label>
+                                    <span></span>
+                                  </li> -->
+                              <li>
+                                <label class="btn p-0">
+                                  <input
+                                    type="radio"
+                                    class="form-switch radio_1set"
+                                    name="gender"
+                                    (change)="selectReason('My flight was cancelled by the airline.')"
+                                    value="3"
+                                  />
+                                  <span translate>My flight was cancelled by the airline.</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="btn p-0">
+                                  <input
+                                    type="radio"
+                                    class="form-switch radio_1set"
+                                    name="gender"
+                                    (change)="selectReason('My flight was rescheduled by the airline.')"
+                                    value="4"
+                                  />
+                                  <span translate>My flight was rescheduled by the airline.</span>
+                                </label>
+                              </li>
+                              <li>
+                                <label class="btn p-0">
+                                  <input
+                                    type="radio"
+                                    class="form-switch radio_1set"
+                                    name="gender"
+                                    (change)="selectReason('I missed my flight.')"
+                                    value="5"
+                                  />
+                                  <span translate>I missed my flight.</span>
+                                </label>
+                              </li>
+                            </ul>
+                            <p
+                              translate
+                              class="validation_msg ml-3 mr-3"
+                              *ngIf="cancelContinue == true && !selectedReason"
+                            >
+                              Please select the reason
+                            </p>
+                          </div>
                         </div>
-                        <div class="reason_body">
-                          <ul class="mb-0 theme__reasons-list-container">
-                            <li>
-                              <label class="btn p-0">
-                                <input
-                                  type="radio"
-                                  class="form-switch radio_1set"
-                                  name="gender"
-                                  (change)="selectReason('I want to cancel my booking (includes penalty fee).')"
-                                  value="1"
-                                />
-                                <span translate>I want to cancel my booking (includes penalty fee).</span>
-                              </label>
-                            </li>
-
-                            <li>
-                              <label class="btn p-0">
-                                <input
-                                  type="radio"
-                                  class="form-switch radio_1set"
-                                  name="gender"
-                                  (change)="
-                                    selectReason('I directly cancelled my booking with the airline (includes penalty).')
-                                  "
-                                  value="2"
-                                />
-                                <span translate>I directly cancelled cancel my booking (includes penalty fee).</span>
-                              </label>
-                            </li>
-
-                            <!-- <li>
-                                  <label class="btn p-0">
-                                    <input
-                                      type="radio"
-                                      class="form-switch radio_1set"
-                                      name="gender"
-                                      (change)="selectReason('I directly cancelled my booking with the airline (includes penalty).')"
-                                      value="2"
-                                    />
-                                    <span translate>I directly cancelled my booking with the airline (includes penalty).</span>
-                                  </label>
-                                  <span></span>
-                                </li> -->
-                            <li>
-                              <label class="btn p-0">
-                                <input
-                                  type="radio"
-                                  class="form-switch radio_1set"
-                                  name="gender"
-                                  (change)="selectReason('My flight was cancelled by the airline.')"
-                                  value="3"
-                                />
-                                <span translate>My flight was cancelled by the airline.</span>
-                              </label>
-                            </li>
-                            <li>
-                              <label class="btn p-0">
-                                <input
-                                  type="radio"
-                                  class="form-switch radio_1set"
-                                  name="gender"
-                                  (change)="selectReason('My flight was rescheduled by the airline.')"
-                                  value="4"
-                                />
-                                <span translate>My flight was rescheduled by the airline.</span>
-                              </label>
-                            </li>
-                            <li>
-                              <label class="btn p-0">
-                                <input
-                                  type="radio"
-                                  class="form-switch radio_1set"
-                                  name="gender"
-                                  (change)="selectReason('I missed my flight.')"
-                                  value="5"
-                                />
-                                <span translate>I missed my flight.</span>
-                              </label>
-                            </li>
-                          </ul>
-                          <p
-                            translate
-                            class="validation_msg ml-3 mr-3"
-                            *ngIf="cancelContinue == true && !selectedReason"
-                          >
-                            Please select the reason
-                          </p>
-                        </div>
-                      </div>
+                      </ng-container>
                       <div class="cancel_proceed" *ngIf="!showTabsVal">
                         <div class="proceed_head">
-                          <h5 *ngIf="country !== 'ABSA'" translate>Do you want to proceed with your cancellation?</h5>
-                          <span *ngIf="country === 'ABSA'" class="theme__reason-header" translate>Do you want to proceed with your cancellation?</span>
+
+                          <h5 *ngIf="country !== 'ABSA' && country !== 'SB'" translate>
+                            Do you want to proceed with your cancellation?
+                          </h5>
+                          <span
+                            *ngIf="country === 'ABSA' || country === 'SB'"
+                            class="theme__reason-header sb_theme_reason_header"
+                            translate
+                            >Do you want to proceed with your cancellation?</span
+                          >
                         </div>
+                        <span class="sb_please_note" *ngIf="country === 'SB'">Please take note:</span>
                         <div class="proceed_body">
                           <!-- ToDo if refund selects -->
                           <!-- <div class="select_refund">
@@ -553,21 +624,23 @@
                                   </li>
                                 </ul>
                               </div> -->
-                          <div class="proceed_des" *ngIf="!showTabsVal">
-                            <ul>
+                          <div class="proceed_des sb_proceed_des" *ngIf="!showTabsVal">
+                            <ul class="sb_notes_description">
                               <li translate>
                                 The fare will be refunded to the same account you used while you make the booking
                               </li>
-                              <li translate>What you should know before cancelling these tickets?</li>
-                              <li>
-                                *
+                              <li *ngIf="country !== 'SB'" translate>
+                                What you should know before cancelling these tickets?
+                              </li>
+                              <li *ngIf="country !== 'SB'">
+                                <span *ngIf="country !== 'ABSA'">*</span>
                                 <span translate
                                   >The ticket price will be refunded to the same account you used to make the
                                   booking.</span
                                 >
                               </li>
                               <li>
-                                *
+                                <span *ngIf="country !== 'SB' && country !== 'ABSA'">*</span>
                                 <span translate
                                   >The refundable amount is calculated based on the airline rules and restrictions, and
                                   flight booking policy</span
@@ -575,14 +648,17 @@
                               </li>
 
                               <li>
-                                *
+                                <span *ngIf="country !== 'SB' && country !== 'ABSA'">*</span>
                                 <span translate
                                   >The final amount refunded to your account may be less than the amount you paid.</span
                                 >
                               </li>
 
-                              <li>* <span translate>Any used tickets will not be refunded.</span></li>
-                              <br *ngIf="country !== 'ABSA'" />
+                              <li>
+                                <span *ngIf="country !== 'SB' && country !== 'ABSA'">*</span>
+                                <span translate>Any used tickets will not be refunded.</span>
+                              </li>
+                              <br *ngIf="country !== 'ABSA' && country !== 'SB'" />
 
                               <li>
                                 <span translate
@@ -592,7 +668,7 @@
                               </li>
                               <!-- <li>1. Travelstart+</li>
                                   <li>2. Account/Cards</li> -->
-                              <li>
+                              <li *ngIf="country !== 'SB'">
                                 <span
                                   ><span translate
                                     >Please note that any voucher codes applied to your booking will be deducted from
@@ -604,6 +680,17 @@
                                 </span>
                               </li>
                             </ul>
+                            <div class="sb_final_notes_container" *ngIf="country === 'SB'">
+                              <span translate
+                                >Please note that any voucher codes applied to your booking will be deducted from the
+                                refundable amount.</span
+                              >
+                            </div>
+                            <div class="sb_final_notes_container" *ngIf="country === 'SB'">
+                              <span translate
+                                >Once you have cancelled, you will receive a complete breakdown of your refund.</span
+                              >
+                            </div>
                           </div>
                           <div class="terms_cndns" *ngIf="!showTabsVal">
                             <span>
@@ -614,7 +701,7 @@
                                 (change)="SelectTermsCond($event)"
                               ></mat-checkbox
                             ></span>
-                            <span translate>I agree with the refunds</span>
+                            <span translate>I agree with the refunds </span>
                             <a
                               translate
                               href="{{ 'terms and conditions URL' | translate }}"
@@ -631,10 +718,10 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row m-0 mt-3" *ngIf="viewResultData && !showTabsVal && view == 'manage'">
-                    <div class="col-sm-12 text-right">
+                  <div class="row m-0 mt-4" *ngIf="viewResultData && !showTabsVal && view == 'manage'">
+                    <div class="col-sm-12 text-right mb-4">
                       <button class="sub_btn primary_btn" (click)="cancelFlight()">
-                        <span translate>Cancel Now</span>
+                        <span class="sb_changedate_btn_text" translate>Cancel Now</span>
                       </button>
                     </div>
                   </div>
@@ -647,12 +734,15 @@
                 aria-labelledby="two-tab-mb"
                 [ngClass]="{ active: isActive('changeDate') }"
               >
+              <div class="change_booking_date">
                 <app-change-booking-date
                   (changeTabVal)="changeDateVAl($event)"
                   [queryIdVal]="changeQId"
                   [cancelQueryVal]="querydata"
                 ></app-change-booking-date>
                 <div class="clearfix"></div>
+
+              </div>
               </div>
               <div
                 class="tab-pane mb-4"
@@ -688,11 +778,11 @@
   role="dialog"
   aria-hidden="true"
 >
-  <div class="modal-dialog cancel_mdl_dialog" role="document">
+  <div class="modal-dialog cancel_mdl_dialog sb_cancel_mdl_dialog" role="document">
     <div class="modal-content dialog_content">
       <div class="modal-body mdl_body">
-        <div translate class="mdl_heading">Are you sure you want to cancel?</div>
-        <p class="mdl_subheading">
+        <div translate class="mdl_heading sb_mdl_heading">Are you sure you want to cancel?</div>
+        <p class="mdl_subheading sb_mdl_subheading">
           <span translate
             >Your refund amount is an estimate, calculated on the rules and restrictions of your ticket</span
           >, <span translate>as well as the airline’s booking policy.</span>
@@ -704,12 +794,12 @@
             >{{ viewResultData.totalCurrency }}&nbsp;{{ viewResultData.totalAmount }}</span>
         </h5> -->
 
-        <div class="text-center">
-          <button type="button" class="cancel_btn mr-md-2 mb-3 mb-md-0" aria-label="Close" data-dismiss="modal">
-            <span translate>Go Back</span>
-          </button>
+        <div class="text-center sb_btn_container">
           <button type="button" class="sub_btn primary_btn" aria-label="Close" (click)="continueCancel()">
-            <span translate>Cancel Ticket</span>
+            <span class="sb_changedate_btn_text" translate>Cancel Ticket</span>
+          </button>
+          <button type="button" class="cancel_btn mb-3 mb-md-0" aria-label="Close" data-dismiss="modal">
+            <span translate>Go Back</span>
           </button>
         </div>
       </div>

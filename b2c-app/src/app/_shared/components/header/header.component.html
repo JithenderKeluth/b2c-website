@@ -18,7 +18,7 @@
     </div>
 
     <mat-nav-list>
-      <a *ngIf="!iframeWidgetService.isWhiteLabelSite()"
+      <a
         mat-list-item
         class="tp-section"
         rel="nofollow"
@@ -29,11 +29,11 @@
         ><span translate>Flights</span>
       </a>
 
-      <span *ngIf="showBusesBtn && !iframeWidgetService.isWhiteLabelSite()">
+      <span *ngIf="showBusesBtn">
         <ng-container *ngTemplateOutlet="buses_link_mweb"> </ng-container>
       </span>
 
-      <a *ngIf="!iframeWidgetService.isWhiteLabelSite()"
+      <a
         mat-list-item
         class="tp-section"
         [routerLink]="[]"
@@ -44,7 +44,7 @@
           ><img ImageSrc src="../../assets/icons/hotel_sidemenu.svg" width="16px" height="25px" alt="stays" /></span
         ><span translate>Stays</span>
       </a>
-      <a 
+      <a
         mat-list-item
         class="tp-section"
         [routerLink]="[]"
@@ -113,7 +113,7 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <div *ngIf="countryValue !== 'ABSA'" class="wrapper">
+  <div *ngIf="countryValue !== 'ABSA' && countryValue !== 'SB'" class="wrapper theme__wrapper">
     <div class="toolbar" *ngIf="iframeWidgetService.isShowComponent()">
       <mat-toolbar>
         <div class="container p-0">
@@ -148,21 +148,22 @@
           <!--MasterCard whitelabel-->
           <span *ngIf="this.iframeWidgetService.isWhiteLabelSite()">
             <span class="mc_logo">
+              <a href="https://www.travelstart.co.za/" target="_blank" rel="noopener">
                 <img
                   ImageSrc
-                  class="logoTS mr-1"
+                  class="logoTS"
                   src="../../../../assets/images/travelstart-new-brand-logo.svg"
                   alt="Mastercard"
                   (click)="hideLoader()"
                 />
-             <img
+              </a>
+            </span>
+            <img
               ImageSrc
               src="./../../../../assets/icons/v1-icons/master-card-logo-lp.svg"
               alt="mc_logo"
               width="140px"
             />
-            </span>
-
           </span>
 
           <span *ngIf="countryValue == 'FS'">
@@ -177,7 +178,7 @@
 
           <div class="branding spacer d-none d-lg-inline nav_buttons ml-xl-4" *ngIf="isShowHeaderLinks()">
             <ul [style.top]="countryValue !== 'FS' ? '6px' : '3px'">
-              <li routerLinkActive="active" *ngIf="!iframeWidgetService.isWhiteLabelSite()">
+              <li routerLinkActive="active">
                 <button class="nav-button btn" name="flights" aria-label="Book Flights" (click)="hideLoader()">
                   <span class="c-val" translate>Flights</span>
                 </button>
@@ -185,7 +186,7 @@
               <li *ngIf="showBusesLabel()">
                 <ng-container *ngTemplateOutlet="buses_link_web"></ng-container>
               </li>
-              <li *ngIf="!iframeWidgetService.isWhiteLabelSite()">
+              <li>
                 <button class="nav-button btn" name="hotels" aria-label="Find Hotels" (click)="captureLink('Hotels')">
                   <span class="c-val" translate>Stays</span>
                 </button>

@@ -46,6 +46,10 @@ const routes: Routes = [
     path: 'hotel-booking-details',
     component: ViewHotelBookingDetailsComponent,
   },
+  {
+    path: 'help',
+    component: DashboardComponent,
+  },
 ];
 
 @NgModule({

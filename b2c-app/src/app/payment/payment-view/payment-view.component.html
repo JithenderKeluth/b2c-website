@@ -1,6 +1,6 @@
 <app-back-button
   *ngIf="
-    country === 'ABSA' &&
+    (country === 'ABSA' || country === 'SB') &&
     (responsiveService.screenWidth == 'sm' ||
       responsiveService.screenWidth == 'md')
   " [navigationLink]="'/booking/products'"
@@ -8,7 +8,7 @@
   <span translate>Payment</span>
 </app-back-button>
 <app-header></app-header>
-<div *ngIf="!paymentDeeplinkData" class="mwebBookingInfo_section d-block d-lg-none">
+<div *ngIf="!paymentDeeplinkData" class="mwebBookingInfo_section d-block d-lg-none" id="paymentMwebHeader">
   <div class="container p-0">
     <div
       *ngIf="responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md'"
@@ -26,135 +26,150 @@
   </div>
 </div>
 
-<div class="payment_view_page">
+<div class="payment_view_page" id="paymentViewPage">
   <div class="container">
     <div class="row">
       <div class="col-sm-12 col-lg-8 pl-0 pl-xs-15">
-        <div class="sec_header" *ngIf="!showIframe && country !== 'ABSA'">
-          <h4 translate>Select method of payment</h4>
-        </div>
-        <section class="payment_cards_section" *ngIf="!showIframe" [hidden]="showPeachCheckoutForm">
-          <app-payment-cards
-            #paymentCard
-            (cc_ProcessingFee)="get_cc_ProcessingFee($event)"
-            (setSaveCardDetails)="setSaveCardDetails($event)"
-            [bookingAmount]="bookingAmountVal"
-          ></app-payment-cards>
-        </section>
+        <ng-container *ngIf="showDiscountPromo && country === 'SB' && discounts.availableDiscounts.length !== 0">
+          <ng-container *ngTemplateOutlet="discountPaymentMethodsTemplate"></ng-container>
+        </ng-container>
 
-        <section class="iframe_payment_gateway" *ngIf="showIframe">
-          <div class="iframe_section bg-white">
-            <div class="d-lg-flex align-items-center">
-              <span class="redirect_head" translate>Redirect Gateway </span>
-              <span class="countDownSec ml-lg-auto d-block d-lg-inline" *ngIf="counter">
-                Stay active! your session is set to expire in
-                <label for="counter" class="countDownTimer mb-0">{{ counter }} seconds</label>
-              </span>
-            </div>
-            <!--{{iframeUrl}}-->
-            <div class="clearfix"></div>
-            <hr />
-            <div
-              class="donotCloseMsg mb-3"
-              *ngIf="
-                selected_Payment_option && selected_Payment_option != 'IPAY' && selected_Payment_option != 'PAYSTACK'
-              "
-            >
-              Please do not close this window or refresh the page as your payment is being processed. Thank you for your
-              patience.
-            </div>
+        <!-- Use d-none rather than *ngIf so that the components can init and update the price -->
+        <div [ngClass]="{
+            'd-none': showDiscountPromo && country === 'SB' && discounts.availableDiscounts.length !== 0
+          }">
+          <div class="sec_header" *ngIf="!showIframe && country !== 'ABSA' && country !== 'SB'">
+            <h4 translate>Select method of payment</h4>
+          </div>
 
-            <div class="redirect_content mb-3" translate *ngIf="showOTPContent()">
-              Kindly note, the amount reflected on the in-app or OTP request may differ from your total purchase amount,
-              charges are split between the Airline and Travelstart to secure your booking. The balance will be charged
-              directly to your card.
-            </div>
-            <div id="pause" class="d-flex align-items-center justify-content-center mt-4" *ngIf="three3DLoad">
-              <div id="spinner"></div>
-            </div>
-            <div *ngIf="three3DIframe">
-              <section class="ts-card ts-card--ecommerce mt-4">
-                <div class="ts-card__body">
-                  <div class="form form--horizontal">
-                    <iframe
-                      title="3DIframe"
-                      style="display: block; min-height: 600px; border: none"
-                      width="100%"
-                      name="threeDSecureIFrame"
-                      id="threeDSecureIFrame"
-                    >
-                      <div class="modal__text--message" class="modal__text--message">
-                        <span translate>Your browser does not support iFrames.</span>
-                      </div>
-                    </iframe>
-                    <form
-                      #f
-                      action="{{ targetUrl }}"
-                      method="post"
-                      target="threeDSecureIFrame"
-                      id="threeDSecureForm"
-                      name="threeDSecureForm"
-                      (ngSubmit)="onSubmit($event)"
-                    >
-                      <div *ngFor="let param of threeDparams | keyvalue">
-                        <input name="{{ param.key }}" value="{{ param.value }}" type="hidden" />
-                      </div>
-                      <input id="submitIframe" type="submit" value="post" class="d-none" />
-                    </form>
+          <section class="payment_cards_section" *ngIf="!showIframe" [hidden]="showPeachCheckoutForm">
+            <app-payment-cards
+              #paymentCard
+              (cc_ProcessingFee)="get_cc_ProcessingFee($event)"
+              (setSaveCardDetails)="setSaveCardDetails($event)"
+              (binListResponseChanged)="onBinListResponseChanged($event)"
+              (discountInfo)="onDiscountInfoClicked()"
+              [bookingAmount]="bookingAmountVal"
+              [discounts]="discounts"
+              [selectedDiscount]="selectedDiscount"
+              [totalPrice]="totalPrice"
+            ></app-payment-cards>
+          </section>
+
+          <section class="iframe_payment_gateway" *ngIf="showIframe">
+            <div class="iframe_section bg-white">
+              <div class="d-lg-flex align-items-center">
+                <span class="redirect_head" translate>Redirect Gateway </span>
+                <span class="countDownSec ml-lg-auto d-block d-lg-inline" *ngIf="counter">
+                  Stay active! your session is set to expire in
+                  <label for="counter" class="countDownTimer mb-0">{{ counter }} seconds</label>
+                </span>
+              </div>
+              <!--{{iframeUrl}}-->
+              <div class="clearfix"></div>
+              <hr />
+              <div
+                class="donotCloseMsg mb-3"
+                *ngIf="
+                  selected_Payment_option && selected_Payment_option != 'IPAY' && selected_Payment_option != 'PAYSTACK'
+                "
+              >
+                Please do not close this window or refresh the page as your payment is being processed. Thank you for your
+                patience.
+              </div>
+
+              <div class="redirect_content mb-3" translate *ngIf="showOTPContent()">
+                <span translate>Kindly note, the amount reflected on the in-app or OTP request may differ from your total purchase amount,</span>
+                <span translate>charges are split between the Airline and Travelstart to secure your booking.</span>
+                <span translate>The balance will be charged directly to your card.</span>
+              </div>
+              <div id="pause" class="d-flex align-items-center justify-content-center mt-4" *ngIf="three3DLoad">
+                <div id="spinner"></div>
+              </div>
+              <div *ngIf="three3DIframe">
+                <section class="ts-card ts-card--ecommerce mt-4">
+                  <div class="ts-card__body">
+                    <div class="form form--horizontal">
+                      <iframe
+                        title="3DIframe"
+                        style="display: block; min-height: 600px; border: none"
+                        width="100%"
+                        name="threeDSecureIFrame"
+                        id="threeDSecureIFrame"
+                      >
+                        <div class="modal__text--message" class="modal__text--message">
+                          <span translate>Your browser does not support iFrames.</span>
+                        </div>
+                      </iframe>
+                      <form
+                        #f
+                        action="{{ targetUrl }}"
+                        method="post"
+                        target="threeDSecureIFrame"
+                        id="threeDSecureForm"
+                        name="threeDSecureForm"
+                        (ngSubmit)="onSubmit($event)"
+                      >
+                        <div *ngFor="let param of threeDparams | keyvalue">
+                          <input name="{{ param.key }}" value="{{ param.value }}" type="hidden" />
+                        </div>
+                        <input id="submitIframe" type="submit" value="post" class="d-none" />
+                      </form>
+                    </div>
                   </div>
-                </div>
-              </section>
+                </section>
+              </div>
             </div>
-          </div>
-        </section>
-        <section class="iframe_payment_gateway" *ngIf="showPeachCheckoutForm">
-          <div class="iframe_section bg-white">
-            <div id="pause" class="d-flex align-items-center justify-content-center mt-4" *ngIf="showPeachCheckoutLoader">
-              <div id="spinner"></div>
-            </div>
-            <iframe
-            title="peachCheckoutFormIframe"
-            style="display: block; min-height: 600px; border: none;background-color: #fff;border-radius: 12px;"
-            width="100%"
-            [src]="targetUrl"
-            id="peachCheckoutFormIframe"
-          >
-          </iframe>
-          </div>
-          <!-- <app-peach-checkout-form
-            #peachCheckoutForm
-            [peachCheckoutData]="peachCheckoutData"
-          ></app-peach-checkout-form> -->
-
-        </section>
-        <div class="btn-controls d-none d-lg-block mt-4 mb-4" *ngIf="!showIframe && !showPeachCheckoutForm">
-          <div class="button-group">
-            <button
-              type="button"
-              class="btn book_btn primary_btn onHover float-right"
-              [disabled]="isLoading"
-              aria-label="Pay Now"
-              (click)="processPayment()"
+          </section>
+          <section class="iframe_payment_gateway" *ngIf="showPeachCheckoutForm">
+            <div class="iframe_section bg-white">
+              <div id="pause" class="d-flex align-items-center justify-content-center mt-4" *ngIf="showPeachCheckoutLoader">
+                <div id="spinner"></div>
+              </div>
+              <iframe
+              title="peachCheckoutFormIframe"
+              style="display: block; min-height: 600px; border: none;background-color: #fff;border-radius: 12px;"
+              width="100%"
+              [src]="targetUrl"
+              id="peachCheckoutFormIframe"
             >
-              <i class="fa fa-spinner fa-spin" style="font-size: 24px" [hidden]="!isLoading" aria-hidden="true"></i>
-              <span
-                translate
-                *ngIf="
-                  (apiService.extractCountryFromDomain() !== 'NG' && apiService.extractCountryFromDomain() !== 'GI') ||
-                  ((apiService.extractCountryFromDomain() === 'NG' || apiService.extractCountryFromDomain() === 'GI') &&
-                    paymentcard?.selectedPaymentOption !== 'EFT')
-                "
-                >Pay Now</span
+            </iframe>
+            </div>
+            <!-- <app-peach-checkout-form
+              #peachCheckoutForm
+              [peachCheckoutData]="peachCheckoutData"
+            ></app-peach-checkout-form> -->
+
+          </section>
+          <div class="btn-controls d-none d-lg-block mt-4 mb-4" *ngIf="!showIframe && !showPeachCheckoutForm">
+            <div class="button-group">
+              <button
+                type="button"
+                class="btn book_btn primary_btn onHover float-right"
+                [disabled]="isLoading"
+                aria-label="Pay Now"
+                (click)="processPayment()"
               >
-              <span
-                translate
-                *ngIf="
-                  (apiService.extractCountryFromDomain() === 'NG' || apiService.extractCountryFromDomain() === 'GI') &&
-                  paymentcard?.selectedPaymentOption === 'EFT'
-                "
-                >Reserve</span
-              >
-            </button>
+                <i class="fa fa-spinner fa-spin" style="font-size: 24px" [hidden]="!isLoading" aria-hidden="true"></i>
+                <span
+                  translate
+                  *ngIf="
+                    (apiService.extractCountryFromDomain() !== 'NG' && apiService.extractCountryFromDomain() !== 'GI') ||
+                    ((apiService.extractCountryFromDomain() === 'NG' || apiService.extractCountryFromDomain() === 'GI') &&
+                      paymentcard?.selectedPaymentOption !== 'EFT')
+                  "
+                  >Pay Now</span
+                >
+                <span
+                  translate
+                  *ngIf="
+                    (apiService.extractCountryFromDomain() === 'NG' || apiService.extractCountryFromDomain() === 'GI') &&
+                    paymentcard?.selectedPaymentOption === 'EFT'
+                  "
+                  >Reserve</span
+                >
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -177,10 +192,14 @@
             [isLoading]="isLoading"
             [showIframe]="showIframe"
             [cc_processFee]="cc_ProcessingFee"
+            [discounts]="discounts"
+            [selectedDiscount]="selectedDiscount"
+            (totalPriceChanged)="onTotalPriceChanged($event)"
+            (discountsAcknowledged)="onDiscountsAcknowledged()"
           ></app-booking-summary>
         </section>
       </div>
-    </div>
+    </div><!--here -->
   </div>
 </div>
 
@@ -321,11 +340,14 @@
                 <div class="text-left paymnt_addlTxt">
                   <strong translate>What should you do:</strong>
                   <ul class="pl-4">
-                    <li *ngIf="appSessionService.isWhiteLabelInstance() && country !== 'ABSA'">
+                    <li *ngIf="appSessionService.isWhiteLabelInstance() && country !== 'ABSA' && country !== 'SB'">
                       Check that you have entered your Investec Visa card details correctly and resubmit
                     </li>
-                     <li *ngIf="country !== 'ABSA'">
+                     <li *ngIf="country === 'ABSA'">
                       Check that you have entered your Absa card details correctly and resubmit
+                    </li>
+                    <li *ngIf="country === 'SB'">
+                      Check that you have entered your Standard Bank card details correctly and resubmit
                     </li>
                     <li *ngIf="!appSessionService.isWhiteLabelInstance()" translate>
                       Check the above details and resubmit your card details again or select a different form of
@@ -359,6 +381,8 @@
               </div>
             </div>
             <div class="payment_failedtext" *ngIf="!BookApiError && paxNamelengthError">
+              <p class="mb-2 bold" *ngIf="apiService.extractCountryFromDomain() == 'SB'">Hold  Up!</p>
+
               <span translate
                 >Hold up! It looks like your names have exceeded our max character limit to book online.</span
               >
@@ -409,3 +433,26 @@
     </div>
   </div>
 </dialog>
+
+<!-- Promo of available payment methods with associated discounts (Std Bank) -->
+<ng-template #discountPaymentMethodsTemplate>
+  <div class="discount-promo">
+    <!-- <h3 class="discount-promo__header" translate>Your payment methods</h3> -->
+
+    <app-discount-promo *ngFor="let discount of discounts.availableDiscounts; let isLast = last"
+      [currencyCode]="discounts.currencyCode"
+      [name]="getDiscountDisplayName(discount.name)"
+      [totalAmount]="totalPrice"
+      [discountAmount]="discount.amount"
+      [discountPercentage]="discount.percentage"
+      [itinDiscount]="bookingInfo?.itineraryData?.fareBreakdown?.discountAmount"
+      [showBookingFee]="isLast"
+      >
+    </app-discount-promo>
+
+    <!-- Desktop view needs its own button - this has no design but it gives the user a way forward -->
+    <button class="discount-promo__btn d-none d-lg-block btn primary_btn" (click)="onDiscountsAcknowledged()">
+      <span translate>Next</span>
+    </button>
+  </div>
+</ng-template>

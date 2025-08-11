@@ -15,6 +15,7 @@ export class TravelRestrictionsComponent implements OnInit {
   }
 
   public loadScript() {
+    if(typeof document == 'undefined') return;
     const url = 'https://sdk.joinsherpa.io/widget.js?appId=spIwMTk4OD';
     const node = document.createElement('script');
     node.src = url;

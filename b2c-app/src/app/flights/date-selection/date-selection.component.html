@@ -1,20 +1,74 @@
-<div #dateWidget style="height: 100vh">
+<div #dateWidget [ngStyle]="{'height': tsCountry !== 'SB' ? '100vh' : 'auto'}">
   <span class="tripTypeData">{{ getControlData(widgetData) }}</span>
   <div class="text-center fare_subject_txt">*Fares subject to availability</div>
-  <div class="row">
-    <div class="col-12 widget_calender p-0">
+
+  <ng-container *ngIf="tsCountry !== 'SB'" [ngTemplateOutlet]="dateSelect"></ng-container>
+  <div *ngIf="tsCountry === 'SB'" class="date-selector">
+  <ng-container [ngTemplateOutlet]="dateSelect"></ng-container>
+  </div>
+</div>
+
+<ng-template #dateSelect>
+  <div class="d-flex justify-content-between" *ngIf="tsCountry === 'SB'">
+    <div class="date-selector-container">
+      <button class="date-nav-button" (click)="navigate(-1, 'm')">
+        <img ImageSrc src="../../../assets/icons/left-chevron.svg" alt="">
+      </button>
+      <mat-select class="date-dropdown" [ngModel]="selectedMonth" (ngModelChange)="changeMonth($event); oldMonth = $event">
+        <mat-option class="matOptions" *ngFor="let month of displayedMonths" [value]="month">{{i18n.getMonthShortName(month)}}</mat-option>
+      </mat-select>
+      <button class="date-nav-button" (click)="navigate(1, 'm')">
+        <img ImageSrc src="../../../assets/icons/right-chevron.svg" alt="">
+      </button>
+    </div>
+    <div class="date-selector-container">
+      <button class="date-nav-button" (click)="navigate(-1, 'y')">
+        <img ImageSrc src="../../../assets/icons/left-chevron.svg" alt="">
+      </button>
+      <mat-select class="date-dropdown" [ngModel]="selectedYear" (ngModelChange)="changeYear($event)">
+        <mat-option class="matOptions" *ngFor="let year of displayedYears" [value]="year">{{year}}</mat-option>
+      </mat-select>
+      <button class="date-nav-button" (click)="navigate(1, 'y')">
+        <img ImageSrc src="../../../assets/icons/right-chevron.svg" alt="">
+      </button>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="d-flex widget_calender" *ngIf="tsCountry === 'SB'">
       <ngb-datepicker
         #dp
         [minDate]="minDate"
         [maxDate]="maxDate"
         (dateSelect)="onDateSelection($event)"
-        [displayMonths]="12"
+        [displayMonths]="displayMonths"
+        [dayTemplate]="t"
+        [navigation]="'none'"
+        [weekdays]="0"
+        outsideDays="hidden"
+      >
+        <ng-template ngbDatepickerContent>
+          <div *ngFor="let month of dp.state.months">
+            <ngb-datepicker-month class="d-flex flex-column align-items-center" [month]="month"></ngb-datepicker-month>
+          </div>
+        </ng-template>
+      </ngb-datepicker>
+    </div>
+    <div class="col-12 widget_calender p-0" *ngIf="tsCountry !== 'SB'">
+      <ngb-datepicker
+        #dp
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        (dateSelect)="onDateSelection($event)"
+        [displayMonths]="displayMonths"
         [dayTemplate]="t"
         [navigation]="'none'"
         outsideDays="hidden"
       >
       </ngb-datepicker>
     </div>
+  </div>
+  <div class="row col-12 justify-content-end" *ngIf="tsCountry === 'SB'">
+    <button class="date-nav-button" [disabled]="isNextDisabled()" (click)="nextSelection()">{{getNextButtonText()}}</button>
   </div>
   <div class="date_info d-none" #info>
     <div class="row">
@@ -47,20 +101,22 @@
       </div>
     </div>
   </div>
-</div>
+</ng-template>
 
 <ng-template #t let-date let-focused="focused">
   <span
-    class="custom-day"
-    [class.focused]="focused"
-    [class.range]="isRanged(date)"
-    [class.faded]="isHover(date) || isInsideDate(date)"
+    class="custom-day theme__custom-day"
+    [class.focused]="(date.equals(toDate) || date.equals(fromDate))"
+    [class.range]="isRanged(date) && widgetData.trip == 'return'"
+    [class.faded]="(isHover(date) || isInsideDate(date)) && widgetData.trip == 'return'"
     (mouseenter)="hoveredDate = date"
     (mouseleave)="hoveredDate = null"
+    [class.first-range]="date.equals(fromDate) && widgetData.trip === 'return' && toDate"
+    [class.second-range]="date.equals(toDate)"
   >
     {{ date.day }}
-    <div class="dot-typing" *ngIf="price_loading"></div>
-    <div class="date_fare_price" *ngIf="!price_loading && getDatepriceData(date)">
+    <div class="dot-typing" *ngIf="tsCountry !== 'SB' && price_loading" ></div>
+    <div class="date_fare_price" *ngIf="tsCountry !== 'SB' && !price_loading && getDatepriceData(date)">
       {{ getDatepriceData(date).currency | currencyCode
       }}{{ getDatepriceData(date).amount | currency: '' + '
         ':'symbol':'2.0' }}

@@ -1,6 +1,6 @@
 <app-back-button
   *ngIf="
-    country === 'ABSA' &&
+    (country === 'ABSA' || country === 'SB') &&
     (responsiveService.screenWidth == 'sm' ||
       responsiveService.screenWidth == 'md')
   " [navigationLink]="backButtonNavLink"
@@ -20,20 +20,21 @@
   </div>
 
   <div class="d-md-none mweb_loader text-center m-auto w-50" *ngIf="!pricedResult_data">
+     <i class="fa fa-spinner fa-spin" style="font-size: 24px" aria-hidden="true"></i>
     <h4>Fetching flight information</h4>
-    <i class="fa fa-spinner fa-spin" style="font-size: 24px" aria-hidden="true"></i>
   </div>
 </div>
 
 <div
   *ngIf="!showNoflight && flightsearchInfo && flightsearchInfo.itineraries && pricedResult_data"
   class="booking_view_page"
+  id="bookingViewPage"
 >
   <div class="container" [style.height]="navService.isNavOpen() ? '0px' : '100%'">
     <div class="row">
       <div class="col-sm-12 col-md-12 col-lg-9 p-0">
         <div
-          class="cat_colpse_one mb-2 collapse_card"
+          class="cat_colpse_one collapse_card"
           [hidden]="
             isShowTravellerDetails && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
           "
@@ -48,8 +49,7 @@
         <div
           class="cat_colpse_two collapse_card mb-2 travellerCard_Expanded"
           [ngClass]=" {
-            'mb_100': !isShowTravellerDetails && !isShowCheckInBaggage() && !isShowCheckedBaggage(),
-            'theme__conditionally-hidden': isShowTravellerDetails
+            'mb_100': !isShowTravellerDetails && !isShowCheckInBaggage() && !isShowCheckedBaggage()
            }"
         >
           <div
@@ -57,7 +57,7 @@
             [style.cursor]="!collapseCardList.travellerCard_Expanded ? 'pointer' : ''"
           >
             <div class="colpse_two_heading">
-              Traveller Information & Contact Details
+              {{ travellerHeading }}
               <div class="travellersList" *ngIf="travellerList.length > 0 && !collapseCardList.travellerCard_Expanded">
                 <ul>
                   <li *ngFor="let traveller of travellerList" class="mr-2">
@@ -88,8 +88,10 @@
             </div>
 
             <div class="passenger_details">
-              <div class="sec_heading d-lg-flex align-items-center">
-                <span class="d-block">Who’s travelling?</span>
+              <div class="sec_heading d-lg-flex">
+                <span class="travellers_subheading d-block">
+                  {{ travellersSubheading }}
+                </span>
                 <span class="travellers ml-lg-auto">
                   <span class="dt_labl" *ngIf="flightsearchInfo.travellers.adults"
                     >{{ flightsearchInfo.travellers.adults }}
@@ -119,9 +121,9 @@
             </div>
 
             <div
-              class="payment-options bg-white mb-2 mt-4"
+              class="payment-options bg-white"
               *ngIf="
-                country !== 'ABSA' &&
+                country !== 'ABSA' && country !== 'SB' &&
                 travelOptionsOpt?.flexiProduct?.id === 'CNG_AST' &&
                 !iframeWidgetService.isB2BApp() &&
                 performMetaCpySourceCheck()
@@ -227,9 +229,8 @@
 
         <!--Seat selection section Start-->
         <div
-          class="cat_colpse_three collapse_card mb-2 seatCard_Expanded"
+          class="cat_colpse_three collapse_card seatCard_Expanded"
           *ngIf="isShowSeatOption()"
-          [ngClass]="isSeatSelectionDone ? 'theme__conditionally-hidden' : ''"
           [hidden]="
             !isShowTravellerDetails && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
           "
@@ -239,10 +240,12 @@
             <div class="st-card__body">
               <div class="row align-items-center" *ngIf="!showWidget">
                 <div class="col-9 col-md-9 col-xl-10">
-                  <div class="st_card__heading">
+                  <div class="st_card__heading" *ngIf="country !== 'SB'">
                     Choose your seats <span class="heading_optional_txt">(optional)</span>
                   </div>
-
+                  <div class="st_card__heading" *ngIf="country === 'SB'">
+                    Selected Seats
+                  </div>
                   <div class="seatsList" *ngIf="totalSeatCost > 0 && selectedSeatsData?.length > 0">
                     <div
                       *ngFor="let traveler of selectedSeatsData; let idx = index"
@@ -297,6 +300,7 @@
                 *ngIf="
                   showMwebSeats && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
                 "
+                id="theme__booking-view__seat-map__side-nav"
                 [sidenavTemplateRef]="seatContent"
                 [direction]="'right'"
                 [duration]="1"
@@ -354,7 +358,7 @@
             <div class="add_on_head">
               <span>
                 <h4>
-                  Add-Ons
+                  <span translate>Add-Ons</span>
                   <span class="addons_promo">
                     <img
                       ImageSrc
@@ -476,6 +480,8 @@
                 [seatCost]="totalSeatCost"
                 [showAddons_param]="showAddons_param"
               ></app-fare-info>
+              <!-- Simulate a modal popup with a faded black background (mobile only) -->
+              <div class="modal-bg d-lg-none" *ngIf="showModalBackground"></div>
             </div>
 
             <!-- this sticky pricing will need to be hiden when the meal selector is in view -->
@@ -484,7 +490,20 @@
               <div class="row">
                 <div class="col-6">
                   <div (click)="showPriceIcon()" data-toggle="collapse" data-target="#viewpriceBreakdownData">
-                    <label for="TOTAL PRICE" translate class="labl theme__raise-priority">TOTAL PRICE</label>
+                    <label for="TOTAL PRICE" translate class="labl price theme__raise-priority">
+                      Total Price
+                      <span *ngIf="country === 'SB'">
+                        <img
+                          class="theme__info-icon"
+                          data-toggle="collapse"
+                          data-target="#viewpriceBreakdownData"
+                          ImageSrc
+                          src="../../../assets/icons/srp_Icons/fare-breakdown-info.svg"
+                          alt="fare-breakdown-info"
+                          width="14px"
+                          height="14px">
+                      </span>
+                    </label>
                     <label
                       for="Total Price Includin"
                       *ngIf="showPriceWithAddons()"
@@ -495,11 +514,10 @@
                     >
                     <div class="clearfix"></div>
                     <label for="total" class="amt">
-                      <span class="total">
-                        {{ pricedResult_data.currencyCode | currencyCode
-                        }}{{ mwebTotalPrice | currency: '' + ' ':'symbol':'2.0' }}
-                      </span>
-                      <span *ngIf="country !== 'ABSA'">
+                      <ng-container *ngIf="country === 'SB' && discounts?.availableDiscounts[0] as discount; else standardPriceTemplate">
+                        <ng-container *ngTemplateOutlet="discountedPriceTemplate; context: { $implicit: discount }"></ng-container>
+                      </ng-container>
+                      <span *ngIf="country !== 'ABSA' && country !== 'SB'">
                         <a translate rel="nofollow" class="link mt-2">
                           <span class="angleIcon">
                             <i
@@ -530,7 +548,8 @@
                           data-target="#viewpriceBreakdownData"
                           ImageSrc
                           src="../../../assets/icons/srp_Icons/fare-breakdown-info.svg"
-                          alt="fare-breakdown-info">
+                          alt="fare-breakdown-info"
+                         >
                       </span>
                     </label>
                     <p *ngIf="apiservice.extractCountryFromDomain() == 'IB'" class="charges_txt">
@@ -559,9 +578,9 @@
                         style="font-size: 20px"
                         [hidden]="!isLoading"
                         aria-hidden="true"
-                      ></i
-                      >Continue</span
-                    >
+                      ></i>
+                      <span translate>{{ continueBtnText }}</span>
+                    </span>
                   </button>
                   <button
                     (click)="canProceedToNext()"
@@ -569,7 +588,7 @@
                     type="button"
                     class="btn primary_btn continueBtn mt-2 w-100"
                   >
-                    <span translate>Continue</span>
+                    <span translate>{{ continueBtnText }}</span>
                   </button>
                 </div>
               </div>
@@ -593,7 +612,7 @@
     <div translate>Sorry, we cannot find your flight.</div>
     <div translate>Please try searching for a different flight.</div>
   </div>
-  <button type="button" class="btn newFlightBtn primary_btn" data-dismiss="modal" (click)="flight_results()">
+  <button type="button" id="newFlightBtn" class="btn newFlightBtn primary_btn" data-dismiss="modal" (click)="flight_results()">
     <span translate>Search New Flight</span>
   </button>
 </div>
@@ -610,10 +629,15 @@
             loading="lazy"
           />
           <div class="consistent-header-txt" translate>Fare increased</div>
-          <div *ngIf="show_fare" class="consistent-body-text">
+          <div *ngIf="show_fare && country !== 'SB'" class="consistent-body-text">
             <span translate>Your flight ticket has increased by</span> <span class="theme__price-data">{{ pricedResult_data.currencyCode | currencyCode
             }}{{ pricedResult_data.priceIncrease | currency: '' + ' ':'symbol':'2.0' }}</span>.
             <span translate>Seats selling fast, click continue to secure your booking.</span>
+          </div>
+            <div *ngIf="show_fare && country === 'SB'" class="consistent-body-text">
+            <span translate>Airfares are dynamic and subject to change.</span> 
+            <span translate>Fare of selected flight has increased by </span><span class="theme__price-data">{{ pricedResult_data.currencyCode | currencyCode
+            }}{{ pricedResult_data.priceIncrease}}</span>
           </div>
           <div class="modal-btn-container">
             <button
@@ -723,8 +747,8 @@
           <img
             ImageSrc
             class="consistent-modal-icon"
-            [src]="country === 'ABSA' 
-              ? './../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg' 
+            [src]="country === 'ABSA'
+              ? './../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg'
               : './../../../../assets/icons/Icon/Negative-scenarios/something_was_not_right.svg'"
             alt="no flights"
             loading="lazy"
@@ -791,3 +815,21 @@
 </ng-template>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />
+
+<ng-template #standardPriceTemplate>
+  <span class="total">
+    {{ pricedResult_data.currencyCode | currencyCode
+    }}{{ mwebTotalPrice | currency: '' + ' ':'symbol':'2.0' }}
+  </span>
+</ng-template>
+
+<ng-template #discountedPriceTemplate let-discount>
+  <span class="total">
+    {{ pricedResult_data.currencyCode | currencyCode
+    }}{{ mwebTotalPrice | currency: '' + ' ':'symbol':'2.0' }}
+  </span>
+  <span class="total total--discounted" *ngIf="discount.amount !== 0">
+    {{ pricedResult_data.currencyCode | currencyCode
+    }}{{ mwebTotalPrice + discount.amount | currency: '' + ' ':'symbol':'2.0' }}
+  </span>
+</ng-template>

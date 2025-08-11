@@ -1,19 +1,24 @@
-<div class="container">
+<div class="back-button-section">
+<div class="back-button-header">
   <img
+    *ngIf="!hideArrow"
+    class="back-button-header__btn"
     ImageSrc
-    (click)="goBack()"
     [src]="
       isTextWhite
         ? './../../../../assets/icons/left-short-arrow-white.svg'
         : './../../../../assets/icons/left-short-arrow.svg'
     "
-    alt=""
+    alt="back"
+    (click)="goBack()"
   />
   <div
-    class="content"
-    [ngClass]="{ 'text-white': isTextWhite }"
+    class="back-button-header__content"
+    [ngClass]="{ 'text-white': isTextWhite, 'no-arrow': hideArrow }"
     (click)="goBack()"
   >
     <ng-content></ng-content>
   </div>
 </div>
+</div>
+

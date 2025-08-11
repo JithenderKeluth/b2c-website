@@ -14,7 +14,7 @@ export class SeatNotSelectedModalComponent implements OnInit {
   ngOnInit(): void {
     this.modelSubDes =
       this.modelParent && this.modelParent == 'seat-map'
-        ? 'You haven’t selected seats for certain passengers or parts of your trip.'
+        ? 'You haven’t selected seats for certain travellers or parts of your trip.'
         : 'Forgetting something? Secure your seat online to guarantee your spot.';
   }
   chooseSeats() {

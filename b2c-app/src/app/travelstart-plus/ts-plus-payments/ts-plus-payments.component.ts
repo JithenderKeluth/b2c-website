@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '@app/general/services/api/api.service';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 import { isPlatformBrowser } from '@angular/common';
+
 @Component({
   selector: 'app-ts-plus-payments',
   templateUrl: './ts-plus-payments.component.html',
@@ -35,13 +36,12 @@ export class TsPlusPaymentsComponent implements OnInit {
     this.nextYearDate = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
     this.amount = this.apiService?.getEnvironment() !== 'live' ? 1 : 2340;
     this.isBrowser = isPlatformBrowser(this.platformId);
-     this.isRenew = this.checkSubscriptionRenewal();
   }
 
   ngOnInit(): void {
     this.appendPeachCustomJs();
     this.currency = this.storage.getItem('currencycode', 'session');
-      this.getTsPLUSAmountData();
+    this.getTsPLUSAmountData();
     if (this.storage.getItem('credentials', 'session')) {
       this.credentials = JSON.parse(this.storage.getItem('credentials', 'session'));
       this.email = this.credentials?.data?.contactInfo.email;
@@ -52,10 +52,7 @@ export class TsPlusPaymentsComponent implements OnInit {
     /*if we want use peach checkoutId we can enable it and disable this.prepareCheckout() method
         this.prepareCheckouts(this.credentials?.data?.username);
     */
-   setTimeout(() => {
-    this.prepareCheckouts(this.credentials?.data?.username);
-   }, 2000);
-   
+   this.prepareCheckouts(this.credentials?.data?.username);
    // this.prepareCheckout();
     this.storage.removeItem('openedModal', 'session');
     this.nextYearDate = this.extendExpirationDate(this.credentials?.data?.subscriptionResponse?.expirationDate);
@@ -135,6 +132,8 @@ export class TsPlusPaymentsComponent implements OnInit {
         this.amount = data.subscriptionAmount;
 
         // Check if it's a renewal case
+        this.isRenew = this.checkSubscriptionRenewal();
+
         // If renewal, override with renewal amount
         if (this.isRenew) {
           this.amount = data.subscriptionRenewalAmount;

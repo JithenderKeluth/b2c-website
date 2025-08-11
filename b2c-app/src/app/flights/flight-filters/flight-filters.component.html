@@ -3,7 +3,7 @@
   <span class="close p-2 d-block d-lg-none" data-toggle="modal" data-target="#res_filters">
     <img
       ImageSrc
-      [src]="country === 'ABSA' ? '../../../assets/icons/srp_Icons/close-icn-new-all.svg' : '../../../assets/icons/cross-filter-icn.svg'"
+      [src]="country === 'ABSA' || country === 'SB' ? '../../../assets/icons/srp_Icons/close-icn-new-all.svg' : '../../../assets/icons/cross-filter-icn.svg'"
       alt="close"
       class="pull-right closeImg"
       width="16px"
@@ -47,7 +47,7 @@
   </div>
 
   <div class="container filters_Data p-lg-0">
-    <div *ngIf="country === 'ABSA'" class="theme__filters-sidebar">
+    <div *ngIf="country === 'ABSA' || country === 'SB'" class="theme__filters-sidebar">
       <div [ngClass]="selectedFilterOption === 'airline' ? 'active' : ''" class="theme__filters-sidebar-option" (click)="selectedFilterOption = 'airline'">
         Airline
       </div>
@@ -63,15 +63,15 @@
     </div>
     <div class="theme__filters-selections-container">
     <!--Stops Filter-->
-      <div [hidden]="country === 'ABSA' && selectedFilterOption !== 'stops'" class="filter stops_filter margin-0-xs">
+      <div [hidden]="(country === 'ABSA' || country === 'SB') && selectedFilterOption !== 'stops'" class="filter stops_filter margin-0-xs">
         <div class="stops" [ngClass]="{ active: isActive('stops') }">
-          <label *ngIf="country !== 'ABSA'" translate class="head_label pt-filters">Stops</label>
+          <label *ngIf="country !== 'ABSA' && country !== 'SB'" translate class="head_label pt-filters">Stops</label>
 
           <div *ngIf="!isDomesticFlights">
-            <label *ngFor="let num of stopModelList" class="time_filters" [ngClass]="country !== 'ABSA' ? 'stop_panel' : ''">
+            <label *ngFor="let num of stopModelList" class="time_filters" [ngClass]="country !== 'ABSA' && country !== 'SB' ? 'stop_panel' : ''">
               <span class="theme__filters-stops-option-container">
                 <input
-                  *ngIf="country !== 'ABSA'"
+                  *ngIf="country !== 'ABSA' && country !== 'SB'"
                   type="checkbox"
                   class="form-switch radio_1set"
                   id="{{ num.stops }}"
@@ -80,14 +80,14 @@
                   [(ngModel)]="UserVal.stop[num.stops]"
                   (change)="startPushFilter(this, 'bndFlights')"
                 />
-                <div [ngClass]="country !== 'ABSA' ? 'stops_slab' : ''">
+                <div [ngClass]="country !== 'ABSA' && country !== 'SB' ? 'stops_slab' : ''">
                   <span>
                     <span *ngIf="num.stops > 0">{{ num.stops }}</span>
-                    <span translate class="num_stops">{{ getStop(num.stops) }}</span>
+                    <span translate class="num_stops"> {{ getStop(num.stops) }}</span>
                   </span>
                 </div>
                 <mat-checkbox
-                  *ngIf="country === 'ABSA'"
+                  *ngIf="country === 'ABSA' || country === 'SB'"
                   [(ngModel)]="UserVal.stop[num.stops]"
                   type="checkbox"
                   name="stop"
@@ -98,12 +98,12 @@
             </label>
           </div>
 
-          <div *ngIf="isDomesticFlights" class="jrny_labl pt-filters">{{ country === 'ABSA' ? 'Departure' : 'Departure Journey' }}</div>
-          <span *ngIf="isDomesticFlights">
-            <label *ngFor="let num of stopModelList" class="time_filters" [ngClass]="country !== 'ABSA' ? 'stop_panel' : ''">
+          <div *ngIf="isDomesticFlights" class="jrny_labl pt-filters">{{ country === 'ABSA' || country === 'SB' ? 'Departure' : 'Departure Journey' }}</div>
+          <span *ngIf="isDomesticFlights" class="theme__filters-stops">
+            <label *ngFor="let num of stopModelList" class="time_filters" [ngClass]="country !== 'ABSA' && country !== 'SB' ? 'stop_panel' : ''">
               <span class="theme__filters-stops-option-container">
                 <input
-                  *ngIf="country !== 'ABSA'"
+                  *ngIf="country !== 'ABSA' && country !== 'SB'"
                   type="checkbox"
                   class="form-switch radio_1set"
                   [(ngModel)]="outBoundUserVal.stop[num.stops]"
@@ -111,14 +111,14 @@
                   value="{{ num.stops }}"
                   (change)="startPushFilter(this, 'outBound')"
                 />
-                <div [ngClass]="country !== 'ABSA' ? 'stops_slab' : ''">
+                <div [ngClass]="country !== 'ABSA' && country !== 'SB' ? 'stops_slab' : ''">
                   <span>
                     <span *ngIf="num.stops > 0">{{ num.stops }}</span>
-                    <span translate class="num_stops">{{ getStop(num.stops) }}</span>
+                    <span translate class="num_stops"> {{ getStop(num.stops) }}</span>
                   </span>
                 </div>
                 <mat-checkbox
-                  *ngIf="country === 'ABSA'"
+                  *ngIf="country === 'ABSA' || country === 'SB'"
                   [(ngModel)]="outBoundUserVal.stop[num.stops]"
                   type="checkbox"
                   name="stop"
@@ -129,12 +129,12 @@
             </label>
           </span>
 
-          <div *ngIf="isDomesticFlights" class="jrny_labl pt-filters">{{ country === 'ABSA' ? 'Return' : 'Return Journey' }}</div>
+          <div *ngIf="isDomesticFlights" class="jrny_labl pt-filters">{{ country === 'ABSA' || country === 'SB' ? 'Return' : 'Return Journey' }}</div>
           <span *ngIf="isDomesticFlights">
-            <label *ngFor="let num of stopModelList" class="time_filters" [ngClass]="country !== 'ABSA' ? 'stop_panel' : ''">
+            <label *ngFor="let num of stopModelList" class="time_filters" [ngClass]="country !== 'ABSA' && country !== 'SB' ? 'stop_panel' : ''">
               <span class="theme__filters-stops-option-container">
                 <input
-                  *ngIf="country !== 'ABSA'"
+                  *ngIf="country !== 'ABSA' && country !== 'SB'"
                   type="checkbox"
                   class="form-switch radio_1set"
                   [(ngModel)]="inBoundUserVal.stop[num.stops]"
@@ -142,14 +142,14 @@
                   value="{{ num.stops }}"
                   (change)="startPushFilter(this, 'inBound')"
                 />
-                <div [ngClass]="country !== 'ABSA' ? 'stops_slab' : ''">
+                <div [ngClass]="country !== 'ABSA' && country !== 'SB' ? 'stops_slab' : ''">
                   <span>
-                    <span *ngIf="num.stops > 0">{{ num.stops }}</span>
-                    <span translate class="num_stops">{{ getStop(num.stops) }}</span>
+                    <span *ngIf="num.stops > 0"> {{ num.stops }}</span>
+                    <span translate class="num_stops"> {{ getStop(num.stops) }}</span>
                   </span>
                 </div>
                 <mat-checkbox
-                  *ngIf="country === 'ABSA'"
+                  *ngIf="country === 'ABSA' || country === 'SB'"
                   [(ngModel)]="inBoundUserVal.stop[num.stops]"
                   type="checkbox"
                   name="stop"
@@ -207,9 +207,9 @@
 
       <!--Airline, Times, and Baggage Filters Section-->
       <div *ngIf="flightsearchResponse" class="filter airline_filter">
-        <label *ngIf="country !== 'ABSA'" class="pt-filters" translate>Airline</label>
+        <label *ngIf="country !== 'ABSA' && country !== 'SB'" class="pt-filters" translate>Airline</label>
         <!-- Airline Filters Section -->
-        <div [hidden]="country === 'ABSA' && selectedFilterOption !== 'airline'" class="airline_filter_sec">
+        <div [hidden]="(country === 'ABSA' || country === 'SB') && selectedFilterOption !== 'airline'" class="airline_filter_sec">
           <div class="airline_tabs pt-filters" *ngIf="isDomesticFlights">
             <div class="show_airline_btns theme__show-airline-button mb-3">
               <button
@@ -269,7 +269,7 @@
                 <span class="scrollLabel">
                   <span class="air_line">&nbsp;{{ airlines.airlineName }}</span>
                 </span>
-                <span *ngIf="country !== 'ABSA'" class="labl_amt float-right">
+                <span *ngIf="country !== 'ABSA' && country !== 'SB'" class="labl_amt float-right">
                   {{ airlines.currencycode | currencyCode }}{{ airlines.amount | currency: '' + ' ':'symbol':'2.0' }}
                 </span>
               </span>
@@ -303,7 +303,7 @@
                 <span class="scrollLabel">
                   <span class="air_line">&nbsp;{{ airlines.airlineName }}</span>
                 </span>
-                <span *ngIf="country !== 'ABSA'" class="labl_amt float-right">
+                <span *ngIf="country !== 'ABSA' && country !== 'SB'" class="labl_amt float-right">
                   {{ airlines.currencycode | currencyCode }}{{ airlines.amount | currency: '' + ' ':'symbol':'2.0' }}
                 </span>
               </span>
@@ -330,7 +330,7 @@
                 /></span>
                 <span class="scrollLabel">
                   <span class="air_line">&nbsp;{{ airlines.airlineName }}</span>
-                  <span *ngIf="country !== 'ABSA'" class="labl_amt float-right"
+                  <span *ngIf="country !== 'ABSA' && country !== 'SB'" class="labl_amt float-right"
                     >{{ airlines.currencycode | currencyCode
                     }}{{ airlines.amount | currency: '' + ' ':'symbol':'2.0' }}</span
                   >
@@ -345,13 +345,14 @@
           *ngIf="flightsearchResponse && flightsearchResponse.itineraries && flightsearchResponse.itineraries.length > 0"
           class="filter margin-0-xs time_filters_section"
           [ngClass]="{ active: isActive('times') }"
-          [hidden]="country === 'ABSA' && selectedFilterOption !== 'times' && selectedFilterOption !== 'baggage'"
-        >
-          <span *ngIf="country !== 'ABSA'" class="dept_times_head" data-target="#dept_times">
+          [hidden]="(country === 'ABSA' || country === 'SB') && selectedFilterOption !== 'times' && selectedFilterOption !== 'baggage'"
+        > 
+        
+          <span *ngIf="country !== 'ABSA' && country !== 'SB'" class="dept_times_head" data-target="#dept_times">
             <label class="dept_times head_label pt-filters" translate>Departure Times</label>
           </span>
           <!-- Time Filters -->
-          <div class="dpt_times collapse show" id="dept_times" [hidden]="country === 'ABSA' && selectedFilterOption !== 'times'">
+          <div class="dpt_times collapse show" id="dept_times" [hidden]="(country === 'ABSA' || country === 'SB') && selectedFilterOption !== 'times'">
             <div
               class="depart_times pt-filters"
               *ngFor="let odoList of flightsearchResponse.itineraries[0].odoList; let i = index"
@@ -369,7 +370,7 @@
                     (change)="parseDptTime('d_em', '00:00', '06:00', i, 'bndFlights')"
                   />
                   <div class="time_slab">
-                    <div [ngClass]="country === 'ABSA' ? 'icon' : ''" class="text-center">
+                    <div class="text-center icon">
                       <img
                         ImageSrc
                         class="time_slap_icon"
@@ -393,7 +394,7 @@
                   />
 
                   <div class="time_slab">
-                    <div [ngClass]="country === 'ABSA' ? 'icon' : ''" class="text-center">
+                    <div class="text-center icon">
                       <img
                         ImageSrc
                         class="time_slap_icon"
@@ -416,7 +417,7 @@
                     (change)="parseDptTime('d_a', '12:00', '18:00', i, 'bndFlights')"
                   />
                   <div class="time_slab">
-                    <div [ngClass]="country === 'ABSA' ? 'icon' : ''" class="text-center">
+                    <div class="text-center icon">
                       <img
                         ImageSrc
                         class="time_slap_icon"
@@ -441,7 +442,7 @@
                     data-id="c"
                   />
                   <div class="time_slab">
-                    <div [ngClass]="country === 'ABSA' ? 'icon' : ''" class="text-center">
+                    <div class="text-center icon">
                       <img
                         ImageSrc
                         class="time_slap_icon evening"
@@ -460,13 +461,13 @@
           </div>
 
           <!--Baggage Filters-->
-          <div class="baggage_filters mar_baggage" [hidden]="country === 'ABSA' && selectedFilterOption !== 'baggage'">
-            <label *ngIf="country !== 'ABSA'" class="hd_labl pt-filters">Baggage</label>
+          <div class="baggage_filters mar_baggage" [hidden]="(country === 'ABSA' || country === 'SB') && selectedFilterOption !== 'baggage'">
+            <label *ngIf="country !== 'ABSA' && country !== 'SB'" class="hd_labl pt-filters">Baggage</label>
             <div class="bg_filters pt-filters">
               <label class="baggageFilters">
                 <div class="checked_bg theme__filters-baggage-option-container">
                   <input
-                    *ngIf="country !== 'ABSA'"
+                    *ngIf="country !== 'ABSA' && country !== 'SB'"
                     type="checkbox"
                     class="form-switch radio_1set"
                     [(ngModel)]="UserVal.checkedBaggage"
@@ -474,7 +475,7 @@
                   />
                   <div class="bg_labl baggage_labl">Checked baggage</div>
                   <mat-checkbox
-                    *ngIf="country === 'ABSA'"
+                    *ngIf="country === 'ABSA' || country === 'SB'"
                     [(ngModel)]="UserVal.checkedBaggage"
                     type="checkbox"
                     name="checkedBaggage"
@@ -486,7 +487,7 @@
               <label class="baggageFilters">
                 <div class="No_checked_bg theme__filters-baggage-option-container">
                   <input
-                    *ngIf="country !== 'ABSA'"
+                    *ngIf="country !== 'ABSA' && country !== 'SB'"
                     type="checkbox"
                     class="form-switch radio_1set"
                     [(ngModel)]="UserVal.noCheckedBaggage"
@@ -494,8 +495,8 @@
                   />
                   <div class="bg_labl baggage_labl">No Checked baggage</div>
                   <mat-checkbox
-                    *ngIf="country === 'ABSA'"
-                    [(ngModel)]="outBoundUserVal.checkedBaggage"
+                    *ngIf="country === 'ABSA' || country === 'SB'"
+                    [(ngModel)]="UserVal.noCheckedBaggage"
                     type="checkbox"
                     name="noCheckedBaggage"
                     (change)="updateAnotherBaggage('nocheckedBaggage', UserVal); startPushFilter(this, 'bndFlights')"
@@ -515,12 +516,12 @@
           "
           class="filter time_filters_section pt-filters pb-xs-10"
           [ngClass]="{ active: isActive('times') }"
-          [hidden]="country === 'ABSA' && selectedFilterOption !== 'times' && selectedFilterOption !== 'baggage'"
+          [hidden]="(country === 'ABSA' || country === 'SB') && selectedFilterOption !== 'times' && selectedFilterOption !== 'baggage'"
         >
         <!-- Time Filters -->
-          <div class="dpt_times" [hidden]="country === 'ABSA' && selectedFilterOption !== 'times'">
+          <div class="dpt_times" [hidden]="(country === 'ABSA' || country === 'SB') && selectedFilterOption !== 'times'" >
             <span class="dept_times_head" data-target="#dept_time">
-              <label *ngIf="country !== 'ABSA'" translate class="head_label">Departure Times</label>
+              <label *ngIf="country !== 'ABSA' && country !== 'SB'" translate class="head_label">Departure Times</label>
               <span class="float-right d-none">
                 <img ImageSrc src="./../../../assets/icons/srp_Icons/angle_down.svg" alt="dept_times" />
               </span>
@@ -732,15 +733,15 @@
           </div>
 
           <!--Baggage Filters-->
-          <div class="mar_baggage" [hidden]="country === 'ABSA' && selectedFilterOption !== 'baggage'">
+          <div class="mar_baggage" [hidden]="(country === 'ABSA' || country === 'SB') && selectedFilterOption !== 'baggage'">
             <div class="baggage_filters">
-              <label *ngIf="country !== 'ABSA'" class="hd_labl pt-filters">Baggage</label>
+              <label *ngIf="country !== 'ABSA' && country !== 'SB'" class="hd_labl pt-filters">Baggage</label>
               <div class="jrny_txt pt-filters">Depart</div>
               <div class="bg_filters onward_filter pt-filters">
                 <label class="baggageFilters">
                   <div class="No_checked_bg theme__filters-baggage-option-container">
                     <input
-                      *ngIf="country !== 'ABSA'"
+                      *ngIf="country !== 'ABSA' && country !== 'SB'"
                       type="checkbox"
                       class="form-switch radio_1set"
                       [(ngModel)]="outBoundUserVal.noCheckedBaggage"
@@ -750,7 +751,7 @@
                     />
                     <div class="bg_labl baggage_labl">Checked baggage</div>
                     <mat-checkbox
-                      *ngIf="country === 'ABSA'"
+                      *ngIf="country === 'ABSA' || country === 'SB'"
                       [(ngModel)]="outBoundUserVal.noCheckedBaggage"
                       type="checkbox"
                       name="noCheckedBaggage"
@@ -761,7 +762,7 @@
                 <label class="baggageFilters">
                   <div class="checked_bg theme__filters-baggage-option-container">
                     <input
-                      *ngIf="country !== 'ABSA'"
+                      *ngIf="country !== 'ABSA' && country !== 'SB'"
                       type="checkbox"
                       class="form-switch radio_1set"
                       [(ngModel)]="outBoundUserVal.checkedBaggage"
@@ -771,7 +772,7 @@
                     />
                     <div class="bg_labl baggage_labl">No Checked baggage</div>
                     <mat-checkbox
-                      *ngIf="country === 'ABSA'"
+                      *ngIf="country === 'ABSA' || country === 'SB'"
                       [(ngModel)]="outBoundUserVal.checkedBaggage"
                       type="checkbox"
                       name="checkedBaggage"
@@ -788,7 +789,7 @@
                 <label class="baggageFilters">
                   <div class="No_checked_bg theme__filters-baggage-option-container">
                     <input
-                      *ngIf="country !== 'ABSA'"
+                      *ngIf="country !== 'ABSA' && country !== 'SB'"
                       type="checkbox"
                       class="form-switch radio_1set"
                       [(ngModel)]="inBoundUserVal.noCheckedBaggage"
@@ -798,7 +799,7 @@
                     />
                     <div class="bg_labl baggage_labl">Checked baggage</div>
                     <mat-checkbox
-                      *ngIf="country === 'ABSA'"
+                      *ngIf="country === 'ABSA' || country === 'SB'"
                       [(ngModel)]="inBoundUserVal.noCheckedBaggage"
                       type="checkbox"
                       name="noCheckedBaggage"
@@ -809,7 +810,7 @@
                 <label class="baggageFilters">
                   <div class="checked_bg theme__filters-baggage-option-container">
                     <input
-                      *ngIf="country !== 'ABSA'"
+                      *ngIf="country !== 'ABSA' && country !== 'SB'"
                       type="checkbox"
                       class="form-switch radio_1set"
                       [(ngModel)]="inBoundUserVal.checkedBaggage"
@@ -817,7 +818,7 @@
                     />
                     <div class="bg_labl baggage_labl">No Checked baggage</div>
                     <mat-checkbox
-                      *ngIf="country === 'ABSA'"
+                      *ngIf="country === 'ABSA' || country === 'SB'"
                       [(ngModel)]="inBoundUserVal.checkedBaggage"
                       type="checkbox"
                       name="checkedBaggage"
@@ -836,7 +837,7 @@
   <!-- Filters Handlers -->
   <div class="eventBtns text-center pb-4 pt-4">
     <button  class="btn default_btn reset mr-2 theme__default-button" (click)="resetAllFilters()">
-      <span translate>{{ country === 'ABSA' ? 'Clear' : 'Reset All' }}</span>
+      <span translate>{{ country === 'ABSA' || country === 'SB' ? 'Clear' : 'Reset All' }}</span>
     </button>
     <button
       translate
@@ -847,7 +848,7 @@
     >
       <span translate>Apply</span>
     </button>
-    <button  translate class="btn primary_btn apply d-none d-lg-inline theme__default-button" ta-toggle="modal" data-target="#res_filters">
+    <button  translate class="btn primary_btn apply d-none d-lg-inline theme__default-button" data-toggle="modal" (click)="applyFilters(this)" data-target="#res_filters">
       <span translate>Show Results</span>
     </button>
   </div>

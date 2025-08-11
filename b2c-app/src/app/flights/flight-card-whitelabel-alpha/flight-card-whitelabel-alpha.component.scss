@@ -1,0 +1,179 @@
+.flight_card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+  background-color: var(--primary_Body_bg, #FFFFFF);
+  border-radius: var(--border_radius);
+  border: 1px solid var(--border_light_color);
+
+  &__header {
+    font-family: var(--heading_font_family, inherit);
+    font-size: var(--flight-card-header-font-size, 1rem);
+    font-weight: 400;
+  }
+
+  &__flights {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__flight {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__flight_separator {
+    margin: 1rem 0;
+    margin-left: 2.5rem; /* Align separator with flight overview */
+    border-top: 1px solid var(--border_light_color);
+  }
+
+  &__flight_overview {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 0.875rem;
+  }
+
+  &__flight_overview_item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  &__flight_airports {
+    font-family: var(--body_font_family);
+    font-size: var(--label_font_size_xs, 0.75rem);
+    color: var(--text_secondary_color);
+  }
+
+  &__flight_duration {
+    font-family: var(--body_font_family);
+    font-size: var(--label_font_size_xs, 0.75rem);
+    color: var(--text_secondary_color);
+  }
+
+  &__flight_stops {
+    font-family: var(--body_font_family);
+    font-size: var(--label_font_size_xs, 0.75rem);
+    color: var(--text_primary_color);
+  }
+
+  &__flight_time {
+    font-weight: 600;
+    line-height: 16px;
+    white-space: nowrap;
+  }
+
+  &__breakdown {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.25rem 1rem;
+    border-radius: var(--border_radius);
+    background: var(--productsBgColor);
+  }
+
+  &__extras {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__extra {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem;
+  }
+
+  &__extra_desc {
+    font-size: var(--label_font_size_sm, 0.8125rem);
+    line-height: 1.25rem;
+    padding-top: 0.125rem;
+    color: var(--text_secondary_color);
+  }
+
+  &__price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  &__price_total {
+    font-size: var(--label_font_size_lg, 1.125rem);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  &__price_total--discounted {
+    font-size: var(--label_font_size_md, 1rem);
+    font-weight: 400;
+    text-decoration: line-through;
+    color: var(--text_danger_color);
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 3em;
+  }
+
+  &__actions {
+    margin-left: auto;
+    float: right;
+  }
+
+  &__view_details_btn {
+    height: var(--btn_height, 42px);
+  }
+
+  &__flags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__flag {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    padding: 0.25rem 0.75rem 0.125rem 0.75rem; /* BentonSans does not vertically align properly */
+    font-size: 0.75rem;
+    line-height: 1rem;
+    border: 1px solid var(--border_default_color);
+    background-color: aliceblue;
+    border-radius: var(--border_radius, 8px);
+    color: var(--sb_darkgrey);
+
+    &--Cheapest {
+      border-color: var(--flight_cheapest_label_color);
+      background-color: var(--flight_cheapest_label_bg);
+    }
+    &--Fastest {
+      border-color: var(--flight_fastest_label_color);
+      background-color: var(--flight_fastest_label_bg);
+    }
+    &--Recommended {
+      border-color: var(--flight_recommended_label_color);
+      background-color: var(--flight_recommended_label_bg);
+    }
+    &--Seats {
+      border-color: var(--flight_seats_label_color);
+      background-color: var(--flight_seats_label_bg);
+    }
+  }
+}

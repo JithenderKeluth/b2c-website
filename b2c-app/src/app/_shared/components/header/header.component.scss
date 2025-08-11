@@ -71,7 +71,20 @@
       height: 48px;
     }
   }
-
+  .mc_logo {
+    img {
+      height: 48px;
+      width: auto;
+    }
+  }
+  .master_card {
+    border-left: 1px solid $white;
+    padding-left: 10px;
+    img {
+      height: 30px;
+      width: auto;
+    }
+  }
 }
 .momentumHeaderSec{
   background-color: #fff;
@@ -155,6 +168,15 @@
     .mc_logo {
       img {
         height: 32px;
+        width: auto;
+      }
+    }
+    .master_card {
+      border-left: 1px solid $white;
+      padding-left: 10px;
+      img {
+        height: 30px;
+        width: auto;
       }
     }
     .logoTS {
@@ -575,7 +597,10 @@
 
 @media (max-width: map-get($grid-breakpoints, sm)) {
   .wrapper .toolbar .mc_logo img {
-    height: 25px;
+    height: 30px;
   }
 
+  .wrapper .toolbar .master_card img {
+    height: 26px;
+  }
 }

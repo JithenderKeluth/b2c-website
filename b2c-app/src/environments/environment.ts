@@ -40,6 +40,7 @@ export const environment = {
     'en-FS',
     'en-MM',
     'en-ABSA',
+    'en-SB',
   ],
   // Strapi API
   strapiUrl: 'https://beta-strapi.travelstart.com/api',
