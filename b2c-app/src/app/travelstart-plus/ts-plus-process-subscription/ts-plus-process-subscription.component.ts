@@ -97,6 +97,7 @@ export class TsPlusProcessSubscriptionComponent {
       //   const token = userSessionToken || null;
       //   return token;
       // })(),
+      subscriptionType: this.subscriptionType,
       paymentReference: paymentId,
       cardToken: registrationId,
       userAgent: {

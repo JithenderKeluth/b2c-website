@@ -30,7 +30,7 @@ export class FlightDetailsInfoComponent implements OnInit {
   locationsInfo: any = [];
   airports: any;
   load = false;
-
+  isPaymentPageView : boolean = false;
   constructor(
     public responsiveService: responsiveService,
     public apiService: ApiService,
@@ -46,6 +46,9 @@ export class FlightDetailsInfoComponent implements OnInit {
       this.tripType = this.flightsearchInfo.tripType;
     } else {
       this.tripType = this.itinerary_Data_Info?.bookingInformation?.tripType;
+    }
+    if (typeof window !== 'undefined') {
+      this.isPaymentPageView = Boolean(window.location.pathname.includes('payments'));
     }
     this.extractAllTechnicalStopLocationsWithAirportNames(this.itinerary_Data_Info.itineraries);
   }
@@ -134,7 +137,7 @@ export class FlightDetailsInfoComponent implements OnInit {
   /**getting the airport names from location API or airports list from results */
   public getTechStopAirportName(airportCode: string) {
     let airportName: any;
-    airportName = getAirportNames(airportCode, this.flightsList.airportInfos);
+    airportName = getAirportNames(airportCode, this.flightsList?.airportInfos);
     if (!airportName) {
       for (let i in this.locationsInfo) {
         if (this.locationsInfo[i]?.location === airportCode) {

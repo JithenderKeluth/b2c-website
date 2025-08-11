@@ -34,14 +34,14 @@ const peachUrls = {
 };
 
 const peachEntityId = {
-  beta: '8ac9a4cb8c3e67ec018c68e61036628c',//process.env.PEACH_ENTITY_ID_BETA || '',
-  preprod: process.env.PEACH_ENTITY_ID_PREPROD || '',
+  beta: process.env.PEACH_ENTITY_ID_BETA || '',
+  preprod: '8ac9a4cb8c3e67ec018c68e61036628c',
   production: process.env.PEACH_ENTITY_ID_PROD || ''
 };
 
 const peachAuthorizationToken = {
-  beta: 'OGFjOWE0Y2U4NmMwYjZlNjAxODZkZjhhNGI3NjE3MWR8RVBucUZucUJFOA==',//process.env.PEACH_AUTH_TOKEN_BETA || '',
-  preprod: process.env.PEACH_AUTH_TOKEN_PREPROD || '',
+  beta: process.env.PEACH_AUTH_TOKEN_BETA || '',
+  preprod: 'OGFjOWE0Y2U4NmMwYjZlNjAxODZkZjhhNGI3NjE3MWR8RVBucUZucUJFOA==',
   production: process.env.PEACH_AUTH_TOKEN_PROD || ''
 };
 
@@ -62,13 +62,11 @@ const peachSubscriptionAmount = {
   preprod: 1,
   production: 2340
 };
-
 const peachSubscriptionRenewalAmount = {
   beta: 1,
   preprod: 1,
   production: 1999
 };
-
 const freshDesk = {
   url : 'https://travelstartassist.freshdesk.com/api/v2/'
 };

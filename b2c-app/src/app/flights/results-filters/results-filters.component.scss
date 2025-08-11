@@ -1,0 +1,50 @@
+.results_filters {
+  display: flex;
+  justify-content: flex-end; /* Always keep actions at the end, even if there is no total count */
+  align-items: center;
+  padding: 1rem;
+  background: var(--body_bg_clr);
+}
+
+.results_filters__total {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  font-family: var(--heading_font_family);
+  font-size: var(--label_font_size, 14px);
+  font-weight: 400;
+  line-height: 1.25rem;
+}
+
+.results_filters__total--sm {
+  font-family: var(--label_font_family);
+  font-size: var(--label_font_size_xs, 12px);
+  font-weight: 400;
+  line-height: 1rem;
+}
+
+.results_filters__actions {
+  display: flex;
+  justify-self: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.results_filters__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  height: 2.125rem; /* 34px */
+  font-family: var(--btn_font_family);
+  font-size: var(--btn_font_size, 14px);
+  font-weight: 500;
+  color: var(--text_link_color);
+  border-radius: var(--border_radius);
+  background: none;
+  border: 1px solid var(--text_link_color);
+}
+
+.results_filters__btn--filter {
+  width: 44px;
+}

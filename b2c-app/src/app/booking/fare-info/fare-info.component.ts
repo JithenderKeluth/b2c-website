@@ -13,6 +13,7 @@ import { AffiliateService } from '@app/general/services/affiliate.service';
 import { getLoyaltyVouchersByRegionality } from '@app/flights/utils/search-results-itinerary.utils';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 import { isPlatformBrowser } from '@angular/common';
+import { DiscountsDisplayModel, aggregateDiscounts, getItineraryDiscounts } from '@app/flights/utils/discount.utils';
 
 @Component({
   selector: 'app-fare-info',
@@ -66,6 +67,13 @@ export class FareInfoComponent implements OnInit {
   isShowTotalAmt: boolean = false;
   productsData: any = [];
   region: string;
+
+  // Discount data
+  selectedFlight?: any;
+  selectedDomesticFlight?: any;
+  discounts?: DiscountsDisplayModel;
+  discountLabel = 'Discounts';
+
   constructor(
     private bookingService: BookingService,
     public responseService: responsiveService,
@@ -129,6 +137,24 @@ export class FareInfoComponent implements OnInit {
     if(this.isBrowser){
       this.isShowTotalAmt = window.location.pathname === '/booking/flight-details' || this.region === 'IB' ? true : false;
     }
+
+    // Get current discount information from search result data.
+    this.selectedFlight = JSON.parse(this.storage.getItem('selectedFlight', 'session'));
+    if (this.selectedFlight) {
+      this.discounts = getItineraryDiscounts(this.selectedFlight);
+    }
+
+    this.selectedDomesticFlight = JSON.parse(this.storage.getItem('selectedDomesticFlight', 'session'));
+    if (this.selectedDomesticFlight?.inboundItineraries) {
+      this.discounts = aggregateDiscounts([
+        this.selectedDomesticFlight.inboundItineraries,
+        this.selectedDomesticFlight.outboundItineraries,
+      ]);
+    }
+
+    if (this.region === 'SB') {
+      this.discountLabel = 'Standard Bank Discounts';
+    }
   }
 
   getPassengersType(travellers: number, param: string) {
@@ -189,6 +215,11 @@ export class FareInfoComponent implements OnInit {
     })();
     this.getTotalPriceToBook(currency, amount, products, baggage, isStandard);
     let preApplyvoucherAmount = this.voucherDiscount() ? Math.abs(this.voucherDiscount()) : 0;
+    
+    if (typeof window !== 'undefined' && this.responseService.screenWidth === 'sm' && window.location.pathname === '/booking/flight-details') {
+      this.seatTotalCost = 0;
+    }
+
     this.totalPriceToBook =
       parseFloat(this.totalPriceToBook) +
       this.voucherAmount +

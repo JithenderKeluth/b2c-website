@@ -69,10 +69,6 @@ const routes: Routes = [
     loadChildren: () => import('src/app/contact/contact.module').then((m) => m.ContactModule),
   },
   {
-    path: 'mastercard',
-    loadChildren: () => import('src/app/mastercard/mastercard.module').then((m) => m.MastercardModule),
-  },
-  {
     path: 'redirectgateway',
     component: RedirectgatewayComponent,
   },

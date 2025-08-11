@@ -62,7 +62,15 @@ export class ContactInfoComponent implements OnInit {
   CountryISO = CountryISO;
   PhoneNumberFormat = PhoneNumberFormat;
   preferredCountries: CountryISO[] = [CountryISO.UnitedStates, CountryISO.UnitedKingdom];
-  selectedCountryCode: string = CountryISO.UnitedStates;
+  selectedCountryCode:string = CountryISO.UnitedStates ;
+  infoText = 'We will send your booking confirmation to these contact details.';
+  whatsAppText = 'We’ll send your E-Ticket straight to your WhatsApp';
+  whatsAppDisabledText = 'Over 2,000,000 customers are benefiting from our WhatsApp service';
+  mobileNumberLabel = 'Mobile number';
+  mobileNumberPlaceholder = '010 123 4567';
+  emailLabel = 'Email';
+  emailPlaceholder = 'name@mail.com';
+  regexForRestrictUUIDEmail:any = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}@.+$/i;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -80,6 +88,15 @@ export class ContactInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.country === 'SB') {
+      this.infoText = 'We’ll send your booking to the contact details below';
+      this.mobileNumberLabel = 'Cell number';
+      this.mobileNumberPlaceholder = 'Enter';
+      this.emailLabel = 'Email address';
+      this.emailPlaceholder = 'Enter';
+      this.whatsAppText = 'We’ll send your e-ticket by WhatsApp';
+    }
+    // this.selectedCountryCode = 'za' ;
     this.invalidEmail = false;
     this.checkContactDetailsValidity();
     this.initForm();
@@ -126,7 +143,7 @@ export class ContactInfoComponent implements OnInit {
 
       // set the country
       if (bookInfo.contactDetails && bookInfo.contactDetails.dialCode) {
-            this.setDialCode('dial_code',bookInfo.contactDetails.dialCode);
+          this.setDialCode('dial_code',bookInfo.contactDetails.dialCode);
       }
     } else {
       this.contactForm = this.fb.group({
@@ -161,7 +178,7 @@ export class ContactInfoComponent implements OnInit {
           ?.toLowerCase()
           .includes(this.credentials.data.userID.toString().toLowerCase());
 
-      if (!ignoreEmail && !this.contactForm?.get('email')?.value) {
+      if (!ignoreEmail && !this.contactForm?.get('email')?.value && !this.regexForRestrictUUIDEmail.test(this.credentials.data.contactInfo.email)) {
         this.contactForm.get('email').setValue(this.credentials.data.contactInfo.email);
       }
       if (
@@ -169,7 +186,10 @@ export class ContactInfoComponent implements OnInit {
         this.credentials.data.contactInfo.telephoneList.length !== 0
       ) {
         this.credentials.data.contactInfo.telephoneList.filter((x: any) => {
-          this.phoneNumber = (x.areaCityCode + x.phoneNumber).split(' ').join('');
+          // this.phoneNumber = (x.areaCityCode + x.phoneNumber).split(' ').join('');  // replace below code with this line incase of any issue
+          const areaCode = x?.areaCityCode?.toString() || '';
+          const phone = x?.phoneNumber?.toString() || '';
+          this.phoneNumber = (areaCode + phone).replace(/\s+/g, '');
         });
         this.contactForm.get('phone').setValue(this.phoneNumber);
       }
@@ -211,10 +231,11 @@ export class ContactInfoComponent implements OnInit {
   CountryCode() {
     if (this.countrydata && this.countrydata.includes('en-')) {
       if (this.countrydata && this.countrydata.split('-')[1] != 'GO') {
-        this.setDialCode('code',this.countrydata.split('-')[1])
+         this.setDialCode('code',this.countrydata.split('-')[1]);
+        return this.countrydata.split('-')[1];
       } else {
-        this.contactForm.get('dialCode').setValue('1');
-        return 'US';
+        this.contactForm.get('dialCode').setValue('27');
+        return 'ZA';
       }
     } else {
       return this.countrydata;
@@ -258,8 +279,8 @@ export class ContactInfoComponent implements OnInit {
     this.bookingService.changeProducts(JSON.parse(this.storage.getItem('products', 'session')));
   }
   // allows users to type only numbers
-  onlyNumberKey(event: any) {
-       numInputNoChars(event);
+  onlyNumberKey(event: any): void {
+    numInputNoChars(event);
   }
   keyEvent() {
     this.invalidEmail = false;
@@ -300,8 +321,8 @@ export class ContactInfoComponent implements OnInit {
   checkUserCredentials() {
     if (!this.credentials) {
       setTimeout(() => {
-        if (JSON.parse(sessionStorage.getItem('dialCode'))) {
-          let dialCode = JSON.parse(sessionStorage.getItem('dialCode'));
+        if (JSON.parse(this.storage.getItem('dialCode', 'session'))) {
+          let dialCode = JSON.parse(this.storage.getItem('dialCode', 'session'));
           for (let x in CountryCodes) {
             if (CountryCodes[x].dial_code == dialCode.dialCode) {
               this.countrydata = CountryCodes[x].code;
@@ -335,7 +356,11 @@ export class ContactInfoComponent implements OnInit {
         }
         if (x.id == 'WHATSAPP') {
           this.whatsappProduct = x;
-        }
+
+          if (this.country === 'SB') {
+            this.whatsappProduct.hidePrice = true; // Std Bank whitelabel does not indicate the price
+          }
+      }
       });
     }
   }
@@ -359,10 +384,11 @@ export class ContactInfoComponent implements OnInit {
           .toLowerCase()
           .includes(this.credentials.data.userID.toString().toLowerCase());
 
-      if (!ignoreEmail && contact.email) {
+      if (!ignoreEmail && contact.email && !this.regexForRestrictUUIDEmail.test(contact.email)) {
         this.contactForm.get('email').setValue(contact.email);
       }
-      this.contactForm.get('dialCode').setValue(contact?.dialCode ?? contact.phone.dialCode.split('+')[1]);
+
+       this.contactForm.get('dialCode').setValue(contact?.dialCode ?? contact.phone.dialCode.split('+')[1]);
       this.contactForm.get('phone').setValue(contact.phone.number.split(' ').join(''));
     }
   }
@@ -396,7 +422,6 @@ export class ContactInfoComponent implements OnInit {
   setDialCode(keyName:any, dialCode:any){
             for (let x in CountryCodes) {
           if (CountryCodes[x][keyName] == dialCode) {
-            // OEM this.countrydata = CountryCodes[x].code;
             this.selectedCountryCode = CountryCodes[x].code;
             this.contactForm.get('dialCode').setValue(CountryCodes[x].dial_code);
           }

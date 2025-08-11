@@ -14,7 +14,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppRoutingModule } from './app-routing.module';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideMessaging, getMessaging } from '@angular/fire/messaging';
-import { environment } from '@env/environment';
+import { environment } from './../environments/environment';
 import { FlightsModule } from './flights/flights.module';
 
 import { AppComponent } from './app.component';
@@ -25,6 +25,7 @@ import { DeeplinkComponent } from './deeplink/deeplink.component';
 import { NotFoundComponent } from './general/components/not-found.component';
 import { WhiteLabelComponent } from './white-label/white-label.component';
 import { WebViewComponent } from './web-view/web-view.component';
+import { SbViewNotificationComponent } from './sb-view/sb-view-notification.component';
 import { WebViewHeaderComponent } from './general/components/web-view-header/web-view-header.component';
 import { MemberDetailsComponent } from './general/components/member-details/member-details.component';
 import { HotelsWidgetComponent } from './general/components/hotels-widget/hotels-widget.component';
@@ -50,7 +51,6 @@ import { appInitializerFactory } from './_core/tokens/appInitializerFactory';
 
 import { WINDOW } from './_core/tokens/window.token';
 import { WINDOW_PROVIDER } from './../assets/window.providers';
-import { MastercardModule } from './mastercard/mastercard.module';
 
 // export function initializeAbsaAuth(absaAuthService: AbsaAuthService){
 //   return () => absaAuthService.fetchSessionId();
@@ -74,7 +74,6 @@ const routes: Routes = [];
     CustomMaterialModule,
     CarouselModule,
     RouterModule,
-    MastercardModule,
     RouterModule.forRoot(routes, {
       anchorScrolling: 'enabled',
       enableTracing: false,
@@ -134,6 +133,7 @@ const routes: Routes = [];
     NotFoundComponent,
     WhiteLabelComponent,
     WebViewComponent,
+    SbViewNotificationComponent,
     WebViewHeaderComponent,
     MemberDetailsComponent,
     HotelsWidgetComponent,

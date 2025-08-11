@@ -20,13 +20,12 @@
             ImageSrc
             class="traveller-button-img"
             (click)="openTravellerDialog(traveller)"
-            src="../../../assets/icons/absa_icons/edit.svg"
+            [src]="country === 'ABSA' ? '../../../assets/icons/absa_icons/edit.svg' : '../../../assets/icons/edit.svg'"
             alt="edit"
           />
         </div>
       </div>
     </div>
   </div>
-
   <button class="theme__button-primary mt-2" (click)="openTravellerDialog(null)" translate>Add Traveller</button>
 </div>

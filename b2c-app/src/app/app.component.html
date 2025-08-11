@@ -1,4 +1,4 @@
-<div class="theme-wrapper" *ngIf="isAppInitialized">
+<div class="theme-wrapper" [class.no-scroll]="showMask" *ngIf="isAppInitialized">
   <div
     class="app-body"
     (window:resize)="onResize()"
@@ -29,17 +29,16 @@
         <div class="text-center">
           <img
             ImageSrc
-            class="w-mob-set consistent-modal-icon"
-            src="./../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg"
+            class="w-mob-set consistent-modal-icon timeout_icon"
+            src="./../../../../assets/icons/Icon/Negative-scenarios/timeout_icon.svg"
             alt="session_expired"
           />
-          <div class="sessionContent">
+         <div class="sessionContent" [ngClass]="{ 'mt-2': domainCountry == 'SB' }">
             <div class="consistent-header-txt" translate>
               Looks like time got away.
             </div>
             <div class="consistent-body-text" translate>
-              Flight prices change on the fly, we want to ensure that you always
-              see the most up-to-date prices for your search.
+              Flight prices change on the fly, we want to ensure that you always see the most up-to-date prices for your search.
             </div>
           </div>
           <div class="modal-btn-container">

@@ -171,6 +171,9 @@
                 <div translate class="validation_msg" *ngIf="paymentCardForm?.cardNumber?.errors?.notAbsaCard">
                   Please use your Absa card
                 </div>
+                <div translate class="validation_msg" *ngIf="paymentCardForm?.cardNumber?.errors?.notStandardBankCard">
+                  Please use your Standard Bank card
+                </div>
               </div>
               <div class="form-group col-sm-12">
                 <label translate for="cc_name">Card Holder Name</label>

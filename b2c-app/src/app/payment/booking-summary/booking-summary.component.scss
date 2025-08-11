@@ -141,6 +141,12 @@
         font-size: 20px;
         font-weight: 600;
       }
+
+      .total--discounted {
+        font-size: 16px;
+        text-decoration: line-through;
+        color: var(--text_danger_color);
+      }
     }
     .link {
       color: var(--text_link_color);
@@ -182,7 +188,7 @@
     bottom: 0;
     background: var(--text_primary_color) ;
     color: $white !important;
-    z-index: 9999;
+    z-index: 999;
     width: 100%;
     left: 0;
     padding: 15px;

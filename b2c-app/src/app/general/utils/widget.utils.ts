@@ -16,7 +16,7 @@ export function isWhitelabeledSite(): boolean {
   if (!win) return false;
   const url = win.location.href;
   const hostname = win.location.hostname;
-  return url.includes('cpysource=mastercardtravel') || hostname.includes('mastercard.travelstart.co.za') || hostname.includes('mastercard.travelstart.com');
+  return url.includes('cpysource=mastercardza') || hostname.includes('mastercard.travelstart.co.za');
 }
 
 /**

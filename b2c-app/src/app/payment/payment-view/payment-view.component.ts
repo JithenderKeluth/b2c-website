@@ -10,7 +10,7 @@ import { BookingSummaryComponent } from '../booking-summary/booking-summary.comp
 import { IframeWidgetService } from '@app/general/services/iframe-widget.service';
 import { checkPaxValidationErrors } from '@app/flights/utils/search.utils';
 import { ApiService } from '@app/general/services/api/api.service';
-import { checkPaymentTypeFee, paymentValidations } from '@app/payment/utils/payment-utils';
+import { BinListResponse, checkPaymentTypeFee, paymentValidations } from '@app/payment/utils/payment-utils';
 import { AppSessionService } from '@app/_shared/session/app-session.service';
 import { Subscription, timer } from 'rxjs';
 import { ErrorMappingServiceService } from '@core/services/error-mapping-service.service';
@@ -23,6 +23,9 @@ import { ErrorPopupComponent, ErrorPopupData } from '../../_shared/components/er
 import { MyAccountServiceService } from '../../my-account/my-account-service.service';
 import { UniversalStorageService } from '../../general/services/universal-storage.service';
 import { getEventsSharedData } from '../utils/payment-utils';
+import { DiscountDisplayModel, DiscountsDisplayModel, aggregateDiscounts, getItineraryDiscounts } from '@app/flights/utils/discount.utils';
+import { DiscountAlertComponent, DiscountDialogData } from '../discount-alert/discount-alert.component';
+import { filter, take } from 'rxjs/operators';
 import { QueryStringAffid } from '@app/general/utils/querystringAffid-utils';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -105,13 +108,18 @@ export class PaymentViewComponent implements OnInit {
   isSaveCardDetailsChecked: boolean = false;
   voucherCode: any = null;
   paymentGatewayObj : any = null;
+
+  totalPrice?: number;
+  discounts?: DiscountsDisplayModel;
+  selectedDiscount?: DiscountDisplayModel;
+
   ngOnInit(): void {
     this.googleTagManagerServiceService.pushPageLoadEvent('/payments', 'Search and Book Cheap Flights | Travelstart');
     this.storage.removeItem('redirectGatewayLoaded');
     this.processingFeeAmount = 0;
     let processFee = checkPaymentTypeFee(this.processingFeeAmount);
     this.paymentService.changeProcessingFee(processFee);
-    this.bookingInfo = this.storage.getItem('bookingInfo', 'session');
+    this.bookingInfo = JSON.parse(this.storage.getItem('bookingInfo', 'session'));
     const booking_details = JSON.parse(this.storage.getItem('bookingDetails','session'));
     if (booking_details?.redirectGatewayParameters) {
       let iframeUrl = this.formIframeUrl(booking_details.redirectGatewayParameters);
@@ -153,14 +161,31 @@ export class PaymentViewComponent implements OnInit {
       this.meiliIntegrationService?.getTierInfo()?.activeCode
     );
     /**here we are trigger family API if domain is momentum and user have spent limits(based on spent limits we are consider affid)  */
-    if (this.apiService.extractCountryFromDomain() == 'MM' && !momentumAffId?.includes('0')) {
+    if (this.country == 'MM' && !momentumAffId?.includes('0')) {
       this.trigger_MM_FamilyAPI();
+    }
+
+    // Get current discount information from search result data.
+    const selectedFlight = JSON.parse(this.storage.getItem('selectedFlight', 'session'));
+    if (selectedFlight) {
+      this.discounts = getItineraryDiscounts(selectedFlight);
+    }
+
+    const selectedDomesticFlight = JSON.parse(this.storage.getItem('selectedDomesticFlight', 'session'));
+    if (selectedDomesticFlight?.inboundItineraries) {
+      this.discounts = aggregateDiscounts([
+        selectedDomesticFlight.inboundItineraries,
+        selectedDomesticFlight.outboundItineraries,
+      ]);
+    }
+
+    if (this.discounts) {
+      this.showPeachCheckoutForm = false; // Hide payment methods until discounts are reviewed
     }
 
     if (this.isBrowser) {
       window.addEventListener('message', this.handleIframeMessage);
     }
-
   }
 
   handleIframeMessage = (event: MessageEvent) => {
@@ -386,7 +411,7 @@ export class PaymentViewComponent implements OnInit {
             return;
           }
         } else if (this.paymentcard.reDirect_enable && this.paymentcard.selectedRedirectPaymentcardType == null) {
-          if ((this.country === 'ABSA' || this.country === 'mastercardtravel') && this.isSaveCardDetailsChecked) {
+          if (['ABSA', 'SB'].includes(this.country) && this.isSaveCardDetailsChecked) {
             this.saveCardDetails();
           }
           return;
@@ -404,7 +429,7 @@ export class PaymentViewComponent implements OnInit {
         }
       }
 
-      if ((this.country === 'ABSA' || this.country === 'mastercardtravel') && this.isSaveCardDetailsChecked) {
+      if (['ABSA', 'SB'].includes(this.country) && this.isSaveCardDetailsChecked) {
         this.saveCardDetails();
       }
 
@@ -479,7 +504,7 @@ export class PaymentViewComponent implements OnInit {
         }
         this.storage.removeItem('bookAPIRequestData');
         if (
-          this.apiService.extractCountryFromDomain() == 'IB' &&
+          this.country == 'IB' &&
           this.paymentcard.rewardPointsArray.length > 0 &&
           Object.keys(parsedPaymentObject.selectedPaymentMethod).length > 0
         ) {
@@ -487,7 +512,8 @@ export class PaymentViewComponent implements OnInit {
             (x: any) => x.initSelected
           );
         }
-        // parsedPaymentObject['loggedonToken'] = this.getCredentials() ? this.getCredentials()?.data?.token : null;
+        parsedPaymentObject['partnerBlob'] = this.getCredentials() ? this.getCredentials()?.data?.partner_blob : null;
+        parsedPaymentObject['travellerID'] = this.country === 'SB' && this.getCredentials() ? this.getCredentials()?.data?.contactInfo?.email.split('@')[0] : null;
         parsedPaymentObject['userId'] = this.getCredentials()?.data?.userID  ? this.getCredentials()?.data?.userID  : null;
         this.storage.setItem('bookAPIRequestData', JSON.stringify(parsedPaymentObject), 'session');
         this.parsePaymentObj = parsedPaymentObject;
@@ -552,7 +578,7 @@ export class PaymentViewComponent implements OnInit {
   }
   checkTBITerms() {
     if (
-      this.apiService.extractCountryFromDomain() == 'IB' &&
+      this.country == 'IB' &&
       (!this.paymentcard.travelRegulations.value || !this.paymentcard.airlineRules.value)
     ) {
       const el = this.paymentcard.elementRef.nativeElement.querySelector('#TBI_TERMS');
@@ -715,11 +741,8 @@ export class PaymentViewComponent implements OnInit {
               }
               this.paymentcard.paymentErrors = null;
               let errorObj = {
-                msg:
-                  this.country == 'ABSA'
-                    ? 'Oh no, your booking is failed. Please try again.'
-                    : 'Oh no, your booking is failed. Please try again.',
-                img: `/assets/icons/Icon/Negative-scenarios/cannot_process_booking_icon.svg`,
+                msg:  this.country == 'ABSA' ? 'Oh no, your booking is failed. Please try again.' :'Oh no, your booking is failed. Please try again.',
+                img:  `/assets/icons/Icon/Negative-scenarios/cannot_process_booking_icon.svg`,
               };
               this.paymentcard.paymentErrors = errorObj;
               this.paymentcard.invalid_card = false;
@@ -749,7 +772,7 @@ export class PaymentViewComponent implements OnInit {
       this.paymentcard.paymentErrors = paymentValidations(bookingDetails, this.appSessionService);
       if (this.paymentcard.paymentErrors) {
         this.paymentcard.invalidCvv = false;
-        this.scrollToError();
+        this.scrollToError()
         return this.paymentcard.paymentErrors;
       } else if (
         bookingDetails.validationResults &&
@@ -976,7 +999,7 @@ export class PaymentViewComponent implements OnInit {
   /**Show and hide coupons section*/
   showCouponSection() {
     return (
-      this.apiService.extractCountryFromDomain() !== 'IB' &&
+      this.country !== 'IB' &&
       // this.isCouponsCampaign() && // enable this if needs to add the restriction for iframes and sources
       !this.paymentDeeplinkData
     );
@@ -1204,7 +1227,7 @@ export class PaymentViewComponent implements OnInit {
   }
   /**here we are constructing the common data for payment events  */
   getEventsSharedDataInfo(){
-    const sharedData = getEventsSharedData();
+    const sharedData:any = getEventsSharedData();
     const itinResponse = sharedData.itinResponse;
     const flightResultsData = sharedData.flightResultsData;
     const searchInfoData = sharedData.searchInfoData;
@@ -1213,10 +1236,112 @@ export class PaymentViewComponent implements OnInit {
       totalAmount : this.bookingSummary?.totalPrice ?? 0,
       paymentGatewayData : this.paymentGatewayObj,
       vatInfo : this.paymentcard?.requireVat ?? false,
-      threeDEnabled : Boolean(this.bookingResp.redirectGatewayBookingResponse || this.bookingResp.threeDSecureParameters)
+      threeDEnabled : Boolean(this.bookingResp?.redirectGatewayBookingResponse || this.bookingResp?.threeDSecureParameters)
     };
     const additionalDataInfo = {...addMoreData,...sharedData.additionalDataInfo}
       return {itinResponse,flightResultsData,searchInfoData,additionalDataInfo}
   }
-}
 
+
+  updateSelectedDiscountByCardType(type: string) {
+    if (!this.discounts) return;
+
+    // Get the discount matching the current card type, and the best discount
+    const bestDiscount = this.discounts.availableDiscounts[0];
+    console.log('Selected discount:', bestDiscount);
+
+    const selectedDiscount = this.discounts.availableDiscounts.find(x => x.name.toUpperCase() === type.toUpperCase());
+    
+    if (bestDiscount?.percentage > 0 && selectedDiscount && selectedDiscount.name !== bestDiscount?.name) {
+      // If the current discount is not the best discount, consent before changing
+      this.confirmDiscountChange(bestDiscount, selectedDiscount);
+    } else {
+      // Fall back to the best discount as a default
+      this.selectedDiscount = bestDiscount;
+    }
+  }
+
+  confirmDiscountChange(bestDiscount: DiscountDisplayModel, selectedDiscount: DiscountDisplayModel) {
+    if (!this.discounts || !this.totalPrice) return;
+
+    // Show a dialog with the new discount information
+    const dialogData: DiscountDialogData = {
+      currencyCode: this.discounts.currencyCode,
+      totalPrice: this.totalPrice,
+      selectedDiscount: selectedDiscount,
+      discountDisplayName: this.getDiscountDisplayName(selectedDiscount.name),
+      bestDiscountDisplayName: this.getDiscountDisplayName(bestDiscount.name),
+      bestDiscountData : bestDiscount,
+      discount: this.discounts
+    };
+    const dialog = this.dialog.open(DiscountAlertComponent, {
+      data: dialogData,
+      panelClass: [
+        'discount-alert__panel',
+        'std-bank-modal',
+        'std-bank-modal--bottom'
+      ],
+      width: '100%',
+      maxWidth: '30rem',
+      position: {
+        bottom: '0',
+        left: '0',
+        right: '0',
+      }
+    });
+    dialog.afterClosed().pipe(take(1)).subscribe((userConsented) => {
+      if (userConsented === true) {
+        // Continue with the new discount
+        this.selectedDiscount = selectedDiscount;
+      } else if (this.paymentcard) {
+        // Clear the current card input so the user can use a new card type
+        this.paymentcard.clearCardInput();
+      }
+    });
+  }
+
+  getDiscountDisplayName(name: string) {
+    if (name === 'CREDIT') {
+      return 'Credit card';
+    }
+
+    if (name === 'DEBIT') {
+      return 'Debit/Cheque card';
+    }
+
+    return name;
+  }
+
+  onBinListResponseChanged(binListResponse: BinListResponse | null) {
+    if (!binListResponse || binListResponse?.bank?.name?.toLowerCase()!== 'standardbank') return;
+    if (this.country !== 'SB') return;
+
+    const type = binListResponse.type;
+    if (type) {
+      this.updateSelectedDiscountByCardType(type);
+    } else {
+      // TODO: remove this - hardcoded for testing until we have the actual Std Bank BIN list
+      this.updateSelectedDiscountByCardType('debit');
+    }
+  }
+
+  onTotalPriceChanged(totalPrice: number) {
+    this.totalPrice = totalPrice;
+  }
+
+  onDiscountsAcknowledged() {
+    if (this.discounts) {
+      // Select the highest discount (best price) and fall back to a null discount.
+      // null is NOT undefined and will still proceed to payment.
+      this.selectedDiscount = this.discounts.availableDiscounts[0] ?? null;
+    }
+  }
+
+  onDiscountInfoClicked() {
+    this.selectedDiscount = undefined;
+  }
+
+  get showDiscountPromo() {
+    return this.discounts !== undefined && this.selectedDiscount === undefined;
+  }
+}

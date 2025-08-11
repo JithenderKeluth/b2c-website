@@ -19,7 +19,7 @@
                       "
                     >
                       <div class="card mt-2">
-                        <div class="card-body" [ngClass]="[country !== 'ABSA' && products.initSelected == true ? 'active' : '']">
+                        <div class="card-body" [ngClass]="[country !== 'ABSA' && country !== 'SB' && products.initSelected == true ? 'active' : '']">
                           <div class="row align-items-lg-center">
                             <div class="col-9 col-lg-8 pr-0 theme__product-description-container">
                               <div class="row">
@@ -43,11 +43,11 @@
                                         loading="lazy"
                                       />
                                     </div>
-                                    <div>
+                                    <div class="theme__add-on-card__product-name">
                                       {{ products.name }}
                                       <span
                                         class="recomended_Flag d-none d-lg-inline"
-                                        *ngIf="country !== 'ABSA' && products.displayDetail && products.displayDetail.wowdescription"
+                                        *ngIf="country !== 'ABSA' && country !== 'SB' && products.displayDetail && products.displayDetail.wowdescription"
                                       >
                                         <span>{{ products.displayDetail.wowdescription }}</span>
                                       </span>
@@ -55,13 +55,13 @@
                                   </div>
                                   <div
                                     class="recomended_Flag d-inline d-lg-none"
-                                    *ngIf="country !== 'ABSA' && products.displayDetail && products.displayDetail.wowdescription"
+                                    *ngIf="country !== 'ABSA' && country !== 'SB' && products.displayDetail && products.displayDetail.wowdescription"
                                   >
                                     <span>{{ products.displayDetail.wowdescription }}</span>
                                   </div>
                                   <div class="card-text cardDescBox mt-2 mt-lg-1">
-                                    {{ addonsProductDesc(products.description)
-                                    }}<span class="theme__add-on-card-footer">
+                                    {{ addonsProductDesc(products.description) }}
+                                    <span class="theme__add-on-card-footer">
                                       <a
                                         translate
                                         class="know_more_link"
@@ -69,9 +69,8 @@
                                         rel="noopener"
                                         target="_blank"
                                         *ngIf="products.displayDetail.moreInfo"
-                                        >Know more</a
-                                      ></span
-                                    >
+                                        >Know more</a>
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -96,7 +95,7 @@
                                     <img
                                       *ngIf="!products.initSelected"
                                       ImageSrc
-                                      [src]="country !== 'ABSA' 
+                                      [src]="country !== 'ABSA' && country !== 'SB'
                                         ? '../../../assets/icons/travellerpage_Icons/tick_default.svg' 
                                         : '../../../assets/icons/absa_icons/product-add-icon.svg'"
                                       alt="tick_default"
@@ -105,7 +104,7 @@
                                     <img
                                       *ngIf="products.initSelected"
                                       ImageSrc
-                                      [src]="country !== 'ABSA' 
+                                      [src]="country !== 'ABSA' && country !== 'SB'
                                         ? '../../../assets/icons/travellerpage_Icons/tick_selected.svg'
                                         : '../../../assets/icons/absa_icons/product-check-icon.svg'"
                                       alt="tick_selected"

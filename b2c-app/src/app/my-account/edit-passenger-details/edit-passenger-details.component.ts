@@ -1,4 +1,3 @@
-
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
@@ -12,6 +11,7 @@ import { ApiService } from '../../general/services/api/api.service';
 import { SessionUtils } from '../../general/utils/session-utils';
 import { myAccountEventData } from '../utils/my-account.utils';
 import { GoogleTagManagerServiceService } from '../../_core/tracking/services/google-tag-manager-service.service';
+import { title } from 'process';
 declare const $: any;
 @Component({
   selector: 'app-edit-passenger-details',
@@ -74,8 +74,8 @@ export class EditPassengerDetailsComponent implements OnInit {
     private searchService: SearchService,
     private storage: UniversalStorageService,
     private apiService: ApiService,
-   private sessionUtils: SessionUtils,
-  private googleTagManagerService : GoogleTagManagerServiceService
+    private sessionUtils: SessionUtils,
+    private googleTagManagerService : GoogleTagManagerServiceService
   ) {
     this.country = apiService.extractCountryFromDomain();
   }
@@ -123,18 +123,22 @@ export class EditPassengerDetailsComponent implements OnInit {
   }
   editPassenger() {
     this.passengerEditForm = this.fb.group({
-      dept_city: this.itinaryData.airReservationList[0].originDestinationOptionsList[0].bookingFlightSegmentList[0]
-        .departureAirport,
-      arr_city: this.itinaryData.airReservationList[0].originDestinationOptionsList[0].bookingFlightSegmentList[
-        this.itinaryData.airReservationList[0].originDestinationOptionsList[0].bookingFlightSegmentList.length - 1
-      ].arrivalAirport,
+      dept_city:
+        this.itinaryData.airReservationList[0].originDestinationOptionsList[0].bookingFlightSegmentList[0]
+          .departureAirport,
+      arr_city:
+        this.itinaryData.airReservationList[0].originDestinationOptionsList[0].bookingFlightSegmentList[
+          this.itinaryData.airReservationList[0].originDestinationOptionsList[0].bookingFlightSegmentList.length - 1
+        ].arrivalAirport,
       passengers: this.fb.array(
-        this.itinaryData.airReservationList[0].travellerList.map((y: any) => this.setPassengers(y))
+        this.itinaryData.airReservationList[0].travellerList.map((y: any) => this.setPassengers(y)),
       ),
       createdDateTime: this.itinaryData.createdDateTime,
-      departureDateTime: this.itinaryData.airReservationList[0].originDestinationOptionsList[0].bookingFlightSegmentList[0].departureDateTime,
+      departureDateTime:
+        this.itinaryData.airReservationList[0].originDestinationOptionsList[0].bookingFlightSegmentList[0]
+          .departureDateTime,
       bookingStatus: this.itinaryData.bookingStatus,
-      pnr: this.itinaryData.airReservationList[0].pnrReference
+      pnr: this.itinaryData.airReservationList[0].pnrReference,
     });
   }
   //todo  if loop with odo
@@ -155,11 +159,12 @@ export class EditPassengerDetailsComponent implements OnInit {
     if (data != null) {
       let date = this.datePipe.transform(data.birthDate, 'MM-dd-yyyy');
       let dobDate = this.ngbDateParserFormatter.parse(this.datePipe.transform(date, 'yyyy-MM-dd'));
-      let Id = data.personName.givenName + ' ' + data.personName.surname;
+      let Id = data.personName.nameTitle + ' ' + data.personName.givenName + ' ' + data.personName.surname;
       return this.fb.group({
         passengerDetails: '',
         gender: new UntypedFormControl({ value: data.gender, disabled: true }),
         dob: new UntypedFormControl({ value: dobDate, disabled: true }),
+        title: [data.personName.nameTitle],
         firstName: [data.personName.givenName, [Validators.required]],
         middleName: data.personName.middleName,
         surName: [data.personName.surname, [Validators.required]],
@@ -210,29 +215,31 @@ export class EditPassengerDetailsComponent implements OnInit {
     eventData['payment'] = 'CC';
     this.googleTagManagerService.pushEdit_PassengerEvents('Edit_Passenger',eventData);
     let reqData = {
-      bookingRef : this.itinaryData?.tccReference,
-      categoryKey : 'NAME_CHANGE_REQUEST',
-      correlationId : this.sessionUtils.getCorrelationId(),
+      bookingRef: this.itinaryData?.tccReference,
+      categoryKey: 'NAME_CHANGE_REQUEST',
+      correlationId: this.sessionUtils.getCorrelationId(),
       email: this.credentials.data.contactInfo.email,
-      message : 'Hi team, I request to change details for the passengers ' + this.names.slice(0, this.names.length - 1) + '.',
-      name : this.itinaryData?.airReservationList?.[0]?.travellerList?.[0]?.personName?.givenName,
-      surname : this.itinaryData?.airReservationList?.[0]?.travellerList?.[0]?.personName?.surname
-    }
-      this.searchService.contactEnquiry(reqData).subscribe(
-        (data: any) => {
-          this._snackBar.open('Thanks! We will be in touch soon.');
-          this.googleTagManagerService.pushEdit_PassengerEvents('Edit_Passenger_Success',eventData);
-        },
-        (error) => {
-          if (error) {
-            if (error.error) {
-           this._snackBar.open('Something went wrong. Please try again. ');
-            }
+      message:
+        'Hi team, I request to change details for the passengers ' + this.names.slice(0, this.names.length - 1) + '.',
+      title: this.itinaryData?.airReservationList?.[0]?.travellerList?.[0]?.personName?.nameType,
+      name: this.itinaryData?.airReservationList?.[0]?.travellerList?.[0]?.personName?.givenName,
+      surname: this.itinaryData?.airReservationList?.[0]?.travellerList?.[0]?.personName?.surname,
+    };
+    this.searchService.contactEnquiry(reqData).subscribe(
+      (data: any) => {
+        this._snackBar.open('Thanks! We will be in touch soon.');
+      },
+      (error) => {
+        if (error) {
+          if (error.error) {
+            this._snackBar.open('Something went wrong. Please try again. ');
           }
-        })
-        setTimeout(() => {
-          this._snackBar.dismiss();
-        }, 5000);
+        }
+      },
+    );
+    setTimeout(() => {
+      this._snackBar.dismiss();
+    }, 5000);
   }
 
   queryRecord(id: number) {

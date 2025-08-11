@@ -1,21 +1,22 @@
 <app-header></app-header>
 <div class="myaccount_page theme__dashboard-page">
   <div class="myAct_bg"></div>
-  <div class="dashboard" [ngClass]="{'pt-md-5': tsCountry !== 'ABSA'}">
-    <div class="container" [ngClass]="{'h-100': tsCountry === 'ABSA'}">
-      <div class="row" [ngClass]="{'h-100': tsCountry === 'ABSA'}">
-        <div class="col-12 p-0" [ngClass]="{'theme__flex-column-full': tsCountry === 'ABSA'}">
+  <div class="dashboard pt-md-5">
+    <div class="container" [ngClass]="{ 'h-100': tsCountry === 'ABSA' || tsCountry === 'SB' }">
+      <div class="row" [ngClass]="{ 'h-100': tsCountry === 'ABSA' || tsCountry === 'SB' }">
+        <div class="col-12 p-0" [ngClass]="{ 'theme__flex-column-full': tsCountry === 'ABSA' || tsCountry === 'SB' }">
           <app-back-button
-          *ngIf="
-            tsCountry === 'ABSA' &&
-            (responsiveService.screenWidth == 'sm' ||
-              responsiveService.screenWidth == 'md')
-          "
-          [navigationLink]="'/'"
-          [isTextWhite]="true"
-          ><span translate>My Profile</span></app-back-button
-        >
-          <div class="mt-4">
+            *ngIf="
+              (tsCountry === 'ABSA' || tsCountry === 'SB') &&
+              (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+            "
+            [navigationLink]="'/'"
+            [isTextWhite]="true"
+            (onBack)="handleBackClick()"
+          >
+            <span translate>My Profile</span>
+          </app-back-button>
+          <div [ngClass]="tsCountry !== 'SB' ? 'mt-4' : ''">
             <div class="main-tab-section">
               <div class="sec_header d-none d-lg-inline-block">
                 <div>
@@ -73,7 +74,10 @@
                     aria-selected="true"
                     >MY BOOKINGS</a
                   >
-                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'My Bookings'" class="theme__highlight-bar"></div>
+                  <div
+                    *ngIf="(tsCountry === 'ABSA' || tsCountry === 'SB') && tabVal == 'My Bookings'"
+                    class="theme__highlight-bar"
+                  ></div>
                 </li>
                 <li class="nav-item" (click)="getTab('Travellers')" *ngIf="tsCountry !== 'MM'">
                   <a
@@ -88,7 +92,10 @@
                     aria-selected="false"
                     >{{ tsCountry === 'ABSA' ? 'Travellers' : 'TRAVELLERS' }}</a
                   >
-                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'Travellers'" class="theme__highlight-bar"></div>
+                  <div
+                    *ngIf="(tsCountry === 'ABSA' || tsCountry === 'SB') && tabVal == 'Travellers'"
+                    class="theme__highlight-bar"
+                  ></div>
                 </li>
                 <li class="nav-item" (click)="getTab('Wallet')" *ngIf="isTsPlusUser && showWalletInfo">
                   <a
@@ -103,7 +110,10 @@
                     aria-selected="false"
                     >WALLET</a
                   >
-                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'Wallet'" class="theme__highlight-bar"></div>
+                  <div
+                    *ngIf="(tsCountry === 'ABSA' || tsCountry === 'SB') && tabVal == 'Wallet'"
+                    class="theme__highlight-bar"
+                  ></div>
                 </li>
                 <li class="nav-item" (click)="getTab('Add Card')">
                   <a
@@ -118,9 +128,12 @@
                     aria-selected="false"
                     >{{ tsCountry === 'ABSA' ? 'Cards' : 'PAYMENTS' }}</a
                   >
-                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'Add Card'" class="theme__highlight-bar"></div>
+                  <div
+                    *ngIf="(tsCountry === 'ABSA' || tsCountry === 'SB') && tabVal == 'Add Card'"
+                    class="theme__highlight-bar"
+                  ></div>
                 </li>
-                <li class="nav-item" (click)="getTab('Help')" *ngIf="tsCountry === 'ABSA'">
+                <li class="nav-item" (click)="getTab('Help')" *ngIf="tsCountry === 'ABSA' || tsCountry === 'SB'">
                   <a
                     translate
                     class="nav-link theme__account-tab"
@@ -131,15 +144,27 @@
                     role="tab"
                     aria-controls="help"
                     aria-selected="false"
-                  >Help</a
+                    >Help</a
                   >
-                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'Help'" class="theme__highlight-bar"></div>
+                  <div
+                    *ngIf="(tsCountry === 'ABSA' || tsCountry === 'SB') && tabVal == 'Help'"
+                    class="theme__highlight-bar"
+                  ></div>
                 </li>
               </ul>
             </div>
 
-            <div class="tabContent" [ngClass]="{'h-100 theme__hide-overflow': tsCountry === 'ABSA'}">
-              <div class="main tab-content" id="myAccountContent"  [ngClass]="{'theme__flex-column-full theme__scroll-overflow': tsCountry === 'ABSA'}">
+            <div
+              class="tabContent"
+              [ngClass]="{ 'h-100 theme__hide-overflow': tsCountry === 'ABSA' && tsCountry === 'SB' }"
+            >
+              <div
+                class="main tab-content"
+                id="myAccountContent"
+                [ngClass]="{
+                  'theme__flex-column-full theme__scroll-overflow': tsCountry === 'ABSA',
+                }"
+              >
                 <div
                   class="tab-pane fade p-3"
                   [ngClass]="{ active: routeUrl == '/my-account', show: routeUrl == '/my-account' }"
@@ -151,7 +176,7 @@
                 </div>
                 <div
                   *ngIf="tabVal === 'My Bookings'"
-                  class="tab-pane fade p-3"
+                  class="tab-pane fade p-3 theme__my-bookings-section-container"
                   [ngClass]="{ active: tabVal == 'My Bookings', show: tabVal == 'My Bookings' }"
                   id="travellers"
                   role="tabpanel"
@@ -169,8 +194,8 @@
                   role="tabpanel"
                   aria-labelledby="three-tab"
                 >
-                  <app-travellers *ngIf="tsCountry !== 'ABSA'"></app-travellers>
-                  <app-saved-travellers *ngIf="tsCountry === 'ABSA'"></app-saved-travellers>
+                  <app-travellers *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'"></app-travellers>
+                  <app-saved-travellers *ngIf="tsCountry === 'ABSA' || tsCountry === 'SB'"></app-saved-travellers>
                   <!-- <h5 class="card-title">Saved Adults</h5> -->
                 </div>
 
@@ -190,15 +215,19 @@
                   *ngIf="tabVal === 'Add Card'"
                   class="tab-pane fade p-3"
                   id="four"
-                  [ngClass]="{ active: tabVal == 'Add Card', show: tabVal == 'Add Card', 'theme__add-card-container': tsCountry === 'ABSA' }"
+                  [ngClass]="{
+                    active: tabVal == 'Add Card',
+                    show: tabVal == 'Add Card',
+                    'theme__add-card-container': tsCountry === 'ABSA' || tsCountry === 'SB',
+                  }"
                   role="tabpanel"
                   aria-labelledby="four-tab"
                 >
-                  <app-payments *ngIf="tsCountry !== 'ABSA'"></app-payments>
-                  <app-saved-cards *ngIf="tsCountry === 'ABSA'"></app-saved-cards>
+                  <app-payments *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'"></app-payments>
+                  <app-saved-cards *ngIf="tsCountry === 'ABSA' || tsCountry === 'SB'"></app-saved-cards>
                 </div>
                 <div
-                  *ngIf="tabVal == 'Help' && tsCountry === 'ABSA'"
+                  *ngIf="tabVal == 'Help' && (tsCountry === 'ABSA' || tsCountry === 'SB')"
                   class="tab-pane fade"
                   [ngClass]="{ active: tabVal == 'Help', show: tabVal == 'Help' }"
                   id="help-tab"

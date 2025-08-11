@@ -122,19 +122,27 @@
   .autosetWidth {
     display: grid;
   }
-
+.result_page_view{
+    min-height: calc(100vh - 150px);
+}
   #res_Modify {
     //box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    position: absolute;
-    z-index: 999 !important;
+    position: fixed;
+    z-index: 99999 !important;
     width: 100%;
+    height: calc(100% - 57px);
+    overflow-y: scroll;
+    background-color: rgba(0,0,0,0.1);
   }
-
+    .closeSrp img{
+      width: 42px;
+    }
 
   .filtersection,
   .result_page_view,
   .flightsViewSection {
     transform: none !important;
+    overflow: hidden;
   }
 
   .flightsViewSection {

@@ -730,7 +730,7 @@ export class FlightFiltersComponent implements OnInit {
   }
   public getStop(num: number) {
     if (num === 0) {
-      return 'Non Stop';
+      return this.country === 'SB' ? 'Direct' : 'Non Stop';
     } else if (num === 1) {
       return 'Stop';
     } else if (num > 1) {

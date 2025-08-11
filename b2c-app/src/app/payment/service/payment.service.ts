@@ -93,6 +93,11 @@ export class PaymentService {
       queryStringValue['correlation_id'] = this.sessionUtils.getCorrelationId();
       queryPath = this.queryString.getQueryString(queryStringValue);
     }
+    if (this.apiService.extractCountryFromDomain() === 'SB' && queryPath.includes('adobe_mc')) {
+      const params = new URLSearchParams(queryPath);
+      params.delete('adobe_mc');
+      queryPath = params.toString();
+    }
     if (redirectGateway) {
       url = `${this.apiService.fetchApiHostUrl()}${REDIRECT_GATEWAY_AUTH_PATH}/?redirectGatewayAuth=${redirectGateway}&${queryPath}`;
     } else if (

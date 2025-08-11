@@ -22,12 +22,15 @@
         responsiveservice.screenWidth !== 'md'
       "
     />
-    <div class="Summary">
+    <div class="Summary mt-3">
       <div class="sec-labls" *ngIf="bookingInfo.itineraryData.itineraries.length > 0">
         <span translate class="labl">Flight Details</span>
       </div>
-
-      <div class="itin" *ngFor="let itineraries of bookingInfo.itineraryData.itineraries; let itin = index">
+      <div *ngIf="country === 'SB'"><app-flight-details-info [itinerary_Data_Info]="bookingInfo?.itineraryData"></app-flight-details-info></div>
+      <div *ngIf="country !== 'SB'"> <app-itinerary-info [pricedResult_data]="bookingInfo?.itineraryData"></app-itinerary-info></div>
+     
+      <!---we can remove below code once everything is fine with all white-labels with itinerary-info component changes-->
+      <!-- <div class="itin" *ngFor="let itineraries of bookingInfo.itineraryData.itineraries; let itin = index">
         <div class="itin-info segments" *ngFor="let odoList of itineraries.odoList; let idx = index">
           <div class="seg_legs">
             <div class="air-info">
@@ -84,7 +87,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <hr
@@ -242,7 +245,7 @@
                   {{ bookingInfo.itineraryData.currencyCode | currencyCode }}{{ addFees() }}
                 </td>
               </tr>
-              <tr *ngIf="bookingInfo?.itineraryData?.fareBreakdown?.discountAmount < 0">
+              <tr *ngIf="bookingInfo?.itineraryData?.fareBreakdown?.discountAmount < 0 && country !== 'SB'">
                 <th translate class="savingAmountTxt" id="Saving Amount">Saving Amount</th>
                 <td class="tableData">
                   -{{ bookingInfo.itineraryData.currencyCode | currencyCode
@@ -267,6 +270,14 @@
                 <td>
                   -{{ bookingInfo.itineraryData.currencyCode | currencyCode
                   }}{{ getMinusAmt(discAmount) | number: '1.2-2' }}
+                </td>
+              </tr>
+              <!-- Further discounts on the flight itself (Std Bank) -->
+              <tr *ngIf="selectedDiscount && selectedDiscount.amount > 0">
+                <th translate id="discount">{{ discountLabel }}</th>
+                <td class="tableData"> 
+                  -{{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{ selectedDiscount.amount | number: '1.2-2' }}
                 </td>
               </tr>
             </table>
@@ -351,19 +362,32 @@
         </div>
         <div
           class="d-block d-lg-none"
-          *ngIf="apiService.extractCountryFromDomain() === 'MM' && totalMomentumSavings() > 0"
+          *ngIf="country === 'MM' && totalMomentumSavings() > 0"
         >
           <ng-container *ngTemplateOutlet="momentumSavings"></ng-container>
         </div>
+        <div *ngIf="country === 'SB'">
+          <hr>
+          <div class="d-flex align-items-center SB_totalPrice">
+            <div>Total Price</div>
+            <div class="ml-auto">{{ bookingInfo.itineraryData.currencyCode | currencyCode }}{{getSBTotalPrice(totalPrice) | currency: '' + ' ':'symbol':'2.0'}}</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
   <hr class="mt-0 d-none d-lg-block" *ngIf="!isPriceDeeplink" />
   <div class="fare-info theme__raise-priority" *ngIf="!isPriceDeeplink">
-    <div class="row">
+    <div class="row align-items-center" >
       <div class="col col-xl-12 col-lg-12" (click)="expandFare()">
-        <div
+        <div *ngIf="country !== 'SB' && getTotalPrice(
+            bookingInfo.itineraryData.totalAmount + this.voucherAmount,
+            bookingInfo.productDetails,
+            cC_processFee + discAmount,
+            baggageAmount
+          ) as totalPrice"
           class="total_amt"
           data-toggle="collapse"
           [attr.data-target]="
@@ -371,22 +395,36 @@
           "
           (click)="showPriceIcon()"
         >
-          <span translate class="labl">TOTAL PRICE</span>
+          <span translate class="labl">TOTAL PRICE               
+            <span *ngIf="country === 'SB'">
+                <img
+                  ImageSrc
+                  class="theme__info-icon"
+                  data-toggle="collapse"
+                  data-target="#fareBreakdown"
+                  src="../../../assets/icons/srp_Icons/fare-breakdown-info.svg"
+                  alt="fare-breakdown-info"
+                  width="14px"
+                />
+              </span></span>
           <span class="amt float-right">
-            <span class="total">
+            <span class="total" *ngIf="selectedDiscount">
               {{ bookingInfo.itineraryData.currencyCode | currencyCode
               }}{{
-                getTotalPrice(
-                  bookingInfo.itineraryData.totalAmount + this.voucherAmount,
-                  bookingInfo.productDetails,
-                  cC_processFee + discAmount,
-                  baggageAmount
-                ) | currency: '' + ' ':'symbol':'2.0'
+                totalPrice - selectedDiscount.amount | currency: '' + ' ':'symbol':'2.0'
+              }}
+            </span>
+            <span class="total" [ngClass]="{
+                'total--discounted': selectedDiscount
+              }">
+              {{ bookingInfo.itineraryData.currencyCode | currencyCode
+              }}{{
+                totalPrice | currency: '' + ' ':'symbol':'2.0'
               }}
             </span>
 
             <span class="d-block d-lg-none priceLink">
-              <span *ngIf="country !== 'ABSA'" class="angleIcon">
+              <span *ngIf="country !== 'ABSA' && country !== 'SB'" class="angleIcon">
                 <i
                   *ngIf="viewpriceDownIcon"
                   aria-hidden="true"
@@ -396,7 +434,7 @@
                 >
                 </i>
               </span>
-              <span *ngIf="country !== 'ABSA'" class="angleIcon">
+              <span *ngIf="country !== 'ABSA' && country !== 'SB'" class="angleIcon">
                 <i
                   *ngIf="viewpriceUpIcon"
                   aria-hidden="true"
@@ -444,17 +482,27 @@
           </tr>
         </table>
       </div>
-      <div class="col-6 offset-lg-6 text-lg-right">
+      <div [ngClass]="country === 'SB' ? 'col-12' : 'col-5 offset-lg-6 text-lg-right'" >
         <button
-          *ngIf="!showIframe"
-          [ngClass]="
+          *ngIf="!showIframe && country === 'SB' && discounts !== undefined && selectedDiscount === undefined"
+          type="button"
+          [ngClass]="country === 'SB' ? 'btn primary_btn w-100 d-flex justify-content-center align-items-center' : 'd-block d-lg-none btn primary_btn book_btn float-right'"
+          (click)="acknowledgeDiscounts()"
+        >
+          <span translate>Next</span>
+        </button>
+
+        <button
+          *ngIf="!showIframe && (country !== 'SB' || (country === 'SB' && (discounts === undefined || selectedDiscount !== undefined)))"
+          [ngClass]="[
             iframeWidgetService.isB2BApp() &&
             (responsiveservice.screenWidth == 'sm' || responsiveservice.screenWidth == 'md')
               ? 'd-none'
               : 'd-block d-lg-none'
-          "
+            ,
+            country === 'SB' ? 'btn primary_btn w-100 d-flex justify-content-center align-items-center' : 'btn primary_btn book_btn float-right',
+          ]"
           type="button"
-          class="btn primary_btn book_btn float-right"
           [disabled]="isLoading"
           (click)="payndBook()"
         >
@@ -484,7 +532,7 @@
         </a>
       </div>
     </div>
-    <div *ngIf="apiService.extractCountryFromDomain() == 'IB'" class="row" (click)="expandFare()">
+    <div *ngIf="country == 'IB'" class="row" (click)="expandFare()">
       <div class="col">
         <p class="charges_txt">
           Price includes <span *ngIf="flightResultsList.isIntl">an International</span>
@@ -494,7 +542,7 @@
         </p>
       </div>
     </div>
-    <div class="d-none d-lg-block" *ngIf="apiService.extractCountryFromDomain() === 'MM' && totalMomentumSavings() > 0">
+    <div class="d-none d-lg-block" *ngIf="country === 'MM' && totalMomentumSavings() > 0">
       <ng-container *ngTemplateOutlet="momentumSavings"></ng-container>
     </div>
   </div>

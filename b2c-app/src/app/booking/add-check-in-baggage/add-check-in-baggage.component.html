@@ -21,7 +21,7 @@
             width="25px"
           />
         </div>
-        <div class="">
+        <div class="theme__baggage-info__itinerary">
           {{
             getCityName(pricedResult_data.itineraries[0].odoList[0].segments[0].origCode)
           }}
@@ -39,8 +39,9 @@
       <div *ngIf="pricedResult_data.itineraries[0].odoList[0].segments[0].baggageAllowance.length > 0" class="ml-auto  baggage_info mt-1 mt-lg-0">
         <div *ngFor="let baggage of pricedResult_data.itineraries[0].odoList[0].segments[0].baggageAllowance">
           <span *ngIf="handBag(baggage)">
-            <span translate class="des_baggage"> <img ImageSrc class="mb-1" src="../../../assets/icons/srp_Icons/new_hand_baggage.svg" alt="hand_baggage"> {{ bagageDesc(baggage) }}</span>
-
+            <span translate class="des_baggage">
+              <img ImageSrc class="mb-1" src="../../../assets/icons/srp_Icons/new_hand_baggage.svg" alt="hand_baggage"> {{ bagageDesc(baggage) }}
+            </span>
             <span translate class="includedTag">Included</span>
           </span>
 
@@ -69,7 +70,7 @@
             width="25px"
           />
         </div>
-        <div class="">
+        <div class="theme__baggage-info__itinerary">
           {{
             getCityName(
               pricedResult_data.itineraries[0].odoList[0].segments[
@@ -88,8 +89,9 @@
          class="ml-auto baggage_info mt-1 mt-lg-0">
         <div *ngFor="let baggage of pricedResult_data.itineraries[pricedResult_data.itineraries.length - 1].odoList[pricedResult_data.itineraries[pricedResult_data.itineraries.length - 1].odoList.length-1].segments[0].baggageAllowance">
           <span *ngIf="handBag(baggage)">
-            <span translate class="des_baggage"> <img ImageSrc class="mb-1" src="../../../assets/icons/srp_Icons/new_hand_baggage.svg" alt="hand_baggage"> {{ bagageDesc(baggage) }}</span>
-
+            <span translate class="des_baggage">
+              <img ImageSrc class="mb-1" src="../../../assets/icons/srp_Icons/new_hand_baggage.svg" alt="hand_baggage"> {{ bagageDesc(baggage) }}
+            </span>
             <span translate class="includedTag">Included</span>
           </span>
 
@@ -120,7 +122,7 @@
                      <span>
                       {{ baggage.description }}
                      </span>
-                     <span *ngIf="baggage.amount" class="float-right">
+                     <span *ngIf="baggage.amount" class="float-right theme__baggage-info__amount">
                       +{{ baggage.currencyCode | currencyCode}}{{ baggage.amount }}
                      </span>
                     </span>

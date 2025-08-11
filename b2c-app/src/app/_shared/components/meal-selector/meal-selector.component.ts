@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ApiService } from '@app/general/services/api/api.service';
 
 declare const $: any;
 
@@ -23,6 +24,7 @@ export class MealSelectorComponent implements OnInit {
   @Input() mealprferenceAmount: number;
   @Input() childMealPreferenceAmount: number;
   @Input() infantMealPreferenceAmount: number;
+  @Input() submitButtonText = 'Apply';
 
   @Output() closeMealSelection = new EventEmitter<void>();
   @Output() applyMealSelectionEvent = new EventEmitter<void>();
@@ -30,16 +32,20 @@ export class MealSelectorComponent implements OnInit {
 
   mealSelector: ElementRef;
 
-  selectedMeal: string = '';
-
-  constructor() { }
+  selectedMeal = '';
+  userDomain : any = null;
+  constructor(private apiService:ApiService) {
+    this.userDomain = this.apiService.extractCountryFromDomain();
+   }
 
   ngOnInit(): void {
     const currentTraveller = this.travellerForm?.value?.travellersList?.[this.travellerIndex];
     if (currentTraveller && currentTraveller.mealPreference) {
       this.selectedMeal = currentTraveller.mealPreference;
     }
-    this.mealSelector = new ElementRef(document.getElementById('mealSelector-' + this.travellerIndex));
+    if(typeof document !== 'undefined') {
+      this.mealSelector = new ElementRef(document.getElementById('mealSelector-' + this.travellerIndex));
+    }
   }
 
   selectMeals(meal: any, index: number): void {
@@ -47,11 +53,11 @@ export class MealSelectorComponent implements OnInit {
   }
 
   applyMealSelection(): void {
-    $(this.mealSelector.nativeElement).collapse('hide');
+    $('#' + this.mealSelector.nativeElement.id).collapse('hide');
     this.applyMealSelectionEvent.emit();
   }
   close(): void {
-    $(this.mealSelector.nativeElement).collapse('hide');
+    $('#' + this.mealSelector.nativeElement.id).collapse('hide');
     this.closeMealSelection.emit();
   }
 }

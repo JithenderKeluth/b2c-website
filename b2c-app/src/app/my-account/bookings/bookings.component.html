@@ -2,7 +2,7 @@
   <div class="inner_tabs bookings_tab">
     <div class="row">
       <div class="col-12 p-0">
-        <div class="mt-0 tab-card" [ngClass]="tsCountry !== 'ABSA' ? 'mt-md-3' : ''">
+        <div class="mt-0 tab-card" [ngClass]="tsCountry !== 'ABSA' && tsCountry !== 'SB' ? 'mt-md-3' : ''">
           <div class="card">
             <div class="card-header tab-card-header outer">
               <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -31,7 +31,7 @@
                     >Flights</a
                   >
                 </li>
-                <li *ngIf="tsCountry !== 'ABSA' && tsCountry != 'mastercardtravel'" class="nav-item" (click)="selectTab('Hotels')">
+                <li *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'" class="nav-item" (click)="selectTab('Hotels')">
                   <a
                     class="nav-link"
                     id="three-tab-mb"
@@ -43,7 +43,7 @@
                     >Hotels</a
                   >
                 </li>
-                <li *ngIf="tsCountry !== 'ABSA' && tsCountry != 'mastercardtravel'" class="nav-item" (click)="selectTab('Cars')">
+                <li *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'" class="nav-item" (click)="selectTab('Cars')">
                   <a translate
                     class="nav-link"
                     id="four-tab-mb"

@@ -168,7 +168,7 @@ input::placeholder {
     border-radius: var(--border_radius);
   }
   .fa {
-    font-size: 16px !important;
+    font-size: 16px;
   }
 
   .mealSelection {
@@ -189,7 +189,7 @@ input::placeholder {
       cursor: pointer !important;
     }
     ::placeholder {
-      color: var(--text_primary_color) !important;
+      color: var(--text_primary_color);
       font-weight: 500;
     }
     .form-control[readonly]{
@@ -206,7 +206,7 @@ input::placeholder {
     }
 
     .mealSelect {
-      color: var(--text_primary_color) !important;
+      color: var(--text_primary_color);
       font-weight: 500;
       height: 34px;
       border-radius: var(--border_radius) !important;
@@ -274,7 +274,7 @@ input::placeholder {
     }
   }
   .flyer {
-    width: 95% !important;
+    width: 95%;
   }
   .baggage_selection {
     .Adds {

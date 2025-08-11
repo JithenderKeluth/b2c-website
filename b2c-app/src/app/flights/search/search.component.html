@@ -1,5 +1,6 @@
+
 <section class="search-sec">
-  <div *ngIf="loading" class="loader-overlay">
+  <div *ngIf="absaLoading" class="loader-overlay">
     <div class="loader-spinner"></div>
   </div>
   <div>
@@ -12,7 +13,7 @@
     ></app-side-nav>
 
     <ng-template #navContent>
-      <app-city-selection (selectedCity)="selectCityVal($event)" *ngIf="loadContent == 'location'"></app-city-selection>
+      <app-city-selection (selectedCity)="selectCityVal($event)" [highlightedCity]="itenariesForm.controls[controlIndex].get(controlType).value" *ngIf="loadContent == 'location'"></app-city-selection>
       <app-date-selection
         *ngIf="loadContent == 'date'"
         [widgetInfo]="dateWidgetData"
@@ -21,7 +22,7 @@
       ></app-date-selection>
     </ng-template>
 
-    <div class="trip_section" style="position: relative">
+    <div id="tripSection" class="trip_section" style="position: relative">
       <div class="row">
         <ul class="trip_types p-0">
           <li
@@ -48,11 +49,11 @@
         </ul>
         <div class="pax_sel">
           <div class="passengers d-flex">
-            <div class="mr-2 cabin_Class" *ngIf="region !== 'ABSA'">
+            <div class="mr-2 cabin_Class"  *ngIf="region !== 'SB' && region !== 'ABSA'">
               <button mat-button [matMenuTriggerFor]="menu" #c="matMenuTrigger">
                 {{ cabinClass?.display }} Class
 
-                <span class="ml-3 float-right">
+                <span class="ml-3 float-right theme__menu_toggle_visual">
                   <i *ngIf="!c.menuOpen" aria-hidden="true" class="fa fa-angle-down"></i>
                   <i *ngIf="c.menuOpen" aria-hidden="true" class="fa fa-angle-up"></i>
                 </span>
@@ -103,15 +104,15 @@
             </div>
 
             <a
-              *ngIf="region === 'ABSA'"
+              *ngIf="region === 'ABSA' || region === 'SB'"
               type="button"
               rel="nofollow"
-              class="btn passenger_select mr-2"
+              class="btn passenger_select mr-3"
               data-toggle="collapse"
               data-target="#classSelector"
               (click)="toggleClassCollapse()"
             >
-              <span class="">{{ cabinClass.display }} Class </span>
+              <span [ngClass]="{'passengerval_sel' : cabinClass.display, 'passengerval_dis' : !cabinClass.display}" >{{ cabinClass.display }} Class </span>
               <i
                 [ngClass]="{
                   'fa-angle-up': isClassCollapsed,
@@ -126,16 +127,19 @@
               type="button"
               rel="nofollow"
               class="btn passenger_select"
-              data-toggle="collapse"
-              data-target="#pax"
+              [attr.data-toggle]="region !== 'SB' ? 'collapse' : null"
+              [attr.data-target]="region !== 'SB' ? '#pax' : null"
               (click)="togglePaxCollapse()"
             >
               <!-- <div class="paxClass">Travellers / Class</div> -->
-              <span class="passengerval"
+              <span class="passengerval" *ngIf="travellers.adults > 0"
                 >{{ travellers.adults + travellers.youngAdults + travellers.children + travellers.infants }}
                 <span translate>Traveller(s)</span></span
               >
-              <i [ngClass]="{ 'fa-angle-up': isPaxCollapsed, 'fa-angle-down': !isPaxCollapsed }" class="ml-3 fa"></i>
+              <span class="passengerval_dis" *ngIf="travellers.adults == 0">
+                Traveller(s)
+              </span>
+              <i class="theme__menu_toggle_visual" [ngClass]="{ 'fa-angle-up': isPaxCollapsed, 'fa-angle-down': !isPaxCollapsed }" class="ml-3 fa"></i>
             </a>
             <div
               class="passenger_select"
@@ -188,6 +192,8 @@
 
               <div id="classSelector" #classInfo class="collapse">
                 <app-class-selector
+                  [applyButtonTitle]="region === 'SB' ? 'Save' : 'Apply'"
+                  [selectedClass]="cabinClass"
                   (apply)="closeClassDialog('apply', $event)"
                   (close)="closeClassDialog('close')"
                 ></app-class-selector>
@@ -211,7 +217,7 @@
             : '0'
         "
       >
-        <form action="#" method="post" class="search_form" [formGroup]="myForm" *ngIf="isReady">
+        <form id="searchForm" action="#" method="post" class="search_form" [formGroup]="myForm" *ngIf="isReady">
           <div
             class="col-lg-12 mb-2 dyna_rows"
             formArrayName="itineraries"
@@ -263,8 +269,8 @@
                               : './../../../assets/icons/srp_Icons/srch-dir.svg'
                           "
                           alt="img"
-                          width="30px"
-                          height="30px"
+                          [attr.width]="country === 'SB' ? '36px' : '30px'"
+                          [attr.height]="country === 'SB' ? '36px' : '30px'"
                         />
                       </a>
 
@@ -308,7 +314,7 @@
                         </span>
                       </mat-autocomplete>
                     </div>
-                    <div class="col-lg-6 col-sm-12 p-0 position-relative arrive_airport">
+                    <div class="col-lg-6 col-sm-12 p-0 position-relative arrive_airport ng-autocomplete">
                       <input
                         #arrinp="matAutocompleteTrigger"
                         type="text"
@@ -395,7 +401,7 @@
                   <div class="row">
                     <div
                       class="p-0 position-relative depart_date q-datepicker position-relative w-100"
-                      [ngClass]="[tripSel.value == 'return' ? 'col-lg-6  col-sm-6' : 'col-lg-12 col-md-6  col-sm-12']"
+                      [ngClass]="getClassName(tripSel.value,i)"
                     >
                       <input
                         *ngIf="tripSel.value != 'return'"
@@ -456,6 +462,8 @@
                           [class.focused]="focused"
                           [class.range]="isRange(date)"
                           [class.faded]="isHovered(date) || isInside(date)"
+                          [class.first-range]="date.equals(fromDate)"
+                          [class.second-range]="date.equals(toDate)"
                           (mouseenter)="hoveredDate = date"
                           (mouseleave)="hoveredDate = null"
                         >
@@ -529,7 +537,7 @@
                         class="calendar-icon"
                       />
                     </div>
-                    <div class="col-lg-6 col-sm-6 p-0 position-relative arrive_date" *ngIf="tripSel.value == 'return'">
+                    <div class="col-lg-6 col-sm-6 p-0 position-relative arrive_date q-datepicker" *ngIf="tripSel.value == 'return'">
                       <input
                         #dpToDate
                         class="form-control return_datepick bor-rad-3 border-left-1 input_shadow_mweb"
@@ -608,14 +616,15 @@
                       : ''
                   "
                 >
-                  <div class="search-btn">
+                  <div class="search-btn" id="searchButton">
                     <button
                       mat-button
                       type="submit"
-                      class="btn primary_btn onHover w-100"
+                      class="btn  onHover w-100"
                       aria-label="Search Flights"
                       *ngIf="tripSel.value !== 'multi'"
-                      [disabled]="disableSearch"
+                      [disabled]="disableSearch || !isAllInputFieldsFilled()"
+                      [ngClass]="!isAllInputFieldsFilled() ? 'greyOutCTA' : 'primary_btn'"
                       (click)="searchFlights(tripSel, i)"
                     >
                       <span translate>Search Flights</span>
@@ -624,11 +633,12 @@
                       <span *ngIf="i > 0" class="mr-5 mt-3 crossXs pull-right">
                         <img
                           ImageSrc
-                          src="../../../assets/icons/close_cross_icn.svg"
+                          [src]="country == 'SB' ? '../../../assets/icons/multiCity_close__icn.svg' : '../../../assets/icons/close_cross_icn.svg'"
                           class="clear_itn mt-xs-0"
                           alt="clear"
                           loading="lazy"
                         />
+                        
                       </span>
                       <!-- <button mat-button *ngIf="i == 0" class="btn search-btn disabled">Remove</button> -->
                     </a>
@@ -651,17 +661,19 @@
             </ng-container>
           </div>
 
-          <div
-            class="form-group search_controls mt-xs-0 mt-4 pb-3 col-sm-12 col-lg-12 pr-0 pl-0 multiSearchMweb d-flex align-items-center"
+           <div
+            class="form-group search_controls multiSearchMweb mt-xs-0 mt-4 pb-3 col-sm-12 col-lg-12 pr-0 pl-0"
             *ngIf="tripSel.value === 'multi'"
           >
-            <span *ngIf="itenariesForm.length !== 6" class="">
+            <span *ngIf="itenariesForm.length !== 6">
               <span *ngIf="tripSel.value === 'multi'"
                 ><button
                   mat-button
                   aria-label="Add another flight"
-                  class="btn default_btn add_row bor-rad-3"
+                  class="btn add_row theme__button-outline"
                   (click)="addNewItineraries()"
+                  [ngClass]="!isAllInputFieldsFilled() ? 'greyOutOutlineCTA' : ' default_btn'"
+                  [disabled]="!isAllInputFieldsFilled()"
                 >
                   <img ImageSrc src="../../../assets/icons/plus_icon.svg" alt="add" width="11px" loading="lazy" />&nbsp;
                   <span translate>Add another flight</span>
@@ -675,13 +687,14 @@
                 Clear all
             </span> -->
             </span>
-            <span class=" ml-auto">
+            <span class="float-right">
               <button
                 mat-button
                 type="submit"
-                [disabled]="disableSearch"
+                [disabled]="disableSearch || !isAllInputFieldsFilled()"
                 aria-label="Search Flights"
-                class="btn search_btn primary_btn onHover"
+                [ngClass]="!isAllInputFieldsFilled() ? 'greyOutCTA' : 'primary_btn'"
+                class="btn search_btn onHover theme__button-primary"
                 *ngIf="tripSel.value === 'multi'"
                 (click)="searchFlights(tripSel)"
               >

@@ -25,7 +25,7 @@
 }
 
 .content {
-  margin: .75rem 1rem;
+  margin: 0.75rem 1rem;
 }
 
 .traveller-warning-box {
@@ -45,4 +45,21 @@
     margin-top: 0;
     line-height: normal;
   }
+}
+
+.sec_header {
+  display: inline-block;
+  margin-top: 32px;
+  h1 {
+    font-size: 22px;
+
+    .back_page {
+      cursor: pointer;
+    }
+  }
+}
+
+.main-tab-section {
+  margin-left: 10px;
+  color: #fff;
 }

@@ -426,20 +426,22 @@ function indexPriceResultProducts(products: any): { [productId: string]: any } {
 }
 
 function getQueryParamSourceValue() {
-  if (sessionStorage.getItem('queryStringParams')) {
-    let deeplinkValues = JSON.parse(sessionStorage.getItem('queryStringParams'));
-    if (deeplinkValues['cpysource']) {
-      return deeplinkValues['cpysource'];
-    } else if (deeplinkValues['cpy_source'] && Array.isArray(deeplinkValues['cpy_source'])) {
-      return deeplinkValues['cpy_source'][0];
-    } else if (deeplinkValues['cpy_source']) {
-      return deeplinkValues['cpy_source'];
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    if (sessionStorage.getItem('queryStringParams')) {
+      let deeplinkValues = JSON.parse(sessionStorage.getItem('queryStringParams'));
+      if (deeplinkValues['cpysource']) {
+        return deeplinkValues['cpysource'];
+      } else if (deeplinkValues['cpy_source'] && Array.isArray(deeplinkValues['cpy_source'])) {
+        return deeplinkValues['cpy_source'][0];
+      } else if (deeplinkValues['cpy_source']) {
+        return deeplinkValues['cpy_source'];
+      }
     }
   }
 }
 
 function getQueryStringParams(): boolean | undefined {
-  if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+  if (typeof window !== 'undefined' && window.sessionStorage) {
     const storedParams = sessionStorage.getItem('queryStringParams');
     if (storedParams) {
       try {
@@ -480,24 +482,28 @@ function checkMyAccountParams(queryStringKeys: any) {
 }
 /**Removing the search params */
 function updateQueryString(paramPath: any) {
-  const url = stripDeepLinkQueryParameters(paramPath);
-  const queryString = new URLSearchParams(url.split('?')[1]);
-  let queryParamsObject: any = {};
-  queryString.forEach((value, key) => {
-    queryParamsObject[key] = value;
-  });
-  sessionStorage.removeItem('queryStringParams');
-  sessionStorage?.setItem('queryStringParams', JSON.stringify(queryParamsObject));
-  clearEmptyQueryParams();
-  return queryParamsObject;
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    const url = stripDeepLinkQueryParameters(paramPath);
+    const queryString = new URLSearchParams(url.split('?')[1]);
+    let queryParamsObject: any = {};
+    queryString.forEach((value, key) => {
+      queryParamsObject[key] = value;
+    });
+    sessionStorage.removeItem('queryStringParams');
+    sessionStorage.setItem('queryStringParams', JSON.stringify(queryParamsObject));
+    clearEmptyQueryParams();
+    return queryParamsObject;
+  }
 }
 /**
  * Checks if 'queryStringParams' in session storage is empty and removes it if true.
  */
 function clearEmptyQueryParams() {
-  const qParams = JSON?.parse(sessionStorage?.getItem('queryStringParams'));
-  if (Object.keys(qParams)?.length == 0) {
-    sessionStorage.removeItem('queryStringParams');
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    const qParams = JSON?.parse(sessionStorage?.getItem('queryStringParams'));
+    if (Object.keys(qParams)?.length == 0) {
+      sessionStorage.removeItem('queryStringParams');
+    }
   }
 }
 

@@ -1,4 +1,20 @@
-<div class="loader">
+<div class="loader" *ngIf="showSkeltonLoader && region === 'SB'">
+  <div class="plane-loader">
+    <div class="plane-loader-container">
+        <img src="assets/animations/Plane animation@1x-20fps.gif" alt="Loading..." />
+    <div class="loader-message">
+      Searching <br/> for your flights <br/> <b>to {{ destinationCity || '' }}</b>
+        <span class="dots-loader">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+    </div>
+      </div>
+  </div>
+</div>
+
+<div class="loader" *ngIf="region != 'SB'" >
   <div class="skeltonLoader" *ngIf="showSkeltonLoader">
     <div class="sort_holders d-none d-lg-block">
       <div class="row align-items-center">

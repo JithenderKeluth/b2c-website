@@ -147,6 +147,10 @@ export class TravellerInfoComponent implements OnInit {
   public region: string;
   country: string;
 
+  alternateMealSelectorCountries = ['ABSA', 'SB'];
+  isTravellerFormExpandedMap = new Map<number, boolean>();
+  currentExpandedTravellerIndex: number;
+
   constructor(
     private fb: UntypedFormBuilder,
     private searchService: SearchService,
@@ -193,7 +197,7 @@ export class TravellerInfoComponent implements OnInit {
   subscription: Subscription;
   bagDesc: any;
   nameFocusId: number = -1;
-  nameFocuscontrol: string = null;
+  nameFocuscontrol: string | null = null;
   adultTravellers: any = [];
   YoungAdultTravellers: any = [];
   childTravellers: any = [];
@@ -244,6 +248,7 @@ export class TravellerInfoComponent implements OnInit {
         ].segments.length - 1
       ].arrivalDateTime;
     }
+    this.getMealsPreference();
     // setTimeout(() => {
     if (this.pricedResult_dataInfo?.errors == null) {
       this.journeyInfo = this.pricedResult_dataInfo;
@@ -276,6 +281,19 @@ export class TravellerInfoComponent implements OnInit {
         this.populateMmfTravelerData();
       }, 2500);
     }
+
+    if (this.region === 'SB') {
+      for(let i = 1; i < this.travellersList().controls.length; i++) {
+        this.isTravellerFormExpandedMap.set(i, false);
+      }
+
+      this.currentExpandedTravellerIndex = 0;
+      this.isTravellerFormExpandedMap.set(0, true);
+    }
+  }
+
+  isAlternateMealCountry(country: string) {
+    return this.alternateMealSelectorCountries.some(x => x === country);
   }
 
   /**here to get credentials from session  */
@@ -435,28 +453,41 @@ export class TravellerInfoComponent implements OnInit {
   }
 
   public getMealsPreference() {
-    if (this.pricedResult_dataInfo?.products) {
-      this.pricedResult_dataInfo.products.forEach((x: any) => {
-        if (x.description == 'Add Meal Preference') {
-          this.showMeals = true;
-          this.mealprferenceAmount = x.perAdultAmount;
-          this.childMealPreferenceAmount = x.perChildAmount;
-          this.infantMealPreferenceAmount = x.perInfantAmount !== null ? x.perInfantAmount : 0;
-        }
-      });
-    }
+
+  const hasOfferMeals = this.pricedResult_dataInfo?.itineraries?.some((x: any) => 
+    x?.specialServiceAttributes?.offerMeals === true
+  );
+  
+  if (hasOfferMeals) {
+    this.showMeals = true;
+    this.mealprferenceAmount = 0;
+    this.childMealPreferenceAmount = 0;
+    this.infantMealPreferenceAmount = 0;
   }
+  
+  if (this.pricedResult_dataInfo?.products) {
+    this.pricedResult_dataInfo.products.forEach((x: any) => {
+      const description = (x.description || '').toLowerCase();
+      if (description.includes('meal') || x.id === 'MEALS') {
+        this.showMeals = true;
+        this.mealprferenceAmount = x.perAdultAmount || x.amount || 0;
+        this.childMealPreferenceAmount = x.perChildAmount || x.amount || 0;
+        this.infantMealPreferenceAmount = x.perInfantAmount || x.amount || 0;
+      }
+    });
+  }
+}
 
   // Get Passenger name for displaying in the heading
   getPassengerNameOrHeading(index: number): string {
-    if (this.country !== 'ABSA')
+    if (this.country !== 'ABSA' && this.country !== 'SB')
       return `Passenger ${index + 1}`;
 
     const passenger = this.travellerForm.value.travellersList[index];
     if (passenger.firstName || passenger.lastName)
       return `${passenger.firstName} ${passenger.lastName}`;
 
-    return `Traveller ${index + 1}`;
+    return this.country === 'ABSA' || this.country === 'SB' ? `Traveller ${index + 1}` : `Passenger ${index + 1}`;
   }
 
   /*
@@ -895,48 +926,63 @@ export class TravellerInfoComponent implements OnInit {
     }
   }
 
+  checkIfTravellerFormIsExpanded(index: number): boolean {
+    return this.isTravellerFormExpandedMap.get(index) ?? true;
+  }
+
+  expandTravellerForm(index: number) {
+    this.isTravellerFormExpandedMap.set(this.currentExpandedTravellerIndex, false);
+    this.isTravellerFormExpandedMap.set(index, true);
+    this.currentExpandedTravellerIndex = index;
+  }
+
   getTravellerInfo() {
+    if(typeof document === 'undefined') return;
     this.submitted = true;
     if (this.travellerForm.invalid) {
       const controls = <UntypedFormArray>this.travellerForm.controls['travellersList'];
       for (let i = 0; i <= controls.length; i++) {
-        if (this.travllerInfoForm.controls[i]?.get('gender').invalid) {
+        if (this.country === 'SB' && this.travllerInfoForm.controls[i].invalid) {
+          this.expandTravellerForm(i);
+        }
+
+        if (this.travllerInfoForm.controls[i]?.get('gender')?.invalid) {
           this.scrollInput('gender', i);
         }
-        if (this.travllerInfoForm.controls[i]?.get('firstName').invalid) {
+        if (this.travllerInfoForm.controls[i]?.get('firstName')?.invalid) {
           let index = 'firstName' + i.toString();
-          document?.getElementById(index).focus();
+          document?.getElementById(index)?.focus();
           return;
         }
-        if (this.travllerInfoForm.controls[i]?.get('lastName').invalid) {
+        if (this.travllerInfoForm.controls[i]?.get('lastName')?.invalid) {
           let index = 'lastName' + i.toString();
-          document?.getElementById(index).focus();
+          document?.getElementById(index)?.focus();
           return;
         }
-        if (this.travllerInfoForm.controls[i]?.get('passportNumber').invalid) {
+        if (this.travllerInfoForm.controls[i]?.get('passportNumber')?.invalid) {
           let index = 'passportNumber' + i.toString();
-          document?.getElementById(index).focus();
+          document?.getElementById(index)?.focus();
           return;
         }
-        if (this.travllerInfoForm.controls[i]?.get('middleName').invalid) {
-          let middlenameIndex = 'middleName' + i.toString();
-          document?.getElementById(middlenameIndex).focus();
+        if (this.travllerInfoForm.controls[i]?.get('middleName')?.invalid) {
+          let middleNameIndex = 'middleName' + i.toString();
+          document?.getElementById(middleNameIndex)?.focus();
           return;
         }
-        if (this.travllerInfoForm.controls[i]?.get('dob').invalid) {
+        if (this.travllerInfoForm.controls[i]?.get('dob')?.invalid) {
           this.scrollInput('dobDay', i);
         }
-        if (this.travllerInfoForm.controls[i]?.get('passPortCountry').invalid) {
+        if (this.travllerInfoForm.controls[i]?.get('passPortCountry')?.invalid) {
           this.scrollInput('passPortCountry', i);
         }
-        if (this.travllerInfoForm.controls[i]?.get('nationality').invalid) {
+        if (this.travllerInfoForm.controls[i]?.get('nationality')?.invalid) {
           this.scrollInput('nationality', i);
         }
         if (
-          this.travllerInfoForm.controls[i]?.get('psExpYear').invalid ||
-          this.travllerInfoForm.controls[i]?.get('psExpMonth').invalid ||
-          this.travllerInfoForm.controls[i]?.get('psExpDay').invalid ||
-          this.travllerInfoForm.controls[i]?.get('passportExpiry').invalid
+          this.travllerInfoForm.controls[i]?.get('psExpYear')?.invalid ||
+          this.travllerInfoForm.controls[i]?.get('psExpMonth')?.invalid ||
+          this.travllerInfoForm.controls[i]?.get('psExpDay')?.invalid ||
+          this.travllerInfoForm.controls[i]?.get('passportExpiry')?.invalid
         ) {
           this.scrollInput('psExpDay', i);
         }
@@ -970,7 +1016,6 @@ export class TravellerInfoComponent implements OnInit {
             this.verifyChild(i, ageOfTraveller);
           } else if (this.travllerInfoForm.controls[i]?.get('type').value == 'INFANT') {
             this.verifyInfant(i, ageOfTraveller);
-
           }
         }
       }
@@ -1321,7 +1366,7 @@ export class TravellerInfoComponent implements OnInit {
   nameCheck(text: any, index: number, control: string) {
     let inputTxt = text;
     const formattedTxt = inputTxt.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    this.travllerInfoForm.controls[index]?.get(control).setValue(formattedTxt);
+    this.travllerInfoForm.controls[index]?.get(control)?.setValue(formattedTxt);
   }
 
   /**Removing diacritics*/
@@ -1360,6 +1405,7 @@ export class TravellerInfoComponent implements OnInit {
 
   /**scrolling passed formcontrol if it is invalid */
   scrollInput(control: any, i: number) {
+    if(typeof document === 'undefined') return;
     let countryIndex = control + i.toString();
     let element = document.getElementById(countryIndex);
     if (element) {
@@ -1386,6 +1432,7 @@ export class TravellerInfoComponent implements OnInit {
 
   /**focusing passed formcontrol if it is invalid */
   focusInput(control: any, i: number) {
+    if(typeof document === 'undefined') return;
     let inputIndex = control + i.toString();
     let element = document.getElementById(inputIndex);
     if (element) {
@@ -1442,4 +1489,9 @@ export class TravellerInfoComponent implements OnInit {
      }
      return paxAge;
    }
+
+  shouldShowMeals(type: string): boolean {
+  return this.showMeals;
+}
+
 }

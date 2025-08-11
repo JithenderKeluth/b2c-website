@@ -1,229 +1,237 @@
 <div class="d-flex flex-column add-travellers-container">
-    <div class="d-flex add-travellers-back-button px-2 py-1">
-        <img ImageSrc (click)="closeDialog()" src="./../../../assets/icons/absa_icons/left-short-arrow.svg" alt="">
-        <div class="content" (click)="closeDialog()">Add Traveller</div>
+  <div class="sb_heading_row">
+    <div class="col-12 p-0" [ngClass]="{ 'theme__flex-column-full': country === 'SB' }">
+      <app-back-button (onBack)="closeDialog($event)" [isTextWhite]="country === 'SB' ? true : false">
+        <div class="content sb_add_traveller_heading">Add Traveller</div>
+      </app-back-button>
     </div>
-    <form [formGroup]="formGroup" #form class="d-flex flex-column px-2 py-1">
-        <div class="d-flex flex-column section">
-            <div translate class="section-header">
-                Personal Information
-            </div>
-            <div class="traveller-warning-box">
-                <div class="theme__traveller-warning-box-heading-container">
-                    <img ImageSrc src="./../../../assets/icons/absa_icons/error-icon.svg" alt="warning">
-                    <div translate class="theme__warning-text theme__traveller-warning-box-heading ml-1">
-                        Avoid modification charges
-                    </div>
-                </div>
-                <div translate class="theme__warning-text theme__traveller-warning-box-content">
-                    The traveller name must be entered exactly as it appears on your government issued ID or Passport.
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="btn mr-3 p-0">
-                    <input
-                            type="radio"
-                            class="form-switch radio_1set"
-                            name="gender"
-                            formControlName="gender"
-                            value="Mr"
-                    />
-                    <span translate>Mr</span>
-                </label>
-                <label class="btn mr-3 p-0">
-                    <input
-                            type="radio"
-                            class="form-switch radio_1set"
-                            name="gender"
-                            formControlName="gender"
-                            value="Ms"
-                    />
-                    <span translate>Ms</span>
-                </label>
-                <label class="btn p-0">
-                    <input
-                            type="radio"
-                            class="form-switch radio_1set"
-                            name="gender"
-                            formControlName="gender"
-                            value="Mrs"
-                    />
-                    <span translate>Mrs</span>
-                </label>
-                <div *ngIf="submitted && travellerForm.gender.errors">
-                    <div translate class="validation_msg" *ngIf="submitted && travellerForm.gender.errors.required">
-                        Required Title
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <input
-                        type="text"
-                        #firstName
-                        class="form-control"
-                        formControlName="firstName"
-                        placeholder="{{ 'First name' | translate}}"
-                        required
-                />
-                <div *ngIf="submitted && travellerForm.firstName.errors">
-                    <div translate class="validation_msg" *ngIf="submitted && travellerForm.firstName.errors.required">
-                        Required First name
-                    </div>
-                </div>
-                <div
-                        translate
-                        class="validation_msg"
-                        *ngIf="submitted && travellerForm.firstName.errors && travellerForm.firstName.errors.pattern"
-                >
-                    Invalid First Name
-                </div>
-            </div>
-            <div class="form-group">
-                <input
-                        type="text"
-                        class="form-control"
-                        name="middleName"
-                        placeholder="{{ 'Middle name' | translate }}"
-                        formControlName="middleName"
-                />
-                <div *ngIf="submitted && travellerForm.middleName.errors">
-                    <div
-                            translate
-                            class="validation_msg"
-                            *ngIf="submitted && travellerForm.middleName.errors && travellerForm.middleName.errors.pattern"
-                    >
-                        Invalid Middle name
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <input
-                        type="text"
-                        class="form-control"
-                        placeholder="{{ 'Surname' | translate }}"
-                        required
-                        formControlName="surName"
-                />
-                <div
-                        translate
-                        class="validation_msg"
-                        *ngIf="submitted && travellerForm.surName.errors && travellerForm.surName.errors.pattern"
-                >
-                    Invalid Surname
-                </div>
+  </div>
+  <form [formGroup]="formGroup" #form class="d-flex flex-column px-2 py-1">
+    <div class="d-flex flex-column section">
+      <div *ngIf="region !== 'SB'" translate class="section-header">Personal Information</div>
+      <div *ngIf="region === 'SB'" translate class="section-header">Traveller details</div>
 
-                <div *ngIf="submitted && travellerForm.surName.errors">
-                    <div translate class="validation_msg" *ngIf="submitted && travellerForm.surName.errors.required">
-                        Required Surname
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <mat-select
-                            class="form-control"
-                            placeholder="{{ 'Nationality' | translate }}"
-                            formControlName="nationality"
-                            disableOptionCentering
-                            panelClass="selectCountry"
-                    >
-                        <mat-option value="South Africa">
-                            <span> <span class="fi fi-za"></span>&nbsp;<span>South Africa</span></span>
-                        </mat-option>
-                        <mat-option *ngFor="let countries of countriesArray" [value]="countries.name">
-                            <span class="fi fi-{{ countries.isoCode.toLowerCase() }}"></span>&nbsp;<span>{{
-                                countries['name']
-                            }}</span>
-                        </mat-option>
-                    </mat-select>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="d-flex justify-content-between traveller-datepicker">
-                    <input formControlName="dob" class="border-0" matInput [matDatepicker]="dobPicker"
-                           placeholder="{{'Date of birth' | translate}}">
-                    <mat-datepicker-toggle [for]="dobPicker"></mat-datepicker-toggle>
-                </div>
-                <mat-datepicker #dobPicker></mat-datepicker>
-                <div
-                        translate
-                        class="validation_msg"
-                        *ngIf="
-                    submitted && formGroup?.get('dob')?.value && checkDate(formGroup.get('dob').value)
-                  "
-                >
-                    Invalid date of birth
-                </div>
-                <div translate class="validation_msg" *ngIf="submitted && travellerForm.dob.errors && travellerForm.dob.errors.required">
-                    Enter a date of birth
-                </div>
-            </div>
+      <div class="traveller-warning-box">
+        <div class="theme__traveller-warning-box-heading-container">
+          <img *ngIf="region !== 'SB'" ImageSrc src="./../../../assets/icons/absa_icons/error-icon.svg" alt="warning" />
+          <div *ngIf="region !== 'SB'" translate class="theme__warning-text theme__traveller-warning-box-heading">
+            Avoid modification charges
+          </div>
+          <div *ngIf="region === 'SB'" translate class="theme__warning-text theme__traveller-warning-box-heading">
+            Important to remember
+          </div>
         </div>
-        <div class="d-flex flex-column section mb-4">
-            <div class="passport_info mb-4">
-                <div translate class="section-header mb-2">
-                    Passport Information
-                </div>
-                <div translate class="section-subtitle">
-                    Please ensure the passport is valid for at least 6 months after your date of travel.
-                </div>
-            </div>
-            <div class="form-group">
-                <input
-                        type="text"
-                        class="form-control"
-                        placeholder="{{ 'Passport number' | translate }}"
-                        formControlName="passportNumber"
-                />
-                <div
-                        translate
-                        class="validation_msg"
-                        *ngIf="submitted && travellerForm.passportNumber.errors && travellerForm.passportNumber.errors.pattern"
-                >
-                    Invalid Passport number
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <mat-select
-                            class="form-control"
-                            placeholder="{{ 'Passport issuing country' | translate }}"
-                            formControlName="passPortCountry"
-                            disableOptionCentering
-                            panelClass="selectCountry"
-                    >
-                        <mat-option value="South Africa">
-                            <span> <span class="fi fi-za"></span>&nbsp;<span>South Africa</span></span>
-                        </mat-option>
-                        <mat-option *ngFor="let countries of countriesArray" [value]="countries.name">
-                            <span class="fi fi-{{ countries.isoCode.toLowerCase() }}"></span>&nbsp;<span>{{
-                                countries['name']
-                            }}</span>
-                        </mat-option>
-                    </mat-select>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="d-flex justify-content-between traveller-datepicker">
-                    <input formControlName="passportExpiry" class="border-0" matInput [matDatepicker]="expPicker"
-                           placeholder="{{'Passport expiry' | translate}}">
-                    <mat-datepicker-toggle [for]="expPicker"></mat-datepicker-toggle>
-                </div>
-                <mat-datepicker #expPicker></mat-datepicker>
-                <div
-                        translate
-                        class="validation_msg"
-                        *ngIf="
-                    submitted && formGroup?.get('passportExpiry')?.value && !checkDate(formGroup.get('passportExpiry').value)
-                  "
-                >
-                    Invalid passport expiry date
-                </div>
-            </div>
+        <div translate class="theme__warning-text theme__traveller-warning-box-content">
+          Traveller name must be entered exactly as it appears on the ID/passport. You may be charged for corrections.
         </div>
-        <div>
-            <button class="theme__button-primary" (click)="onSubmit()"><span translate>Add Traveller</span></button>
+      </div>
+      <div class="form-group">
+        <label class="btn mr-3 p-0">
+          <input type="radio" class="form-switch radio_1set" name="gender" formControlName="gender" value="Mr" />
+          <span translate>Mr</span>
+        </label>
+        <label class="btn mr-3 p-0">
+          <input type="radio" class="form-switch radio_1set" name="gender" formControlName="gender" value="Ms" />
+          <span translate>Ms</span>
+        </label>
+        <label class="btn p-0">
+          <input type="radio" class="form-switch radio_1set" name="gender" formControlName="gender" value="Mrs" />
+          <span translate>Mrs</span>
+        </label>
+        <div *ngIf="submitted && travellerForm.gender.errors">
+          <div translate class="validation_msg" *ngIf="submitted && travellerForm.gender.errors.required">
+            Required Title
+          </div>
         </div>
-    </form>
+      </div>
+      <div class="form-group">
+        <input
+          type="text"
+          #firstName
+          class="form-control"
+          formControlName="firstName"
+          placeholder="{{ 'First name' | translate }}"
+          required
+        />
+        <div *ngIf="submitted && travellerForm.firstName.errors">
+          <div translate class="validation_msg" *ngIf="submitted && travellerForm.firstName.errors.required">
+            Required First name
+          </div>
+        </div>
+        <div
+          translate
+          class="validation_msg"
+          *ngIf="submitted && travellerForm.firstName.errors && travellerForm.firstName.errors.pattern"
+        >
+          Invalid First Name
+        </div>
+      </div>
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          name="middleName"
+          placeholder="{{ 'Middle name' | translate }}"
+          formControlName="middleName"
+        />
+        <div *ngIf="submitted && travellerForm.middleName.errors">
+          <div
+            translate
+            class="validation_msg"
+            *ngIf="submitted && travellerForm.middleName.errors && travellerForm.middleName.errors.pattern"
+          >
+            Invalid Middle name
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'Surname' | translate }}"
+          required
+          formControlName="surName"
+        />
+        <div
+          translate
+          class="validation_msg"
+          *ngIf="submitted && travellerForm.surName.errors && travellerForm.surName.errors.pattern"
+        >
+          Invalid Surname
+        </div>
+
+        <div *ngIf="submitted && travellerForm.surName.errors">
+          <div translate class="validation_msg" *ngIf="submitted && travellerForm.surName.errors.required">
+            Required Surname
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <mat-select
+            class="form-control"
+            placeholder="{{ 'Nationality' | translate }}"
+            formControlName="nationality"
+            disableOptionCentering
+            panelClass="selectCountry"
+          >
+            <mat-option value="South Africa">
+              <span> <span class="fi fi-za"></span>&nbsp;<span>South Africa</span></span>
+            </mat-option>
+            <mat-option *ngFor="let countries of countriesArray" [value]="countries.name">
+              <span class="fi fi-{{ countries.isoCode.toLowerCase() }}"></span>&nbsp;<span>{{
+                countries['name']
+              }}</span>
+            </mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="d-flex justify-content-between traveller-datepicker">
+          <input
+            formControlName="dob"
+            class="border-0"
+            matInput
+            [matDatepicker]="dobPicker"
+            placeholder="{{ 'Date of birth' | translate }}"
+          />
+          <mat-datepicker-toggle [for]="dobPicker"></mat-datepicker-toggle>
+        </div>
+        <mat-datepicker #dobPicker></mat-datepicker>
+        <div
+          translate
+          class="validation_msg"
+          *ngIf="submitted && formGroup?.get('dob')?.value && checkDate(formGroup.get('dob').value)"
+        >
+          Invalid date of birth
+        </div>
+        <div
+          translate
+          class="validation_msg"
+          *ngIf="submitted && travellerForm.dob.errors && travellerForm.dob.errors.required"
+        >
+          Enter a date of birth
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column section mb-4">
+      <div class="passport_info mb-4">
+        <div translate class="section-header mb-2">Passport Information</div>
+        <div translate class="section-subtitle">
+          Please ensure the passport is valid for at least 6 months after your date of travel.
+        </div>
+      </div>
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'Passport number' | translate }}"
+          formControlName="passportNumber"
+        />
+        <div
+          translate
+          class="validation_msg"
+          *ngIf="submitted && travellerForm.passportNumber.errors && travellerForm.passportNumber.errors.pattern"
+        >
+          Invalid Passport number
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <mat-select
+            class="form-control"
+            placeholder="{{ 'Passport issuing country' | translate }}"
+            formControlName="passPortCountry"
+            disableOptionCentering
+            panelClass="selectCountry"
+          >
+            <mat-option value="South Africa">
+              <span> <span class="fi fi-za"></span>&nbsp;<span>South Africa</span></span>
+            </mat-option>
+            <mat-option *ngFor="let countries of countriesArray" [value]="countries.name">
+              <span class="fi fi-{{ countries.isoCode.toLowerCase() }}"></span>&nbsp;<span>{{
+                countries['name']
+              }}</span>
+            </mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="d-flex justify-content-between traveller-datepicker">
+          <input
+            formControlName="passportExpiry"
+            class="border-0"
+            matInput
+            [matDatepicker]="expPicker"
+            placeholder="{{ 'Passport expiry' | translate }}"
+          />
+          <mat-datepicker-toggle [for]="expPicker"></mat-datepicker-toggle>
+        </div>
+        <mat-datepicker #expPicker></mat-datepicker>
+        <div
+          translate
+          class="validation_msg"
+          *ngIf="
+            submitted && formGroup?.get('passportExpiry')?.value && !checkDate(formGroup.get('passportExpiry').value)
+          "
+        >
+          Invalid passport expiry date
+        </div>
+      </div>
+    </div>
+
+    <div class="section mb-4 d-none">
+      <p class="mb-4">Add your frequent flyer (optional)</p>
+      <p>
+        <button type="button" class="theme__button-outline">
+          <span class="pull-center fqFly_txt" translate>Add Frequent Flyer </span>
+        </button>
+      </p>
+    </div>
+
+    <div>
+      <button class="theme__button-primary" (click)="onSubmit()"><span translate>Add Traveller</span></button>
+    </div>
+  </form>
 </div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />

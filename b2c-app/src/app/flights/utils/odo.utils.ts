@@ -150,11 +150,16 @@ function getCurrencies(value: any) {
 
 function getAirportNames(param: string, airports: any) {
   const airportInfos = airports;
+  if(airportInfos){
   for (var i in airportInfos) {
     if (airportInfos[i].iataCode === param) {
       return airportInfos[i].airport;
     }
   }
+  }else{
+    return param;
+  }
+
 }
 // restrict user to not to type characters for number inputs
 function numInputNoChars(event: any) {
@@ -185,10 +190,12 @@ function passportSettings(index: number, travllerInfoForm: UntypedFormArray) {
 }
 
 function getCountryName(country: string) {
-  const countriesArray = JSON.parse(sessionStorage.getItem('countries'));
-  for (let i in countriesArray) {
-    if (countriesArray[i]?.isoCode === country || countriesArray[i]?.name === country) {
-      return countriesArray[i];
+  if (typeof window !== 'undefined' && window.sessionStorage) {
+    const countriesArray = JSON.parse(sessionStorage.getItem('countries'));
+    for (let i in countriesArray) {
+      if (countriesArray[i]?.isoCode === country || countriesArray[i]?.name === country) {
+        return countriesArray[i];
+      }
     }
   }
 }

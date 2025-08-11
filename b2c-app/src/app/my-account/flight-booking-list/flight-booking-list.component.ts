@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { SearchService } from '@app/flights/service/search.service';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { MyAccountServiceService } from '@app/my-account/my-account-service.service';
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2,Inject, PLATFORM_ID } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 import { LocationService } from '../../general/services/locations/location.service';
 import { myAccountEventData } from '../utils/my-account.utils';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-flight-booking-list',
@@ -52,9 +53,8 @@ export class FlightBookingListComponent implements OnInit {
   isMobile: boolean = false;
   tsCountry :any = null;
   selectedTab:any = null;
-
+  isBrowser : boolean;
   locationCodeToCityNameMap = new Map<string, string>();
-
   constructor(
     private myAccountService: MyAccountServiceService,
     private ngbDateParserFormatter: NgbDateParserFormatter,
@@ -66,11 +66,13 @@ export class FlightBookingListComponent implements OnInit {
     private apiService: ApiService,
     private storage: UniversalStorageService,
     private locationService: LocationService,
-    private googleTagManagerService : GoogleTagManagerServiceService
+    private googleTagManagerService : GoogleTagManagerServiceService,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
   ngOnInit(): void {
     this.tsCountry = this.apiService.extractCountryFromDomain();
+    this.isBrowser = isPlatformBrowser(this.platformId);
     this.selectSort('Upcoming');
     this.selectTab('Flights')
     let credentials = JSON.parse(this.storage.getItem('credentials', 'session'));
@@ -361,7 +363,11 @@ export class FlightBookingListComponent implements OnInit {
     }
   }
   goToHome() {
+    if(this.isBrowser && typeof window !== 'undefined' && this.tsCountry === 'SB'){
+      window.location.href = window.location.origin;
+    }else{
     this.route.navigate([''], { queryParamsHandling: 'preserve' });
+    }
   }
 
   loadMeiliScript() {

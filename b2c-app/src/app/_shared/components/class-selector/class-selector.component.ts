@@ -5,6 +5,7 @@ import {
     OnInit,
     Output,
 } from '@angular/core';
+import { CabinClass } from './../../../flights/models/cabin-class.model';
 
 @Component({
     selector: 'app-class-selector',
@@ -18,20 +19,23 @@ export class ClassSelectorComponent implements OnInit {
         { display: 'Business', value: 'BUSINESS' },
         { display: 'First', value: 'FIRST' }
     ];
-    selectedOption = 'ECONOMY';
+    selectedOption = '';
+    cabinClass:any;
 
     @Input() applyButtonTitle = 'Apply';
     @Output() apply = new EventEmitter<string>();
     @Output() close = new EventEmitter<void>();
-
+    @Input() selectedClass :any;
     applySelection() {
         this.apply.emit(this.selectedOption);
     }
 
     closeModal() {
+         this.selectedOption = '';
         this.close.emit();
     }
 
     ngOnInit(): void {
+        if(this.selectedClass?.value) this.selectedOption = this.selectedClass?.value;
     }
 }

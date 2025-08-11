@@ -3,7 +3,7 @@
     <div class="consistent-modal-body modal-body">
       <div class="text-center">
         <img ImageSrc [ngClass]="country !== 'ABSA' ? 'wid40per-xs' : 'consistent-modal-icon'"
-          [src]="'./../../../../assets/icons/Icon/Negative-scenarios/something_was_not_right.svg'"
+          [src]=" country == 'SB' ? './../../../../assets/icons/Icon/Negative-scenarios/fare_increased_icon.svg' : './../../../../assets/icons/Icon/Negative-scenarios/something_was_not_right.svg'"
           alt="Flight not available" loading="lazy" />
         <div class="consistent-body-text">
           <div class="different_flight mt-2">

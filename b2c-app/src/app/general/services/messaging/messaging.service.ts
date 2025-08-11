@@ -8,7 +8,8 @@ export class MessagingService {
 
   constructor() {
     const app = initializeApp(environment.firebase);
-    this.messaging = getMessaging(app);
+    /**here currently SB broken with this change once check all then we can enable it  */
+    //this.messaging = getMessaging(app);
   }
 
   async requestPermissionAndGetToken(): Promise<string | null> {
