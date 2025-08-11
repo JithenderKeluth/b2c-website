@@ -5,8 +5,8 @@
         <img
           ImageSrc
           class="consistent-modal-icon"
-          src="./../../../../assets/icons/Icon/Negative-scenarios/flight_message.svg"
-          alt="flight_message"
+          [src]="'./../../../../assets/svg/airport-change-icn.svg'"
+          alt="Flight not available"
           loading="lazy"
         />
 
@@ -16,13 +16,13 @@
         <div class="consistent-body-text" *ngIf="!showTransitVisa && airportsArray && airportsArray.length == 1">
           <span translate>Please be aware that you are booking a flight that lands at</span>
           <span *ngFor="let airport of airportsArray; let i = index">
-            <strong> {{ getAirportName(airport.flightDesti) }} </strong>
+            <strong>{{ getAirportName(airport.flightDesti) }}</strong>
           </span>
           <span translate>but leaves from</span>
           <span *ngFor="let airport of airportsArray; let i = index"
-            ><strong> {{ getAirportName(airport.flightOrigin) }} </strong></span
+            ><strong>{{ getAirportName(airport.flightOrigin) }}</strong></span
           >.
-          <br *ngIf="country === 'ABSA' || country === 'SB'" />
+          <br *ngIf="country === 'ABSA'" />
           <span translate>If this is correct, click Continue.</span>
           <span translate>If you want to change the flight, click Cancel and choose a different flight.</span>
         </div>
@@ -38,12 +38,12 @@
           <span translate>Please review your itinerary to ensure this suits your travel arrangements.</span>
         </div>
 
-        <div class="modal-btn-container" [ngClass] = "country === 'SB' ? 'd-block' : ''">
+        <div class="modal-btn-container">
           <span
             ><button
               type="button"
               aria-label="cancelBtn"
-              class="btn ok-btn mr-1 cancelBtn default_btn"
+              class="btn ok-btn mr-3 cancelBtn default_btn"
               data-dismiss="modal"
             >
               <span *ngIf="!showTransitVisa && airportsArray && airportsArray.length" translate>Cancel</span>

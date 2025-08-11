@@ -118,8 +118,18 @@ export class IframeWidgetService {
     return (
       this.isBrowser &&
       typeof window !== 'undefined' &&
-      (window.location.href.includes('cpysource=mastercardza') ||
-        window.location.hostname.includes('mastercard.travelstart.co.za'))
+      (window.location.href.includes('cpysource=mastercardtravel') ||         
+        window.location.hostname.includes('mastercard.travelstart.com'))
     );
   }
+
+  public isMasterCardRegistrationWhiteLabelSite(): boolean {
+    const hostname = window.location.hostname;
+    return (
+      this.isBrowser &&
+      typeof window !== 'undefined' &&
+      hostname.includes('mastercard.travelstart.co.za')
+    );
+  }
+
 }

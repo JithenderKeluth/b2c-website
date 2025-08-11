@@ -3,10 +3,10 @@
     <div class="row">
       <div class="pr-40 col-12" [ngClass]="!isB2BApp ? 'p-0':''">
         <div class="sendQuery">
-          <div class="sect_header" *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'">
+          <div class="sect_header" *ngIf="tsCountry !== 'ABSA'">
             <div class="sect_title"><span class="sect_title" translate>Send us your query</span>:</div>
           </div>
-          <p class="contact-form-subtitle" translate>Drop your query in this contact form and we’ll be in touch with you shortly.</p>
+          <p translate>Drop your query in this contact form and we’ll be in touch with you shortly.</p>
           <div *ngIf="tsCountry === 'ZA' || tsCountry === 'ABSA'" class="row new_req">
             <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
               <li class="nav-item mr-2">
@@ -335,7 +335,7 @@
                     <label for="message" translate class="control-label theme__contact-form-label">Comments</label><br />
                     <textarea
                       #message
-                      rows="4"
+                      rows="2"
                       placeholder="{{ 'Please provide us with more details if possible' | translate }}"
                       input
                       type="text"
@@ -374,8 +374,9 @@
                   loading="lazy"
                 />
 
-                <span translate class="ml-1">
-                  {{tsCountry === 'SB' ? ' If you don\'t have a booking, please call &#43;27 10 056 4980.' : tsCountry === 'ABSA' ? 'If you don’t have a booking, please call us on 0861 78 88 88.' : 'If you don\'t have a booking please email us on xxxxxxxxx&#64;travestart.com or call 021 468 4300.'}}</span>
+                <span translate>If you don't have a booking please email us at</span>
+                <span *ngIf="tsCountry !== 'ABSA'">{{ this.contactUsForm.get('subcategory')?.value?.email }}</span>
+                <span translate>or call 021 468 4300.</span>
               </div>
               <div class="col-md-12 btn_msg d-flex mb-3" *ngIf="!getAirlineLink()">
                 <button

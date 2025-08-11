@@ -1,17 +1,15 @@
-<div class="edit_passenger_page" [ngClass]="{'absa-container': country === 'ABSA'}">
+<div class="edit_passenger_page">
   <div class="edit_passenger_section">
     <div class="edit_passenger_body">
       <div class="edit_header">
-        <h4 translate>
-          {{ country === 'SB' ? 'Update passenger details' : 'Well of course! I can help you with that' }}
-        </h4>
+        <h4 translate class="edit_header">{{ country === 'ABSA' ? 'Well of course! I can help you with that' : 'Well Of Course! I Can Help You With That' }}</h4>
       </div>
       <div class="edit_body mt-4">
         <div *ngIf="itinaryData">
           <form action="" [formGroup]="passengerEditForm">
             <div>
-              <div class="theme__edit-passenger-container dataTableCss internalListTable mb-0">
-                <div *ngIf="country !== 'ABSA' && country !== 'SB'" class="travel_route">
+              <div class="theme__edit-passenger-container">
+                <div *ngIf="country !== 'ABSA'" class="travel_route">
                   <h5 class="route_info">
                     {{ passengerEditForm.value.dept_city }}
                     <span *ngIf="tripType == 'OneWay'"
@@ -36,9 +34,8 @@
                     {{ passengerEditForm.value.arr_city }}
                   </h5>
                 </div>
-                <div *ngIf="country === 'ABSA' || country === 'SB'" class="table_body_row row sb_table_body_row">
-                  <div class="col-12 col-md-4" *ngIf="country !== 'SB' && country !== 'ABSA'">
-
+                <div *ngIf="country === 'ABSA'" class="table_body_row row">
+                  <div class="col-12 col-md-4">
                     <div class="date_flights d-flex">
                       <span class="theme__date-container">
                         <div class="theme__date-wrap">
@@ -67,333 +64,237 @@
                       </span>
                     </div>
                   </div>
-                  <div class="col-12 col-md-4">
-                    <div class="resposive_lbl d-none d-lg-inline-block d-md-block theme__booking-label">
-                      Travel Date
-                    </div>
-                    <div class="date_flights d-flex" *ngIf="country === 'SB' || country === 'ABSA'">
-                      <div class="theme__date-container">
-                        <div class="sb_theme_date-wrap">
-                          <div class="theme__date-wrap">
-                            <div class="d_date mr-1">{{ passengerEditForm.value.departureDateTime | date: 'dd' }}</div>
-                          </div>
-                          <div class="theme__date-wrap">
-                            <div class="d_week">{{ passengerEditForm.value.departureDateTime | date: 'EEE' }}</div>
-                            <div class="d_month">{{ passengerEditForm.value.departureDateTime | date: 'MMM' }}</div>
-                          </div>
-                        </div>
-                      </div>
-                      <span class="flights_details">
-                        <span class="route_view theme__raise-priority theme__raise-priority-higher">
-                          {{ passengerEditForm.value.dept_city }}
-                        </span>
-                        <span>
-                          <img
-                            ImageSrc
-                            *ngIf="country === 'SB'"
-                            [src]="'./../../../assets/icons/flight_icn_devide_alternative.svg'"
-                            alt="dir"
-                            width="20px"
-                            class="img_flights theme__flights-icon"
-                          />
-                          <img
-                            ImageSrc
-                            *ngIf="country === 'ABSA'"
-                            [src]="'./../../../assets/icons/flight_icn_devide.svg'"
-                            alt="dir"
-                            width="20px"
-                            class="img_flights theme__flights-icon"
-                          />
-                        </span>
-                        <span class="route_view theme__raise-priority theme__raise-priority-higher">
-                          {{ passengerEditForm.value.arr_city }}
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="col-4 col-md-3">
-                    <div
-                      [ngClass]="
-                        country === 'SB' || country === 'ABSA'
-                          ? 'resposive_lbl theme__booking-label'
-                          : 'resposive_lbl d-md-none theme__booking-label'
-                      "
-                    >
-                      Status
-                    </div>
+                  <div class="col-4 col-md-1">
+                    <div class="resposive_lbl d-md-none theme__booking-label">Status</div>
                     <span class="{{ passengerEditForm.value.bookingStatus }} theme__booking-text">
                       {{ passengerEditForm.value.bookingStatus }}
                     </span>
                   </div>
-                  <div class="col-3 col-md-2">
-                    <div
-                      [ngClass]="
-                        country === 'SB' || country === 'ABSA'
-                          ? 'resposive_lbl theme__booking-label'
-                          : 'resposive_lbl d-md-none theme__booking-label'
-                      "
-                    >
-                      PNR
-                    </div>
+                  <div class="col-3 col-md-1">
+                    <div class="resposive_lbl d-md-none theme__booking-label">PNR</div>
                     <span class="theme__booking-text" *ngIf="passengerEditForm.value.pnr">
                       {{ !passengerEditForm.value.pnr ? 'N/A' : passengerEditForm.value.pnr }}
                     </span>
                   </div>
                   <div class="col-5 col-md-2">
-                    <div
-                      [ngClass]="
-                        country === 'SB' || country === 'ABSA'
-                          ? 'resposive_lbl theme__booking-label'
-                          : 'resposive_lbl d-md-none theme__booking-label'
-                      "
-                    >
-                      Booked On
-                    </div>
-                    <span *ngIf="country !== 'SB'" class="theme__booking-text">
+                    <div class="resposive_lbl d-md-none theme__booking-label">Booked On</div>
+                    <span class="theme__booking-text">
                       {{ passengerEditForm.value.createdDateTime | date: 'EEE, MMM d' }}
-                    </span>
-                    <span *ngIf="country === 'SB'" class="theme__booking-text">
-                      {{ passengerEditForm.value.createdDateTime | date: 'd MMM  yyyy' }}
                     </span>
                   </div>
                 </div>
-                <div class="accordion-wrapper">
+                <div
+                  class="fare_rules"
+                  formArrayName="passengers"
+                  *ngFor="let passenger of passengers().controls; let j = index"
+                >
+                  <!-- start -->
                   <div
-                    class="fare_rules"
-                    formArrayName="passengers"
-                    *ngFor="let passenger of passengers().controls; let j = index"
+                    id="fare"
+                    *ngIf="
+                      (view == 'viewQuery' &&
+                        !passenger.value.isShow &&
+                        passenger.value.queryRecordId != '' &&
+                        passenger.value.queryRecordId != '1') ||
+                      (view != 'viewQuery' &&
+                        !passenger.value.isShow &&
+                        (passenger.value.queryRecordId !== '' || passenger.value.queryRecordId !== '1'))
+                    "
                   >
-                    <!-- start -->
-                    <div
-                      id="fare"
-                      *ngIf="
-                        (view == 'viewQuery' &&
-                          !passenger.value.isShow &&
-                          passenger.value.queryRecordId != '' &&
-                          passenger.value.queryRecordId != '1') ||
-                        (view != 'viewQuery' &&
-                          !passenger.value.isShow &&
-                          (passenger.value.queryRecordId !== '' || passenger.value.queryRecordId !== '1'))
-                      "
-                    >
-                      <div class="accordion" id="fare_accordian">
-                        <div class="card mb-3 theme__accordion-container">
-                          <div class="card-header d-block d-md-none" id="fare-cancellation">
-                            <a
-                              href="#"
-                              class="btn btn-header-link"
-                              data-toggle="collapse"
-                              [attr.data-target]="'#collapse' + j"
-                              aria-expanded="true"
-                              aria-controls="faq2"
-                            >
-                              {{ passenger.value.title + ' ' + passenger.value.firstName }}
-                            </a>
-                          </div>
-
-                          <div
-                            [attr.id]="'collapse' + j"
-                            class="collapse"
-                            aria-labelledby="faqhead2"
-                            data-parent="#fare_accordian"
+                    <div class="accordion" id="fare_accordian">
+                      <div class="card mb-3 theme__accordion-container">
+                        <div class="card-header d-block d-md-none" id="fare-cancellation">
+                          <a
+                            href="#"
+                            class="btn btn-header-link"
+                            data-toggle="collapse"
+                            [attr.data-target]="'#collapse' + j"
+                            aria-expanded="true"
+                            aria-controls="faq2"
                           >
-                            <div
-                              [formGroupName]="j"
-                              class="passenger_list sb_passenger_list"
-                              *ngIf="
-                                (view == 'viewQuery' &&
-                                  !passenger.value.isShow &&
-                                  passenger.value.queryRecordId != '' &&
-                                  passenger.value.queryRecordId != '1') ||
-                                (view != 'viewQuery' &&
-                                  !passenger.value.isShow &&
-                                  (passenger.value.queryRecordId !== '' || passenger.value.queryRecordId !== '1'))
-                              "
-                            >
-                              <div class="row mb-1 mr-1">
-                                <div class="col-12 d-block d-md-none">
-                                  <a
-                                    class="q_recordLink float-right"
-                                    (click)="viewMobileQuery(passenger.value.queryRecordId)"
-                                    *ngIf="
-                                      queryIdsVal && queryIdsVal.length != 0 && passenger.value.queryRecordId != ''
-                                    "
-                                    >View Queries</a
-                                  >
-                                </div>
-                                <div class="col-12 col-md-12">
-                                  <div class="row">
-                                    <div
-                                      class="col-12 col-lg-3 col-md-3 pr-0 select_option sb_edit_passenger_input_fields"
-                                    >
-                                      <label translate for="">Passenger details</label>
-                                      <mat-select
-                                        class="form-control"
-                                        placeholder="{{ 'Let’s get your personal info updated' | translate }}"
-                                        formControlName="passengerDetails"
-                                        (selectionChange)="onItemChange($event, j)"
-                                      >
-                                        <mat-option value="firstname correction"
-                                          ><span translate>First Name Correction</span></mat-option
-                                        >
-                                        <mat-option value="middlename correction"
-                                          ><span translate>Middle Name Correction</span></mat-option
-                                        >
-                                        <mat-option value="surname correction"
-                                          ><span translate>Surname Correction</span></mat-option
-                                        >
-                                        <mat-option value="Dob correction"
-                                          ><span translate>Date of Birth Correction</span></mat-option
-                                        >
-                                        <mat-option value="gender correction"><span translate>Gender</span></mat-option>
+                            {{ passenger.value.firstName }}
+                          </a>
+                        </div>
 
-                                        <!-- <mat-option value="title correction">Title Correction</mat-option> -->
-                                      </mat-select>
-                                    </div>
-                                    <div class="col-12 col-lg-3 col-md-3 sb_edit_passenger_input_fields">
-                                      <label translate for="">First Name</label>
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        formControlName="firstName"
-                                        matInput
-                                        placeholder="{{ 'First Name' | translate }}"
-                                        autocomplete="off"
-                                        [readonly]="passenger.value.passengerDetails !== 'firstname correction'"
-                                      />
-                                      <div
-                                        translate
-                                        class="validation_msg"
-                                        *ngIf="submitted && !passenger.value.firstName"
-                                      >
-                                        Required First Name
-                                      </div>
-                                    </div>
-                                    <div class="col-12 col-lg-3 col-md-3 sb_edit_passenger_input_fields">
-                                      <label translate for="">Middle Name</label>
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        formControlName="middleName"
-                                        matInput
-                                        placeholder="{{ 'Middle Name' | translate }}"
-                                        autocomplete="off"
-                                        [readonly]="passenger.value.passengerDetails !== 'middlename correction'"
-                                      />
-                                    </div>
-                                    <div class="col-12 col-lg-3 col-md-3 sb_edit_passenger_input_fields">
-                                      <label translate for="">Surname</label>
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        formControlName="surName"
-                                        matInput
-                                        placeholder="{{ 'Surname' | translate }}"
-                                        autocomplete="off"
-                                        [readonly]="passenger.value.passengerDetails !== 'surname correction'"
-                                      />
-                                      <div
-                                        translate
-                                        class="validation_msg"
-                                        *ngIf="submitted && !passenger.value.surName"
-                                      >
-                                        Required Surname
-                                      </div>
-                                    </div>
-                                    <div
-                                      class=" col-12 col-lg-3 col-md-3 sb_edit_passenger_input_fields select_option"
+                        <div
+                          [attr.id]="'collapse' + j"
+                          class="collapse"
+                          aria-labelledby="faqhead2"
+                          data-parent="#fare_accordian"
+                        >
+                          <div
+                            [formGroupName]="j"
+                            class="passenger_list"
+                            *ngIf="
+                              (view == 'viewQuery' &&
+                                !passenger.value.isShow &&
+                                passenger.value.queryRecordId != '' &&
+                                passenger.value.queryRecordId != '1') ||
+                              (view != 'viewQuery' &&
+                                !passenger.value.isShow &&
+                                (passenger.value.queryRecordId !== '' || passenger.value.queryRecordId !== '1'))
+                            "
+                          >
+                            <div class="row mb-1 mr-1">
+                              <div class="col-12 d-block d-md-none">
+                                <a
+                                  class="q_recordLink float-right"
+                                  (click)="viewMobileQuery(passenger.value.queryRecordId)"
+                                  *ngIf="queryIdsVal && queryIdsVal.length != 0 && passenger.value.queryRecordId != ''"
+                                  >View Queries</a
+                                >
+                              </div>
+                              <div class="col-12 col-md-10">
+                                <div class="row">
+                                  <div class="col-lg-3 col-md-3 col-sm-3 select_option">
+                                    <label *ngIf="country !== 'ABSA'" translate for="">Passenger details</label>
+                                    <mat-select
+                                      class="form-control"
+                                      placeholder="{{ 'Let’s get your personal info updated' | translate }}"
+                                      formControlName="passengerDetails"
+                                      (selectionChange)="onItemChange($event, j)"
                                     >
-                                      <label translate for="">Gender</label>
-                                      <mat-select
-                                        class="form-control"
-                                        placeholder="{{ 'Gender' | translate }}"
-                                        formControlName="gender"
+                                      <mat-option value="firstname correction"
+                                        ><span translate>First Name Correction</span></mat-option
                                       >
-                                        <mat-option value="Male"><span translate>Male</span></mat-option>
-                                        <mat-option value="Female"><span translate>Female</span></mat-option>
-                                      </mat-select>
-                                    </div>
+                                      <mat-option value="middlename correction"
+                                        ><span translate>Middle Name Correction</span></mat-option
+                                      >
+                                      <mat-option value="surname correction"
+                                        ><span translate>Surname Correction</span></mat-option
+                                      >
+                                      <mat-option value="Dob correction"
+                                        ><span translate>Date of Birth Correction</span></mat-option
+                                      >
+                                      <mat-option value="gender correction"><span translate>Gender</span></mat-option>
+                                      
+                                      <!-- <mat-option value="title correction">Title Correction</mat-option> -->
+                                    </mat-select>
+                                  </div>
+                                  <div class="col-lg-2 col-md-2 col-sm-2 p-md-0 ml-md-3">
+                                    <label translate for="">First Name</label>
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      formControlName="firstName"
+                                      matInput
+                                      placeholder="{{ 'First Name' | translate }}"
+                                      autocomplete="off"
+                                      [readonly]="passenger.value.passengerDetails !== 'firstname correction'"
+                                    />
                                     <div
-                                      class="col-12 col-lg-3 col-md-3 sb_edit_passenger_input_fields dob_pick_date"
+                                      translate
+                                      class="validation_msg"
+                                      *ngIf="submitted && !passenger.value.firstName"
                                     >
-                                      <label translate for="">Date of Birth</label>
-                                      <input
-                                        class="form-control"
-                                        placeholder="{{ 'Date of Birth DD/MM/YYYY' | translate }}"
-                                        name="dp"
-                                        formControlName="dob"
-                                        ngbDatepicker
-                                        #d="ngbDatepicker"
-                                        [minDate]="dobminDate"
-                                        [maxDate]="dobmaxDate"
-                                        (click)="d.toggle()"
-                                        [readonly]="passenger.value.passengerDetails !== 'Dob correction'"
-                                      />
-                                    </div>
-                                    <div class="col-12 col-lg-3 col-md-3 sb_edit_passenger_input_fields">
-                                      <label translate for="">Email</label>
-                                      <input
-                                        type="text"
-                                        class="form-control"
-                                        formControlName="email"
-                                        matInput
-                                        placeholder="{{ 'Email Address' | translate }}"
-                                        autocomplete="off"
-                                        [readonly]="passenger.value.passengerDetails !== 'email correction'"
-                                      />
+                                      Required First Name
                                     </div>
                                   </div>
+                                  <div class="col-lg-2 col-md-2 col-sm-2 ml-md-3">
+                                    <label translate for="">Middle Name</label>
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      formControlName="middleName"
+                                      matInput
+                                      placeholder="{{ 'Middle Name' | translate }}"
+                                      autocomplete="off"
+                                      [readonly]="passenger.value.passengerDetails !== 'middlename correction'"
+                                    />
+                                  </div>
+                                  <div class="col-lg-2 col-md-2 col-sm-2 p-md-0 ml-md-3">
+                                    <label translate for="">Surname</label>
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      formControlName="surName"
+                                      matInput
+                                      placeholder="{{ 'Surname' | translate }}"
+                                      autocomplete="off"
+                                      [readonly]="passenger.value.passengerDetails !== 'surname correction'"
+                                    />
+                                    <div translate class="validation_msg" *ngIf="submitted && !passenger.value.surName">
+                                      Required Surname
+                                    </div>
+                                  </div>
+                                  <div [ngClass]="country === 'ABSA' ? '' : 'col-6'" class="col-lg-2 col-md-2 select_option ml-md-3">
+                                    <label translate for="">Gender</label>
+                                    <mat-select
+                                      class="form-control g_select"
+                                      placeholder="{{ 'Gender' | translate }}"
+                                      formControlName="gender"
+                                    >
+                                      <mat-option value="Male"><span translate>Male</span></mat-option>
+                                      <mat-option value="Female"><span translate>Female</span></mat-option>
+                                    </mat-select>
+                                  </div>
+
+                                  <div [ngClass]="country === 'ABSA' ? '' : 'col-6'" class="col-lg-3 col-md-3 dob_pick_date">
+                                    <label translate for="">Date of Birth</label>
+                                    <input
+                                      class="form-control"
+                                      placeholder="{{ 'Date of Birth DD/MM/YYYY' | translate }}"
+                                      name="dp"
+                                      formControlName="dob"
+                                      ngbDatepicker
+                                      #d="ngbDatepicker"
+                                      [minDate]="dobminDate"
+                                      [maxDate]="dobmaxDate"
+                                      (click)="d.toggle()"
+                                      [readonly]="passenger.value.passengerDetails !== 'Dob correction'"
+                                    />
+                                  </div>
+                                  <div class="col-lg-3 col-md-2 col-sm-3">
+                                    <label translate for="">Email</label>
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      formControlName="email"
+                                      matInput
+                                      placeholder="{{ 'Email Address' | translate }}"
+                                      autocomplete="off"
+                                      [readonly]="passenger.value.passengerDetails !== 'email correction'"
+                                    />
+                                  </div>
                                 </div>
-                                <div class="col-md-2 d-none d-md-block p-md-0">
-                                  <a
-                                    class="q_recordLink float-right"
-                                    (click)="viewQuery(passenger.value.queryRecordId)"
-                                    *ngIf="
-                                      queryIdsVal && queryIdsVal.length != 0 && passenger.value.queryRecordId != ''
-                                    "
-                                    >View Queries</a
-                                  >
-                                </div>
+                                <div class="row"></div>
+                              </div>
+                              <div class="col-md-2 d-none d-md-block p-md-0">
+                                <a
+                                  class="q_recordLink float-right"
+                                  (click)="viewQuery(passenger.value.queryRecordId)"
+                                  *ngIf="queryIdsVal && queryIdsVal.length != 0 && passenger.value.queryRecordId != ''"
+                                  >View Queries</a
+                                >
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-
-                    <!--end-->
                   </div>
-                </div>
-                <div *ngIf="submitted == true && selectedPassenger == false && (country === 'SB')">
-                  <span>
-                    <p translate class="validation_msg">Please select passenger details</p>
-                  </span>
+
+                  <!--end-->
                 </div>
               </div>
             </div>
           </form>
-          <div class="row footer-button-container theme__footer-button-container-2" *ngIf="itinaryData && !showCancelBtn && (country === 'SB')">
-            <div class="col-sm-12 text-right">
-              <button class="sub_btn primary_btn" (click)="updatePassenger()">
-                <span class="sb_changedate_btn_text" translate>Submit My Request</span>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
-    </div>
-     <div *ngIf="submitted == true && selectedPassenger == false && (country !== 'SB')">
+      <div *ngIf="submitted == true && selectedPassenger == false">
         <span>
           <p translate class="validation_msg">Please select passenger details</p>
         </span>
       </div>
-      <div class="row m-0 mt-4 theme__footer-button-container footer-button-container" [ngClass]="{'absa-fixed-footer': country === 'ABSA'}" *ngIf="itinaryData && !showCancelBtn && (country !== 'SB')">
-        <div class="col-sm-12 text-right">
-          <button class="sub_btn primary_btn" (click)="updatePassenger()">
-            <span translate>{{ country === 'ABSA' ? 'Submit my request' : 'Submit My Request' }}</span>
-          </button>
-        </div>
+    </div>
+
+    <div class="row m-0 mt-3 theme__footer-button-container" *ngIf="itinaryData && !showCancelBtn">
+      <div class="col-sm-12 text-right">
+        <button class="sub_btn primary_btn" (click)="updatePassenger()">
+          <span translate>{{ country === 'ABSA' ? 'Submit my request' : 'Submit My Request' }}</span>
+        </button>
       </div>
+    </div>
   </div>
 </div>
 <!-- <div *ngIf="queryId && itinaryData">

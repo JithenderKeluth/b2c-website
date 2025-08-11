@@ -8,12 +8,8 @@
         <div class="col-12 bg_clr">
           <div translate *ngIf="country !== 'ABSA'" class="namereq_head">Name Requirements</div>
           <ul class="reqs mb-0">
-            <li translate *ngIf="country !== 'MM' && country !== 'ABSA' && country !== 'SB'">
+            <li translate *ngIf="country !== 'MM' && country !== 'ABSA'">
               The passenger’s name must be entered exactly as it appears on passport.
-            </li>
-            <li translate *ngIf="country === 'SB'">
-              Traveller name must be entered exactly as it appears on the ID/passport. You may be charged for
-              corrections if permitted.
             </li>
             <li *ngIf="country === 'ABSA'">
               <div class="theme__modification-warning-header">
@@ -44,9 +40,7 @@
                 >multiply&#64;momentum.co.za</a
               >
             </li>
-            <li translate *ngIf="country !== 'MM' && country !== 'ABSA' && country !== 'SB'">
-              All names must be entered in English.
-            </li>
+            <li translate *ngIf="country !== 'MM' && country !== 'ABSA'">All names must be entered in English.</li>
           </ul>
         </div>
       </div>
@@ -57,541 +51,562 @@
         <div
           *ngFor="let quantity of travellersList().controls; let first = first; let last = last; let i = index"
           [formGroupName]="i"
-          class="traveller_info_list"
         >
-        <div *ngIf="this.apiService.extractCountryFromDomain() !== 'MM' && country === 'SB'">
-              <div *ngIf="getTravellers(this.travellerForm.value.travellersList[i].type).length > 0">
-                <div translate class="paxLabl pb-1">Saved travellers</div>
-                <div
-                  class="user_travellers form-group pb-2"
-                  *ngFor="
-                    let passenger of getTravellers(this.travellerForm.value.travellersList[i].type);
-                    let j = index
-                  "
-                >
-                  <label *ngIf="travellerSelection(passenger, i) && j < 5" class="btn p-0">
-                    <span>
-                      <input
-                        type="checkbox"
-                        (change)="
-                          passengerInfo(
-                            this.travellerForm.value.travellersList[i].type,
-                            pricedResult_dataInfo.passengerSettings,
-                            passenger,
-                            j,
-                            $event,
-                            i
-                          )
-                        "
-                        [checked]="checkedTraveller(passenger, i)"
-                      />
-                      <span class="pax_labl"
-                        ><span *ngIf="passenger?.personName?.nameTitle">{{ passenger.personName.nameTitle }}.</span>
-                        {{ passenger.personName.givenName }}</span
-                      >
-                    </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          <div class="pax_type" id="paxType{{ i }}" (click)="expandTravellerForm(i)">
-            <img ImageSrc src="../../../assets/icons/pax-icn.svg" alt="pax" class="mb-2 mr-1" width="16px" />
-            <span translate class="passenger_heading">{{ getPassengerNameOrHeading(i) }}</span>
-            <span *ngIf="country !== 'SB'" class="passenger_desc">
-              ({{
-                this.travellerForm.value.travellersList[i].type == 'YOUNGADULT'
-                  ? 'Young Adult'
-                  : (this.travellerForm.value.travellersList[i].type | lowercase)
-              }})
-            </span>
-            <span class="theme__pax-type__icon" *ngIf="country === 'SB' && !checkIfTravellerFormIsExpanded(i) && travellersList().controls.length > 1">
-              <i class="fa fa-angle-down fa-2x"></i>
+          <div class="pax_type" id="paxType{{ i }}">
+            <span>
+              <img ImageSrc src="../../../assets/icons/pax-icn.svg" alt="pax" class="mb-2 mr-1" width="16px" />
+              <span class="passenger_heading">{{ getPassengerNameOrHeading(i) }}</span>
+              <span class="passenger_desc">
+                ({{
+                  this.travellerForm.value.travellersList[i].type == 'YOUNGADULT'
+                    ? 'Young Adult'
+                    : (this.travellerForm.value.travellersList[i].type | lowercase)
+                }})
+              </span>
             </span>
           </div>
 
-          <div
-            class="theme__traveller-info-form"
-            [ngClass]="{ hidden: country === 'SB' && !checkIfTravellerFormIsExpanded(i), borderBtm: !last }"
-          >
-            <div *ngIf="this.apiService.extractCountryFromDomain() !== 'MM' && country !== 'SB'">
-              <div *ngIf="getTravellers(this.travellerForm.value.travellersList[i].type).length > 0">
-                <div translate class="paxLabl pb-1">Saved travellers</div>
-                <div
-                  class="user_travellers form-group pb-2"
-                  *ngFor="
-                    let passenger of getTravellers(this.travellerForm.value.travellersList[i].type);
-                    let j = index
-                  "
-                >
-                  <label *ngIf="travellerSelection(passenger, i) && j < 5" class="btn p-0">
-                    <span>
-                      <input
-                        type="checkbox"
-                        (change)="
-                          passengerInfo(
-                            this.travellerForm.value.travellersList[i].type,
-                            pricedResult_dataInfo.passengerSettings,
-                            passenger,
-                            j,
-                            $event,
-                            i
-                          )
-                        "
-                        [checked]="checkedTraveller(passenger, i)"
-                      />
-                      <span class="pax_labl"
-                        ><span *ngIf="passenger?.personName?.nameTitle">{{ passenger.personName.nameTitle }}.</span>
-                        {{ passenger.personName.givenName }}</span
-                      >
-                    </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="clearfix mt-2"></div>
-            <div attr.id="gender{{ i }}">
+          <div *ngIf="this.apiService.extractCountryFromDomain() !== 'MM'">
+            <div *ngIf="getTravellers(this.travellerForm.value.travellersList[i].type).length > 0">
+              <div translate class="paxLabl pb-1">Saved travellers</div>
               <div
-                class="gender mt-2"
-                *ngFor="
-                  let gender of this.travellerForm.value.travellersList[i].type == 'ADULT' ? AdultGender : genderArray
-                "
+                class="user_travellers form-group pb-2"
+                *ngFor="let passenger of getTravellers(this.travellerForm.value.travellersList[i].type); let j = index"
               >
-                <label for="gender">
+                <label *ngIf="travellerSelection(passenger, i) && j < 5" class="btn p-0">
                   <span>
                     <input
-                      type="radio"
-                      class="form-switch radio_1set"
-                      [checked]="getGenderCheckedValue(gender, travllerInfoForm.controls[i]?.get('gender')?.value)"
-                      formControlName="gender"
-                      [value]="gender"
+                      type="checkbox"
+                      (change)="
+                        passengerInfo(
+                          this.travellerForm.value.travellersList[i].type,
+                          pricedResult_dataInfo.passengerSettings,
+                          passenger,
+                          j,
+                          $event,
+                          i
+                        )
+                      "
+                      [checked]="checkedTraveller(passenger, i)"
                     />
-                  </span>
-
-                  <!--[attr.disabled]="restrictInputEditOption(travllerInfoForm.controls[i]?.get('gender')?.value)"-->
-
-                  <span
-                    [ngClass]="{
-                      genderErr: submitted && travllerInfoForm.controls[i]?.get('gender')?.errors?.required,
-                    }"
-                  >
-                    {{ gender }}
+                    <span class="pax_labl"
+                      ><span *ngIf="passenger?.personName?.nameTitle">{{ passenger.personName.nameTitle }}.</span>
+                      {{ passenger.personName.givenName }}</span
+                    >
                   </span>
                 </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix mt-2"></div>
+          <div attr.id="gender{{ i }}">
+            <div
+              class="gender mt-2"
+              *ngFor="
+                let gender of this.travellerForm.value.travellersList[i].type == 'ADULT' ? AdultGender : genderArray
+              "
+            >
+              <label for="gender">
+                <span>
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    [checked]="getGenderCheckedValue(gender, travllerInfoForm.controls[i]?.get('gender')?.value)"
+                    formControlName="gender"
+                    [value]="gender"
+                  />
+                </span>
+
+                <!--[attr.disabled]="restrictInputEditOption(travllerInfoForm.controls[i]?.get('gender')?.value)"-->
+
+                <span
+                  [ngClass]="{
+                    genderErr: submitted && travllerInfoForm.controls[i]?.get('gender')?.errors?.required,
+                  }"
+                >
+                  {{ gender }}
+                </span>
+              </label>
+            </div>
+            <div
+              translate
+              class="validation_msg"
+              style="width: 50%"
+              *ngIf="submitted && travllerInfoForm.controls[i].get('gender')?.errors?.required"
+            >
+              Required Title
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-lg-3 mb-3 mb-xs-10">
+              <label for="First name" translate class="control-label">First name</label>
+              <input
+                *ngIf="country !== 'ABSA'"
+                translate
+                type="text"
+                class="form-control"
+                formControlName="firstName"
+                (input)="
+                  updateFormValue(); nameCheck(travllerInfoForm.controls[i].get('firstName').value, i, 'firstName')
+                "
+                attr.id="firstName{{ i }}"
+                placeholder="{{ 'First name as per ID/Passport' | translate }}"
+                required
+                (focus)="nameFocus('firstName', i, true)"
+                (blur)="nameFocus('firstName', i, false); namesCheck(i, 'firstName')"
+                autocomplete="off"
+                [readOnly]="restrictInputEditOption(travllerInfoForm.controls[i].get('firstName').value)"
+              />
+              <input
+                *ngIf="country === 'ABSA'"
+                type="text"
+                class="form-control"
+                formControlName="firstName"
+                (input)="fullUpdateFormValue(travllerInfoForm.controls[i].get('firstName').value, i, 'firstName')"
+                attr.id="firstName{{ i }}"
+                placeholder="{{ 'First name as per ID/Passport' | translate }}"
+                required
+                [readOnly]="restrictInputEditOption(travllerInfoForm.controls[i].get('firstName').value)"
+              />
+              <div *ngIf="showPaxNameDuplicateErr(i) && travllerInfoForm.controls[i].get('firstName').value">
+                <div translate class="validation_msg">Passenger names should not duplicate</div>
+              </div>
+              <div class="name_Sug" *ngIf="nameFocusId == i && nameFocuscontrol == 'firstName'">
+                <span translate>First name should be same as in Government ID proof</span>
+              </div>
+
+              <div
+                translate
+                class="validation_msg"
+                *ngIf="submitted && travllerInfoForm.controls[i].get('firstName')?.errors?.required"
+              >
+                Required First name
               </div>
               <div
                 translate
                 class="validation_msg"
-                style="width: 50%"
-                *ngIf="submitted && travllerInfoForm.controls[i].get('gender')?.errors?.required"
+                *ngIf="submitted && travllerInfoForm.controls[i].get('firstName')?.errors?.pattern"
               >
-                Required Title
+                Invalid First name
+              </div>
+            </div>
+            <div class="col-lg-3 mb-3 mb-xs-10">
+              <label for="Middle name" class="control-label"
+                ><span translate>Middle name</span>
+                <span translate class="opt">(optional)</span>
+              </label>
+              <input
+                *ngIf="country !== 'ABSA'"
+                type="text"
+                class="form-control"
+                formControlName="middleName"
+                attr.id="middleName{{ i }}"
+                placeholder="{{ 'Middle name as per ID/Passport' | translate }}"
+                (focus)="nameFocus('middleName', i, true)"
+                (input)="
+                  updateFormValue(); nameCheck(travllerInfoForm.controls[i].get('middleName').value, i, 'middleName')
+                "
+                (blur)="nameFocus('middleName', i, false); namesCheck(i, 'middleName')"
+                autocomplete="off"
+              />
+              <input
+                *ngIf="country === 'ABSA'"
+                type="text"
+                class="form-control"
+                formControlName="middleName"
+                (input)="fullUpdateFormValue(travllerInfoForm.controls[i].get('middleName').value, i, 'middleName')"
+                attr.id="middleName{{ i }}"
+                placeholder="{{ 'Middle name as per ID/Passport' | translate }}"
+              />
+              <div translate class="name_Sug" *ngIf="nameFocusId == i && nameFocuscontrol == 'middleName'">
+                Middle name should be same as in Government ID proof
+              </div>
+
+              <div
+                class="validation_msg"
+                translate
+                *ngIf="
+                  submitted &&
+                  travllerInfoForm.controls[i].get('middleName').value &&
+                  travllerInfoForm.controls[i].get('middleName')?.errors
+                "
+              >
+                Invalid Middle name
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="col-lg-3 mb-3 mb-xs-10">
-                <label for="First name" translate class="control-label">First name</label>
+            <div class="col-lg-3 mb-3 mb-xs-10">
+              <label for="Surname" translate class="control-label">Surname</label>
+              <div class="input-group">
                 <input
                   *ngIf="country !== 'ABSA'"
                   translate
                   type="text"
                   class="form-control"
-                  formControlName="firstName"
-                  (input)="
-                    updateFormValue(); nameCheck(travllerInfoForm.controls[i].get('firstName').value, i, 'firstName')
-                  "
-                  attr.id="firstName{{ i }}"
-                  placeholder="{{ 'First name as per ID/Passport' | translate }}"
+                  attr.id="lastName{{ i }}"
+                  formControlName="lastName"
+                  placeholder="{{ 'Surname as per ID/Passport' | translate }}"
                   required
-                  (focus)="nameFocus('firstName', i, true)"
-                  (blur)="nameFocus('firstName', i, false); namesCheck(i, 'firstName')"
+                  (focus)="nameFocus('lastName', i, true)"
+                  (input)="
+                    updateFormValue(); nameCheck(travllerInfoForm.controls[i].get('lastName').value, i, 'lastName')
+                  "
+                  (blur)="nameFocus('lastName', i, false); namesCheck(i, 'lastName')"
                   autocomplete="off"
-                  [readOnly]="restrictInputEditOption(travllerInfoForm.controls[i].get('firstName').value)"
+                  [readOnly]="restrictInputEditOption(travllerInfoForm.controls[i].get('lastName').value)"
                 />
                 <input
                   *ngIf="country === 'ABSA'"
                   type="text"
                   class="form-control"
-                  formControlName="firstName"
-                  (input)="fullUpdateFormValue(travllerInfoForm.controls[i].get('firstName').value, i, 'firstName')"
-                  attr.id="firstName{{ i }}"
-                  placeholder="{{ 'First name as per ID/Passport' | translate }}"
+                  formControlName="lastName"
+                  (input)="fullUpdateFormValue(travllerInfoForm.controls[i].get('lastName').value, i, 'lastName')"
+                  attr.id="lastName{{ i }}"
+                  placeholder="{{ 'Surname as per ID/Passport' | translate }}"
                   required
-                  [readOnly]="restrictInputEditOption(travllerInfoForm.controls[i].get('firstName').value)"
+                  [readOnly]="restrictInputEditOption(travllerInfoForm.controls[i].get('lastName').value)"
                 />
-                <div *ngIf="showPaxNameDuplicateErr(i) && travllerInfoForm.controls[i].get('firstName').value">
-                  <div translate class="validation_msg">Passenger names should not duplicate</div>
-                </div>
-                <div class="name_Sug" *ngIf="nameFocusId == i && nameFocuscontrol == 'firstName'">
-                  <span translate>First name should be same as in Government ID proof</span>
-                </div>
-
-                <div
-                  translate
-                  class="validation_msg"
-                  *ngIf="submitted && travllerInfoForm.controls[i].get('firstName')?.errors?.required"
-                >
-                  Required First name
-                </div>
-                <div
-                  translate
-                  class="validation_msg"
-                  *ngIf="submitted && travllerInfoForm.controls[i].get('firstName')?.errors?.pattern"
-                >
-                  Invalid First name
-                </div>
               </div>
-              <div class="col-lg-3 mb-3 mb-xs-10">
-                <label for="Middle name" class="control-label"
-                  ><span translate>Middle name</span>
-                  <span translate class="opt">(optional)</span>
-                </label>
-                <input
-                  *ngIf="country !== 'ABSA'"
-                  type="text"
-                  class="form-control"
-                  formControlName="middleName"
-                  attr.id="middleName{{ i }}"
-                  placeholder="{{ 'Middle name as per ID/Passport' | translate }}"
-                  (focus)="nameFocus('middleName', i, true)"
-                  (input)="
-                    updateFormValue(); nameCheck(travllerInfoForm.controls[i].get('middleName').value, i, 'middleName')
-                  "
-                  (blur)="nameFocus('middleName', i, false); namesCheck(i, 'middleName')"
-                  autocomplete="off"
-                />
-                <input
-                  *ngIf="country === 'ABSA'"
-                  type="text"
-                  class="form-control"
-                  formControlName="middleName"
-                  (input)="fullUpdateFormValue(travllerInfoForm.controls[i].get('middleName').value, i, 'middleName')"
-                  attr.id="middleName{{ i }}"
-                  placeholder="{{ 'Middle name as per ID/Passport' | translate }}"
-                />
-                <div translate class="name_Sug" *ngIf="nameFocusId == i && nameFocuscontrol == 'middleName'">
-                  Middle name should be same as in Government ID proof
-                </div>
-
-                <div
-                  class="validation_msg"
-                  translate
-                  *ngIf="
-                    submitted &&
-                    travllerInfoForm.controls[i].get('middleName').value &&
-                    travllerInfoForm.controls[i].get('middleName')?.errors
-                  "
-                >
-                  Invalid Middle name
-                </div>
+              <div translate class="name_Sug" *ngIf="nameFocusId == i && nameFocuscontrol == 'lastName'">
+                Surname should be same as in Government ID proof
               </div>
 
-              <div class="col-lg-3 mb-3 mb-xs-10">
-                <label for="Surname" translate class="control-label">Surname</label>
-                <div class="input-group">
-                  <input
-                    *ngIf="country !== 'ABSA'"
-                    translate
-                    type="text"
-                    class="form-control"
-                    attr.id="lastName{{ i }}"
-                    formControlName="lastName"
-                    placeholder="{{ 'Surname as per ID/Passport' | translate }}"
-                    required
-                    (focus)="nameFocus('lastName', i, true)"
-                    (input)="
-                      updateFormValue(); nameCheck(travllerInfoForm.controls[i].get('lastName').value, i, 'lastName')
+              <div
+                translate
+                class="validation_msg"
+                *ngIf="submitted && travllerInfoForm.controls[i].get('lastName')?.errors?.required"
+              >
+                Required Surname
+              </div>
+              <div
+                translate
+                class="validation_msg"
+                *ngIf="submitted && travllerInfoForm.controls[i].get('lastName')?.errors?.pattern"
+              >
+                Invalid Surname
+              </div>
+            </div>
+
+            <div
+              class="col-lg-3 mb-3 mb-xs-10 lastControl"
+              *ngIf="
+                passengerSettings(
+                  pricedResult_dataInfo.passengerSettings,
+                  this.travellerForm.value.travellersList[i].type,
+                  'dob',
+                  i
+                )
+              "
+            >
+              <label for="Date of birth" translate class="control-label">Date of birth</label>
+              <span class="paxAge" *ngIf="this.travellerForm.value.travellersList[i].type == 'ADULT'">(16 yrs+)</span>
+              <span class="paxAge" *ngIf="this.travellerForm.value.travellersList[i].type == 'YOUNGADULT'"
+                >(12 - 15 yrs)</span
+              >
+              <span class="paxAge" *ngIf="this.travellerForm.value.travellersList[i].type == 'CHILD'">(2-11 Yrs)</span>
+              <span class="paxAge" *ngIf="this.travellerForm.value.travellersList[i].type == 'INFANT'">(< 2 Yrs)</span>
+              <div class="input-group dobSelection">
+                <div class="form-group col day pl-0" (click)="isdayFocused(i)" id="dobDay{{ i }}">
+                  <mat-select
+                    (selectionChange)="selectionDob(i, 'day', $event)"
+                    disableOptionCentering
+                    class="form-control select_Day selectionDropDown"
+                    panelClass="monthSelection"
+                    formControlName="dobDay"
+                    name="selectedDay"
+                    placeholder="day"
+                    [ngClass]="
+                      restrictInputEditOption(travllerInfoForm.controls[i].get('dobDay').value) ? 'readOnly' : ''
                     "
-                    (blur)="nameFocus('lastName', i, false); namesCheck(i, 'lastName')"
-                    autocomplete="off"
-                    [readOnly]="restrictInputEditOption(travllerInfoForm.controls[i].get('lastName').value)"
-                  />
-                  <input
-                    *ngIf="country === 'ABSA'"
-                    type="text"
-                    class="form-control"
-                    formControlName="lastName"
-                    (input)="fullUpdateFormValue(travllerInfoForm.controls[i].get('lastName').value, i, 'lastName')"
-                    attr.id="lastName{{ i }}"
-                    placeholder="{{ 'Surname as per ID/Passport' | translate }}"
-                    required
-                    [readOnly]="restrictInputEditOption(travllerInfoForm.controls[i].get('lastName').value)"
-                  />
+                  >
+                    <mat-option *ngFor="let day of getDobDate(i)" [value]="day">{{ day }}</mat-option>
+                  </mat-select>
                 </div>
-                <div translate class="name_Sug" *ngIf="nameFocusId == i && nameFocuscontrol == 'lastName'">
-                  Surname should be same as in Government ID proof
+                <div class="form-group col month">
+                  <mat-select
+                    (selectionChange)="selectionDob(i, 'month', $event)"
+                    panelClass="monthSelection"
+                    disableOptionCentering
+                    class="form-control select_mnth selectionDropDown"
+                    formControlName="dobMonth"
+                    name="selectedMonth"
+                    placeholder="month"
+                    [ngClass]="
+                      restrictInputEditOption(travllerInfoForm.controls[i].get('dobMonth').value) ? 'readOnly' : ''
+                    "
+                  >
+                    <mat-option *ngFor="let month of months; let i = index" [value]="i + 1">{{ month }}</mat-option>
+                  </mat-select>
                 </div>
-
-                <div
-                  translate
-                  class="validation_msg"
-                  *ngIf="submitted && travllerInfoForm.controls[i].get('lastName')?.errors?.required"
-                >
-                  Required Surname
-                </div>
-                <div
-                  translate
-                  class="validation_msg"
-                  *ngIf="submitted && travllerInfoForm.controls[i].get('lastName')?.errors?.pattern"
-                >
-                  Invalid Surname
+                <div class="form-group col month">
+                  <mat-select
+                    *ngIf="this.travellerForm.value.travellersList[i].type == 'ADULT'"
+                    panelClass="selectYear"
+                    (selectionChange)="selectionDob(i, 'year', $event)"
+                    disableOptionCentering
+                    class="form-control select_year selectionDropDown"
+                    formControlName="dobYear"
+                    name="selectedMonth"
+                    placeholder="year"
+                    [ngClass]="
+                      restrictInputEditOption(travllerInfoForm.controls[i].get('dobYear').value) ? 'readOnly' : ''
+                    "
+                  >
+                    <mat-option *ngFor="let year of adultTravellerArray; let i = index" [value]="year">{{
+                      year
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-select
+                    *ngIf="this.travellerForm.value.travellersList[i].type == 'YOUNGADULT'"
+                    panelClass="selectYear"
+                    (selectionChange)="selectionDob(i, 'year', $event)"
+                    disableOptionCentering
+                    class="form-control select_year selectionDropDown"
+                    formControlName="dobYear"
+                    name="selectedMonth"
+                    placeholder="year"
+                    [ngClass]="
+                      restrictInputEditOption(travllerInfoForm.controls[i].get('dobYear').value) ? 'readOnly' : ''
+                    "
+                  >
+                    <mat-option *ngFor="let year of youngAdultTravellerArray; let i = index" [value]="year">{{
+                      year
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-select
+                    *ngIf="this.travellerForm.value.travellersList[i].type == 'CHILD'"
+                    panelClass="selectYear"
+                    (selectionChange)="selectionDob(i, 'year', $event)"
+                    disableOptionCentering
+                    class="form-control selectionDropDown"
+                    formControlName="dobYear"
+                    name="selectedMonth"
+                    placeholder="year"
+                    [ngClass]="
+                      restrictInputEditOption(travllerInfoForm.controls[i].get('dobYear').value) ? 'readOnly' : ''
+                    "
+                  >
+                    <mat-option *ngFor="let year of childTravellerArray; let i = index" [value]="year">{{
+                      year
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-select
+                    *ngIf="this.travellerForm.value.travellersList[i].type == 'INFANT'"
+                    panelClass="selectYear"
+                    (selectionChange)="selectionDob(i, 'year', $event)"
+                    disableOptionCentering
+                    class="form-control selectionDropDown"
+                    formControlName="dobYear"
+                    name="selectedMonth"
+                    placeholder="year"
+                    [ngClass]="
+                      restrictInputEditOption(travllerInfoForm.controls[i].get('dobYear').value) ? 'readOnly' : ''
+                    "
+                  >
+                    <mat-option *ngFor="let year of infantTravellerArray; let i = index" [value]="year">{{
+                      year
+                    }}</mat-option>
+                  </mat-select>
                 </div>
               </div>
 
               <div
-                class="col-lg-3 mb-3 mb-xs-10 lastControl"
+                translate
+                class="validation_msg"
                 *ngIf="
-                  passengerSettings(
-                    pricedResult_dataInfo.passengerSettings,
-                    this.travellerForm.value.travellersList[i].type,
-                    'dob',
-                    i
-                  )
+                  (submitted &&
+                    !travllerInfoForm.controls[i].get('dobDay').value &&
+                    !travllerInfoForm.controls[i].get('dobMonth').value &&
+                    !travllerInfoForm.controls[i].get('dobYear').value) ||
+                  (submitted &&
+                    travllerInfoForm.controls[i].get('dobDay').value &&
+                    !travllerInfoForm.controls[i].get('dobMonth').value &&
+                    !travllerInfoForm.controls[i].get('dobYear').value) ||
+                  (submitted &&
+                    travllerInfoForm.controls[i].get('dobMonth').value &&
+                    !travllerInfoForm.controls[i].get('dobDay').value &&
+                    !travllerInfoForm.controls[i].get('dobYear').value) ||
+                  (submitted &&
+                    travllerInfoForm.controls[i].get('dobYear').value &&
+                    !travllerInfoForm.controls[i].get('dobDay').value &&
+                    !travllerInfoForm.controls[i].get('dobMonth').value)
                 "
               >
-                <label for="Date of birth" translate class="control-label">Date of birth</label>
-                <span class="paxAge" *ngIf="this.travellerForm.value.travellersList[i].type == 'ADULT'">(16 yrs+)</span>
-                <span class="paxAge" *ngIf="this.travellerForm.value.travellersList[i].type == 'YOUNGADULT'"
-                  >(12 - 15 yrs)</span
-                >
-                <span class="paxAge" *ngIf="this.travellerForm.value.travellersList[i].type == 'CHILD'"
-                  >(2-11 Yrs)</span
-                >
-                <span class="paxAge" *ngIf="this.travellerForm.value.travellersList[i].type == 'INFANT'"
-                  >(< 2 Yrs)</span
-                >
-                <div class="input-group dobSelection">
-                  <div class="form-group col day pl-0" (click)="isdayFocused(i)" id="dobDay{{ i }}">
-                    <mat-select
-                      (selectionChange)="selectionDob(i, 'day', $event)"
-                      disableOptionCentering
-                      class="form-control select_Day selectionDropDown"
-                      panelClass="monthSelection"
-                      formControlName="dobDay"
-                      name="selectedDay"
-                      placeholder="day"
-                      [ngClass]="
-                        restrictInputEditOption(travllerInfoForm.controls[i].get('dobDay').value) ? 'readOnly' : ''
-                      "
-                    >
-                      <mat-option *ngFor="let day of getDobDate(i)" [value]="day">{{ day }}</mat-option>
-                    </mat-select>
-                  </div>
-                  <div class="form-group col month">
-                    <mat-select
-                      (selectionChange)="selectionDob(i, 'month', $event)"
-                      panelClass="monthSelection"
-                      disableOptionCentering
-                      class="form-control select_mnth selectionDropDown"
-                      formControlName="dobMonth"
-                      name="selectedMonth"
-                      placeholder="month"
-                      [ngClass]="
-                        restrictInputEditOption(travllerInfoForm.controls[i].get('dobMonth').value) ? 'readOnly' : ''
-                      "
-                    >
-                      <mat-option *ngFor="let month of months; let i = index" [value]="i + 1">{{ month }}</mat-option>
-                    </mat-select>
-                  </div>
-                  <div class="form-group col month">
-                    <mat-select
-                      *ngIf="this.travellerForm.value.travellersList[i].type == 'ADULT'"
-                      panelClass="selectYear"
-                      (selectionChange)="selectionDob(i, 'year', $event)"
-                      disableOptionCentering
-                      class="form-control select_year selectionDropDown"
-                      formControlName="dobYear"
-                      name="selectedMonth"
-                      placeholder="year"
-                      [ngClass]="
-                        restrictInputEditOption(travllerInfoForm.controls[i].get('dobYear').value) ? 'readOnly' : ''
-                      "
-                    >
-                      <mat-option *ngFor="let year of adultTravellerArray; let i = index" [value]="year">{{
-                        year
-                      }}</mat-option>
-                    </mat-select>
-                    <mat-select
-                      *ngIf="this.travellerForm.value.travellersList[i].type == 'YOUNGADULT'"
-                      panelClass="selectYear"
-                      (selectionChange)="selectionDob(i, 'year', $event)"
-                      disableOptionCentering
-                      class="form-control select_year selectionDropDown"
-                      formControlName="dobYear"
-                      name="selectedMonth"
-                      placeholder="year"
-                      [ngClass]="
-                        restrictInputEditOption(travllerInfoForm.controls[i].get('dobYear').value) ? 'readOnly' : ''
-                      "
-                    >
-                      <mat-option *ngFor="let year of youngAdultTravellerArray; let i = index" [value]="year">{{
-                        year
-                      }}</mat-option>
-                    </mat-select>
-                    <mat-select
-                      *ngIf="this.travellerForm.value.travellersList[i].type == 'CHILD'"
-                      panelClass="selectYear"
-                      (selectionChange)="selectionDob(i, 'year', $event)"
-                      disableOptionCentering
-                      class="form-control selectionDropDown"
-                      formControlName="dobYear"
-                      name="selectedMonth"
-                      placeholder="year"
-                      [ngClass]="
-                        restrictInputEditOption(travllerInfoForm.controls[i].get('dobYear').value) ? 'readOnly' : ''
-                      "
-                    >
-                      <mat-option *ngFor="let year of childTravellerArray; let i = index" [value]="year">{{
-                        year
-                      }}</mat-option>
-                    </mat-select>
-                    <mat-select
-                      *ngIf="this.travellerForm.value.travellersList[i].type == 'INFANT'"
-                      panelClass="selectYear"
-                      (selectionChange)="selectionDob(i, 'year', $event)"
-                      disableOptionCentering
-                      class="form-control selectionDropDown"
-                      formControlName="dobYear"
-                      name="selectedMonth"
-                      placeholder="year"
-                      [ngClass]="
-                        restrictInputEditOption(travllerInfoForm.controls[i].get('dobYear').value) ? 'readOnly' : ''
-                      "
-                    >
-                      <mat-option *ngFor="let year of infantTravellerArray; let i = index" [value]="year">{{
-                        year
-                      }}</mat-option>
-                    </mat-select>
-                  </div>
-                </div>
+                Please select a valid date of birth
+              </div>
 
+              <div
+                translate
+                class="validation_msg"
+                *ngIf="
+                  submitted &&
+                  travllerInfoForm.controls[i].get('dobDay').value &&
+                  travllerInfoForm.controls[i].get('dobYear').value &&
+                  !travllerInfoForm.controls[i].get('dobMonth').value
+                "
+              >
+                Please select a month
+              </div>
+
+              <div
+                translate
+                class="validation_msg"
+                *ngIf="
+                  submitted &&
+                  !travllerInfoForm.controls[i].get('dobDay').value &&
+                  travllerInfoForm.controls[i].get('dobMonth').value &&
+                  travllerInfoForm.controls[i].get('dobYear').value
+                "
+              >
+                Please select a day
+              </div>
+
+              <div
+                translate
+                class="validation_msg"
+                *ngIf="
+                  submitted &&
+                  !travllerInfoForm.controls[i].get('dobYear').value &&
+                  travllerInfoForm.controls[i].get('dobMonth').value &&
+                  travllerInfoForm.controls[i].get('dobDay').value
+                "
+              >
+                Please select a year
+              </div>
+
+              <div class="validation_msg" *ngIf="submitted && travllerInfoForm.controls[i].get('showError').value">
                 <div
                   translate
-                  class="validation_msg"
                   *ngIf="
-                    (submitted &&
-                      !travllerInfoForm.controls[i].get('dobDay').value &&
-                      !travllerInfoForm.controls[i].get('dobMonth').value &&
-                      !travllerInfoForm.controls[i].get('dobYear').value) ||
-                    (submitted &&
-                      travllerInfoForm.controls[i].get('dobDay').value &&
-                      !travllerInfoForm.controls[i].get('dobMonth').value &&
-                      !travllerInfoForm.controls[i].get('dobYear').value) ||
-                    (submitted &&
-                      travllerInfoForm.controls[i].get('dobMonth').value &&
-                      !travllerInfoForm.controls[i].get('dobDay').value &&
-                      !travllerInfoForm.controls[i].get('dobYear').value) ||
-                    (submitted &&
-                      travllerInfoForm.controls[i].get('dobYear').value &&
-                      !travllerInfoForm.controls[i].get('dobDay').value &&
-                      !travllerInfoForm.controls[i].get('dobMonth').value)
+                    (adltErr && this.travellerForm.value.travellersList[i].type === 'ADULT') ||
+                    (this.travellerForm.value.travellersList[i].type === 'ADULT' &&
+                      travllerInfoForm.controls[i].get('showError').value)
                   "
+                >
+                  Adult passengers must be 16 or more years old.
+                </div>
+                <div
+                  translate
+                  *ngIf="
+                    (adltErr && this.travellerForm.value.travellersList[i].type === 'YOUNGADULT') ||
+                    (this.travellerForm.value.travellersList[i].type === 'YOUNGADULT' &&
+                      travllerInfoForm.controls[i].get('showError').value)
+                  "
+                >
+                  Young Adult passengers must be between 12 - 15 years old.
+                </div>
+                <div
+                  translate
+                  *ngIf="childArrivalDateDobErr && this.travellerForm.value.travellersList[i].type === 'CHILD'"
+                >
+                  Child passengers must be between 2 and 11 years old. Passenger types are calculated based on the
+                  arrival date of the last flight in a booking. Calculated age based on date of birth: 12 years old
+                </div>
+                <div
+                  translate
+                  class="age_validation"
+                  *ngIf="
+                    (childErr && this.travellerForm.value.travellersList[i].type === 'CHILD') ||
+                    (this.travellerForm.value.travellersList[i].type === 'CHILD' &&
+                      travllerInfoForm.controls[i].get('showError').value)
+                  "
+                >
+                  Child passengers must be between 2 and 11 years old.
+                </div>
+                <div
+                  translate
+                  class="age_validation"
+                  *ngIf="
+                    !infantInvalidDobErr &&
+                    this.travellerForm.value.travellersList[i].type === 'INFANT' &&
+                      travllerInfoForm.controls[i].get('showError').value
+                  "
+                >
+                  Infant passengers must be less than 2 years old.
+                </div>
+                <div
+                  translate
+                  class="age_validation"
+                  *ngIf="infantInvalidDobErr && this.travellerForm.value.travellersList[i].type === 'INFANT'"
                 >
                   Please select a valid date of birth
                 </div>
-
-                <div
-                  translate
-                  class="validation_msg"
-                  *ngIf="
-                    submitted &&
-                    travllerInfoForm.controls[i].get('dobDay').value &&
-                    travllerInfoForm.controls[i].get('dobYear').value &&
-                    !travllerInfoForm.controls[i].get('dobMonth').value
-                  "
-                >
-                  Please select a month
-                </div>
-
-                <div
-                  translate
-                  class="validation_msg"
-                  *ngIf="
-                    submitted &&
-                    !travllerInfoForm.controls[i].get('dobDay').value &&
-                    travllerInfoForm.controls[i].get('dobMonth').value &&
-                    travllerInfoForm.controls[i].get('dobYear').value
-                  "
-                >
-                  Please select a day
-                </div>
-
-                <div
-                  translate
-                  class="validation_msg"
-                  *ngIf="
-                    submitted &&
-                    !travllerInfoForm.controls[i].get('dobYear').value &&
-                    travllerInfoForm.controls[i].get('dobMonth').value &&
-                    travllerInfoForm.controls[i].get('dobDay').value
-                  "
-                >
-                  Please select a year
-                </div>
-
-                <div class="validation_msg" *ngIf="submitted && travllerInfoForm.controls[i].get('showError').value">
-                  <div
-                    translate
-                    *ngIf="
-                      (adltErr && this.travellerForm.value.travellersList[i].type === 'ADULT') ||
-                      (this.travellerForm.value.travellersList[i].type === 'ADULT' &&
-                        travllerInfoForm.controls[i].get('showError').value)
-                    "
-                  >
-                    Adult passengers must be 16 or more years old.
-                  </div>
-                  <div
-                    translate
-                    *ngIf="
-                      (adltErr && this.travellerForm.value.travellersList[i].type === 'YOUNGADULT') ||
-                      (this.travellerForm.value.travellersList[i].type === 'YOUNGADULT' &&
-                        travllerInfoForm.controls[i].get('showError').value)
-                    "
-                  >
-                    Young Adult passengers must be between 12 - 15 years old.
-                  </div>
-                  <div
-                    translate
-                    *ngIf="childArrivalDateDobErr && this.travellerForm.value.travellersList[i].type === 'CHILD'"
-                  >
-                    Child passengers must be between 2 and 11 years old. Passenger types are calculated based on the
-                    arrival date of the last flight in a booking. Calculated age based on date of birth: 12 years old
-                  </div>
-                  <div
-                    translate
-                    class="age_validation"
-                    *ngIf="
-                      (childErr && this.travellerForm.value.travellersList[i].type === 'CHILD') ||
-                      (this.travellerForm.value.travellersList[i].type === 'CHILD' &&
-                        travllerInfoForm.controls[i].get('showError').value)
-                    "
-                  >
-                    Child passengers must be between 2 and 11 years old.
-                  </div>
-                  <div
-                    translate
-                    class="age_validation"
-                    *ngIf="
-                      !infantInvalidDobErr &&
-                      this.travellerForm.value.travellersList[i].type === 'INFANT' &&
-                        travllerInfoForm.controls[i].get('showError').value
-                    "
-                  >
-                    Infant passengers must be less than 2 years old.
-                  </div>
-                  <div
-                    translate
-                    class="age_validation"
-                    *ngIf="infantInvalidDobErr && this.travellerForm.value.travellersList[i].type === 'INFANT'"
-                  >
-                    Please select a valid date of birth
-                  </div>
-                </div>
               </div>
             </div>
+          </div>
+          <div
+            class="passport_info pt-2 pb-2 padd-bt-xs-15"
+            *ngIf="
+              passengerSettings(
+                pricedResult_dataInfo.passengerSettings,
+                this.travellerForm.value.travellersList[i].type,
+                'passPortInfo',
+                i
+              )
+            "
+          >
+            <div class="pax_type mt-0">
+              <span>
+                <img
+                  ImageSrc
+                  src="../../../assets/icons/travellerpage_Icons/passport-icn.svg"
+                  alt="passport-icn"
+                  class="mb-1 mr-2"
+                />
+                <span class="passenger_heading" translate>Passport Information</span>
+              </span>
+            </div>
+
+            <div translate class="labl">
+              Please ensure your passport is valid for at least 6 months from the departure date.
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+
+          <div
+            class="row"
+            *ngIf="
+              passengerSettings(
+                pricedResult_dataInfo.passengerSettings,
+                this.travellerForm.value.travellersList[i].type,
+                'nationality',
+                i
+              )
+            "
+          >
+            <div class="col-lg-4 mb-3 mb-xs-10">
+              <label for="Country of birth" translate class="control-label">Country of birth</label>
+              <div class="input-group">
+                <mat-select
+                  class="form-control"
+                  placeholder="{{ 'Nationality' | translate }}"
+                  attr.id="nationality{{ i }}"
+                  formControlName="nationality"
+                >
+                  <mat-option
+                    class="countryNames"
+                    *ngFor="let countries of filteredOptions"
+                    [value]="countries?.isoCode"
+                    >{{ countries.name }}
+                  </mat-option>
+                </mat-select>
+              </div>
+
+              <div
+                translate
+                class="validation_msg"
+                *ngIf="submitted && travllerInfoForm.controls[i].get('nationality')?.errors?.required"
+              >
+                Required Nationality
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="pricedResult_dataInfo">
             <div
-              class="passport_info pt-2 pb-2 padd-bt-xs-15"
               *ngIf="
                 passengerSettings(
                   pricedResult_dataInfo.passengerSettings,
@@ -600,51 +615,201 @@
                   i
                 )
               "
+              class="form-row"
             >
-              <div class="pax_type mt-0">
-                <span>
-                  <img
-                    ImageSrc
-                    src="../../../assets/icons/travellerpage_Icons/passport-icn.svg"
-                    alt="passport-icn"
-                    class="mb-1 mr-2"
-                  />
-                  <span class="passenger_heading" translate>Passport Information</span>
-                </span>
+              <div class="col-lg-3 mb-3 mb-xs-10">
+                <label for="Passport Number" translate class="control-label">Passport Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="passportNumber"
+                  placeholder="{{ 'Passport Number' | translate }}"
+                  pattern="^[a-zA-Z0-9]+$"
+                  (blur)="namesCheck(i, 'passportNumber')"
+                  (input)="nameCheck(travllerInfoForm.controls[i]?.get('passportNumber')?.value, i, 'passportNumber')"
+                  attr.id="passportNumber{{ i }}"
+                />
+                <div
+                  translate
+                  class="validation_msg"
+                  *ngIf="submitted && travllerInfoForm.controls[i].get('passportNumber')?.errors?.required"
+                >
+                  Required Passport Number
+                </div>
+                <div
+                  translate
+                  class="validation_msg"
+                  *ngIf="submitted && travllerInfoForm.controls[i].get('passportNumber')?.errors?.pattern"
+                >
+                  Invalid Passport Number
+                </div>
               </div>
 
-              <div translate class="labl">
-                Please ensure your passport is valid for at least 6 months from the departure date.
+              <div class="col-lg-3 mb-3 mb-xs-10 pick_date">
+                <label for="Expiry date" translate class="control-label">Expiry date</label>
+                <div class="input-group dobSelection">
+                  <div class="form-group col month" id="psExpDay{{ i }}">
+                    <mat-select
+                      (selectionChange)="selectionPsExpiry(i, 'day', $event)"
+                      disableOptionCentering
+                      class="form-control select_Day selectionDropDown"
+                      panelClass="monthSelection"
+                      formControlName="psExpDay"
+                      name="selectedDay"
+                      placeholder="day"
+                    >
+                      <mat-option *ngFor="let day of getpsExpDate(i)" [value]="day">{{ day }}</mat-option>
+                    </mat-select>
+                  </div>
+                  <div class="form-group col month">
+                    <mat-select
+                      (selectionChange)="selectionPsExpiry(i, 'month', $event)"
+                      disableOptionCentering
+                      class="form-control select_mnth selectionDropDown"
+                      panelClass="monthSelection"
+                      formControlName="psExpMonth"
+                      name="selectedMonth"
+                      placeholder="month"
+                    >
+                      <mat-option *ngFor="let month of months; let i = index" [value]="i + 1">{{ month }}</mat-option>
+                    </mat-select>
+                  </div>
+                  <div class="form-group col month">
+                    <mat-select
+                      (selectionChange)="selectionPsExpiry(i, 'year', $event)"
+                      disableOptionCentering
+                      class="form-control select_year selectionDropDown"
+                      panelClass="selectYear"
+                      formControlName="psExpYear"
+                      name="selectedMonth"
+                      placeholder="year"
+                    >
+                      <mat-option *ngFor="let year of psExpYearArray; let i = index" [value]="year">{{
+                        year
+                      }}</mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+
+                <div id="psExpiry{{ i }}">
+                  <div
+                    translate
+                    class="validation_msg"
+                    *ngIf="
+                      (submitted &&
+                        !travllerInfoForm.controls[i].get('psExpDay').value &&
+                        !travllerInfoForm.controls[i].get('psExpMonth').value &&
+                        !travllerInfoForm.controls[i].get('psExpYear').value) ||
+                      (submitted &&
+                        travllerInfoForm.controls[i].get('psExpDay').value &&
+                        !travllerInfoForm.controls[i].get('psExpMonth').value &&
+                        !travllerInfoForm.controls[i].get('psExpYear').value) ||
+                      (submitted &&
+                        travllerInfoForm.controls[i].get('psExpMonth').value &&
+                        !travllerInfoForm.controls[i].get('psExpDay').value &&
+                        !travllerInfoForm.controls[i].get('psExpYear').value) ||
+                      (submitted &&
+                        travllerInfoForm.controls[i].get('psExpYear').value &&
+                        !travllerInfoForm.controls[i].get('psExpDay').value &&
+                        !travllerInfoForm.controls[i].get('psExpMonth').value)
+                    "
+                  >
+                    Please select a valid passport expiry
+                  </div>
+
+                  <div
+                    translate
+                    class="validation_msg"
+                    *ngIf="
+                      submitted &&
+                      travllerInfoForm.controls[i].get('psExpDay').value &&
+                      travllerInfoForm.controls[i].get('psExpYear').value &&
+                      !travllerInfoForm.controls[i].get('psExpMonth').value
+                    "
+                  >
+                    Please select a month
+                  </div>
+
+                  <div
+                    translate
+                    class="validation_msg"
+                    *ngIf="
+                      submitted &&
+                      !travllerInfoForm.controls[i].get('psExpDay').value &&
+                      travllerInfoForm.controls[i].get('psExpMonth').value &&
+                      travllerInfoForm.controls[i].get('psExpYear').value
+                    "
+                  >
+                    Please select a day
+                  </div>
+
+                  <div
+                    translate
+                    class="validation_msg"
+                    *ngIf="
+                      submitted &&
+                      !travllerInfoForm.controls[i].get('psExpYear').value &&
+                      travllerInfoForm.controls[i].get('psExpMonth').value &&
+                      travllerInfoForm.controls[i].get('psExpDay').value
+                    "
+                  >
+                    Please select a year
+                  </div>
+                </div>
+
+                <div
+                  translate
+                  class="validation_msg"
+                  *ngIf="
+                    (submitted && travllerInfoForm.controls[i].get('showPsExpiryErr').value) ||
+                    (submitted &&
+                      travllerInfoForm.controls[i].get('psExpYear').value &&
+                      travllerInfoForm.controls[i].get('psExpMonth').value &&
+                      travllerInfoForm.controls[i].get('psExpDay').value &&
+                      travllerInfoForm.controls[i].get('passportExpiry').value &&
+                      checkPsExpDate(i))
+                  "
+                >
+                  Invalid passport expiry
+                </div>
+
+                <div
+                  translate
+                  class="ps_expiry"
+                  *ngIf="
+                    checkArrivalDate(i) &&
+                    !checkPsExpDate(i) &&
+                    travllerInfoForm.controls[i].get('psExpYear').value &&
+                    travllerInfoForm.controls[i].get('psExpDay').value &&
+                    travllerInfoForm.controls[i].get('psExpMonth').value
+                  "
+                >
+                  Your passport is going to expire before the arrival date. Please renew your passport.
+                </div>
               </div>
-            </div>
 
-            <div class="clearfix"></div>
-
-            <div
-              class="row"
-              *ngIf="
-                passengerSettings(
-                  pricedResult_dataInfo.passengerSettings,
-                  this.travellerForm.value.travellersList[i].type,
-                  'nationality',
-                  i
-                )
-              "
-            >
-              <div class="col-lg-4 mb-3 mb-xs-10">
-                <label for="Country of birth" translate class="control-label">Country of birth</label>
-                <div class="input-group">
+              <div class="col-lg-3 mb-3 mb-xs-10">
+                <label for="Passport Nationality" translate class="control-label">Passport Nationality</label>
+                <div class="input-group" attr.id="nationality{{ i }}">
                   <mat-select
                     class="form-control"
-                    placeholder="{{ 'Nationality' | translate }}"
-                    attr.id="nationality{{ i }}"
+                    placeholder="{{ 'Passport Nationality' | translate }}"
                     formControlName="nationality"
+                    disableOptionCentering
+                    panelClass="selectCountry"
                   >
-                    <mat-option
-                      class="countryNames"
-                      *ngFor="let countries of filteredOptions"
-                      [value]="countries?.isoCode"
-                      >{{ countries.name }}
+                    <mat-option *ngIf="apiService.regionZADomains() || country === 'ABSA'" value="ZA">
+                      <span> <span class="fi fi-za"></span>&nbsp;<span>South Africa</span></span>
+                    </mat-option>
+                    <mat-option value="NG" *ngIf="apiService.regionNGDomains()">
+                      <span class="fi fi-ng"></span>&nbsp;<span>Nigeria</span>
+                    </mat-option>
+                    <mat-option *ngFor="let countries of filteredOptions" [value]="countries?.isoCode">
+                      <div>
+                        <span class="fi fi-{{ countries.isoCode.toLowerCase() }}"></span>&nbsp;<span>{{
+                          countries['name']
+                        }}</span>
+                      </div>
                     </mat-option>
                   </mat-select>
                 </div>
@@ -652,14 +817,24 @@
                 <div
                   translate
                   class="validation_msg"
-                  *ngIf="submitted && travllerInfoForm.controls[i].get('nationality')?.errors?.required"
+                  *ngIf="
+                    submitted &&
+                    travllerInfoForm?.controls[i] &&
+                    !travllerInfoForm.controls[i].get('invalidnationality').value &&
+                    travllerInfoForm.controls[i].get('nationality')?.errors?.required
+                  "
                 >
                   Required Nationality
                 </div>
-              </div>
-            </div>
 
-            <div *ngIf="pricedResult_dataInfo">
+                <div
+                  translate
+                  *ngIf="travllerInfoForm.controls[i]?.get('invalidnationality')?.value === true"
+                  class="validation_msg"
+                >
+                  Invalid Nationality
+                </div>
+              </div>
               <div
                 *ngIf="
                   passengerSettings(
@@ -669,529 +844,290 @@
                     i
                   )
                 "
-                class="form-row"
+                class="col-lg-3 mb-3 mb-xs-10"
               >
-                <div class="col-lg-3 mb-3 mb-xs-10">
-                  <label for="Passport Number" translate class="control-label">Passport Number</label>
+                <label for="Passport issuing country" translate class="control-label">Passport issuing country</label>
+                <div class="input-group" attr.id="passPortCountry{{ i }}">
+                  <mat-select
+                    class="form-control"
+                    placeholder="{{ 'Passport issuing country' | translate }}"
+                    formControlName="passPortCountry"
+                    disableOptionCentering
+                    panelClass="selectCountry"
+                  >
+                    <mat-option *ngIf="apiService.regionZADomains() || country === 'ABSA'" value="ZA">
+                      <span> <span class="fi fi-za"></span>&nbsp;<span>South Africa</span></span>
+                    </mat-option>
+                    <mat-option value="NG" *ngIf="apiService.regionNGDomains()">
+                      <span class="fi fi-ng"></span>&nbsp;<span>Nigeria</span>
+                    </mat-option>
+                    <mat-option *ngFor="let countries of filteredOptions" [value]="countries?.isoCode">
+                      <span class="fi fi-{{ countries.isoCode.toLowerCase() }}"></span>&nbsp;<span>{{
+                        countries['name']
+                      }}</span>
+                    </mat-option>
+                  </mat-select>
+                </div>
+
+                <div
+                  translate
+                  class="validation_msg"
+                  *ngIf="submitted && travllerInfoForm.controls[i]?.get('passPortCountry')?.errors?.required"
+                >
+                  Required Passport Country
+                </div>
+
+                <div
+                  translate
+                  *ngIf="submitted && travllerInfoForm?.controls[i]?.get('invalidPscountry')?.value === true"
+                  class="validation_msg"
+                >
+                  Invalid Passport Country
+                </div>
+              </div>
+              <div
+                class="col-lg-3 mb-3 mb-xs-10"
+                *ngIf="
+                  !passengerSettings(
+                    pricedResult_dataInfo.passengerSettings,
+                    this.travellerForm.value.travellersList[i].type,
+                    'dob',
+                    i
+                  )
+                "
+              >
+                <label for="Date of birth" translate class="control-label">Date of birth</label>
+                <div class="input-group">
                   <input
+                    translate
                     type="text"
                     class="form-control"
-                    formControlName="passportNumber"
-                    placeholder="{{ 'Passport Number' | translate }}"
-                    pattern="^[a-zA-Z0-9]+$"
-                    (blur)="namesCheck(i, 'passportNumber')"
-                    (input)="nameCheck(travllerInfoForm.controls[i]?.get('passportNumber')?.value, i, 'passportNumber')"
-                    attr.id="passportNumber{{ i }}"
+                    formControlName="dob"
+                    placeholder="{{ 'DD/MM/YYYY' | translate }}"
+                    mask="d0/M0/0000"
+                    [leadZeroDateTime]="true"
+                    [dropSpecialCharacters]="false"
+                    attr.id="dob{{ i }}"
+                    (input)="onKeypressEvent(i)"
+                    autocomplete="off"
                   />
-                  <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="submitted && travllerInfoForm.controls[i].get('passportNumber')?.errors?.required"
-                  >
-                    Required Passport Number
-                  </div>
-                  <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="submitted && travllerInfoForm.controls[i].get('passportNumber')?.errors?.pattern"
-                  >
-                    Invalid Passport Number
-                  </div>
                 </div>
 
-                <div class="col-lg-3 mb-3 mb-xs-10 pick_date">
-                  <label for="Expiry date" translate class="control-label">Expiry date</label>
-                  <div class="input-group dobSelection">
-                    <div class="form-group col month" id="psExpDay{{ i }}">
-                      <mat-select
-                        (selectionChange)="selectionPsExpiry(i, 'day', $event)"
-                        disableOptionCentering
-                        class="form-control select_Day selectionDropDown"
-                        panelClass="monthSelection"
-                        formControlName="psExpDay"
-                        name="selectedDay"
-                        placeholder="day"
-                      >
-                        <mat-option *ngFor="let day of getpsExpDate(i)" [value]="day">{{ day }}</mat-option>
-                      </mat-select>
-                    </div>
-                    <div class="form-group col month">
-                      <mat-select
-                        (selectionChange)="selectionPsExpiry(i, 'month', $event)"
-                        disableOptionCentering
-                        class="form-control select_mnth selectionDropDown"
-                        panelClass="monthSelection"
-                        formControlName="psExpMonth"
-                        name="selectedMonth"
-                        placeholder="month"
-                      >
-                        <mat-option *ngFor="let month of months; let i = index" [value]="i + 1">{{ month }}</mat-option>
-                      </mat-select>
-                    </div>
-                    <div class="form-group col month">
-                      <mat-select
-                        (selectionChange)="selectionPsExpiry(i, 'year', $event)"
-                        disableOptionCentering
-                        class="form-control select_year selectionDropDown"
-                        panelClass="selectYear"
-                        formControlName="psExpYear"
-                        name="selectedMonth"
-                        placeholder="year"
-                      >
-                        <mat-option *ngFor="let year of psExpYearArray; let i = index" [value]="year">{{
-                          year
-                        }}</mat-option>
-                      </mat-select>
-                    </div>
-                  </div>
-
-                  <div id="psExpiry{{ i }}">
-                    <div
-                      translate
-                      class="validation_msg"
-                      *ngIf="
-                        (submitted &&
-                          !travllerInfoForm.controls[i].get('psExpDay').value &&
-                          !travllerInfoForm.controls[i].get('psExpMonth').value &&
-                          !travllerInfoForm.controls[i].get('psExpYear').value) ||
-                        (submitted &&
-                          travllerInfoForm.controls[i].get('psExpDay').value &&
-                          !travllerInfoForm.controls[i].get('psExpMonth').value &&
-                          !travllerInfoForm.controls[i].get('psExpYear').value) ||
-                        (submitted &&
-                          travllerInfoForm.controls[i].get('psExpMonth').value &&
-                          !travllerInfoForm.controls[i].get('psExpDay').value &&
-                          !travllerInfoForm.controls[i].get('psExpYear').value) ||
-                        (submitted &&
-                          travllerInfoForm.controls[i].get('psExpYear').value &&
-                          !travllerInfoForm.controls[i].get('psExpDay').value &&
-                          !travllerInfoForm.controls[i].get('psExpMonth').value)
-                      "
-                    >
-                      Please select a valid passport expiry
-                    </div>
-
-                    <div
-                      translate
-                      class="validation_msg"
-                      *ngIf="
-                        submitted &&
-                        travllerInfoForm.controls[i].get('psExpDay').value &&
-                        travllerInfoForm.controls[i].get('psExpYear').value &&
-                        !travllerInfoForm.controls[i].get('psExpMonth').value
-                      "
-                    >
-                      Please select a month
-                    </div>
-
-                    <div
-                      translate
-                      class="validation_msg"
-                      *ngIf="
-                        submitted &&
-                        !travllerInfoForm.controls[i].get('psExpDay').value &&
-                        travllerInfoForm.controls[i].get('psExpMonth').value &&
-                        travllerInfoForm.controls[i].get('psExpYear').value
-                      "
-                    >
-                      Please select a day
-                    </div>
-
-                    <div
-                      translate
-                      class="validation_msg"
-                      *ngIf="
-                        submitted &&
-                        !travllerInfoForm.controls[i].get('psExpYear').value &&
-                        travllerInfoForm.controls[i].get('psExpMonth').value &&
-                        travllerInfoForm.controls[i].get('psExpDay').value
-                      "
-                    >
-                      Please select a year
-                    </div>
-                  </div>
-
-                  <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="
-                      (submitted && travllerInfoForm.controls[i].get('showPsExpiryErr').value) ||
-                      (submitted &&
-                        travllerInfoForm.controls[i].get('psExpYear').value &&
-                        travllerInfoForm.controls[i].get('psExpMonth').value &&
-                        travllerInfoForm.controls[i].get('psExpDay').value &&
-                        travllerInfoForm.controls[i].get('passportExpiry').value &&
-                        checkPsExpDate(i))
-                    "
-                  >
-                    Invalid passport expiry
-                  </div>
-
-                  <div
-                    translate
-                    class="ps_expiry"
-                    *ngIf="
-                      checkArrivalDate(i) &&
-                      !checkPsExpDate(i) &&
-                      travllerInfoForm.controls[i].get('psExpYear').value &&
-                      travllerInfoForm.controls[i].get('psExpDay').value &&
-                      travllerInfoForm.controls[i].get('psExpMonth').value
-                    "
-                  >
-                    Your passport is going to expire before the arrival date. Please renew your passport.
-                  </div>
-                </div>
-
-                <div class="col-lg-3 mb-3 mb-xs-10">
-                  <label for="Passport Nationality" translate class="control-label">Passport Nationality</label>
-                  <div class="input-group" attr.id="nationality{{ i }}">
-                    <mat-select
-                      class="form-control"
-                      placeholder="{{ 'Passport Nationality' | translate }}"
-                      formControlName="nationality"
-                      disableOptionCentering
-                      panelClass="selectCountry"
-                    >
-                      <mat-option *ngIf="apiService.regionZADomains()" value="ZA">
-                        <span> <span class="fi fi-za"></span>&nbsp;<span>South Africa</span></span>
-                      </mat-option>
-                      <mat-option value="NG" *ngIf="apiService.regionNGDomains()">
-                        <span class="fi fi-ng"></span>&nbsp;<span>Nigeria</span>
-                      </mat-option>
-                      <mat-option *ngFor="let countries of filteredOptions" [value]="countries?.isoCode">
-                        <div>
-                          <span class="fi fi-{{ countries.isoCode.toLowerCase() }}"></span>&nbsp;<span>{{
-                            countries['name']
-                          }}</span>
-                        </div>
-                      </mat-option>
-                    </mat-select>
-                  </div>
-
-                  <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="
-                      submitted &&
-                      travllerInfoForm?.controls[i] &&
-                      !travllerInfoForm.controls[i].get('invalidnationality').value &&
-                      travllerInfoForm.controls[i].get('nationality')?.errors?.required
-                    "
-                  >
-                    Required Nationality
-                  </div>
-
-                  <div
-                    translate
-                    *ngIf="travllerInfoForm.controls[i]?.get('invalidnationality')?.value === true"
-                    class="validation_msg"
-                  >
-                    Invalid Nationality
-                  </div>
-                </div>
                 <div
-                  *ngIf="
-                    passengerSettings(
-                      pricedResult_dataInfo.passengerSettings,
-                      this.travellerForm.value.travellersList[i].type,
-                      'passPortInfo',
-                      i
-                    )
-                  "
-                  class="col-lg-3 mb-3 mb-xs-10"
+                  translate
+                  class="validation_msg"
+                  *ngIf="submitted && travllerInfoForm?.controls[i]?.get('dob')?.errors?.required"
                 >
-                  <label for="Passport issuing country" translate class="control-label">Passport issuing country</label>
-                  <div class="input-group" attr.id="passPortCountry{{ i }}">
-                    <mat-select
-                      class="form-control"
-                      placeholder="{{ 'Passport issuing country' | translate }}"
-                      formControlName="passPortCountry"
-                      disableOptionCentering
-                      panelClass="selectCountry"
-                    >
-                      <mat-option *ngIf="apiService.regionZADomains()" value="ZA">
-                        <span> <span class="fi fi-za"></span>&nbsp;<span>South Africa</span></span>
-                      </mat-option>
-                      <mat-option value="NG" *ngIf="apiService.regionNGDomains()">
-                        <span class="fi fi-ng"></span>&nbsp;<span>Nigeria</span>
-                      </mat-option>
-                      <mat-option *ngFor="let countries of filteredOptions" [value]="countries?.isoCode">
-                        <span class="fi fi-{{ countries.isoCode.toLowerCase() }}"></span>&nbsp;<span>{{
-                          countries['name']
-                        }}</span>
-                      </mat-option>
-                    </mat-select>
-                  </div>
-
-                  <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="submitted && travllerInfoForm.controls[i]?.get('passPortCountry')?.errors?.required"
-                  >
-                    Required Passport Country
-                  </div>
-
-                  <div
-                    translate
-                    *ngIf="submitted && travllerInfoForm?.controls[i]?.get('invalidPscountry')?.value === true"
-                    class="validation_msg"
-                  >
-                    Invalid Passport Country
-                  </div>
+                  Required Date of birth
                 </div>
+
                 <div
-                  class="col-lg-3 mb-3 mb-xs-10"
-                  *ngIf="
-                    !passengerSettings(
-                      pricedResult_dataInfo.passengerSettings,
-                      this.travellerForm.value.travellersList[i].type,
-                      'dob',
-                      i
-                    )
-                  "
+                  translate
+                  class="validation_msg"
+                  *ngIf="submitted && travllerInfoForm.controls[i]?.get('showError')?.value"
                 >
-                  <label for="Date of birth" translate class="control-label">Date of birth</label>
-                  <div class="input-group">
-                    <input
-                      translate
-                      type="text"
-                      class="form-control"
-                      formControlName="dob"
-                      placeholder="{{ 'DD/MM/YYYY' | translate }}"
-                      mask="d0/M0/0000"
-                      [leadZeroDateTime]="true"
-                      [dropSpecialCharacters]="false"
-                      attr.id="dob{{ i }}"
-                      (input)="onKeypressEvent(i)"
-                      autocomplete="off"
-                    />
-                  </div>
-
-                  <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="submitted && travllerInfoForm?.controls[i]?.get('dob')?.errors?.required"
-                  >
-                    Required Date of birth
-                  </div>
-
-                  <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="submitted && travllerInfoForm.controls[i]?.get('showError')?.value"
-                  >
-                    Invalid Date of birth
-                  </div>
+                  Invalid Date of birth
                 </div>
               </div>
             </div>
-            
-            <div class="mt-2" *ngIf="country === 'SB'" >
-              <app-warning-notification
-                [notificationTitle]="'Travel Insurance'"
-                [hideTitle]="false"
-                [hideIcon]="true"
+          </div>
+
+          <div
+            *ngIf="
+              specialServiceAttributes?.offerMeals === true ||
+              specialServiceAttributes?.offerFrequentFlyerMiles === true
+            "
+            class="special_services"
+            formGroupName="specialRequests"
+          >
+            <div class="form-row row">
+              <div
+                *ngIf="specialServiceAttributes?.offerMeals == true && mealprferenceAmount && showMeals"
+                class="col-sm-12 col-md-6 col-lg-4 mealSelection"
               >
-                <app-travel-insurance-info></app-travel-insurance-info>
-              </app-warning-notification>
-            </div>
-            
-            <div
-              *ngIf="
-                specialServiceAttributes?.offerMeals === true ||
-                specialServiceAttributes?.offerFrequentFlyerMiles === true
-              "
-              class="special_services"
-              formGroupName="specialRequests"
-            >
-              <div class="form-row row">
-                <div
-                  *ngIf="specialServiceAttributes?.offerMeals == true && shouldShowMeals(travellerForm.value.travellersList[i].type) && showMeals"
-                  class="col-sm-12 col-md-6 col-lg-4 mealSelection"
-                >
-                  <label for="meals" class="meals_txt">
-                    <span class="meal_icon">
-                      <img ImageSrc src="../../../assets/icons/meal_icn.svg" alt="" class="mr-1 in-active" />
-                    </span>
-                    <span class="choose_meal_txt" translate>Choose Meal Preference</span>
-                  </label>
-                  <span>
-                    <span>
-                      <input
-                        *ngIf="!isAlternateMealCountry(country) || responsiveservice.screenWidth !== 'sm'"
-                        #arr="matAutocompleteTrigger"
-                        type="text"
-                        readonly
-                        class="form-control mealSelect"
-                        (click)="ArrMatFocused(arr, true); openFqFlyer(true)"
-                        placeholder="No meal preference"
-                        formControlName="mealSelection"
-                        [matAutocomplete]="mealSelection"
-                      />
-                      <input
-                        *ngIf="isAlternateMealCountry(country) && responsiveservice.screenWidth === 'sm'"
-                        #arr="matAutocompleteTrigger"
-                        type="text"
-                        readonly
-                        class="form-control mealSelect"
-                        (click)="openMealSelection('#mealSelector-', i)"
-                        placeholder="No meal preference"
-                        formControlName="mealSelection"
-                        [matAutocomplete]="mealSelection"
-                      />
-                    </span>
-                    <span class="float-right">
-                      <i aria-hidden="true" class="fa fa-angle-down"></i>
-                    </span>
-                    <mat-autocomplete #mealSelection="matAutocomplete">
-                      <mat-option class="options" (click)="selectMeals('', i)" value="">
-                        <div class="mat_option_names">
-                          <span class="ml-2 no_meal_txt">No meal preference</span>
-                          <span class="float-right"
-                            >{{ pricedResult_dataInfo.currencyCode | currencyCode
-                            }}{{
-                              noprAmt
-                                | currency
-                                  : '' +
-                                      '
-                            '
-                                  : 'symbol'
-                                  : '2.0'
-                            }}</span
-                          >
-                        </div>
-                      </mat-option>
-                      <mat-option
-                        class="options"
-                        (click)="selectMeals(meals, i)"
-                        *ngFor="
-                          let meals of this.travellerForm.value.travellersList[i].type !== 'INFANT'
-                            ? mealSelectionData
-                            : babyMealSelection
-                        "
-                        [value]="meals.value"
-                      >
-                        <div class="mat_option_names">
-                          <span class="mr-2"
-                            ><img
-                              ImageSrc
-                              *ngIf="travellerForm.value.travellersList[i].specialRequests.mealSelection === meals.name"
-                              src="../../../assets/icons/meal-tick.svg"
-                              alt="meal"
-                              loading="lazy"
-                          /></span>
-                          <span>{{ meals.name }}</span>
-                          <span
-                            class="pull-right"
-                            *ngIf="
-                              travellerForm.value.travellersList[i].type === 'ADULT' ||
-                              travellerForm.value.travellersList[i].type === 'YOUNGADULT'
-                            "
-                          >
-                            {{ pricedResult_dataInfo.currencyCode | currencyCode
-                            }}{{ mealprferenceAmount | currency: '' + ' ' : 'symbol' : '2.0' }}</span
-                          >
-                          <span class="float-right" *ngIf="travellerForm.value.travellersList[i].type === 'CHILD'">
-                            {{ pricedResult_dataInfo.currencyCode | currencyCode
-                            }}{{ childMealPreferenceAmount | currency: '' + ' ' : 'symbol' : '2.0' }}</span
-                          >
-                          <span class="pull-right" *ngIf="travellerForm.value.travellersList[i].type === 'INFANT'">
-                            {{ pricedResult_dataInfo.currencyCode | currencyCode
-                            }}{{ infantMealPreferenceAmount | currency: '' + ' ' : 'symbol' : '2.0' }}</span
-                          >
-                        </div>
-                      </mat-option>
-                    </mat-autocomplete>
+                <label for="meals" class="meals_txt">
+                  <span class="meal_icon">
+                    <img ImageSrc src="../../../assets/icons/meal_icn.svg" alt="" class="mr-1 in-active" />
                   </span>
-                </div>
+                  <span translate>Choose Meal Preference</span>
+                </label>
+                <span>
+                  <span>
+                    <input
+                      *ngIf="country !== 'ABSA' || responsiveservice.screenWidth !== 'sm'"
+                      #arr="matAutocompleteTrigger"
+                      type="text"
+                      readonly
+                      class="form-control mealSelect"
+                      (click)="ArrMatFocused(arr, true); openFqFlyer(true)"
+                      placeholder="No meal preference"
+                      formControlName="mealSelection"
+                      [matAutocomplete]="mealSelection"
+                    />
+                    <input
+                      *ngIf="country === 'ABSA' && responsiveservice.screenWidth === 'sm'"
+                      #arr="matAutocompleteTrigger"
+                      type="text"
+                      readonly
+                      class="form-control mealSelect"
+                      (click)="openMealSelection('#mealSelector-', i)"
+                      placeholder="No meal preference"
+                      formControlName="mealSelection"
+                      [matAutocomplete]="mealSelection"
+                    />
+                  </span>
+                  <span class="float-right">
+                    <i aria-hidden="true" class="fa fa-angle-down"></i>
+                  </span>
+                  <mat-autocomplete #mealSelection="matAutocomplete">
+                    <mat-option class="options" (click)="selectMeals('', i)" value="">
+                      <div class="mat_option_names">
+                        <span class="ml-2">No meal preference</span>
+                        <span class="float-right"
+                          >{{ pricedResult_dataInfo.currencyCode | currencyCode
+                          }}{{
+                            noprAmt
+                              | currency
+                                : '' +
+                                    '
+                          '
+                                : 'symbol'
+                                : '2.0'
+                          }}</span
+                        >
+                      </div>
+                    </mat-option>
+                    <mat-option
+                      class="options"
+                      (click)="selectMeals(meals, i)"
+                      *ngFor="
+                        let meals of this.travellerForm.value.travellersList[i].type !== 'INFANT'
+                          ? mealSelectionData
+                          : babyMealSelection
+                      "
+                      [value]="meals.value"
+                    >
+                      <div class="mat_option_names">
+                        <span class="mr-2"
+                          ><img
+                            ImageSrc
+                            *ngIf="travellerForm.value.travellersList[i].specialRequests.mealSelection === meals.name"
+                            src="../../../assets/icons/meal-tick.svg"
+                            alt="meal"
+                            loading="lazy"
+                        /></span>
+                        <span>{{ meals.name }}</span>
+                        <span
+                          class="pull-right"
+                          *ngIf="
+                            travellerForm.value.travellersList[i].type === 'ADULT' ||
+                            travellerForm.value.travellersList[i].type === 'YOUNGADULT'
+                          "
+                        >
+                          {{ pricedResult_dataInfo.currencyCode | currencyCode
+                          }}{{ mealprferenceAmount | currency: '' + ' ' : 'symbol' : '2.0' }}</span
+                        >
+                        <span class="float-right" *ngIf="travellerForm.value.travellersList[i].type === 'CHILD'">
+                          {{ pricedResult_dataInfo.currencyCode | currencyCode
+                          }}{{ childMealPreferenceAmount | currency: '' + ' ' : 'symbol' : '2.0' }}</span
+                        >
+                        <span class="pull-right" *ngIf="travellerForm.value.travellersList[i].type === 'INFANT'">
+                          {{ pricedResult_dataInfo.currencyCode | currencyCode
+                          }}{{ infantMealPreferenceAmount | currency: '' + ' ' : 'symbol' : '2.0' }}</span
+                        >
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                </span>
+              </div>
 
-                <div class="collapseMealSelector">
-                  <div
-                    [id]="'mealSelector-' + i"
-                    #paxInfo
-                    class="collapse mealSelector"
-                    *ngIf="specialServiceAttributes?.offerMeals == true && shouldShowMeals(travellerForm.value.travellersList[i].type) && showMeals"
-                  >
-                    <app-meal-selector
-                      [travellerForm]="travellerForm"
-                      [travellerIndex]="i"
-                      [mealSelectionData]="mealSelectionData"
-                      [babyMealSelection]="babyMealSelection"
-                      [pricedResult_dataInfo]="pricedResult_dataInfo"
-                      [mealprferenceAmount]="mealprferenceAmount"
-                      [childMealPreferenceAmount]="childMealPreferenceAmount"
-                      [infantMealPreferenceAmount]="infantMealPreferenceAmount"
-                      (applyMealSelectionEvent)="applyMealSelection()"
-                      (mealSelected)="onMealSelected($event)"
-                      [submitButtonText]="country === 'SB' ? 'Select Meal' : 'Apply'"
-                    ></app-meal-selector>
-                  </div>
-                </div>
-
-                <div *ngIf="specialServiceAttributes?.offerFrequentFlyerMiles == true" class="col-12">
-                  <button
-                    type="button"
-                    class="fqFlyerBtn w-100"
-                    [ngClass]="showfqFly ? 'active' : 'in-active'"
-                    (click)="openFqFlyer(showfqFly)"
-                  >
-                    <span>
-                      <img
-                        ImageSrc
-                        class="in-active pull-left d-none"
-                        src="../../../assets/icons/flying_flight.svg"
-                        alt=""
-                      />
-                      <span class="pull-left fqFly_txt" translate >Add Frequent Flyer Number <span class="fqFly_txt_optional">(Optional)</span> <i aria-hidden="true" class="fa fa-angle-down fa-4x"></i></span>
-                    </span>
-                  </button>
+              <div class="collapseMealSelector">
+                <div
+                  [id]="'mealSelector-' + i"
+                  #paxInfo
+                  class="collapse mealSelector"
+                  *ngIf="specialServiceAttributes?.offerMeals == true && mealprferenceAmount && showMeals"
+                >
+                  <app-meal-selector
+                    [travellerForm]="travellerForm"
+                    [travellerIndex]="i"
+                    [mealSelectionData]="mealSelectionData"
+                    [babyMealSelection]="babyMealSelection"
+                    [pricedResult_dataInfo]="pricedResult_dataInfo"
+                    [mealprferenceAmount]="mealprferenceAmount"
+                    [childMealPreferenceAmount]="childMealPreferenceAmount"
+                    [infantMealPreferenceAmount]="infantMealPreferenceAmount"
+                    (applyMealSelectionEvent)="applyMealSelection()"
+                    (mealSelected)="onMealSelected($event)"
+                  ></app-meal-selector>
                 </div>
               </div>
-              <div *ngIf="showfqFly" class="pb-2">
-                <div
-                  class="mt-2"
-                  formArrayName="frequentFlyerDetailsList"
-                  *ngFor="
-                    let values of quantity.controls.specialRequests.controls.frequentFlyerDetailsList.controls;
-                    let j = index
-                  "
+
+              <div *ngIf="specialServiceAttributes?.offerFrequentFlyerMiles == true" class="col-12">
+                <button
+                  type="button"
+                  class="fqFlyerBtn w-100"
+                  [ngClass]="showfqFly ? 'active' : 'in-active'"
+                  (click)="openFqFlyer(showfqFly)"
                 >
-                  <span class="float-right close_icon d-none">
+                  <span>
                     <img
                       ImageSrc
-                      width="12px"
-                      src="../../assets/icons/close_cross_icn.svg"
-                      aria-label="Close"
-                      (click)="openFqFlyer(showfqFly)"
-                      alt="close"
-                      loading="lazy"
+                      class="in-active pull-left d-none"
+                      src="../../../assets/icons/flying_flight.svg"
+                      alt=""
                     />
+                    <span class="pull-left fqFly_txt" translate
+                      >Add Frequent Flyer Number(Optional) <i aria-hidden="true" class="fa fa-angle-down"></i
+                    ></span>
                   </span>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="showfqFly" class="pb-2">
+              <div
+                class="mt-2"
+                formArrayName="frequentFlyerDetailsList"
+                *ngFor="
+                  let values of quantity.controls.specialRequests.controls.frequentFlyerDetailsList.controls;
+                  let j = index
+                "
+              >
+                <span class="float-right close_icon d-none">
+                  <img
+                    ImageSrc
+                    width="12px"
+                    src="../../assets/icons/close_cross_icn.svg"
+                    aria-label="Close"
+                    (click)="openFqFlyer(showfqFly)"
+                    alt="close"
+                    loading="lazy"
+                  />
+                </span>
 
-                  <div class="form-row flyer mb-xs-10" [formGroupName]="j">
-                    <div class="col-lg-4 col-md-4 col-sm-4 text-left flight_Details">
-                      <span class="d-inline pl-2">
-                        <img
-                          ImageSrc
-                          src="{{ values.value.airlineImage }}"
-                          alt="{{ values.value.airlineCode }}"
-                          loading="lazy"
-                      /></span>
-                      <span class="air_name pl-1">
-                        {{ flightsResultsResponse.airlineNames[values.value.airlineCode] }}</span
-                      >
-                    </div>
+                <div class="form-row flyer mb-xs-10" [formGroupName]="j">
+                  <div class="col-lg-4 col-md-4 col-sm-4 text-left flight_Details">
+                    <span class="d-inline pl-2">
+                      <img
+                        ImageSrc
+                        src="{{ values.value.airlineImage }}"
+                        alt="{{ values.value.airlineCode }}"
+                        loading="lazy"
+                    /></span>
+                    <span class="air_name pl-1">
+                      {{ flightsResultsResponse.airlineNames[values.value.airlineCode] }}</span
+                    >
+                  </div>
 
-                    <div class="col-lg-7 col-md-7 col-sm-7">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="frequentFlyerCode"
-                        matInput
-                        placeholder="{{ 'Frequent Flyer No.(optional)' | translate }}"
-                        autocomplete="off"
-                      />
-                    </div>
+                  <div class="col-lg-7 col-md-7 col-sm-7">
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="frequentFlyerCode"
+                      matInput
+                      placeholder="{{ 'Frequent Flyer No.(optional)' | translate }}"
+                      autocomplete="off"
+                    />
                   </div>
                 </div>
               </div>

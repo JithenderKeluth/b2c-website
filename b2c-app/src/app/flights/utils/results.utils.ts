@@ -162,19 +162,18 @@ export function getFlightResults() {
 /**checks the airlines with promotext*/
 
 export function getAirlinePromo_info(airlineCode: string, param: string) {
-  if (typeof window !== 'undefined' && window.sessionStorage) {
-    let deepLinkParams = JSON.parse(sessionStorage.getItem('queryStringParams'));
-    if (
-      (typeof window !== 'undefined' && deepLinkParams && deepLinkParams.cpysource == 'mastercardza') ||
-      window.location.hostname.includes('mastercard.travelstart.co.za')
-    ) {
-      for (let airline in AirlineCodesArray) {
-        if (airlineCode == AirlineCodesArray[airline].airlineCode && param == 'promoText') {
-          return AirlineCodesArray[airline].promoText;
-        }
-      }
-    }
-  }
+  let deepLinkParams = JSON.parse(sessionStorage.getItem('queryStringParams'));
+  // if (
+  //   (typeof window !== 'undefined' && deepLinkParams && deepLinkParams.cpysource == 'mastercardtravel') ||
+  //   window.location.hostname.includes('mastercard.travelstart.co.za')
+  // ) {
+  //   for (let airline in AirlineCodesArray) {
+  //     if (airlineCode == AirlineCodesArray[airline].airlineCode && param == 'promoText') {
+  //       return AirlineCodesArray[airline].promoText;
+  //     }
+  //   }
+  // }
+  return null;
 }
 export function getBestFlights(flightList: any, results: any, type: string, isIntl?: any) {
   const listItem = flightList;

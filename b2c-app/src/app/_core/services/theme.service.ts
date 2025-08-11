@@ -2,7 +2,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { THEMES } from '../config/theme.config';
 
-export type Theme = 'default' | 'investec' | 'gigm' | 'clubhub' | 'momentum' | 'absa' | 'standardbank';
+export type Theme = 'default' | 'investec' | 'gigm' | 'clubhub' | 'momentum' | 'absa';
 
 @Injectable({
   providedIn: 'root',

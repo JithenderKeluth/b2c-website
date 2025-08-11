@@ -83,11 +83,11 @@ export class ProfileInfoComponent implements OnInit {
     this.isBrowser = isPlatformBrowser(this.platformId);
     if(this.isBrowser){
       this.route.events.subscribe((event: NavigationStart) => {
-        let bodyElement = document.getElementsByClassName('iti__country-list');
-        if (bodyElement && bodyElement[0]) {
-          bodyElement[0].remove();
-        }
-      });
+      let bodyElement = document.getElementsByClassName('iti__country-list');
+      if (bodyElement && bodyElement[0]) {
+        bodyElement[0].remove();
+      }
+    });
     }
     this.region = this.apiService.extractCountryFromDomain();
   }
@@ -170,7 +170,6 @@ export class ProfileInfoComponent implements OnInit {
       }
     }
   }
-
 
   getPhoneObject(raw: string) {
     return raw

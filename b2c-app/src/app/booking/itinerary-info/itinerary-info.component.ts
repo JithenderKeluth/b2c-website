@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { getTime, getBaggageInfo, getAirportNames } from './../../flights/utils/odo.utils';
 import { Odo } from './../../flights/models/results/odo.model';
 import { SearchResults } from './../../flights/models/results/search-results.model';
+import { SearchResultsItinerary } from '../../flights/models/results/search-results-itinerary.model';
 import { ApiService } from '@app/general/services/api/api.service';
 import {
   GetLapoverTime,
@@ -24,6 +25,7 @@ declare const $: any;
   styleUrls: ['./itinerary-info.component.scss', './../../../theme/stops-line.scss'],
 })
 export class ItineraryInfoComponent implements OnInit {
+  public selectedFlight: SearchResultsItinerary;
   public flightsResultsResponse: SearchResults;
   public flightsearchInfo: any;
   public deepLink: any;
@@ -33,7 +35,6 @@ export class ItineraryInfoComponent implements OnInit {
   isShowFlightDetails = false;
   country: string;
   private isBrowser: boolean;
-  isPaymentPageView : boolean = false;
 
   constructor(
     public apiService: ApiService,
@@ -48,13 +49,11 @@ export class ItineraryInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.deeplinkCheck();
+    this.selectedFlight = JSON.parse(this.storage.getItem('selectedFlight', 'session'));
     this.flightsResultsResponse = JSON.parse(getStorageData('flightResults'));
     this.flightsearchInfo = JSON.parse(this.storage.getItem('flightsearchInfo', 'session'));
     if (this.pricedResult_data && this.pricedResult_data.itineraries) {
       this.itinerariesArray = this.pricedResult_data.itineraries;
-    }
-    if(this.isBrowser){
-      this.isPaymentPageView = Boolean(window.location.pathname.includes('payments'));
     }
   }
 
@@ -62,17 +61,17 @@ export class ItineraryInfoComponent implements OnInit {
     if (this.responsiveService.screenWidth === 'sm' || this.responsiveService.screenWidth === 'md') {
       return param;
     } else {
-      return getAirportNames(param, this.flightsResultsResponse?.airportInfos);
+      return getAirportNames(param, this.flightsResultsResponse.airportInfos);
     }
   }
 
   public getLayoverTime(odo: Odo) {
     //return getDurationDays(odo) + ' days';
-    return GetLapoverTime(odo.segments, this.flightsResultsResponse?.airportInfos);
+    return GetLapoverTime(odo.segments, this.flightsResultsResponse.airportInfos);
   }
 
   public getBaggage(id: number, param: string) {
-    return getBaggageInfo(id, param, this.flightsResultsResponse?.baggageAllowanceInfos);
+    return getBaggageInfo(id, param, this.flightsResultsResponse.baggageAllowanceInfos);
   }
   // formate time from minutes
   public getTimeInHours(ms: number) {

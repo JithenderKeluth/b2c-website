@@ -1,11 +1,6 @@
-<div class="sorting" *ngIf="responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md'">
+<div class="sorting" *ngIf=" (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')">
   <div class="sort_types">
-    <span
-      class="close_Icn d-block d-lg-none float-right"
-      [ngClass]="{ 'p-2': region !== 'ABSA' && region !== 'SB', 'pt-1 pr-2': region === 'ABSA' || region === 'SB' }"
-      data-toggle="modal"
-      data-target="#res_sorting"
-    >
+    <span class="close_Icn d-block d-lg-none float-right" [ngClass]="{'p-2': region !== 'ABSA', 'pt-1 pr-2': region === 'ABSA'}" data-toggle="modal" data-target="#res_sorting">
       <img
         ImageSrc
         src="../../../assets/icons/srp_Icons/close-icn-new-all.svg"
@@ -15,11 +10,11 @@
         aria-label="Close"
       />
     </span>
-    <span translate class="d-block d-lg-none sort_labl_head">Sort By:</span>
+    <span class="d-block d-lg-none sort_labl_head"> Sort By: </span>
     <div class="route_info d-lg-none">
-      Departure from <span>{{ getCityName(flightslist[0]?.odoList[0]?.segments[0]?.origCode) }}</span>
+       Departure from <span>{{ getCityName(flightslist[0]?.odoList[0]?.segments[0]?.origCode) }}</span>
     </div>
-    <ul *ngIf="region === 'ABSA' || region === 'SB'" class="mb-0">
+    <ul *ngIf="region === 'ABSA'" class="mb-0">
       <li
         class="theme__sorting-option"
         (click)="setFlightsByOrder('priceAsc', 'Cheapest')"
@@ -39,19 +34,16 @@
               ImageSrc
               class="theme__sorting-image"
               [ngClass]="isActive('priceAsc') ? 'active' : 'd-none'"
-              [src]="
-                region !== 'ABSA'
-                  ? './../../../assets/icons/travellerpage_Icons/tick_selected.svg'
-                  : './../../../assets/icons/absa_icons/radio-button-filled.svg'
-              "
+              src="./../../../assets/icons/absa_icons/radio-button-filled.svg"
               alt="cheapest"
             />
           </div>
           <div class="sort_txt">
             <div translate class="labl">Cheapest</div>
-            <div class="labl theme__sorting-option__label-value">
-              {{ currency_Code | currencyCode }}{{ getCheapestPrice('priceAsc') | currency: '' + ' ':'symbol':'2.0' }}
-            </div>
+            <div class="labl">
+              <span translate></span> {{ currency_Code | currencyCode
+              }}{{ getCheapestPrice('priceAsc') | currency: '' + ' ':'symbol':'2.0' }}</div
+            >
           </div>
         </div>
       </li>
@@ -74,17 +66,13 @@
               ImageSrc
               class="theme__sorting-image"
               [ngClass]="isActive('durationAsc') ? 'active' : 'd-none'"
-              [src]="
-                region !== 'ABSA'
-                  ? './../../../assets/icons/travellerpage_Icons/tick_selected.svg'
-                  : './../../../assets/icons/absa_icons/radio-button-filled.svg'
-              "
+              src="./../../../assets/icons/absa_icons/radio-button-filled.svg"
               alt="cheapest"
             />
           </div>
           <div class="sort_txt">
             <div translate class="labl">Fastest</div>
-            <div class="labl theme__sorting-option__label-value">{{ getFastestFlight('durationAsc') }}</div>
+            <div class="labl"> {{ getFastestFlight('durationAsc') }}</div>
           </div>
         </div>
       </li>
@@ -107,17 +95,13 @@
               ImageSrc
               class="theme__sorting-image"
               [ngClass]="isActive('departureAsc') ? 'active' : 'd-none'"
-              [src]="
-                region !== 'ABSA'
-                  ? './../../../assets/icons/travellerpage_Icons/tick_selected.svg'
-                  : './../../../assets/icons/absa_icons/radio-button-filled.svg'
-              "
+              src="./../../../assets/icons/absa_icons/radio-button-filled.svg"
               alt="earliest"
             />
           </div>
           <div class="sort_txt">
             <div translate class="labl">Earliest</div>
-            <div class="labl theme__sorting-option__label-value">
+            <div class="labl">
               {{ getEarliestFlight('departureAsc') }}
             </div>
           </div>
@@ -125,7 +109,7 @@
       </li>
     </ul>
 
-    <ul *ngIf="region !== 'ABSA' && region !== 'SB'" class="mb-0">
+    <ul *ngIf="region !== 'ABSA'" class="mb-0">
       <li
         class="card sortCard"
         (click)="setFlightsByOrder('priceAsc', 'Cheapest')"
@@ -142,7 +126,7 @@
 
             <label class="bld_labl">
               <span translate>From</span> {{ currency_Code | currencyCode
-              }}{{ getCheapestPrice('priceAsc') | currency : '' + ' ' : 'symbol' : '2.0' }}</label
+              }}{{ getCheapestPrice('priceAsc') | currency: '' + ' ':'symbol':'2.0' }}</label
             >
           </span>
         </div>
@@ -202,6 +186,7 @@
           </span>
         </div>
       </li>
+
     </ul>
 
     <div class="col-12 d-block d-lg-none p-0 sorting_actions">
@@ -211,7 +196,8 @@
           (click)="setFlightsByOrder('priceAsc', 'Cheapest', true)"
           (keydown)="emptyEvent()"
           [ngClass]="{ active: isActive('priceAsc') }"
-        ></div>
+        >
+        </div>
         <div class="col-10 m-auto theme__sorting-apply-button-container">
           <button
             translate
@@ -230,29 +216,18 @@
   </div>
 </div>
 
-<div
-  class="domestic_sort d-lg-inline"
-  *ngIf="responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'"
->
-  <button [matMenuTriggerFor]="theMenu" #t="matMenuTrigger" class="sort_btn">
-    <span>
-      <img
-        ImageSrc
-        class="in-active"
-        [src]="
-          flightSearchData?.country !== 'GI'
-            ? './../../../assets/icons/v1-icons/sort-new-icn.svg'
-            : './../../../assets/icons/gigm_icons/sort-new-icn.svg'
-        "
-        alt="sort_icn"
-      />
-    </span>
-    <span>{{ selectedSort }}</span>
-    <span class="float-right">
-      <i *ngIf="!t.menuOpen" aria-hidden="true" class="fa fa-angle-down"></i>
-      <i *ngIf="t.menuOpen" aria-hidden="true" class="fa fa-angle-up"></i>
-    </span>
-  </button>
+<div class="domestic_sort d-lg-inline"  *ngIf=" (responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md')">
+
+  <button  [matMenuTriggerFor]="theMenu" #t="matMenuTrigger" class="sort_btn"><span>
+    <img ImageSrc class="in-active"
+    [src]="flightSearchData?.country !== 'GI' ? './../../../assets/icons/v1-icons/sort-new-icn.svg' : './../../../assets/icons/gigm_icons/sort-new-icn.svg'"
+     alt="sort_icn" />
+  </span> <span>{{selectedSort}}</span>
+  <span class="float-right">
+     <i *ngIf="!t.menuOpen"   aria-hidden="true"  class="fa fa-angle-down"></i>
+      <i *ngIf="t.menuOpen"  aria-hidden="true"  class="fa fa-angle-up"></i>
+</span>
+</button>
   <mat-menu #theMenu="matMenu" [overlapTrigger]="false" xPosition="before" yPosition="below">
     <button
       mat-menu-item
@@ -261,12 +236,12 @@
       (click)="setFlightsByOrder('priceAsc', 'Cheapest')"
     >
       <span>
-        <img ImageSrc class="in-active" src="./../../../assets/icons/v1-icons/sort-cheapest.svg" alt="cheapest" />
+        <img ImageSrc class="in-active" src="./../../../assets/icons/v1-icons/sort-cheapest.svg" alt="cheapest"  />
       </span>
       <span translate class="sort_labl">Cheapest</span>
-      <span class="sort_val float-right">
-        {{ currency_Code | currencyCode }}{{ getCheapestPrice('priceAsc') | currency : '' + ' ' : 'symbol' : '2.0' }}
-      </span>
+      <span class="sort_val float-right"
+        >{{ currency_Code | currencyCode }}{{ getCheapestPrice('priceAsc') | currency: '' + ' ':'symbol':'2.0' }}</span
+      >
     </button>
     <button
       mat-menu-item
@@ -275,7 +250,7 @@
       (click)="setFlightsByOrder('durationAsc', 'Fastest')"
     >
       <span>
-        <img ImageSrc class="in-active" src="./../../../assets/icons/v1-icons/sort-fastest.svg" alt="fastest" />
+        <img ImageSrc class="in-active" src="./../../../assets/icons/v1-icons/sort-fastest.svg" alt="fastest"  />
       </span>
       <span translate class="sort_labl">Fastest</span>
       <span class="sort_val float-right"> {{ getFastestFlight('durationAsc') }}</span>
@@ -287,7 +262,7 @@
       (click)="setFlightsByOrder('departureAsc', 'Earliest')"
     >
       <span>
-        <img ImageSrc class="in-active" src="./../../../assets/icons/v1-icons/sort-earliest.svg" alt="earliest" />
+        <img ImageSrc class="in-active" src="./../../../assets/icons/v1-icons/sort-earliest.svg" alt="earliest"  />
       </span>
       <span translate class="sort_labl">Earliest</span>
       <span class="sort_val float-right"> {{ getEarliestFlight('departureAsc') }}</span>
@@ -299,7 +274,7 @@
       (click)="setFlightsByOrder('departureDesc', 'Latest')"
     >
       <span>
-        <img ImageSrc class="in-active" src="./../../../assets/icons/v1-icons/sort-earliest.svg" alt="latest" />
+        <img ImageSrc class="in-active" src="./../../../assets/icons/v1-icons/sort-earliest.svg" alt="latest"/>
       </span>
       <span translate class="sort_labl">Lastest</span>
       <span class="sort_val float-right">{{ getEarliestFlight('departureDesc') }}</span>

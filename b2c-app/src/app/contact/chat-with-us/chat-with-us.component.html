@@ -5,14 +5,9 @@
     /></a>
     <div translate class="sect_title">Chat with us:</div>
   </div>
-  <p translate *ngIf="tsCountry !== 'NG' && tsCountry !== 'SB' && tsCountry !== 'ABSA'" class="chatService mb-2">Connect with one of our agents for assistance</p>
-
-  <div class="chatService mb-2" *ngIf="tsCountry !== 'ZA'">
-  <p translate class="mb-0 mt-3 d-inline-block connect_with_us">Connect with one of our agents for assistance by calling +27 21 468 4300</p>
-  </div>
-
+  <p translate *ngIf="tsCountry !== 'NG'" class="chatService mb-2">Connect with one of our agents for assistance</p>
   <div class="contact_sec">
-    <div *ngIf="tsCountry !== 'NG' && tsCountry !== 'ABSA' && tsCountry !== 'SB' ">
+    <div *ngIf="tsCountry !== 'NG' && tsCountry !== 'ABSA'">
       <span translate class="boldTxt">Call us </span> <span>at +27 21 468 4300</span>
     </div>
     <div *ngIf="tsCountry == 'ZA'">
@@ -47,23 +42,14 @@
     <span translate> WhatsApp call is unavailable and will not work.</span>
   </p>
 
-<div translate class="timings pt-2" >
-  Our operating hours are as follows:
-</div>
-
- <div class="chatService" *ngIf="tsCountry === 'SB' || tsCountry === 'ABSA'">
-      <p class="mb-0 mt-3 contact_us_times">Monday to Friday: 07:00 - 19:00</p>
-      <p class="mb-0 contact_us_times">Weekends and Public holidays: 08:00 - 14:00</p>
-      <p class="mb-0 mt-3 contact_us_24_hours" *ngIf="tsCountry !== 'SB'">For flights departing in the next 24 hours, our emergency after hours service is available.</p>
- </div>
-
-  <ul *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'">
-    <li >
-      <i class="fa fa-check" aria-hidden="true" *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'"></i><span *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'">&nbsp;&nbsp;</span><span translate>Monday to Friday: 07:00 - 19:00</span>
+  <div translate class="timings pt-2">Our operating hours are as follows:</div>
+  <ul>
+    <li>
+      <i class="fa fa-check" aria-hidden="true" *ngIf="tsCountry !== 'ABSA'"></i><span *ngIf="tsCountry !== 'ABSA'">&nbsp;&nbsp;</span><span translate>Monday to Friday: 07:00 - 19:00</span>
     </li>
 
     <li>
-      <i class="fa fa-check" aria-hidden="true" *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'"></i><span *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'">&nbsp;&nbsp;</span><span translate
+      <i class="fa fa-check" aria-hidden="true" *ngIf="tsCountry !== 'ABSA'"></i><span *ngIf="tsCountry !== 'ABSA'">&nbsp;&nbsp;</span><span translate
         >Weekends and Public holidays: 08:00 - 14:00</span
       >
     </li>

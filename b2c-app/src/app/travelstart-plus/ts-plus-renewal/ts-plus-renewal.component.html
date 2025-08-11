@@ -11,7 +11,7 @@
         />
         <h4><span class="link_styl">Renew</span> your Travelstart+ Membership for</h4>
         <div class="sub_amt">
-          <h6>R{{ renewalAmount }}</h6>
+          <h6>R0,00</h6>
         </div>
         <p class="mt-0 mb-4">
           A free year to enjoy your travel vouchers, 24/7 concierge, member-only deals and so much more!
@@ -21,18 +21,7 @@
         <div class="bill">Card details are required but no charge will be made.</div>
       </div>
       <div class="p_m mb-2">So go ahead,</div>
-      <button type="button" aria-label="Upgrade Now" (click)="renew_Subscription()">Renew for FREE</button>
+      <button type="button" aria-label="Upgrade Now" (click)="tsPayments()">Renew for FREE</button>
     </div>
   </div>
-</div>
-<div
-  class="modal"
-  id="subscribed_modal"
-  data-backdrop="static"
-  aria-labelledby="subscribed_modal"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
-  <app-ts-plus-subscribe></app-ts-plus-subscribe>
 </div>

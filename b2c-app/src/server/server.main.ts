@@ -223,6 +223,7 @@ router.get('/flights', handleSSR);
 router.get('/booking', handleSSR);
 router.get('/payment', handleSSR);
 router.get('/my-account', handleSSR);
+router.get('/assets/*', handleSSR);
 router.get('*', handleSSR);
 
   server.use('/', router);

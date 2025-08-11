@@ -3,14 +3,12 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '@app/flights/service/search.service';
-import { responsiveService } from '../../_core';
+import { responsiveService } from '@app/_core';
 import { MyAccountServiceService } from '../my-account-service.service';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 import { ApiService } from '../../general/services/api/api.service';
 import { GoogleTagManagerServiceService } from '../../_core/tracking/services/google-tag-manager-service.service';
 import { myAccountEventData } from '../utils/my-account.utils';
-import { ErrorPopupComponent, ErrorPopupData } from '../../_shared/components/error-popup/error-popup.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 declare const $: any;
 @Component({
   selector: 'app-manage-bookings',
@@ -68,7 +66,7 @@ export class ManageBookingsComponent implements OnInit {
   categoryKey: string = '';
 
   country: string;
-
+  
   constructor(
     private router: ActivatedRoute,
     private myAccountService: MyAccountServiceService,
@@ -80,8 +78,7 @@ export class ManageBookingsComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private storage: UniversalStorageService,
     public apiService: ApiService,
-    private googleTagManagerService : GoogleTagManagerServiceService,
-    private dialog: MatDialog,
+    private googleTagManagerService : GoogleTagManagerServiceService
   ) {
     this.country = apiService.extractCountryFromDomain();
   }
@@ -138,17 +135,15 @@ export class ManageBookingsComponent implements OnInit {
       }
       if (this.viewResultData) {
         this.getAllTickets();
-        this.dept_city =
-          this.viewResultData.airReservationList[0].originDestinationOptionsList[
-            this.showIndex
-          ].bookingFlightSegmentList[0].departureAirport;
-        this.arr_city =
-          this.viewResultData.airReservationList[0].originDestinationOptionsList[
-            this.showIndex
-          ].bookingFlightSegmentList[
-            this.viewResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
-              .bookingFlightSegmentList.length - 1
-          ].arrivalAirport;
+        this.dept_city = this.viewResultData.airReservationList[0].originDestinationOptionsList[
+          this.showIndex
+        ].bookingFlightSegmentList[0].departureAirport;
+        this.arr_city = this.viewResultData.airReservationList[0].originDestinationOptionsList[
+          this.showIndex
+        ].bookingFlightSegmentList[
+          this.viewResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
+            .bookingFlightSegmentList.length - 1
+        ].arrivalAirport;
       }
     });
   }
@@ -159,8 +154,7 @@ export class ManageBookingsComponent implements OnInit {
     if (event.checked) {
       this.selectTravellers.push({
         id: traveller.travellerId + index,
-        person:
-          traveller.personName.nameTitle + ' ' + traveller.personName.givenName + ' ' + traveller.personName.surname,
+        person: traveller.personName.givenName + ' ' + traveller.personName.surname,
       });
     } else if (!event.checked) {
       this.selectTravellers = this.selectTravellers.filter((x: any) => x.id !== traveller.travellerId + index);
@@ -175,17 +169,7 @@ export class ManageBookingsComponent implements OnInit {
   }
   cancelFlight() {
     this.cancelContinue = true;
-    // if (this.terms && this.selectedReason !== '') {
-    //   $('#cancelFlight_Modal').modal('show');
-    //   this.names = '';
-    //   this.selectTravellers.forEach((x: any) => {
-    //     this.names = this.names.concat(x.person + ',');
-    //   });
-    // }
-
-    const shouldProceed = this.country === 'SB' ? this.terms : this.terms && this.selectedReason !== '';
-
-    if (shouldProceed) {
+    if (this.terms && this.selectedReason !== '') {
       $('#cancelFlight_Modal').modal('show');
       this.names = '';
       this.selectTravellers.forEach((x: any) => {
@@ -214,16 +198,13 @@ export class ManageBookingsComponent implements OnInit {
   }
   createticket(email_config: any, groupId: any) {
     if (email_config && groupId) {
-      let dept_city =
-        this.viewResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
-          .bookingFlightSegmentList[0].departureAirport;
-      let arr_city =
-        this.viewResultData.airReservationList[0].originDestinationOptionsList[this.showIndex].bookingFlightSegmentList[
-          this.viewResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
-            .bookingFlightSegmentList.length - 1
-        ].arrivalAirport;
-
-      const reasonText = this.selectedReason || 'Cancellation request';
+      let dept_city = this.viewResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
+        .bookingFlightSegmentList[0].departureAirport;
+      let arr_city = this.viewResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
+        .bookingFlightSegmentList[
+        this.viewResultData.airReservationList[0].originDestinationOptionsList[this.showIndex].bookingFlightSegmentList
+          .length - 1
+      ].arrivalAirport;
       const reqPayLoad = {
         description:
           'Hi team, I request to cancel flight  for these ' +
@@ -237,7 +218,7 @@ export class ManageBookingsComponent implements OnInit {
           '(' +
           this.viewResultData.tccReference +
           '). The reason is ' +
-          reasonText,
+          this.selectedReason,
         subject: 'Urgent cancellation  to a booking made today - ' + this.viewResultData.tccReference,
         email: this.credentials.data.contactInfo.email,
         priority: 1,
@@ -335,7 +316,7 @@ export class ManageBookingsComponent implements OnInit {
                     this.cancelQry = true;
                     this.desc_txt = x.description_text;
                     this.querydata = Array.from(
-                      this.querydata.reduce((m: any, t: any) => m.set(t.id, t), new Map()).values(),
+                      this.querydata.reduce((m: any, t: any) => m.set(t.id, t), new Map()).values()
                     );
                     this.tabVal('cancelTicket');
                   }
@@ -377,10 +358,10 @@ export class ManageBookingsComponent implements OnInit {
       // this.isActive('cancelTicket');
     }
   }
-  getQuery(title: any, firstName: any, lastName: any, Itin1: any, Itin2: any) {
+  getQuery(firstName: any, lastName: any, Itin1: any, Itin2: any) {
     let data: any;
     this.querydata.forEach((x: any) => {
-      let route = title + ' ' + firstName + ' ' + lastName;
+      let route = firstName + ' ' + lastName;
       if (x.description_text.includes(route)) {
         data = x.id;
       }
@@ -414,7 +395,7 @@ export class ManageBookingsComponent implements OnInit {
         if (this.viewResultData) {
           if (
             x.description_text.includes(
-              this.viewResultData.airReservationList[0].travellerList.length + ' passenger(s)',
+              this.viewResultData.airReservationList[0].travellerList.length + ' passenger(s)'
             )
           ) {
             data = true;
@@ -456,7 +437,7 @@ export class ManageBookingsComponent implements OnInit {
   changeDateVAl(data: any) {
     this.querydata.forEach((x: any) => {
       data.map((y: any, index: number) => {
-        if (x.description_text.includes(y.nameTitle + ' ' + y.firstName + ' ' + y.surName)) {
+        if (x.description_text.includes(y.firstName + ' ' + y.surName)) {
           data.splice(index, 1);
         }
       });
@@ -480,26 +461,17 @@ export class ManageBookingsComponent implements OnInit {
     this.myAccountService.contactEnquiry(this.getContactUsData()).subscribe((data: any) => {
       if (data.errors) {
         if (data.errors[0].errorWarningAttributeGroup) {
-          if(this.country === 'SB'){
-            this.showError(data.errors[0].errorWarningAttributeGroup.shortText);
-          }else{
-              this._snackBar.open(data.errors[0].errorWarningAttributeGroup.shortText, 'OK', {
-              duration: 3000,
-              panelClass: ['error-snackbar', 'snackbar-with-button'],
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-            });
-          }
+          this._snackBar.open(data.errors[0].errorWarningAttributeGroup.shortText, '');
+          setTimeout(() => {
+            this._snackBar.dismiss();
+          }, 3000);
         }
       } else {
-        this._snackBar.open('Thanks! We will be in touch soon.', 'OK', {
-          duration: 3000,
-
-          panelClass: ['success-snackbar', 'snackbar-with-button', 'inline-svg'],
-
-          horizontalPosition: 'center',
-          verticalPosition: 'top',
-        });
+        this._snackBar.open('Thanks! We will be in touch soon.', '');
+        this.googleTagManagerService.pushCancelEvents('Cancel_Now_Success',eventData);
+        setTimeout(() => {
+          this._snackBar.dismiss();
+        }, 3000);
       }
     });
   }
@@ -507,24 +479,4 @@ export class ManageBookingsComponent implements OnInit {
   getContactUsData() {
     return this.myAccountService.getContactUsData(this.viewResultData, 'cancelTicket');
   }
-
-  showError(errMsg: any): void {
-      const popupData: ErrorPopupData = {
-        header: 'Error Occurred',
-        imageUrl: '',
-        message: errMsg,
-        buttonText: 'OK',
-        showHeader: false,
-        showImage: true,
-        showButton: true,
-        showButton2: false,
-        onButtonClick: () => { },
-      };
-  
-      this.dialog.open(ErrorPopupComponent, {
-        width: '300px',
-        data: popupData,
-      });
-    }
-
 }

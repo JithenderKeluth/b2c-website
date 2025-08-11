@@ -3,41 +3,39 @@
   background-color: #f2f4f4;
   padding: 0px 0px 30px;
   min-height: 700px;
-  .myAct_bg {
-    background-image: var(--myAccount_header_Bg);
-    width: 100%;
-    height: 200px;
-    position: absolute;
-  }
+  .manage_bookings_page {
+    .mybkng_bg {
+      background-image: var(--myAccount_header_Bg);
+      width: 100%;
+      height: 125px;
+      position: absolute;
+    }
+    .sec_header {
+      width: 100%;
+      display: inline-block;
+      margin-top: 32px;
+      h1 {
+        font-size: 22px;
 
-  .sec_header {
-    display: inline-block;
-    margin-top: 32px;
-    width: 100%;
-    h1 {
-      font-size: 22px;
-
-      .back_page {
-        cursor: pointer;
+        .back_page {
+          cursor: pointer;
+        }
       }
     }
-  }
-
-  .manage_bookings_page {
-    background-color: #f2f4f4;
-    .main-tab-section {
-      margin-left: 10px;
-      color: $white;
-      .qry_record {
-        position: relative;
-        top: 10px;
-        font-size: 13px;
+    .dashboard {
+      background-color: #fafcfc;
+      .main-tab-section {
+        color: $white;
+        .qry_record {
+          position: relative;
+          top: 10px;
+          font-size: 13px;
+        }
       }
     }
   }
   .booking_section {
-    padding-top: 30px;
-    background-color: #f2f4f4;
+    padding-top: 22px;
     .total_viewcontainer {
       position: relative;
       top: -10px;
@@ -46,15 +44,13 @@
         border: none;
         border-radius: 11px;
         .outer {
-          padding: 20px 10px 13px 10px;
+          padding: 20px 10px 12px 10px;
           // box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.14);
           border-bottom: 1px solid var(--border_default_color);
           border-radius: 15px 15px 0 0;
           background-color: $white !important;
           .nav-tabs {
             padding-left: 15px;
-            border: none;
-            font-size: 14px;
             .nav-item {
               font-size: 14px;
               text-transform: capitalize;
@@ -137,12 +133,7 @@
                     border-color: gray;
                   }
                   input[type="radio"]:checked + *::before {
-                    background: radial-gradient(
-                      var(--text_link_color) 0%,
-                      var(--text_link_color) 40%,
-                      transparent 50%,
-                      transparent
-                    );
+                    background: radial-gradient(var(--text_link_color) 0%, var(--text_link_color) 40%, transparent 50%, transparent);
                     border-color: var(--text_link_color);
                   }
                 }
@@ -151,7 +142,7 @@
             .cancel_proceed {
               .proceed_head {
                 background-color: #f4fbff;
-                padding: 10px 0px 10px 15px;
+                padding: 20px 10px;
                 h5 {
                   font-size: 18px;
                   font-weight: 500;
@@ -226,8 +217,7 @@
 
                 .terms_cndns {
                   font-size: 14px;
-                  padding-left: 20px;
-                  margin-top: 10px;
+                  padding-left: 10px;
                   .terms {
                     color: var(--text_link_color);
                   }
@@ -249,7 +239,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) !important;
-  // min-width: 660px;
+  min-width: 660px;
   text-align: center;
   background-color: $white;
   border-radius: 3px;
@@ -314,37 +304,5 @@
   .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
   .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
     background: var(--text_link_color) !important;
-  }
-
-  .error-snackbar,
-  .success-snackbar {
-    background-color: #fff;
-    padding: 50px 26px;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 19px;
-    letter-spacing: 0px;
-    text-align: center;
-  }
-
-  .snackbar-with-button .mat-mdc-snack-bar-action {
-    background-color: var(--primary_btn_bg) !important;
-    color: #fff !important;
-    border-radius: var(--border_radius) !important;
-    padding: 10px 50px;
-    border: none;
-    margin-top: 10px;
-  }
-}
-
-@media (max-width: map-get($grid-breakpoints, sm)) {
-  .sec_header {
-    margin-top: 20px;
-    h1 .manage-bookings-heading {
-    font-size: 20px;
-    padding: 0 !important;
-    margin: 0 20px 20px 0px !important;
-  }
-
   }
 }

@@ -112,7 +112,7 @@ export class ChangeBookingDateComponent implements OnInit {
       if (this.viewItinaryResultData.airReservationList.length > 1) {
         this.viewItinaryResultData.airReservationList = this.viewItinaryResultData.airReservationList.splice(
           this.mainIndex,
-          1,
+          1
         );
       }
       if (this.viewItinaryResultData) {
@@ -159,7 +159,7 @@ export class ChangeBookingDateComponent implements OnInit {
         let changeDate = this.datePipe.transform(changedDate, 'dd-MM-yyyy');
         let deptDate = this.datePipe.transform(x.departureDateTime, 'dd-MM-yyyy');
         this.names = this.names.concat(
-          x.title + ' ' + x.firstName + ' ' + x.surName + '(' + deptDate + ' to ' + changeDate + ')' + ',',
+          x.firstName + ' ' + x.surName + '(' + deptDate + ' to ' + changeDate + ')' + ','
         );
       });
     }
@@ -205,15 +205,13 @@ export class ChangeBookingDateComponent implements OnInit {
 
   createChangeDateticket(email_config: any, groupId: any) {
     if (email_config && groupId) {
-      let dept_city =
+      let dept_city = this.viewItinaryResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
+        .bookingFlightSegmentList[0].departureAirport;
+      let arr_city = this.viewItinaryResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
+        .bookingFlightSegmentList[
         this.viewItinaryResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
-          .bookingFlightSegmentList[0].departureAirport;
-      let arr_city =
-        this.viewItinaryResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
-          .bookingFlightSegmentList[
-          this.viewItinaryResultData.airReservationList[0].originDestinationOptionsList[this.showIndex]
-            .bookingFlightSegmentList.length - 1
-        ].arrivalAirport;
+          .bookingFlightSegmentList.length - 1
+      ].arrivalAirport;
       const sendReqInf = {
         description:
           'Hi team, I request to change flight date for ' +
@@ -282,7 +280,7 @@ export class ChangeBookingDateComponent implements OnInit {
         arr_city: data.bookingFlightSegmentList[data.bookingFlightSegmentList.length - 1].arrivalAirport,
         departureDateTime: data.bookingFlightSegmentList[0].departureDateTime,
         passengers: this.fb.array(
-          this.viewItinaryResultData.airReservationList[0].travellerList.map((y: any) => this.setPassengers(y, data)),
+          this.viewItinaryResultData.airReservationList[0].travellerList.map((y: any) => this.setPassengers(y, data))
         ),
       });
     } else {
@@ -292,7 +290,6 @@ export class ChangeBookingDateComponent implements OnInit {
   setPassengers(data: any, itn: any): UntypedFormGroup {
     if (data != null) {
       return this.fb.group({
-        title: data.personName.nameTitle,
         firstName: data.personName.givenName,
         surName: data.personName.surname,
         email: data.email,
@@ -339,11 +336,11 @@ export class ChangeBookingDateComponent implements OnInit {
     });
     return this.dateValidationval;
   }
-  findCancelQuery(title: any, fName: any, sName: any, dept: any, arr: any, mainIndex: number, Index: number) {
+  findCancelQuery(fName: any, sName: any, dept: any, arr: any, mainIndex: number, Index: number) {
     let data = false;
     if (this.cancelQval.length != 0) {
       this.cancelQval.forEach((x: any) => {
-        let route = title + ' ' + fName + ' ' + sName;
+        let route = fName + ' ' + sName;
         if (x.description_text.includes(route)) {
           this.passenger(mainIndex).at(Index).get('isShow').setValue(true);
           this.passenger(mainIndex).at(Index).get('queryId').setValue('1');
@@ -352,16 +349,13 @@ export class ChangeBookingDateComponent implements OnInit {
     }
     return this.passenger(mainIndex).at(Index).get('isShow').value;
   }
-  getQuery(title: any, firstName: any, lastName: any, Itin1: any, Itin2: any, mainIndex: number, Index: number) {
+  getQuery(firstName: any, lastName: any, Itin1: any, Itin2: any, mainIndex: number, Index: number) {
     let data: any;
     if (this.queryIds && this.queryIds.length != 0) {
       this.queryIds.forEach((x: any) => {
         let route =
           Itin1 + ' to ' + Itin2 + '(' + this.viewItinaryResultData.tccReference + ')' + 'for these passengers ';
-        if (
-          x.description_text.includes(route) &&
-          x.description_text.includes(title + ' ' + firstName + ' ' + lastName)
-        ) {
+        if (x.description_text.includes(route) && x.description_text.includes(firstName + ' ' + lastName)) {
           data = x.id;
           this.passenger(mainIndex).at(Index).get('queryId').setValue(x.id);
         }

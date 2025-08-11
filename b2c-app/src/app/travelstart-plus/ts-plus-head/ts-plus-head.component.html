@@ -1,8 +1,9 @@
 <div class="head_sec pt-4">
-        <button *ngIf="!router.url.includes('subscriptionSuccess')" class="head_btn" (click)="goToBack()">
+        <button *ngIf="!router.url.includes('subscriptionSuccess') && showheaderSec()" class="head_btn" (click)="goToBack()">
             <img ImageSrc src="../../../assets/images/ts-plus-images/bck_arrw.svg" alt="back">
+           
         </button>
-        <div class="float-right">
+        <div class="float-right" *ngIf="showheaderSec() || credentialsService.isAuthenticated()">
             <button *ngIf="getUserName()" aria-label="user" class="head_btn login_btn" mat-button [matMenuTriggerFor]="menu"
                 #menuTrigger="matMenuTrigger">
                 <span>{{getUserName()}}</span>
@@ -11,8 +12,9 @@
                 <img ImageSrc src="../../../assets/images/ts-plus-images/user_icn_ts.svg" class="pr-1" alt="user">
                 <span>Log in</span>
             </button>
+            
             <mat-menu #menu="matMenu">
-                <button name="profile" aria-label="My Profile" [disableRipple]="true" (click)="goToMyAccount()" mat-menu-item
+                <button *ngIf="!iframeWidgetService.isMasterCardRegistrationWhiteLabelSite()" name="profile" aria-label="My Profile" [disableRipple]="true" (click)="goToMyAccount()" mat-menu-item
                     routerLinkActive="active">
                     <span translate>My Profile</span>
                 </button>
@@ -20,6 +22,7 @@
                     <span translate>Logout</span>
                 </button>
             </mat-menu>
+            
         </div>
 </div>
 
@@ -29,7 +32,13 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div>
-                <app-login [travelstartPlus]="isTravelstartPlus" (ts_user)="signUser()"  (closeSignup)="showAccountActivateModal()"></app-login>
+                <app-login 
+                    [travelstartPlus]="isTravelstartPlus" 
+                    (ts_user)="signUser()"  
+                    (closeSignup)="showAccountActivateModal()"
+                    (prompt_navigation)="onPrompt_navigation()"
+                ></app-login>
+                <!-- OEM <app-login (ts_user)="onTsUser()" ></app-login> -->
             </div>
         </div>
     </div>

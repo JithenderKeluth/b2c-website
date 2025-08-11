@@ -28,7 +28,7 @@
       />
       <label class="form-check-label" [for]="'noMealPreference-' + travellerIndex">
         <span class="meal-name" translate>No meal preference</span>
-        <span class="meal-price" *ngIf="userDomain !== 'SB'">R0</span>
+        <span class="meal-price">R0</span>
       </label>
     </div>
 
@@ -54,7 +54,6 @@
       />
       <label class="form-check-label" [for]="'meal' + i + '-' + travellerIndex">
         <span class="meal-name" translate>{{ meals.name }}</span>
-        <span *ngIf="userDomain !== 'SB'">
         <span
           class="meal-price"
           *ngIf="
@@ -85,8 +84,6 @@
           {{ pricedResult_dataInfo.currencyCode | currencyCode
           }}{{ infantMealPreferenceAmount | currency: '' + ' ':'symbol':'2.0' }}
         </span>
-        </span>
-
       </label>
     </div>
   </div>
@@ -94,7 +91,7 @@
   <div class="apply-btn-container">
     <button class="apply-btn" (click)="applyMealSelection()" translate
             [attr.data-target]="'#mealSelector-' + travellerIndex">
-      {{ submitButtonText }}
+      Apply
     </button>
   </div>
 </div>

@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { flightHandler } from './../models/flightHandler';
-import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedFlightService {
-
-  constructor(private storage: UniversalStorageService){}
 
   private selectedFlight = new BehaviorSubject<any>(null);
   public selectedFlight$ = this.selectedFlight.asObservable();
@@ -70,13 +67,6 @@ export class SharedFlightService {
   public showAnimation = this.showTabAnimate.asObservable();
   closeTabFade(data: any) {
     this.showTabAnimate.next(data);
-  }
-
-  selectFlight(itinerary: any) {
-    this.viewSelectedFlightDetails(false);
-    this.updateSelectedFlight(itinerary);
-    this.storage.removeItem('selectedFlight');
-    this.storage.setItem('selectedFlight', JSON.stringify(itinerary), 'session');
   }
 
 }

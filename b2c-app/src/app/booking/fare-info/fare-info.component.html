@@ -14,9 +14,8 @@
         <span translate class="sec_heading">Price details</span>
         <span class="float-right d-lg-none d-block">
           <img
-            class="close-icn"
             ImageSrc
-            [src]="region === 'ABSA' || region === 'SB' ? '../../../assets/icons/srp_Icons/close-icn-new-all.svg' : '../../assets/icons/close_cross_icn.svg'"
+            [src]="region === 'ABSA' ? '../../../assets/icons/srp_Icons/close-icn-new-all.svg' : '../../assets/icons/close_cross_icn.svg'"
             width="12px"
             data-toggle="collapse"
             data-target="#viewpriceBreakdownData"
@@ -75,14 +74,14 @@
             }}
           </td>
         </tr>
-        <tr *ngIf="region !== 'SB' && pricedResult_data?.fareBreakdown?.discountAmount < 0 || voucherDiscount()">
+        <tr *ngIf="pricedResult_data?.fareBreakdown?.discountAmount < 0 || voucherDiscount()">
           <th translate id="savingAmount" class="savingAmountTxt">Saving Amount</th>
           <td class="tableData">
             -{{ pricedResult_data.currencyCode | currencyCode
             }}{{ getMinusVal(pricedResult_data?.fareBreakdown?.discountAmount) | number: '1.2-2' }}
           </td>
         </tr>
-        <tr *ngIf="showAddons() && region !== 'SB'" class="totalFlightPrice">
+        <tr *ngIf="showAddons()" class="totalFlightPrice">
           <th translate class="tableData">Total Flight Price</th>
           <td
             class="tableData"
@@ -178,35 +177,6 @@
           </table>
         </div>
       </div>
-
-      <!-- Total price with discounts -->
-      <div *ngIf="discounts?.availableDiscounts[0]?.amount && discounts?.availableDiscounts[0] as discount" class="discounts">
-        <hr class="p-0 mt-2 mb-2" />
-        <div
-          class="products_selected"
-          [ngClass]="
-            responseService.screenWidth !== 'sm' && responseService.screenWidth !== 'md' ? 'collapse show' : 'mweb'
-          "
-          id="discounts"
-        >
-          <table class="table" aria-describedby="fares">
-            <tr>
-              <th class="discount_total tableData" translate id="Total Price">Total Price</th>
-              <td class="discount_total tableData">
-                {{ pricedResult_data.currencyCode | currencyCode }}{{ getTotalPrice(pricedResult_data.currencyCode, pricedResult_data.totalAmount, products, baggageFee)
-                  | number: '1.2-2'
-                }}
-              </td>
-            </tr>
-            <tr>
-              <th class="discount_amt tableData" translate id="Total Discount">{{ discountLabel }}</th>
-              <td class="discount_amt tableData">
-                -{{ pricedResult_data.currencyCode | currencyCode }}{{ getMinusVal(discount.amount) | number: '1.2-2' }}
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
     </div>
 
     <!-- <div class="total_amt d-block d-md-none">
@@ -238,7 +208,6 @@
       </div>
     </div> -->
 
-    <!-- Total price (desktop layout) -->
     <div class="total_amt d-none d-lg-block">
       <label for="Total Price" *ngIf="showAddons()" translate class="price_with_addons">
         <span class="price">Total Price</span>

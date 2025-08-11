@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { NavigationService } from '@app/general/services/navigation.service';
 import { I18nService } from '@app/i18n';
 import { SearchService } from '../service/search.service';
 import { getDefaultAirports } from '../utils/search-data.utils';
-import {ApiService} from "@app/general/services/api/api.service";
 
 @Component({
   selector: 'app-city-selection',
@@ -12,25 +11,16 @@ import {ApiService} from "@app/general/services/api/api.service";
   styleUrls: ['./city-selection.component.scss'],
 })
 export class CitySelectionComponent implements OnInit {
-  @Input() highlightedCity: any;
   filteredOptions: any = [];
   country: any;
-  tsCountry: string;
   city = new UntypedFormControl('');
   city_load: boolean = false;
   @Output() selectedCity: EventEmitter<any> = new EventEmitter<any>();
   constructor(
     private searchService: SearchService,
     private i18Service: I18nService,
-    private navService: NavigationService,
-    apiService: ApiService
-  ) {
-    this.tsCountry = apiService.extractCountryFromDomain();
-  }
-
-  isBoldSb(option: any) {
-    return this.highlightedCity && this.highlightedCity === option && this.tsCountry === 'SB';
-  }
+    private navService: NavigationService
+  ) {}
 
   ngOnInit(): void {
     this.navService.getShowNav().subscribe((val: any) => {
@@ -38,7 +28,7 @@ export class CitySelectionComponent implements OnInit {
       this.filteredOptions = [];
     });
     setTimeout(() => {
-      if (typeof document !== 'undefined' && document.getElementById('cityval')) {
+      if (document.getElementById('cityval')) {
         document.getElementById('cityval').focus();
       }
     }, 500);

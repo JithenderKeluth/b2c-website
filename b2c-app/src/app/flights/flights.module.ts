@@ -23,11 +23,9 @@ import { TimeDifferenceModalComponent } from './time-difference-modal/time-diffe
 import { DestinationModalComponent } from './destination-modal/destination-modal.component';
 import { BaggageErrorModalComponent } from './baggage-error-modal/baggage-error-modal.component';
 import { FlightsViewComponent } from './flights-view/flights-view.component';
-import { ResultsOverviewComponent } from './results-overview/results-overview.component';
 import { ResultsViewComponent } from './results-view/results-view.component';
 import { FlightDetailsComponent } from './flight-details/flight-details.component';
 import { FlightCardComponent } from './flight-card/flight-card.component';
-import { FlightCardWhitelabelAlphaComponent } from './flight-card-whitelabel-alpha/flight-card-whitelabel-alpha.component';
 import { FlightInfoComponent } from './flight-info/flight-info.component';
 import { FlightPromoInfoComponent } from './flight-promo-info/flight-promo-info.component';
 import { EKHClassModalComponent } from './ekh-class-modal/ekh-class-modal.component';
@@ -39,9 +37,6 @@ import { NgDomesticOfflineFormComponent } from './ng-domestic-offline-form/ng-do
 import { BnplMessageComponent } from '@app/general/components/bnpl-message/bnpl-message.component';
 import { UserTravellersComponent } from './user-travellers/user-travellers.component';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
-import { ResultsFiltersComponent } from './results-filters/results-filters.component';
-import { ResultsDetailComponent } from './results-detail/results-detail.component';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -60,11 +55,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     DestinationModalComponent,
     BaggageErrorModalComponent,
     FlightsViewComponent,
-    ResultsOverviewComponent,
     ResultsViewComponent,
     FlightDetailsComponent,
     FlightCardComponent,
-    FlightCardWhitelabelAlphaComponent,
     FlightInfoComponent,
     FlightPromoInfoComponent,
     EKHClassModalComponent,
@@ -73,8 +66,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     NgDomesticOfflineFormComponent,
     BnplMessageComponent,
     UserTravellersComponent,
-    ResultsFiltersComponent,
-    ResultsDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -83,7 +74,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     FormsModule,
     ReactiveFormsModule,
     CustomMaterialModule,
-    MatDialogModule,
     NgbModule,
     TranslateModule,
     I18nModule,

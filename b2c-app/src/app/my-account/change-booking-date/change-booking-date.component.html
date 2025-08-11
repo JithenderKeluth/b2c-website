@@ -1,20 +1,20 @@
-<div class="container changedate_booking_section" [ngClass]="{'absa-container': country === 'ABSA'}">
+<div class="container changedate_booking_section">
   <div class="row">
     <div class="col-sm-12 changedate_booking">
       <div class="changedate_body pt-4">
         <div class="header_desc">
-          <h4 class="sb_changedate_heading" translate>Need to change your flight? No problem!</h4>
-          <p class="sb_changedate_paragraph">
-            <span translate>You can change your flight date up to </span>
-            <span translate class="sb_p_tag_bold">2 hours before your original flight departure </span>
-            <span translate>Date changes are subject to seat availability</span>
-            <span translate> so if the same type of seat isn’t available you’ll be charged any difference in fare as well as a date change fee</span>
+          <h4 translate>Need to change your flight? No problem!</h4>
+          <p>
+            <span translate>You can change your flight date up to 2 hours before your original flight departure.</span>
+            <span translate>Date changes are subject to seat availability</span>,
+            <span translate
+              >so if the same type of seat isn’t available you’ll be charged any difference in fare as well as a date
+              change fee.</span
+            >
           </p>
         </div>
         <div class="choose_journey" *ngIf="viewItinaryResultData">
-          <h5 *ngIf="country !== 'ABSA' && country !== 'SB'" translate class="jrny_head">
-            Select the flight you want to change
-          </h5>
+          <h5 *ngIf="country !== 'ABSA'" translate class="jrny_head">Select the flight you want to change</h5>
           <div *ngIf="viewItinaryResultData.airReservationList" class="route_traveller">
             <form action="" [formGroup]="changDateForm">
               <div formArrayName="routeList">
@@ -22,7 +22,7 @@
                   *ngFor="let routes of routeList().controls; let first = first; let last = last; let i = index"
                   [formGroupName]="i"
                 >
-                  <h5 *ngIf="country !== 'ABSA' && country !== 'SB'" class="route_info">
+                  <h5 *ngIf="country !== 'ABSA'" class="route_info">
                     {{ routes.value.dept_city }}
                     <span>
                       <img
@@ -39,26 +39,25 @@
                     <div aria-describedby="user journey details" class="table dataTableCss internalListTable">
                       <div *ngIf="first" class="table_Head d-none d-md-block">
                         <div class="d-flex table_head_row">
-                          <div translate id="passender" class="col-lg-4 col-md-3">PASSENGER</div>
-                          <div translate id="date" class="col-md-3">TRAVEL DATE</div>
-                          <div translate id="status" class="col-md-1">STATUS</div>
-                          <div translate id="pnr" class="col-md-1">PNR</div>
-                          <div translate id="bookedDate" class="col-md-2">BOOKED ON</div>
-                          <div translate id="bookedDate" class="col-md-1 d-none">CHANGE DATE</div>
+                          <div translate id="passender" class="col-2">PASSENGER</div>
+                          <div translate id="date" class="col-4">TRAVEL DATE</div>
+                          <div translate id="status" class="col-1">STATUS</div>
+                          <div translate id="pnr" class="col-1">PNR</div>
+                          <div translate id="bookedDate" class="col-2">BOOKED ON</div>
+                          <div translate id="bookedDate" class="col-2 d-none">CHANGE DATE</div>
                         </div>
                       </div>
-                      <div class="table_body sb_change_table_body">
+                      <div class="table_body">
                         <ng-container
                           formArrayName="passengers"
                           *ngFor="let passenger of routes.controls.passengers.controls; let j = index"
                         >
                           <div
-                            class="table_body_row row theme__raise-priority"
+                            class="table_body_row row"
                             [formGroupName]="j"
                             *ngIf="
                               (view == 'manage' &&
                                 !findCancelQuery(
-                                  routes.controls.passengers.controls[j].get('title').value,
                                   routes.controls.passengers.controls[j].get('firstName').value,
                                   routes.controls.passengers.controls[j].get('surName').value,
                                   routes.value.dept_city,
@@ -68,7 +67,6 @@
                                 )) ||
                               (view !== 'manage' &&
                                 getQuery(
-                                  routes.controls.passengers.controls[j].get('title').value,
                                   routes.controls.passengers.controls[j].get('firstName').value,
                                   routes.controls.passengers.controls[j].get('surName').value,
                                   routes.value.dept_city,
@@ -77,7 +75,6 @@
                                   j
                                 ) &&
                                 !findCancelQuery(
-                                  routes.controls.passengers.controls[j].get('title').value,
                                   routes.controls.passengers.controls[j].get('firstName').value,
                                   routes.controls.passengers.controls[j].get('surName').value,
                                   routes.value.dept_city,
@@ -87,12 +84,11 @@
                                 ))
                             "
                           >
-                            <div class="col-12 col-lg-4 col-md-4">
+                            <div class="col-8 col-md-2">
                               <span
                                 class="d-none"
                                 *ngIf="
                                   !getQuery(
-                                    routes.controls.passengers.controls[j].get('title').value,
                                     routes.controls.passengers.controls[j].get('firstName').value,
                                     routes.controls.passengers.controls[j].get('surName').value,
                                     routes.value.dept_city,
@@ -111,8 +107,7 @@
                                   (change)="onSelectTraveller($event, i, j)"
                                 ></mat-checkbox>
                               </span>
-                              <span class="traveller_data sb_traveller_data">
-                                {{ routes.controls.passengers.controls[j].get('title').value | titlecase }}
+                              <span class="traveller_data">
                                 {{ routes.controls.passengers.controls[j].get('firstName').value | titlecase }}
                                 {{ routes.controls.passengers.controls[j].get('surName').value | titlecase }}
                               </span>
@@ -123,7 +118,6 @@
                                 (click)="
                                   viewmobileQuery(
                                     getQuery(
-                                      routes.controls.passengers.controls[j].get('title').value,
                                       routes.controls.passengers.controls[j].get('firstName').value,
                                       routes.controls.passengers.controls[j].get('surName').value,
                                       routes.value.dept_city,
@@ -137,7 +131,6 @@
                                   queryIds &&
                                   queryIds.length != 0 &&
                                   getQuery(
-                                    routes.controls.passengers.controls[j].get('title').value,
                                     routes.controls.passengers.controls[j].get('firstName').value,
                                     routes.controls.passengers.controls[j].get('surName').value,
                                     routes.value.dept_city,
@@ -149,9 +142,9 @@
                                 >View Queries</a
                               >
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-4">
                               <div class="date_flights">
-                                <span *ngIf="country !== 'ABSA' && country !== 'SB'" class="date_Wrap">
+                                <span *ngIf="country !== 'ABSA'" class="date_Wrap">
                                   <div class="d_mnth">
                                     {{ routes.value.departureDateTime | date: 'MMM' }}
                                   </div>
@@ -171,23 +164,10 @@
                                     <div class="d_week">{{ routes.value.departureDateTime | date: 'EEE' }}</div>
                                   </div>
                                 </span>
-                                <span *ngIf="country === 'SB'" class="theme__date-container">
-                                  <div class="sb_theme_date-wrap">
-                                    <div class="theme__date-wrap">
-                                      <div class="d_date mr-1">{{ routes.value.departureDateTime | date: 'dd' }}</div>
-                                    </div>
-                                    <div>
-                                      <div class="theme__date-wrap">
-                                        <div class="d_week">{{ routes.value.departureDateTime | date: 'EEE' }}</div>
-                                        <div class="d_month">{{ routes.value.departureDateTime | date: 'MMM' }}</div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </span>
                                 <span class="flights_details">
                                   <img
                                     ImageSrc
-                                    *ngIf="country !== 'ABSA' && country !== 'SB'"
+                                    *ngIf="country !== 'ABSA'"
                                     class="mr-1"
                                     width="12px"
                                     src="./../../../assets/icons/plane.svg"
@@ -199,22 +179,11 @@
                                   <span
                                     ><img
                                       ImageSrc
-                                      *ngIf="country !== 'SB'"
                                       src="./../../../assets/icons/flight_icn_devide.svg"
                                       alt="dir"
                                       width="40px"
                                       class="img_flights theme__flights-icon"
                                   /></span>
-                                  <span>
-                                    <img
-                                      ImageSrc
-                                      *ngIf="country === 'SB'"
-                                      [src]="'./../../../assets/icons/flight_icn_devide_alternative.svg'"
-                                      alt="dir"
-                                      width="20px"
-                                      class="img_flights theme__flights-icon"
-                                    />
-                                  </span>
                                   <span class="route_view theme__raise-priority theme__raise-priority-higher">
                                     {{ routes.value.arr_city }}
                                   </span>
@@ -222,50 +191,33 @@
                               </div>
                             </div>
                             <div class="col-4 col-md-1">
-                              <div class="resposive_lbl d-md-none theme__booking-label">
-                                {{ country === 'ABSA' ? 'Status' : 'STATUS' }}
-                              </div>
-                              <span
-                                class="{{
-                                  routes.controls.passengers.controls[j].get('bookingStatus').value
-                                }} theme__booking-text"
-                              >
+                              <div class="resposive_lbl d-md-none theme__booking-label">{{ country === 'ABSA' ? 'Status' : 'STATUS' }}</div>
+                              <span class="{{ routes.controls.passengers.controls[j].get('bookingStatus').value }} theme__booking-text">
                                 {{ routes.controls.passengers.controls[j].get('bookingStatus').value }}
                               </span>
                             </div>
                             <div class="col-3 col-md-1">
                               <div class="resposive_lbl d-md-none theme__booking-label">PNR</div>
-                              <span
-                                class="theme__booking-text"
-                                *ngIf="!routes.controls.passengers.controls[j].get('pnr').value"
-                                >N/A</span
-                              >
-                              <span
-                                class="theme__booking-text"
-                                *ngIf="routes.controls.passengers.controls[j].get('pnr').value"
-                                >{{ routes.controls.passengers.controls[j].get('pnr').value }}</span
-                              >
+                              <span class="theme__booking-text" *ngIf="!routes.controls.passengers.controls[j].get('pnr').value">N/A</span>
+                              <span class="theme__booking-text" *ngIf="routes.controls.passengers.controls[j].get('pnr').value">{{
+                                routes.controls.passengers.controls[j].get('pnr').value
+                              }}</span>
                             </div>
-                            <div class="col-4 col-md-2" [ngClass]="country === 'ABSA' || country === 'SB' ? '' : 'col-sm-3 p-0'">
-                              <div class="resposive_lbl d-md-none theme__booking-label">
-                                {{ country === 'ABSA' ? 'Booked On' : 'BOOKED ON' }}
-                              </div>
+                            <div class="col-5 col-md-2">
+                              <div class="resposive_lbl d-md-none theme__booking-label">{{ country === 'ABSA' ? 'Booked On' : 'BOOKED ON' }}</div>
                               <span class="theme__booking-text">
                                 {{
-                                  country === 'ABSA' || country === 'SB'
-                                    ? (routes.controls.passengers.controls[j].get('createdDateTime').value
-                                      | date: 'EEE, MMM d')
-                                    : (routes.controls.passengers.controls[j].get('createdDateTime').value
-                                      | date: 'd MMM  yyyy (EEE)')
+                                  country === 'ABSA'
+                                    ? (routes.controls.passengers.controls[j].get('createdDateTime').value | date: 'EEE, MMM d')
+                                    : (routes.controls.passengers.controls[j].get('createdDateTime').value | date: 'd MMM  yyyy (EEE)')
                                 }}
                               </span>
                             </div>
-                            <div [ngClass]="country === 'ABSA' || country === 'SB' ? 'col-sm-12' : 'col-sm-12 col-md-4'">
+                            <div class="col-md-2 col-12 d-none">
                               <div
                                 class="pick_date mb-3 mb-md-0"
                                 *ngIf="
                                   !getQuery(
-                                    routes.controls.passengers.controls[j].get('title').value,
                                     routes.controls.passengers.controls[j].get('firstName').value,
                                     routes.controls.passengers.controls[j].get('surName').value,
                                     routes.value.dept_city,
@@ -275,72 +227,31 @@
                                   )
                                 "
                               >
-                                <div class="resposive_lbl d-none mb-3 mb-md-0">NEW ARRIVAL DATE</div>
-                                <div *ngIf="country === 'SB' || country === 'ABSA'" class="">
-                                  <span
-                                    class="float-right w-md-25 mb-2 theme__select-date-container select-date-container"
-                                    [ngClass]="responsiveservice.screenWidth == 'sm' ? 'pick_date' : 'changepick_date'"
-                                  >
-                                    <input
-                                      class="form-control selectdate"
-                                      placeholder="{{ country === 'ABSA' || country === 'SB'  ? 'Select new travel date' : ('New Travel date' | translate) }}"
-                                      name="dp"
-                                      ngbDatepicker
-                                      value=""
-                                      [formControl]="changeDatevalue"
-                                      [minDate]="expminDate"
-                                      [maxDate]="expmaxDate"
-                                      #d="ngbDatepicker"
-                                      (click)="d.toggle()"
-                                      #date
-                                      id="{{ 'newtravelDate' }}"
-                                      autocomplete="off"
-                                    />
-                                    <div *ngIf="changeDateval == true && !changeDatevalue.value">
-                                      <span>
-                                        <p translate class="validation_msg">Please select date</p>
-                                      </span>
-                                    </div>
-                                    <img
-                                      ImageSrc
-                                      *ngIf="country === 'ABSA' || country === 'SB'"
-                                      class="theme__calendar-icon"
-                                      src="./../../../assets/icons/v1-icons/calendar-new-icn.svg"
-                                      alt="date picker"
-                                    />
-                                  </span>
-                                </div>            
-                                <!-- <span
-                                  class="mb-2 theme__select-date-container"
-                                  [ngClass]="responsiveservice.screenWidth == 'sm' ? 'pick_date' : 'changepick_date'"
-                                >
-                                  <input
-                                    class="form-control selectdate"
-                                    placeholder="{{
-                                      country === 'SB' ? 'Select new travel date' : ('New Travel date' | translate)
-                                    }}"
-                                    name="dp"
-                                    ngbDatepicker
-                                    formControlName="changedate"
-                                    value=""
-                                    [minDate]="expminDate"
-                                    [maxDate]="expmaxDate"
-                                    #d="ngbDatepicker"
-                                    (click)="d.toggle()"
-                                    #date
-                                    id="{{ 'newtravelDate' + i + j }}"
-                                    (focus)="openCalender(d, i)"
-                                    (dateSelect)="dateSelection($event, i, j)"
-                                    autocomplete="off"
-                                  />
-                                  <img
-                                    ImageSrc
-                                    *ngIf="country === 'SB'"
-                                    class="theme__calendar-icon"
-                                    src="./../../../assets/icons/v1-icons/calendar-new-icn.svg"
-                                    alt="date picker"
-                                  />
-                                </span> -->
+                                <div class="resposive_lbl d-md-none mb-3 mb-md-0">NEW ARRIVAL DATE</div>
+                                <input
+                                  class="form-control selectdate"
+                                  placeholder="{{ 'New Travel date' | translate }}"
+                                  name="dp"
+                                  ngbDatepicker
+                                  formControlName="changedate"
+                                  value=""
+                                  [minDate]="expminDate"
+                                  [maxDate]="expmaxDate"
+                                  #d="ngbDatepicker"
+                                  (click)="d.toggle()"
+                                  #date
+                                  id="{{ 'newtravelDate' + i + j }}"
+                                  (focus)="openCalender(d, i)"
+                                  (dateSelect)="dateSelection($event, i, j)"
+                                  autocomplete="off"
+                                />
+                                <img
+                                  ImageSrc
+                                  *ngIf="country === 'ABSA'"
+                                  class="theme__calendar-icon"
+                                  src="./../../../assets/icons/v1-icons/calendar-new-icn.svg"
+                                  alt="date picker"
+                                />
                               </div>
                               <div class="d-none d-md-block">
                                 <a
@@ -348,7 +259,6 @@
                                   (click)="
                                     viewQuery(
                                       getQuery(
-                                        routes.controls.passengers.controls[j].get('title').value,
                                         routes.controls.passengers.controls[j].get('firstName').value,
                                         routes.controls.passengers.controls[j].get('surName').value,
                                         routes.value.dept_city,
@@ -362,7 +272,6 @@
                                     queryIds &&
                                     queryIds.length != 0 &&
                                     getQuery(
-                                      routes.controls.passengers.controls[j].get('title').value,
                                       routes.controls.passengers.controls[j].get('firstName').value,
                                       routes.controls.passengers.controls[j].get('surName').value,
                                       routes.value.dept_city,
@@ -376,7 +285,6 @@
                               </div>
                             </div>
                           </div>
-
                           <div
                             *ngIf="
                               routes.controls.passengers.controls[j].get('select').value == true &&
@@ -398,14 +306,14 @@
           <p translate class="validation_msg d-none" *ngIf="Validation">Please select passenger</p>
         </div>
       </div>
-      <div *ngIf="country !== 'SB' && country !== 'ABSA'" class="">
+      <div class="">
         <span
-          class="float-right w-md-25 mb-2 theme__select-date-container select-date-container"
+          class="float-right w-md-25 mb-2 theme__select-date-container"
           [ngClass]="responsiveservice.screenWidth == 'sm' ? 'pick_date' : 'changepick_date'"
         >
           <input
             class="form-control selectdate"
-            placeholder="{{ country === 'ABSA' || country === 'SB'  ? 'Select new travel date' : ('New Travel date' | translate) }}"
+            placeholder="{{ country === 'ABSA' ? 'Select new travel date' : ('New Travel date' | translate) }}"
             name="dp"
             ngbDatepicker
             value=""
@@ -425,26 +333,19 @@
           </div>
           <img
             ImageSrc
-            class="theme__calendar-icon d-none"
+            *ngIf="country === 'ABSA'"
+            class="theme__calendar-icon"
             src="./../../../assets/icons/v1-icons/calendar-new-icn.svg"
             alt="date picker"
           />
         </span>
       </div>
-       <div class="row mt-3 mb-3 sb__footer-button-container theme__footer-button-container" *ngIf="viewItinaryResultData && !showBtn && (country === 'SB')">
-        <div class="col-sm-12 text-right">
-          <button class="sub_btn primary_btn" (click)="changeFlightDate()">
-            <span class="sb_changedate_btn_text" translate>Change My Date</span>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
-  <div class="row mt-3 theme__footer-button-container footer-button-container" [ngClass]="{'absa-fixed-footer': country === 'ABSA'}" *ngIf="viewItinaryResultData && !showBtn && (country !== 'SB')">
+
+  <div class="row mt-3 theme__footer-button-container" *ngIf="viewItinaryResultData && !showBtn">
     <div class="col-sm-12 text-right">
-      <button class="sub_btn primary_btn" (click)="changeFlightDate()">
-        <span translate>{{ country === 'ABSA' ? 'Change my date' : 'Change My Date' }}</span>
-      </button>
+      <button class="sub_btn primary_btn" (click)="changeFlightDate()"><span translate>{{ country === 'ABSA' ? 'Change my date' : 'Change My Date' }}</span></button>
     </div>
   </div>
 </div>

@@ -480,7 +480,6 @@ export class ContactFormComponent implements OnInit {
   }
   /**scrolling the input for the categories invalid */
   scrollToElementWithId(id: string, category: any) {
-    if(typeof document === 'undefined') return;
     if (this.contactUsForm.get(category).value == '' || this.contactUsForm.get(category).invalid) {
       let element = document.getElementById(id);
       if (element) {
@@ -560,8 +559,8 @@ export class ContactFormComponent implements OnInit {
     return (paxNames?.length === 1 && paxNames[0] === '') || paxNames?.every((pax: any) => pax === '');
   }
   // allows users to type only numbers
-  onlyNumberKey(event: any): void {
-    numInputNoChars(event);
+  onlyNumberKey(event: any) {
+    return numInputNoChars(event);
   }
   /* OEM
   telInputObject(obj: any) {
@@ -573,7 +572,7 @@ export class ContactFormComponent implements OnInit {
   */
 
   getContactCategories() {
-    let domainCountry = this.tsCountry == 'ABSA' ? 'absa' : this.tsCountry == 'SB' ? 'sbsa': 'za';
+    let domainCountry = this.tsCountry == 'ABSA' ? 'absa' : 'za';
     this.contactService.getContactUsFormCategories(domainCountry).subscribe(
       (res: any) => {
          

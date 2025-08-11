@@ -30,8 +30,8 @@
         font-weight: normal;
       }
       .form-control {
-        font-size: var(--input_font_size, 14px);
-        height: var(--input_height, 40px);
+        font-size: 14px;
+        height: 40px;
         padding: 14px;
         border: 1px solid var(--border_input_color);
         border-radius: 4px !important;
@@ -107,10 +107,6 @@
       .card-body {
         .section_heading {
           padding-bottom: 0px !important;
-
-          label {
-            margin-bottom: 0; /* mb-0 */
-          }
         }
       }
     }
@@ -121,33 +117,3 @@
   }
 }
 
-/* Alternative WhatsApp flex layout */
-.whatsapp-product {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.75rem;
-  margin: 1rem 0;
-  background-color: var(--productsBgColor);
-  border-radius: var(--border_radius);
-
-  &__text {
-    flex: 1;
-    font-size: var(--label_font_size_sm, 0.8125rem);
-    font-family: var(--label_font_family);
-    color: var(--text_primary_color);
-  }
-
-  &__info-icon {
-    margin: 0.25rem;
-  }
-
-  &__price {
-    text-align: right;
-  }
-
-  &__toggle {
-    padding: 0;
-    margin: 0;
-  }
-}

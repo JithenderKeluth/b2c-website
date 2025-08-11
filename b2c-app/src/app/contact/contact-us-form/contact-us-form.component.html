@@ -25,7 +25,7 @@
               ><span translate>Send us your query</span></a
             >
           </li>
-          <li class="nav-item" *ngIf="tsCountry !== 'FS' && tsCountry !== 'NG' && tsCountry !== 'ZA' && tsCountry !== 'ABSA'&& tsCountry !== 'SB'">
+          <li class="nav-item" *ngIf="tsCountry !== 'FS' && tsCountry !== 'NG' && tsCountry !== 'ZA' && tsCountry !== 'ABSA'">
             <a
               rel="nofollow"
               class="nav-link"
@@ -38,7 +38,7 @@
             </a>
           </li>
 
-          <li class="nav-item" *ngIf="tsCountry !== 'FS' && tsCountry !== 'ABSA' && tsCountry !== 'SB'">
+          <li class="nav-item" *ngIf="tsCountry !== 'FS' && tsCountry !== 'ABSA'">
             <a
               class="nav-link"
               rel="nofollow"
@@ -75,8 +75,8 @@
   </div>
 </section>
 
-<section  #faqs [ngClass]="{'faq_wrapper': tsCountry !== 'ABSA', 'theme__contact-form-section-container': tsCountry === 'ABSA'}"  [hidden]="tsCountry === 'SB' || (tsCountry === 'ABSA' && !faq)">
-  <div class="container" *ngIf="tsCountry !== 'FS' && tsCountry !== 'SB'">
+<section #faqs [ngClass]="{'faq_wrapper': tsCountry !== 'ABSA', 'theme__contact-form-section-container': tsCountry === 'ABSA'}" [hidden]="!(tsCountry !== 'ABSA' || faq)">
+  <div class="container" *ngIf="tsCountry !== 'FS'">
     <div class="row">
       <div class="enquiry_sec_title align-items-center d-flex">
         <span class="numBullet"></span>
@@ -87,10 +87,10 @@
   </div>
 </section>
 
-<section class="whatDoes" *ngIf="tsCountry !== 'FS' && tsCountry !== 'ABSA' && tsCountry !== 'SB'">
+<section class="whatDoes" *ngIf="tsCountry !== 'FS' && tsCountry !== 'ABSA'">
   <app-what-does-travelstart></app-what-does-travelstart>
 </section>
-<app-footer *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'"></app-footer>
+<app-footer *ngIf="tsCountry !== 'ABSA'"></app-footer>
 
 <div
   class="modal fade"

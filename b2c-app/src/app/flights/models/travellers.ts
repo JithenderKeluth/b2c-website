@@ -3,18 +3,15 @@ export class Travellers {
   public youngAdults: number;
   public children: number;
   public infants: number;
-  public country?:string;
 
   /**
    * Set defaults
    */
-  public constructor(adults?: number, youngAdults?: number, children?: number, infants?: number, country?:string) {
-    if(typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined'){
-      this.adults = sessionStorage.getItem('country-language')?.split('-')[1] === 'SB' ? adults || 0 : adults || 1;
-      this.youngAdults = youngAdults || 0;
-      this.children = children || 0;
-      this.infants = infants || 0;
-    }
+  public constructor(adults?: number, youngAdults?: number, children?: number, infants?: number) {
+    this.adults = adults || 1;
+    this.youngAdults = youngAdults || 0;
+    this.children = children || 0;
+    this.infants = infants || 0;
   }
 
   public getCount(): number {

@@ -10,8 +10,6 @@ import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack
 import { SessionService } from '../../general/services/session.service';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 
-import { responsiveService } from '../../_core';
-import { BackNavigationEvent } from '../../_shared/components/back-button/back-navigation.event';
 
 @Component({
   selector: 'app-add-travellers',
@@ -29,8 +27,6 @@ export class AddTravellersComponent implements OnInit {
   createTraveller: any = {};
   add_error = false;
   errorMsg = '';
-
-  country: string;
 
   existingTraveller: any;
 
@@ -51,8 +47,7 @@ export class AddTravellersComponent implements OnInit {
     private searchService: SearchService,
     private formBuilder: FormBuilder,
     private sessionService: SessionService,
-    private storage: UniversalStorageService,
-    public responsiveservice: responsiveService,
+    private storage: UniversalStorageService
   ) {
     this.region = this.apiService.extractCountryFromDomain();
     this.existingTraveller = data;
@@ -100,20 +95,17 @@ export class AddTravellersComponent implements OnInit {
     this.formGroup.get('nationality')?.setValue(this.existingTraveller.passport.docHolderNationality);
     this.formGroup.get('passPortCountry')?.setValue(this.existingTraveller.passport.docIssueCountry);
     this.formGroup.get('passportNumber')?.setValue(this.existingTraveller.passport.passportNumber);
-
+    
     if (this.existingTraveller.passport.effectiveExpireOptionalDate !== '') {
       this.formGroup
-        .get('passportExpiry')
-        ?.setValue(formatDate(this.existingTraveller.passport.effectiveExpireOptionalDate, 'yyyy-MM-dd', 'en_US'));
+      .get('passportExpiry')
+      ?.setValue(formatDate(this.existingTraveller.passport.effectiveExpireOptionalDate, 'yyyy-MM-dd', 'en_US'));
     }
   }
 
-  closeDialog(event?: BackNavigationEvent): void {
-  if (event) {
-    event.preventDefault(); 
+  closeDialog(): void {
+    this.dialogRef.close();
   }
-  this.dialogRef.close();
-}
 
   openDatePicker(picker: MatDatepicker<any>) {
     picker.open();
@@ -212,7 +204,7 @@ export class AddTravellersComponent implements OnInit {
           this.submitted = false;
           this.add_error = false;
           //store data in session storage & local storage
-          this.sessionService.setStorageDataInSession(res, this.saveLocalStorage);
+          this.sessionService.setStorageDataInSession(res, this.saveLocalStorage)
           this.dialogRef.close();
           this._snackBar.open('Traveller updated Successfully', '');
           setTimeout(() => {
@@ -233,7 +225,7 @@ export class AddTravellersComponent implements OnInit {
         this.submitted = false;
         this.add_error = false;
         //store data in session storage & local storage
-        this.sessionService.setStorageDataInSession(res, this.saveLocalStorage);
+        this.sessionService.setStorageDataInSession(res, this.saveLocalStorage)
 
         this.dialogRef.close();
         this._snackBar.open('Traveller added Successfully', '');

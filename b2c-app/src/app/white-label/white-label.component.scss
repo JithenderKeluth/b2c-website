@@ -1,220 +1,119 @@
 @import "./../../theme/theme-variables.scss";
+
 .white_label {
   .site_banner {
-    padding: 45px 0;
-    background-image: url("https://cdn1.travelstart.com/assets/whitelabel/mc-hero-banner.jpg");
+    padding: 45px 0px 15px 0px;
+    background-image: url("../../assets/images/mc-hero-banner.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
+    height: auto;
     margin-top: -3px;
-    .deals_main_headtxt {
-      font-size: 40px;
-      font-weight: 600;
-      color: #fff;
+    border-radius: 0 0 20px 20px;
+
+    .mc_contentSec {
+      margin-bottom: 60px;
+
+      .travel_smartTxt {
+        color: #fff;
+        text-transform: uppercase;
+        background-color: rgba(0,0,0,0.5);
+        padding: 5px 15px;
+        font-size: 10px;
+        border-radius: 0px 10px 10px 0px;
+        margin-bottom: 10px;
+        display: inline-block;
+        line-height: 22px;
+        height: 30px;
+      }
+
+      .deals_main_headtxt {
+        font-size: 40px;
+        font-weight: 600;
+        color: #fff;
+        line-height: 40px;
+        margin-bottom: 5px;
+      }
     }
-    .deal_subtxt {
-      font-weight: 600;
-      color: #fff;
-    }
+
     .search_section {
-      background-color: #fbfcfd;
-      padding: 20px;
+      padding: 0px;
       margin-top: 30px;
       border-radius: 8px;
-    }
-  }
-  .accordion {
-    margin: 10px 100px;
-    .card {
-      border: 1px solid $color-link-blue;
-      .card-header {
-        border: none;
-      }
-      .card-body {
-        padding: 0px !important;
-      }
-      a,
-      i {
-        color: $color-link-blue;
-      }
-      .accicon {
-        display: inline;
-        float: right;
-        .rotate-icon {
-          cursor: pointer;
-          font-size: 26px;
-        }
-      }
-      .collapsed .rotate-icon {
-        transform: rotate(180deg);
-      }
     }
   }
 
   .deals_section {
     padding: 50px;
-    background: #e7edf5;
-    .deals_tiles {
-      .deals_subtxt {
-        font-size: 20px;
-        color: #3f475c;
-        font-weight: 500;
-      }
+    background: #fff;
 
-      .deals_list {
-        padding: 0;
-        margin: 10px 0;
-        display: inline-block;
-        list-style-type: none;
-        width: 100%;
-        li {
-          width: 23%;
-          margin: 1%;
-          padding: 40px;
-          display: inline-block;
-          font-size: 12px;
-          border-radius: 10px;
-          height: 260px;
-          border: none;
-          overflow: hidden;
-          float: left;
-          .airline_img {
-            max-height: 80px;
-            min-height: 50px;
-            img {
-              height: 40px;
-            }
-          }
-          hr {
-            width: 30%;
-            margin: 1em auto;
-            border: 1.6px solid #ccc;
-          }
-          .percent {
-            font-weight: 600;
-            font-size: 20px;
-          }
-          .desc {
-            line-height: 18px;
-            font-size: 14px;
-          }
-          .viewStaysLink {
-            color: #1db2f5;
-            font-weight: 600;
-          }
-        }
-      }
-    }
     .deals_info {
       .deals_desc {
         font-size: 14px;
         margin: 10px 100px;
       }
     }
-  }
 
-  .newsletter {
-    background: url("https://cdn1.travelstart.com/assets/whitelabel/beach-newsletter.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;
-    display: inline-block;
-    height: 350px;
-    margin-bottom: 20px;
-    .subscribe {
-      width: 54%;
-      float: right;
-      background: #000;
-      color: #fff;
-      padding: 50px;
-      font-size: 14px;
-      height: 350px;
-      .newsletter_head {
-        font-size: 24px;
-        line-height: 1.2;
-      }
-      .newsletter_desc {
-        font-size: 16px;
-        color: #b4bfdd;
-        margin: 30px 0px;
-      }
-      .email_field {
-        display: inline-flex;
-        input {
-          width: 320px;
-          display: inline-block;
-        }
-        .successMsg {
-          font-size: 13px;
-          padding: 4px;
-          background-color: $color-teal-50;
-          color: $color-teal-400;
-        }
-        .signMeBtn {
-          width: 130px;
-          float: right;
-          background-color: #1db2f5;
-          color: #fff;
-          padding: 10px;
-          margin: 0px 5px;
-          border-radius: 5px;
-          font-size: 12px;
-          font-weight: 600;
-          border: none;
-        }
-      }
-    }
+  }
+  .campaignSec {
+    font-size: 12px;
+    color: #344054;
+    margin: 15px 0px;
+    padding: 0px 30px;
   }
   .deals_headtxt {
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 600;
   }
 }
+
 @media (max-width: map-get($grid-breakpoints, lg)) {
   .white_label {
     .deals_list li {
       width: 100% !important;
       margin: 10px 0px;
     }
-    .accordion {
-      margin: 0px !important;
+
+    .site_banner {
+      border-radius: 0 0 30px 30px !important;
+      padding: 30px 0px 20px 0px !important;
+      background-image: url("../../assets/images/mc-hero-banner-mweb.jpg") !important;
     }
+
+    .mc_contentSec {
+      margin-bottom: 20px !important;
+
+      .deals_main_headtxt {
+        font-size: 30px !important;
+      }
+    }
+
     .deals_section {
-      padding: 30px !important;
+      padding: 20px !important;
+
+      .deals_info {
+        padding: 0px;
+      }
     }
+
     .deals_desc {
       margin: 10px 0px !important;
     }
+
     .deals_subtxt,
     .newsletter_head {
       font-size: 16px !important;
     }
+
     .deals_headtxt,
     .deal_subtxt {
       font-size: 20px !important;
       line-height: 1.2;
     }
-    .newsletter {
-      height: 310px !important;
-      .subscribe {
-        width: 100% !important;
-        height: 280px !important;
-        margin: 15px 0px;
-        padding: 25px !important;
-        .newsletter_desc {
-          font-size: 12px !important;
-        }
-        .email_field {
-          display: block !important;
-          input {
-            width: 100% !important;
-          }
-          .signMeBtn {
-            width: 70% !important;
-            margin-top: 16px !important;
-            float: none !important;
-          }
-        }
-      }
+
+    .campaignSec {
+      padding: 0 !important;
+      margin: 0 !important;
     }
   }
 }

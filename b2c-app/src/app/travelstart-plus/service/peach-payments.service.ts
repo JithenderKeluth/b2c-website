@@ -1,4 +1,3 @@
-import { PROXY_TSPLUSCONFIG } from './../../general/services/api/api-paths';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -8,11 +7,13 @@ import {
   TS_PLUS_SUBSCRIPTIONSTATUS,
   PROXY_SERVER_PATH,
   PROXY_TS_PLUS_SUBSCRIPTION_UPDATE,
+  PROXY_MASTER_CARD_SUBSCRIPTION,
   PROXY_PEACHPAYMENT_STATUS,
   PROXY_PEACH_REVERSE_PAYMENT,
   PROXY_PEACH_CHECKOUTID,
   PROXY_PEACH_TOKENLOGS,
-  PROXY_PEACH_PAYMENTLOGS
+  PROXY_PEACH_PAYMENTLOGS,
+  PROXY_MASTER_CARD_MONTHLY_COUNT
 } from '@app/general/services/api/api-paths';
 
 @Injectable({
@@ -26,10 +27,9 @@ export class PeachPaymentsService {
   }
 
   // 1. Prepare the checkout
-  getCheckout(amount: any, currency: string, paymentType: string, email: string, isRenew: boolean): Observable<any> {
+  getCheckout(amount: any, currency: string, paymentType: string, email: string): Observable<any> {
     const body = {
-    email,
-    isRenew
+    email
   };
 
   return this.http.post(`${PROXY_SERVER_PATH}${PROXY_PEACH_CHECKOUTID}`, body).pipe(
@@ -60,6 +60,21 @@ export class PeachPaymentsService {
     const url = `${PROXY_SERVER_PATH}${PROXY_TS_PLUS_SUBSCRIPTION_UPDATE}`;
 
     return this.http.post(url, params);
+  }
+
+  // Update Travelstart Plus subscription
+  updateMasterCardSubscriptionStatus(params: any) {
+     
+
+    const url = `${PROXY_SERVER_PATH}${PROXY_MASTER_CARD_SUBSCRIPTION}`;
+
+    return this.http.post(url, params);
+  }
+
+  getMasterCardMonthlyCount() {
+    const url = `${PROXY_SERVER_PATH}${PROXY_MASTER_CARD_MONTHLY_COUNT}`;
+    console.log("MasterCard Monthly Count URL: ", url);
+    return this.http.get(url);
   }
 
   // Reverse A Payment
@@ -93,8 +108,7 @@ export class PeachPaymentsService {
       channel: 'Web',
       email: email,
       product: 'tsplus',
-    };
-    console.log("--token log initiated--",logPayload);
+    }; 
     return this.http.post(`${PROXY_SERVER_PATH}${PROXY_PEACH_TOKENLOGS}`, logPayload); 
   }
 
@@ -152,7 +166,4 @@ export class PeachPaymentsService {
   //   const url = `${this.apiService.tsPlusHostUrl()}${TS_PLUS_PAYMENT_PAYMENT_STATUS_API}?checkoutId=${checkOutId}&env=TEST`;
   //   return this.http.get(url);
   // }
-  getTSPLUSAmount(){
-    return this.http.get(`${PROXY_SERVER_PATH}${PROXY_TSPLUSCONFIG}`);
-  }
 }

@@ -5,7 +5,7 @@
     border: none;
     border-radius: 0;
   }
-  .table_data {
+  .table_data{
     padding: 0px 30px;
   }
   .data_view {
@@ -28,7 +28,6 @@
     color: #17c3a1;
     font-weight: 400;
   }
-
   .img_flights {
     margin: 0px 10px;
   }
@@ -71,7 +70,6 @@
     }
   }
 }
-
 .sorting {
   .sort_types {
     .ul_list {
@@ -108,7 +106,7 @@
           font-size: 13px;
         }
         &.card {
-          border: none;
+          border: none ;
           background-color: #ffffff;
 
           .card-body {
@@ -209,7 +207,7 @@
   background-color: var(--text_link_color) !important;
   color: #ffffff !important;
 }
-.bookMytripBtn {
+.bookMytripBtn{
   padding: 8px 25px;
   font-size: 14px;
 }
@@ -253,14 +251,14 @@
       position: relative;
     }
     .data_view {
-      font-size: 12px;
+      font-size: 12px !important;
     }
     .img_flights {
       margin: 0 !important;
     }
     .q_recordLink {
       font-size: 11px !important;
-      padding: 4px;
+      padding: 4px !important;
     }
     .bookingInfo {
       font-size: 11px;
@@ -275,23 +273,23 @@
         font-size: 14px;
       }
     }
-    .bookingInfo .bk_id {
+    .bookingInfo .bk_id{
       display: none;
-    }
-    .view_btn_bk_info .view_itin_btn {
-      margin-left: 40px !important;
+    }  
+    .view_btn_bk_info .view_itin_btn{
+      margin-left : 40px !important
     }
   }
   .responsive {
     position: relative;
   }
 
-  .table_data {
+  .table_data{
     padding: 0px 15px !important;
   }
-  .err_page {
+  .err_page{
     padding: 0px !important;
-    .err_msg h4 {
+    .err_msg h4{
       font-size: 20px !important;
     }
   }
@@ -299,15 +297,5 @@
     img {
       width: 80%;
     }
-  }
-}
-
-@media (max-width: map-get($grid-breakpoints, sm)) {
-  .mobile_position {
-   justify-content: flex-end;
-   margin-right: 15px;
-  }
-  .view_btn_bk_info {
-    margin-top: 4px;
   }
 }

@@ -96,10 +96,8 @@ export class AddCheckInBaggageComponent implements OnInit {
   assignPaxNames(travellerList: any) {
     if (travellerList?.length > 0 && this.baggageAssignedPaxList.length > 0) {
       travellerList.forEach((x: any, index: number) => {
-        const namePrefix = this.country === 'SB' && x.gender ? x.gender + ' ' : ''; //Only add the title prefix for SB, else prefix is just an empty string
-
         if (this.baggageAssignedPaxList[index] && x.firstName !== '' && x.lastName !== '') {
-          this.baggageAssignedPaxList[index].paxName = namePrefix + x.firstName + ' ' + x.lastName;
+          this.baggageAssignedPaxList[index].paxName = x.firstName + ' ' + x.lastName;
         } else if (this.baggageAssignedPaxList[index] && (x.firstName === '' || x.lastName === '')) {
           this.baggageAssignedPaxList[index].paxName = 'Passenger' + (index + 1);
         }

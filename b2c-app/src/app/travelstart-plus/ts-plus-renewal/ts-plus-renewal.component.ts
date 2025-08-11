@@ -6,7 +6,6 @@ import { MyAccountServiceService } from '@app/my-account/my-account-service.serv
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 import { isPlatformBrowser } from '@angular/common';
-import { PeachPaymentsService } from '../service/peach-payments.service';
 declare const $: any;
 @Component({
   selector: 'app-ts-plus-renewal',
@@ -16,7 +15,6 @@ declare const $: any;
 export class TsPlusRenewalComponent implements OnInit {
   public credentials: any;
   public userName: any;
-  public renewalAmount: number = 1999;
   isBrowser: boolean;
   constructor(
     public router: Router,
@@ -25,8 +23,7 @@ export class TsPlusRenewalComponent implements OnInit {
     private myacountService: MyAccountServiceService,
     private _snackBar: MatSnackBar,
     private storage: UniversalStorageService,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private peachService : PeachPaymentsService
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -37,7 +34,6 @@ export class TsPlusRenewalComponent implements OnInit {
     this.userName = this.credentials?.username;
     this.signUser();
     this.storage.setItem('tsSubscriptionType', 'renewal', 'session');
-    this.getRenewalAmount();
   }
 
   signUser() {
@@ -53,14 +49,12 @@ export class TsPlusRenewalComponent implements OnInit {
     }
   }
 
-  renew_Subscription() {
+  tsPayments() {
     if (!this.credentialsService.isAuthenticated()) {
       return this.signUser();
     }
-    else if(this.apiService.isTS_PLUSUser() && this.isBrowser){
-       $('#subscribed_modal').modal('show');
-    }
-    else if (this.allowToTSPlusRenewal()) {
+
+    if (this.apiService.isTS_PLUSUser()) {
       this.router.navigate(['/ts-plus/ts-plus-payments'], { queryParams: { subscription: 'renew' } });
     } else {
       this._snackBar.open('Oops! You have not subscribed as a Travelstart Plus user. Please subscribe.');
@@ -87,19 +81,4 @@ export class TsPlusRenewalComponent implements OnInit {
       }
     });
   }
-    /**here we are checking user is TSPlus Subscriber but subscription active status is false then only we are allow to renewal */
-    allowToTSPlusRenewal(){
-      return Boolean(this.credentials?.isTSPlusSubscriber && !this.credentials?.isTSPlusSubscriptionActive);
-    }
-    getRenewalAmount(){
-      this.peachService.getTSPLUSAmount().subscribe((res:any)=>{
-        if(res){
-           this.renewalAmount = res.subscriptionRenewalAmount;
-        }
-      },(error: any) => {
-        console.error('Failed to load subscription config:', error);
-        this.renewalAmount = 1999;
-      }
-    )
-    }
 }

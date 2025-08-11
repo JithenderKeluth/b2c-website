@@ -42,7 +42,8 @@ export class AuthenticationService {
     private i18Service: I18nService,
     private apiservice: ApiService
   ) {}
-
+public isLoggedInSubject = new BehaviorSubject<boolean>(false);
+public isLoggedIn$ = this.isLoggedInSubject.asObservable();
   login(context: LoginContext): Observable<Credentials> {
     // Replace by proper authentication call
     let data;
@@ -95,6 +96,7 @@ export class AuthenticationService {
   logout(): Observable<boolean> {
     // Customize credentials invalidation here
     this.credentialsService.setCredentials();
+     this.isLoggedInSubject.next(false);
     return of(true);
   }
 
@@ -195,6 +197,10 @@ export class AuthenticationService {
   /**Validating the OTP */
   validateOTP(verifyOTPData: any) {
     return this.http.post(`${PROXY_SERVER_PATH}${PROXY_AUTHENTICATION}`, verifyOTPData);
+  }
+
+  public isAuthenticated(): boolean {
+    return this.isLoggedInSubject.value;
   }
 
 }

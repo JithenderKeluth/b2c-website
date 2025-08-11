@@ -75,23 +75,17 @@ export class QueryStringAffid {
       );
     }
 
-    
-    console.log("---extract country from domain------>>>>",this.apiService.extractCountryFromDomain())
-    // if (this.apiService.extractCountryFromDomain() === 'ABSA') {
-    //   this.deepLinkParams['cpysource'] = 'absatravel';
-    //   this.deepLinkParams['affid'] = 'absatravel';
-    //   this.deepLinkParams['appsource'] = 'partnership';
-    // }else if (this.apiService.extractCountryFromDomain() === 'SB') {
-    //   this.deepLinkParams['cpysource'] = 'standardbank';
-    //   this.deepLinkParams['affid'] = 'standardbank';
-    //   this.deepLinkParams['appsource'] = 'partnership';
-    // }
-     //Restricting the required query string path for Standard Bank & wipe out other params
-     if(this.apiService.extractCountryFromDomain() === 'SB'){
-      return `language=en&cpysource=standardbank&correlation_id=${this.sessionUtils.getCorrelationId()}&affid=standardbank&appsource=partnership`;  
-    }
+     
     if (this.apiService.extractCountryFromDomain() === 'ABSA') {
-      return `language=en&cpysource=absatravel&correlation_id=${this.sessionUtils.getCorrelationId()}&affid=absatravel&appsource=partnership`;
+      this.deepLinkParams['cpysource'] = 'absatravel';
+      this.deepLinkParams['affid'] = 'absatravel';
+      this.deepLinkParams['appsource'] = 'partnership';
+    }
+
+     if (this.apiService.extractCountryFromDomain() === 'mastercardtravel') {
+      this.deepLinkParams['cpysource'] = 'mastercardtravel';
+      this.deepLinkParams['affid'] = 'mastercardtravel';
+      //this.deepLinkParams['appsource'] = 'partnership';
     }
     this.uriPath = this.getQueryString(this.deepLinkParams);
     if (this.deepLinkParams?.isiframe) {
@@ -102,15 +96,15 @@ export class QueryStringAffid {
     if (this.deepLinkParams?.correlation_id && this.uriPath) {
       this.deepLinkParams.correlation_id = this.sessionUtils?.getCorrelationId();
       this.uriPath = this.getQueryString(this.deepLinkParams);
-      return this.apiService.isTS_PLUSUser() && this.apiService.extractCountryFromDomain() === 'ZA'
+      return this.apiService.isTS_PLUSUser && this.apiService.extractCountryFromDomain() === 'ZA'
         ? this.uriPath + this.appendCpyPath()
         : this.uriPath;
     } else if (this.deepLinkParams && !this.deepLinkParams.correlation_id && this.uriPath) {
-      return this.apiService.isTS_PLUSUser() && this.apiService.extractCountryFromDomain() === 'ZA'
+      return this.apiService.isTS_PLUSUser && this.apiService.extractCountryFromDomain() === 'ZA'
         ? `${this.uriPath}&language=en&correlation_id=${this.sessionUtils.getCorrelationId()}${this.appendCpyPath()}`
         : `${this.uriPath}&language=en&correlation_id=${this.sessionUtils.getCorrelationId()}`;
     } else {
-      return this.apiService.isTS_PLUSUser() && this.apiService.extractCountryFromDomain() === 'ZA'
+      return this.apiService.isTS_PLUSUser && this.apiService.extractCountryFromDomain() === 'ZA'
         ? `language=en&correlation_id=${this.sessionUtils.getCorrelationId()}${this.appendCpyPath()}`
         : `language=en&correlation_id=${this.sessionUtils.getCorrelationId()}`;
     }

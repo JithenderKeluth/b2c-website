@@ -14,7 +14,7 @@ import moment from 'moment';
 })
 export class AffiliateService {
   private translatedAffId = '';
-  private queryAffId:any = '';
+  private queryAffId = '';
 
   constructor(
     private http: HttpClient,
@@ -27,7 +27,7 @@ export class AffiliateService {
   ) {}
 
   private sendAffiliateIdToDatalayer() {
-    let affiliateId:any = '';
+    let affiliateId = '';
     const storedAffId = this.cookieService.get('TSAffiliateCode');
     if (this.translatedAffId) {
       affiliateId = this.translatedAffId;
@@ -91,13 +91,14 @@ export class AffiliateService {
   public performMetaCpySourceCheck() {
     if (isPlatformBrowser(this.platformId)) {
       const urlParams = new URLSearchParams(window.location.search);
+      const restrictedCpySources  = ['absatravel','mastercardtravel']
       let queryCpySource =
         urlParams.get('cpysource') ||
         urlParams.get('cpy_source') ||
         urlParams.get('cpy_Source') ||
         urlParams.get('cpySource');
 
-    return !!queryCpySource && queryCpySource.toLowerCase() !== 'absatravel' && this.apiService.extractCountryFromDomain() !=='SB';
+    return !!queryCpySource && !restrictedCpySources.includes(queryCpySource.toLowerCase());
     }
   }
 }

@@ -8,10 +8,7 @@ import {
   HostListener,
   EventEmitter,
   Inject, 
-  PLATFORM_ID,
-  TemplateRef,
-  AfterViewInit,
-  OnChanges,
+  PLATFORM_ID
 } from '@angular/core';
 import { SearchResultsItinerary } from '../models/results/search-results-itinerary.model';
 import { NavigationService } from './../../general/services/navigation.service';
@@ -20,6 +17,7 @@ import { SearchService } from './../service/search.service';
 import { offLineNgBanner, orderListBy } from './../utils/search-results-itinerary.utils';
 import { getFlightResults } from '../utils/results.utils';
 import { IframeWidgetService } from '@app/general/services/iframe-widget.service';
+import { FlightCardComponent } from '../flight-card/flight-card.component';
 import { ApiService } from '@app/general/services/api/api.service';
 import { SharedFlightService } from '../service/sharedFlight.service';
 import { Subscription } from 'rxjs';
@@ -27,9 +25,6 @@ import { getCitiesNames } from './../utils/odo.utils';
 import { Router } from '@angular/router';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 import { isPlatformBrowser } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
-import { ResultsDetailComponent } from '../results-detail/results-detail.component';
-import { filter, take } from 'rxjs/operators';
 
 declare const $: any;
 
@@ -38,8 +33,7 @@ declare const $: any;
   templateUrl: './results-view.component.html',
   styleUrls: ['./results-view.component.scss', './../../../theme/bottom-wrapper.scss'],
 })
-export class ResultsViewComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
-
+export class ResultsViewComponent implements OnInit, OnDestroy {
   @Input() groupedItineraries: any = [];
   @Input() outboundItineraries: any = [];
   @Input() inboundItineraries: any = [];
@@ -65,6 +59,7 @@ export class ResultsViewComponent implements OnInit, OnDestroy, AfterViewInit, O
   private isFiltersShowSubscription: Subscription;
 
   public isShowFilter: boolean = false;
+  @ViewChild('flightCard') public flightCard: FlightCardComponent;
   public flightSearchData: any;
   @Input() destroy = false;
   public sendEvent: EventEmitter<any> = new EventEmitter();
@@ -73,27 +68,6 @@ export class ResultsViewComponent implements OnInit, OnDestroy, AfterViewInit, O
   public ngOfflineItinerary: any;
   private isBrowser: boolean;
   country: string;
-
-  // Event handlers
-  // These allow us to correctly bind to `this` in the template output context
-  selectedItineraryHandler() { return (itinerary: any) => this.selectDomesticFlight(itinerary); }
-  viewMoreFlightsHandler(flights: any) { return () => this.showMore(flights); }
-  viewDetailsHandler() { return (itinerary: any) => this.viewDetails(itinerary); }
-
-  // Dynamic templates
-  // These allow us to customize the view based on the active whitelabel
-  labeledItineraryFlightCard?: TemplateRef<any>; // Domestic One-Way + Intl. One-Way + Intl. Return
-  moreFlightsFlightCard?: TemplateRef<any>; // "More Flights" (desktop view)
-  moreFlightsMwebFlightCard?: TemplateRef<any>; // "More Flights" (popup view)
-  domesticFlightCardTemplate?: TemplateRef<any>; // Domestic Return (multi-column)
-
-  // Template variants
-  @ViewChild('flightCardWhitelabelAlpha')
-  flightCardWhitelabelAlpha?: TemplateRef<any>;
-
-  // White-label toggles
-  region?: string;
-  showRouteResultCounts = false;
 
   constructor(
     private navService: NavigationService,
@@ -105,17 +79,12 @@ export class ResultsViewComponent implements OnInit, OnDestroy, AfterViewInit, O
     private router: Router,
     private storage: UniversalStorageService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private dialog: MatDialog,
   ) { 
     this.isBrowser = isPlatformBrowser(this.platformId);
     this.country = apiService.extractCountryFromDomain();
   }
 
   ngOnInit(): void {
-    // White-label toggles
-    this.region = this.apiService.extractCountryFromDomain();
-    this.showRouteResultCounts = this.region === 'SB';
-
     this.flightResults();
     this.isFiltersShowSubscription = this.sharedFlightService.isFiltersShow$.subscribe((val: boolean) => {
       this.isShowFilter = false;
@@ -132,17 +101,7 @@ export class ResultsViewComponent implements OnInit, OnDestroy, AfterViewInit, O
     if (this.isFiltersShowSubscription) {
       this.isFiltersShowSubscription.unsubscribe();
     }
-  }
-
-  ngAfterViewInit(): void {
-    if (this.region === 'SB') {
-      this.labeledItineraryFlightCard = this.flightCardWhitelabelAlpha;
-      this.moreFlightsFlightCard = this.flightCardWhitelabelAlpha;
-      this.moreFlightsMwebFlightCard = this.flightCardWhitelabelAlpha;
-
-      // Keep the standard cards for domestic (two-column) layout
-      // this.domesticFlightCardTemplate = this.flightCardWhitelabelAlpha;
-    }
+    this.flightCard?.ngOnDestroy();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -182,11 +141,11 @@ export class ResultsViewComponent implements OnInit, OnDestroy, AfterViewInit, O
     this.displayCount = flights?.itineraries?.length;
     this.showWidget = true;
     this.navService.setShowNav(true);
+    this.flightCard?.notifyFlightsCard('');
     this.sortMoreFlightsbyDeptDate(flights);
   }
   /**To Hide the expanded flights of perticular grouped itinerary */
   showLessFlights(flights: any) {
-    if (!this.isBrowser) return;
     this.moreFlights_Expanded_Id = 0 - 1;
     flights.isMoreFlightsExpanded = false;
     this.displayCount = flights?.itineraries?.length;
@@ -194,6 +153,7 @@ export class ResultsViewComponent implements OnInit, OnDestroy, AfterViewInit, O
     this.navService.setShowNav(false);
     let ele = document.getElementById('moreFlightsSection');
     ele.scrollIntoView({ behavior: 'auto', block: 'center' });
+    this.flightCard?.notifyFlightsCard('');
     this.sortMoreFlightsbyDeptDate(flights);
   }
 
@@ -345,7 +305,7 @@ export class ResultsViewComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   offlineNgAirline() {
     return false;
-    // return (
+    // (
     //   !this.iframewidgetService.isB2BApp() &&
     //   this.apiService.extractCountryFromDomain() === 'NG' &&
     //   offLineNgBanner(this.flightSearchData)
@@ -386,44 +346,15 @@ export class ResultsViewComponent implements OnInit, OnDestroy, AfterViewInit, O
         utm_medium: 'banner',
         utm_campaign: 'ts-plus',
         utm_content: 'tsplus-srp'
-      },
+      }, 
       queryParamsHandling: 'merge'
     });
-
+  
     const fullUrl = `${window.location.origin}${this.router.serializeUrl(routeUrl)}`;
     window.open(fullUrl, '_blank');
   }
 
   trackById(index: number, item: any): any {
     return item.id; // or any unique identifier for your items
-  }
-
-  viewDetails(itinerary: any) {
-    const dialog = this.dialog.open(ResultsDetailComponent, {
-      data: {
-        flightslist: this.flightslist,
-        itinerary: itinerary,
-      },
-      panelClass: 'fullscreen-dialog', // Styled in whitelabel CSS file
-      autoFocus: false, // Prevent automatic scrolling to the Confirm button
-
-      // Size this to fullscreen to simulate a router navigation
-      width: '100vw',
-      maxWidth: '100vw',
-      height: '100vh',
-      maxHeight: '100vh',
-
-      // Make this behave more like a screen transition than a popup
-      disableClose: true,
-      enterAnimationDuration: '0ms',
-      exitAnimationDuration: '0ms'
-    });
-    dialog.afterClosed().pipe(
-      take(1),
-      filter(result => result),
-    ).subscribe(() => {
-      // Continue to booking
-      this.sharedFlightService.selectFlight(itinerary);
-    });
   }
 }

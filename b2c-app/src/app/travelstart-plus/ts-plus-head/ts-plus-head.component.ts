@@ -9,6 +9,8 @@ import { GoogleTagManagerServiceService } from '@core/tracking/services/google-t
 import { PeachPaymentsService } from '../service/peach-payments.service';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 import { isPlatformBrowser } from '@angular/common';
+import { PreviousRouteService } from '../service/previous-route-service';
+import { IframeWidgetService } from '../../general/services/iframe-widget.service';
 
 declare const $: any;
 
@@ -37,7 +39,9 @@ export class TsPlusHeadComponent implements OnInit, OnDestroy {
     private googleTagManagerServiceService: GoogleTagManagerServiceService,
     private peachpaymentService: PeachPaymentsService,
     private storage: UniversalStorageService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    private previousRouteService: PreviousRouteService,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    public iframeWidgetService:IframeWidgetService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
 
@@ -61,8 +65,10 @@ export class TsPlusHeadComponent implements OnInit, OnDestroy {
     const isRenewal = subscriptionType === 'renewal';
     const isPaymentsPage = currentUrl.includes('ts-plus-payments');
     const isBenefitsPage = currentUrl.includes('ts-plus-benefits');
+    const isMasterCardPage = currentUrl.includes('mastercard/registration');
     const username = this.credentials?.username;
-
+    const prevUrl = this.previousRouteService.getPreviousUrl();
+    
     if (isPaymentsPage) {
       this.peachpaymentService.paymentFailedStatusLogs(username).subscribe(() => {
         if (this.isBrowser) {
@@ -73,13 +79,16 @@ export class TsPlusHeadComponent implements OnInit, OnDestroy {
       if (this.isBrowser) {
         window.location.href = '/';
       }
+    } else if (isMasterCardPage && prevUrl && prevUrl !== '/mastercard/registration') {
+      this.router.navigateByUrl(prevUrl);
     }
   }
 
+  // handle login click
   signUser() {
     if (
       this.router.url.includes('ts-plus-benefits') ||
-      this.router.url.includes('ts-plus-renewal')
+      this.router.url.includes('ts-plus-renewal') || this.router.url.includes('mastercard')
     ) {
       if (this.isBrowser) {
         $('#loginModal').modal('hide');
@@ -89,6 +98,7 @@ export class TsPlusHeadComponent implements OnInit, OnDestroy {
         if (this.isBrowser) {
           $('#loginModal').modal('show');
         }
+        this.authenticationService.isLoggedInSubject.next(true);
       } else if (this.apiService.isTS_PLUSUser()) {
         if (this.isBrowser) {
           $('#subscribed_modal').modal('show');
@@ -110,12 +120,15 @@ export class TsPlusHeadComponent implements OnInit, OnDestroy {
     if (this.isBrowser && this.storage.getItem('credentials', 'session')) {
       this.credentials = JSON.parse(this.storage.getItem('credentials', 'session'))?.data;
       this.userName = this.credentials?.firstName;
+      this.authenticationService.isLoggedInSubject.next(true);
       return this.userName;
     } else if (this.isBrowser && this.storage.getItem('credentials', 'local')) {
       this.credentials = JSON.parse(this.storage.getItem('credentials', 'local'))?.data;
       this.userName = this.credentials?.firstName;
+      this.authenticationService.isLoggedInSubject.next(true);
       return this.userName;
     } else {
+      this.authenticationService.isLoggedInSubject.next(false);
       return null;
     }
   }
@@ -144,5 +157,18 @@ export class TsPlusHeadComponent implements OnInit, OnDestroy {
     if (this.isBrowser) {
       $('#loginModal').modal('hide');
     }
+  }
+  /**based on domain its redirected to respective page */
+  onPrompt_navigation() {
+    if (!this.credentialsService.isAuthenticated()) {
+      $('#loginModal').modal('show');
+    }
+    if(this.iframeWidgetService.isMasterCardRegistrationWhiteLabelSite()){
+      $('#loginModal').modal('hide');
+      this.router.navigate(['/mastercard/registration'], { queryParamsHandling: 'preserve' });
+    }
+  }
+  showheaderSec(){
+    return this.router.url !== '/';
   }
 }

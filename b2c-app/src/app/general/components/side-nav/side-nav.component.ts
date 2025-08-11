@@ -3,7 +3,6 @@ import { NavigationService } from './../../services/navigation.service';
 import { Observable } from 'rxjs';
 import { SideNavDirection } from './side-nav-direction';
 import { isPlatformBrowser } from '@angular/common';
-import {ApiService} from '@app/general/services/api/api.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -19,12 +18,10 @@ export class SideNavComponent implements OnInit {
   @Input() navWidth: number;
   @Input() direction: SideNavDirection = SideNavDirection.Right;
   @Output() closeNav: EventEmitter<any> = new EventEmitter<any>();
-  tsCountry: string;
-  constructor(private navService: NavigationService, apiService: ApiService, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(private navService: NavigationService, @Inject(PLATFORM_ID) private platformId: Object) {
     if (isPlatformBrowser(this.platformId)) {
       this.navWidth = window.innerWidth;
     }
-    this.tsCountry = apiService.extractCountryFromDomain();
   }
 
   ngOnInit(): void {

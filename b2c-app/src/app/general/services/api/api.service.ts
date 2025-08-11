@@ -42,8 +42,7 @@ import {
   HAPI_BASE_URL_LIVE,
   MOMENTUM_PROXY_API_TEST,
   MOMENTUM_PROXY_API_LIVE,
-  AUTH_PROXY_BETA,
-  AUTH_PROXY_PROD,
+  ABSA_AUTH_PROXY_BETA,
   AMADEUS_SEAT_API_LIVE,
   ITERABLE_API_TEST,
   ITERABLE_API_LIVE
@@ -90,7 +89,11 @@ export class ApiService {
   }
 
   public contactUSEnquiresUrl() {
-    return this.fetchApiHostUrl();
+    const env = this.getEnvironment();
+    if (env === 'preprod') return API_SERVER_PREPROD_PATH + WEB_API_PATH;
+    if (env === 'live') return API_SERVER_LIVE_PATH + WEB_API_PATH;
+    if (env === 'alpha') return API_SERVER_ALPHA_PATH + WEB_API_PATH;
+    return API_SERVER_BETA_PATH + WEB_API_PATH;
   }
 
   public countriesUrl() {
@@ -181,6 +184,13 @@ export class ApiService {
     return AMADEUS_SEAT_API_LIVE;
   }
 
+  get_HAPIAuthenticateCredentials() {
+    if (!this.isBrowser()) return null;
+    const info = this.storage.getItem('appCentralizedInfo', 'session');
+    const data = info ? JSON.parse(info) : null;
+    return data?.hapiAuthenticateCredentials?.liveCredentials ?? data?.hapiAuthenticateCredentials?.testCredentials ?? null;
+  }
+
   public getEnvironment(): string {
     if (!this.isBrowser()) return 'live';
     const href = this.window.location.href;
@@ -198,12 +208,12 @@ export class ApiService {
 
   public isPreprod(): boolean {
     const hostname = this.getHostname();
-    return !!hostname.match(/(preprod[A-z]+\.travelstart)|(preprod[A-z]*\.geziko)|(preprod+\.travelstart)|(staging+\-momentum)|(staging+\-absa+\-preprod)|(staging+\-sbsa+\-preprod)/);
+    return !!hostname.match(/(preprod[A-z]+\.travelstart)|(preprod[A-z]*\.geziko)|(preprod+\.travelstart)|(staging+\-momentum)|(staging+\-absa)|(preprod+\-mastercard)/);
   }
 
   public isBeta(): boolean {
     const hostname = this.getHostname();
-    return !!hostname.match(/(beta[A-z]+\.travelstart)|(beta[A-z]*\.geziko)|(testfe\.travelstart)|(beta+\.travelstart)|(gigm+\-uat)|(staging+\-absa+\-beta)|(staging+\-sbsa+\-beta)/);
+    return !!hostname.match(/(beta[A-z]+\.travelstart)|(beta[A-z]*\.geziko)|(testfe\.travelstart)|(beta+\.travelstart)|(gigm+\-uat)|(beta+\-mastercard)/);
   }
 
   public isLocalhost(): any {
@@ -268,7 +278,7 @@ export class ApiService {
 
   regionZADomains() {
     const region = this.extractCountryFromDomain();
-    return ['ZA', 'FS', 'MM', 'SB', 'ABSA'].includes(region);
+    return ['ZA', 'FS', 'MM'].includes(region);
   }
 
   regionNGDomains() {
@@ -277,18 +287,17 @@ export class ApiService {
   }
 
   // @TODO configure variable for local, alpha, preprod, live .... eg: ABSA_AUTH_PROXY_ALPHA etc...
-   public tsProxyUrl() {
-    console.log(this.getEnvironment());
+  public tsAbsaProxyUrl() {
     if (this.getEnvironment() === 'local') {
-      return `${AUTH_PROXY_BETA}/${this.extractCountryFromDomain() === "ABSA" ? "absa" : "sbsa"}`;
+      return ABSA_AUTH_PROXY_BETA;
     } else if (this.getEnvironment() === 'beta') {
-      return `${AUTH_PROXY_BETA}/${this.extractCountryFromDomain() === "ABSA" ? "absa" : "sbsa"}`;
+      return ABSA_AUTH_PROXY_BETA;
     } else if (this.getEnvironment() === 'preprod') {
-      return `${AUTH_PROXY_BETA}/${this.extractCountryFromDomain() === "ABSA" ? "absa" : "sbsa"}/${this.getEnvironment()}`;
+      return ABSA_AUTH_PROXY_BETA;
     } else if (this.getEnvironment() === 'live') {
-      return `${AUTH_PROXY_PROD}/${this.extractCountryFromDomain() === "ABSA" ? "absa" : "sbsa"}`;
+      return ABSA_AUTH_PROXY_BETA;
     } else if (this.getEnvironment() === 'alpha') {
-      return `${AUTH_PROXY_BETA}/${this.extractCountryFromDomain() === "ABSA" ? "absa" : "sbsa"}`;
+      return ABSA_AUTH_PROXY_BETA;
     }
   }
 

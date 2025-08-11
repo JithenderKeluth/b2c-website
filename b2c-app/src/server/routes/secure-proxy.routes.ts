@@ -10,7 +10,6 @@ import {
 } from '@aws-sdk/client-lambda';
 import qs from 'qs';
 import { encryptToken, decryptToken } from './encryption-utils';
-import Bowser from 'bowser';
 
 const router = Router();
 router.use(cookieParser());
@@ -146,24 +145,14 @@ router.post('/userData', async (req: Request, res: Response) => {
   const token = getTokenFromCookies(req);
   if (!token) return res.status(401).send({ message: 'Not authorized' });
 
+  const payload = { userAgent: req.body.userAgent, token };
   try {
-    const result = await getUserDataUsingToken(token, req.body.userAgent);
+    const result = await axios.post(`${apiConfig.baseUrl}/api/v3/account`, payload);
     return res.send(stripTokenFromResponse(result.data));
   } catch (err: any) {
     return res.status(500).send({ message: 'Booking failed', error: err.message });
   }
 });
-
-export async function getUserDataUsingToken(token: string, userAgent: string) {
-  const payload = { userAgent, token };
-
-  try {
-    const result = await axios.post(`${apiConfig.baseUrl}/api/v3/account`, payload);
-    return result.data;
-  } catch (err: any) {
-    throw new Error(err.message || 'User data fetch failed');
-  }
-}
 
 router.post('/userOTPData', async (req: Request, res: Response) => {
   const token = getTokenFromCookies(req);
@@ -325,9 +314,8 @@ router.post('/tsplus-subscription/update', async (req: Request, res: Response) =
   const headers = {
     'X-Token': token,
   };
-  const paymentAmount = req.body.subscriptionType === 'renewal' ? apiConfig.peachSubscriptionRenewalAmount : apiConfig.peachSubscriptionAmount;
-  const { subscriptionType, ...rest } = req.body;
-  const payload = { ...rest, token, paymentAmount };
+
+  const payload = { ...req.body, token };
 
   const backendUrl = `${apiConfig.baseUrl}/api/v1/subscriptions/tsplus`;
 
@@ -340,6 +328,48 @@ router.post('/tsplus-subscription/update', async (req: Request, res: Response) =
       message: 'Failed to update subscription',
       error: error?.response?.data || error.message,
     });
+  }
+});
+
+// ts-plus subscription update
+router.post('/mastercard-subscription', async (req: Request, res: Response) => {
+
+  const token = getTokenFromCookies(req);
+  if (!token) return res.status(401).send({ message: 'Not authorized' });
+
+  const headers = {
+    'X-Token': token,
+  };
+
+  const payload = { ...req.body, token };
+
+  const backendUrl = `${apiConfig.baseUrl}/api/v1/subscriptions/mastercard`;
+
+  try {
+    const response = await axios.post(backendUrl, payload, { headers });
+    return res.status(response.status).send(response.data);
+  } catch (error: any) {
+   const statusCode = error?.response?.status || 500;
+    const errorData = error?.response?.data || { message: error.message };
+
+    // ✅ Forward exact error response and status from backend
+    return res.status(statusCode).send(errorData);
+  }
+});
+
+// ts-plus subscription update
+router.get('/retrieve-mastercard-monthly-count', async (req: Request, res: Response) => {
+  const backendUrl = `${apiConfig.baseUrl}/api/v1/subscriptions/mastercard`;
+  try {
+    const response = await axios.get(backendUrl);
+    console.log('Mastercard monthly count response:', response.data);
+    return res.status(response.status).send(response.data);
+  } catch (error: any) {
+   const statusCode = error?.response?.status || 500;
+    const errorData = error?.response?.data || { message: error.message };
+
+    // ✅ Forward exact error response and status from backend
+    return res.status(statusCode).send(errorData);
   }
 });
 
@@ -443,8 +473,7 @@ router.post('/hotelsMyBookings', async (req: Request, res: Response) => {
 router.post('/binValidation', async (req: Request, res: Response) => {
 
   let cpy_source: String;
-  const { bin, cpySource } = req.body;
-  console.log("----bin lookup body--->>>", req.body);
+  const { bin, cpySource } = req.body; 
   if (!bin) {
     return res.status(400).send({ message: 'Card Number is required.' });
   }
@@ -806,17 +835,10 @@ router.post('/iterableJWTToken', async (req: Request, res: Response) => {
 
   return res.send({ token: jwt });
 });
-router.get('/tsplusconfig', (req, res) => {
-  console.log('✅ /tsplusconfig API called');
-  res.setHeader('Content-Type', 'application/json');
-  res.json({
-    subscriptionRenewalAmount: apiConfig.peachSubscriptionRenewalAmount,
-    subscriptionAmount: apiConfig.peachSubscriptionAmount, 
-  });
-});
+
 //Peach checkoutID creation
 router.post('/peachCreateCheckoutID', async (req: Request, res: Response) => {
-  const { email, isRenew } = req.body;
+  const { email } = req.body;
 
   if ( !email) {
     return res.status(400).json({ message: 'Missing required fields' });
@@ -824,7 +846,7 @@ router.post('/peachCreateCheckoutID', async (req: Request, res: Response) => {
 
   const  currency = 'ZAR';
   const paymentType = 'DB';
-  const amount = isRenew ? apiConfig.peachSubscriptionRenewalAmount : apiConfig.peachSubscriptionAmount;
+  const amount = apiConfig.peachSubscriptionAmount;
   const entityId = apiConfig.peachEntityId;
   const authorizationToken = apiConfig.peachAuthorizationToken;
   const apiUrl = apiConfig.peachUrls;
@@ -1229,64 +1251,5 @@ router.post('/momentumRedemption', async (req: Request, res: Response) => {
     });
   }
 });
-
-router.post('/standardBankHandshake',  async (req: Request, res: Response) => {
-  const sessionId = req.body.sessionId;
-  console.log('Standard Bank Handshake Request:', req.body);
-  if (!sessionId) {
-    return res.status(400).json({ message: 'Missing session ID' });
-  }
-
-  try {
-    console.log('🤝 Proxying standard bank handshake for sessionId -->', sessionId);
-    const url = apiConfig.env == 'preprod' ? `${apiConfig.mm_partnerProxyUrls}/sbsa/preprod/auth/start?session_id=${sessionId}` : `${apiConfig.mm_partnerProxyUrls}/sbsa/auth/start?session_id=${sessionId}`;
-    console.log('🤝 Handshake URL:', url);
-    const handshakeResponse = await axios.get(url);
-
-    //const partner_token = handshakeResponse.data?.partner_token;
-    const ts_token = handshakeResponse.data?.ts_token;
-    console.log('🤝 Handshake response:', handshakeResponse.data);
-    if (!ts_token) {
-      return res.status(400).json({ message: 'Missing tokens in handshake response' });
-    }
-    if (ts_token) storeTokenInCookie(ts_token, res);
-    // Call getUserData API using ts_token
-    
-    const userAgent: any = {
-        deviceId: 'browser',
-        application: `${getBrowserFromRequest(req)}`,
-        version: 'v1',
-        country: "SB",
-        market: "SB",
-        language: "en"
-      };
-    const userData = await getUserDataUsingToken(ts_token, userAgent);
-     
-    if (!userData?.data) {
-      return res.status(401).json({ message: 'User data not found or session expired' });
-    }
-
-    // Enrich userData with tokens for client
-    
-    userData.data.partner_blob = handshakeResponse.data?.partner_blob;
-    userData.data.trace_id = handshakeResponse.data?.trace_id;
-
-    return res.send(stripTokenFromResponse(userData.data));
-
-  } catch (err: any) {
-    console.error('💥 Error in /standardBankHandshake:', err?.message || err);
-    return res.status(500).json({
-      message: 'StandardBank handshake failed',
-      error: err.message || 'Unexpected error',
-    });
-  }
-});
-
-export function getBrowserFromRequest(req: Request): string {
-  const ua = req.headers['user-agent'] || '';
-  const browser = Bowser.getParser(ua);
-  const browserName = browser.getBrowser()?.name || 'Unknown';
-  return `Web-${browserName}`;
-}
 
 export default router;

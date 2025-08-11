@@ -31,11 +31,8 @@ export class ImageSrcDirective implements AfterViewInit {
       case 'momentum':
         cdnBase += 'momentum-assets/';
         break;
-      case 'Absa':
+       case 'Absa':
         cdnBase += 'absa-assets/';
-        break;
-      case 'standardbank':
-        cdnBase += 'standardbank-assets/';
         break;
       default:
         // no extra path

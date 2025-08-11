@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MyAccountServiceService } from '@app/my-account/my-account-service.service';
 import { PaymentService } from '@app/payment/service/payment.service';
@@ -11,7 +11,6 @@ import { SessionService } from '../../general/services/session.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
-import { ApiService } from '../../general/services/api/api.service';
 
 @Component({
   selector: 'app-add-card',
@@ -41,14 +40,10 @@ export class AddCardComponent implements OnInit {
   tempCardBinData: any = null;
   showAbsaCardMessageForSix = false;
   showAbsaCardMessageForEight = false;
-  showStandardBankCardMessageForSix = false;
   showCardExpiredMessage = false;
   cpySource: string;
-  countryValue: string;
 
   dialogType: 'fullscreen-dialog' | 'bottom-drawer';
-
-  region: string;
 
   constructor(
     private fb: FormBuilder,
@@ -58,25 +53,16 @@ export class AddCardComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private searchService: SearchService,
     private sessionService: SessionService,
-    private apiService: ApiService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private storage: UniversalStorageService
   ) {
     this.dialogType = data.dialogType;
     this.dialogRef.addPanelClass(this.dialogType);
-
-    this.region = apiService.extractCountryFromDomain();
   }
 
   ngOnInit(): void {
-    this.countryValue = this.apiService.extractCountryFromDomain();
-    if (this.apiService.extractCountryFromDomain() == 'ABSA') {
-      this.cpySource = 'absatravel';
-    } else if (this.apiService.extractCountryFromDomain() == 'SB') {
-      this.cpySource = 'standardbank';
-    } else {
-      this.cpySource = 'Travelstart';
-    }
+    //this.cpySource = new URLSearchParams(window.location.search).get('cpysource') ?? '';
+    this.cpySource = 'absatravel';
 
     if (this.storage.getItem('credentials', 'local')) {
       this.saveLocalStorage = true;
@@ -126,8 +112,10 @@ export class AddCardComponent implements OnInit {
     if (!this.tempCardBinData) {
       this.tempCardBinData = userCardNum.slice(0, 6);
     } else {
-      if (userCardNum.length > 7) newCardBinNum = userCardNum.slice(0, 8);
-      else newCardBinNum = userCardNum.slice(0, 6);
+      if (userCardNum.length > 7)
+        newCardBinNum = userCardNum.slice(0, 8);
+      else
+        newCardBinNum = userCardNum.slice(0, 6);
     }
     if (this.tempCardBinData && newCardBinNum && this.tempCardBinData == newCardBinNum) {
       return false;
@@ -139,89 +127,56 @@ export class AddCardComponent implements OnInit {
     }
   }
 
-  binValidator(): ValidatorFn {
+  binValidator() : ValidatorFn {
     return (control) => {
-      // if (this.cpySource === 'standardbank') {
-      //   return null;
-      // }
       if (this.showAbsaCardMessageForSix && this.showAbsaCardMessageForEight) {
         return {
-          notAbsaCard: true,
-        };
-      } else if (this.showStandardBankCardMessageForSix) {
-        return {
-          notStandardBankCard: true,
-        };
+          notAbsaCard: true
+        }
       } else {
         return null;
       }
-    };
+    }
   }
 
   validateBinNumber(cardNumber: string) {
     const checkingForSix = cardNumber.length === 6;
     const binValidationRun = new Subject<void>();
     let binResponse;
+    console.log("--------validate bin number--->>");
     if (checkingForSix) this.paymentService.getBinData(cardNumber, this.cpySource);
     else this.paymentService.getBinDataForEight(cardNumber, this.cpySource);
-
+    
     binResponse = checkingForSix
-      ? this.paymentService.currentbinResponse
+      ? this.paymentService.currentbinResponse 
       : this.paymentService.currentbinResponseForEight;
+    
+    binResponse.pipe(filter(x => x !== null), takeUntil(binValidationRun)).subscribe(
+      (data) => {
+        if (checkingForSix) this.showAbsaCardMessageForSix = !data || data.status !== '200';
+        else this.showAbsaCardMessageForEight = !data || data.status !== '200';
 
-    binResponse
-      .pipe(
-        filter((x) => x !== null),
-        takeUntil(binValidationRun),
-      )
-      .subscribe(
-        (data) => {
-          let binData: any;
+        if (data && data.data) {
+          const binListResponse = data.data;
 
-            try {
-              binData = typeof data === 'string' ? JSON.parse(data) : data;
-            } catch (err) {
-              // In case parsing fails
-              this.setCardMessages(checkingForSix, true, true);
-              binValidationRun.next();
-              return;
-            }
+          if (checkingForSix) this.showAbsaCardMessageForSix = !binListResponse?.bank?.name?.toLowerCase().includes('absatravel');
+          else this.showAbsaCardMessageForEight = !binListResponse?.bank?.name?.toLowerCase().includes('absatravel');
 
-            const isValid = binData?.status === '200';
-            this.setCardMessages(checkingForSix, !isValid, !isValid);
+          const cardNumberControl = this.addCardForm.get('cardNumber');
+          if (cardNumberControl) {
+            cardNumberControl.updateValueAndValidity();
+          }
+        }
 
-            const bankName = binData?.data?.bank?.name?.toLowerCase() || '';
-            const isAbsa = bankName.includes('absatravel');
-            const isStandardBank = bankName.includes('standardbank');
-
-            this.setCardMessages(checkingForSix, !isAbsa, !isStandardBank);
-
-            const cardNumberControl = this.addCardForm.get('cardNumber');
-            if (cardNumberControl) {
-              cardNumberControl.updateValueAndValidity();
-            }
-
-          binValidationRun.next();
-        },
-        (error) => {
-          this.setCardMessages(checkingForSix, true, true);
-        },
-      );
-  }
-
-  private setCardMessages(checkingForSix: boolean, absaValue: boolean, standardValue: boolean): void {
-    if (checkingForSix) {
-      if(this.countryValue === 'ABSA') {
-        this.showAbsaCardMessageForSix = absaValue;
-      }else if(this.countryValue === 'SB') {
-        this.showStandardBankCardMessageForSix = standardValue;
+        binValidationRun.next();
+      },
+      (error) => {
+        if (checkingForSix) this.showAbsaCardMessageForSix = true;
+        else this.showAbsaCardMessageForEight = true;
       }
-    } else {
-       if(this.countryValue === 'ABSA') {
-        this.showAbsaCardMessageForEight = absaValue;
-       }
-    }
+    );
   }
+
   onlyNumbers(event: any) {
     return numInputNoChars(event);
   }
@@ -231,26 +186,20 @@ export class AddCardComponent implements OnInit {
     const isNewCardNumber = this.getBinCardNumbers(userCardNum);
     if (event.target.value) {
       if (userCardNum.length > 5 && isNewCardNumber) {
-        this.tempCardBinData = userCardNum.length > 7 ? userCardNum.slice(0, 8) : userCardNum.slice(0, 6);
-
-        this.validateCreditCardNumber(userCardNum);
-        console.log('------------------------------Checking for 6..?-------------------------------');
+        this.tempCardBinData = userCardNum.length > 7 
+          ? userCardNum.slice(0, 8) 
+          : userCardNum.slice(0, 6);
+        
+        this.validateCreditCardNumber(userCardNum); 
         //Trigger BIN validation for length of 6 and then length of 8, if possible.
         this.validateBinNumber(userCardNum.slice(0, 6));
 
-        if (userCardNum.length > 7) {
-          console.log(
-            '---------------------------------Checking for 8..?--------------------------------------------------------',
-          );
+        if (userCardNum.length > 7) { 
           this.validateBinNumber(userCardNum.slice(0, 8));
         } else if (userCardNum.length <= 7) {
-          if(this.countryValue === 'ABSA') {
-            this.showAbsaCardMessageForEight = true; // Set to true if less than 8 digits to show error message for first six digits
-          }else if(this.countryValue === 'SB') {
-            this.showStandardBankCardMessageForSix = true; // Set to true if less than 8 digits to show error message for first six digits
-          }
-          
+          this.showAbsaCardMessageForEight = true; // Set to true if less than 8 digits to show error message for first six digits
         }
+
       } else if (userCardNum.length < 5) {
         this.tempCardBinData = null;
         this.selectedCardMethod = null;
@@ -258,22 +207,21 @@ export class AddCardComponent implements OnInit {
     } else {
       this.showAbsaCardMessageForSix = false;
       this.showAbsaCardMessageForEight = false;
-      this.showStandardBankCardMessageForSix = false;
       this.tempCardBinData = null;
     }
   }
 
   onSubmit() {
     this.submitted = true;
-    if (this.addCardForm.invalid || (this.showAbsaCardMessageForSix && this.showAbsaCardMessageForEight) || (this.showStandardBankCardMessageForSix)) {
+    if (this.addCardForm.invalid || (this.showAbsaCardMessageForSix && this.showAbsaCardMessageForEight)) {
       return;
     } else {
       this.isLoading = true;
-
+      
       let month = this.addCardForm.get('cardExpiryMonth')!.value;
       let year = this.addCardForm.value.cardExpiry.toString();
       this.cardExp = month + '/' + year.slice(2);
-
+      
       // If current date is greater than expiry date
       if (new Date() > new Date(year, month, 0)) {
         this.showCardExpiredMessage = true;
@@ -317,30 +265,27 @@ export class AddCardComponent implements OnInit {
       cardData.paymentCard.cityName = 'Cape Town';
       cardData.paymentCard.countryName = 'South Africa';
 
-      this.myAccountService.addpaymentCard(cardData).subscribe(
-        (res: any) => {
-          if (res.result == 'OK' && res.code == 200) {
-            this.credentials = res;
-            this.addCardForm.reset();
-            this.submitted = false;
-            //store data in session storage & local storage
-            this.sessionService.setStorageDataInSession(res, this.saveLocalStorage);
-            this.dialogRef.close();
-            this._snackBar.open('Payment Card Added Successfully', '');
-            setTimeout(() => {
-              this._snackBar.dismiss();
-            }, 3000);
-            this.isLoading = false;
-          } else {
-            this.isLoading = false;
-            this.errorMsg = res.result;
-          }
-        },
-        (error) => {
+      this.myAccountService.addpaymentCard(cardData).subscribe((res: any) => {
+        if (res.result == 'OK' && res.code == 200) {
+          this.credentials = res;
+          this.addCardForm.reset();
+          this.submitted = false;
+          //store data in session storage & local storage
+          this.sessionService.setStorageDataInSession(res, this.saveLocalStorage)
+          this.dialogRef.close();
+          this._snackBar.open('Payment Card Added Successfully', '');
+          setTimeout(() => {
+            this._snackBar.dismiss();
+          }, 3000);
           this.isLoading = false;
-          this.errorMsg = error.result;
-        },
-      );
+        } else {
+          this.isLoading = false;
+          this.errorMsg = res.result;
+        }
+      }, 
+      (error) => { 
+        this.isLoading = false;
+      });
     }
   }
 
@@ -350,17 +295,6 @@ export class AddCardComponent implements OnInit {
 
   clearCardExpirationMessage() {
     this.showCardExpiredMessage = false;
-  }
-
-  getCardErrorText() {
-    switch (this.region) {
-      case 'ABSA':
-        return 'Please use your Absa card';
-      case 'SB':
-        return 'Please use your Standard Bank card';
-      default:
-        return 'Please enter a valid card number';
-    }
   }
 
   private validateCreditCardNumber(input: any) {

@@ -1,49 +1,25 @@
 <div class="results_page" *ngIf="responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'">
   <app-header></app-header>
 </div>
-  <app-back-button [navigationLink]="'/'" *ngIf="region === 'SB' && !showMask" class="sb_back_button_row">
-      <div> <span translate>Choose your flight</span></div>
-      <div class="edit-icon mb-1">
-        <span
-          class="d-md-none"
-          (click)="handleModifyClick($event)"
-        >
-          <img ImageSrc src="./../../../assets/icons/modify-icn-new.svg" alt="modify" />
-        </span>
 
-      </div>
-
-  </app-back-button>
 <div class="results_page" *ngIf="responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md'">
   <app-srp-mweb-header
-    *ngIf="region !== 'SB'"
     [flightslist]="flightslist"
     [switchDomFilght]="switchDomFilght"
     #SrpMwebHeader
     (isShowSearch)="showSearchPage($event)"
   ></app-srp-mweb-header>
-
-
   <app-booking-flowcoundown></app-booking-flowcoundown>
-
-  <ng-container *ngIf="region === 'SB' && !showMask">
-    <app-results-overview [flightslist]="flightslist"></app-results-overview>
-    <app-results-filters *ngIf="flightslist" [itineraries]="flightslist.itineraries"></app-results-filters>
-  </ng-container>
 </div>
 
-<div
-  class="autosetWidth"
-  [ngClass]="flightslist && flightslist?.isBundled ? '' : 'theme__flight-results-page-container'"
->
+<div class="autosetWidth" [ngClass]="flightslist && flightslist?.isBundled ? '' : 'theme__flight-results-page-container'">
   <div
-    id="resultPageView"
     class="result_page_view d-inline-block"
     [ngClass]="!showMask && flightslist && !flightslist?.isBundled && !showDomMwebStrip ? 'showDomesticDetails' : ''"
   >
     <div
-      class="common"
-      [style.top]="responsiveService.screenWidth !== 'sm' || showMask ? '0px' : '70px'"
+      class="bg-white common"
+      [style.top]="responsiveService.screenWidth !== 'sm' || showMask ? '0px' : '75px'"
       [ngClass]="responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md' ? 'collapse' : 'web'"
       id="res_Modify"
     >
@@ -75,13 +51,14 @@
           </app-multicity-flight-results>
         </div>
         <div
-          class="closeSrp text-center py-4"
+          class="closeSrp text-center pt-2"
           *ngIf="responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md'"
         >
           <img
             ImageSrc
             src="../../../assets/icons/mweb-cross-close.svg"
             loading="lazy"
+            width="42px"
             alt="close"
             (click)="collapseSrpHeader()"
           />
@@ -132,8 +109,6 @@
           <app-flights-loader
             [showSkeltonLoader]="showMask"
             [tripType]="flightSearchData?.tripType"
-            [destinationCity]="flightSearchData?.itineraries?.[0]?.arr_city?.city || ''"
-            [region]="region"
           ></app-flights-loader>
         </div>
         <div class="row flightsViewSection" *ngIf="!showMask">
@@ -193,7 +168,6 @@
               [flightslist]="flightslist"
               [labeled_Itinerary]="labeled_Itineraries"
               [display_label_itin]="display_label_itin()"
-              class="results_view_container"
             ></app-results-view>
             <div>
               <app-no-filters-error *ngIf="noFlightsMatch"></app-no-filters-error>
@@ -203,11 +177,7 @@
       </div>
     </div>
   </div>
-  <div
-    id="flightDetailsSection"
-    class="flight_details_section"
-    *ngIf="!showMask && flightslist && !flightslist?.isBundled && !showDomMwebStrip"
-  >
+  <div class="flight_details_section" *ngIf="!showMask && flightslist && !flightslist?.isBundled && !showDomMwebStrip">
     <div class="flight_details">
       <app-flight-details
         (selectedDomFlight)="selectedDomesticFlight($event)"
@@ -256,7 +226,7 @@
 >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-body" style="height: 77vh">
+      <div class="modal-body" style="height: 90vh">
         <app-flight-filters
           *ngIf="flightslist && !domFlights()"
           (noFiltersRes)="noFiltersMacth($event)"

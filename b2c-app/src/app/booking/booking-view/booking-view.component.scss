@@ -7,6 +7,7 @@
   }
 
   .mweb_loader {
+    display: flex;
     align-items: flex-start;
     justify-content: center;
     height: 100vh;
@@ -26,7 +27,6 @@
   .collapse_card {
     background-color: $white;
     margin: 0 10px;
-    margin-bottom: 0.5rem; /* equivalent to mb-2 */
     border-radius: 12px;
     padding: 15px 20px;
   }
@@ -123,8 +123,6 @@
   }
   .payment-options {
     border-radius: 12px;
-    margin-top: 1.5rem; /* equivalent to mt-4 */
-    margin-bottom: 0.5rem; /* equivalent to mb-2 */
   }
   .seatCard_Expanded {
     .side-nav-bar {
@@ -134,19 +132,6 @@
   .fares_info_section {
     background: $white-secondary;
     border-radius: 12px;
-
-    .modal-bg {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #000;
-      z-index: -1;
-      opacity: 30%;
-      pointer-events: none;
-    }
   }
   .st-card {
     .st-card__body {
@@ -435,7 +420,7 @@ div.sticky {
   .searchDifferentFlight {
     font-size: 16px;
     font-weight: 500;
-    padding: 20px;
+    padding: 20px !important;
   }
   .newFlightBtn {
     font-size: 12px;
@@ -526,11 +511,5 @@ div.sticky {
   }
   &.isTravelOptErr {
     border: 1px solid #f51b46;
-  }
-}
-
-.mweb_TotalAmtsec {
-  .labl.price {
-    text-transform: uppercase; /* TOTAL PRICE */
   }
 }

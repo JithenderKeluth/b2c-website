@@ -28,7 +28,9 @@ export class PassengersComponent implements OnInit {
   @Input() passengerCount: EventEmitter<any>;
 
   constructor(public apiService: ApiService, private storage: UniversalStorageService) {
-    this.country = this.apiService.extractCountryFromDomain();
+    this.country = apiService.extractCountryFromDomain();
+
+    this.travellers = new Travellers(1,0,0,0);
     const flightData = JSON.parse(this.storage.getItem('flightsearchInfo', 'session'));
     if (!flightData) {
       this.cabinClass = new CabinClass('Economy', 'ECONOMY');

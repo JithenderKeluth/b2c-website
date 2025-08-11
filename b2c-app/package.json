@@ -1,6 +1,6 @@
 {
   "name": "b2c-app",
-  "version": "5.3.3",
+  "version": "5.4.0",
   "private": true,
   "overrides": {
     "@nguniversal/builders": {
@@ -8,8 +8,7 @@
     },
     "@nguniversal/express-engine": {
       "@angular-devkit/build-angular": "$@angular-devkit/build-angular"
-    },
-    "stylus": "0.55.0"
+    }
   },
   "scripts": {
     "ng": "ng",

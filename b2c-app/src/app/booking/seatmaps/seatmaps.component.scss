@@ -458,11 +458,6 @@ tr {
 .notAllowedToChild{
   pointer-events: none;
 }
-.isSeatActive{
-  color: var(--text_link_color);
-  border-bottom: 2px solid var(--text_link_color);
-  padding-bottom: 10px;
-}
 @media (max-width: map-get($grid-breakpoints, lg)) {
   .seat-map-drawer__header-text {
     font-size: 16px;

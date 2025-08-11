@@ -1,4 +1,4 @@
-<div id="seat-map" class="container seatmap p-lg-0">
+<div class="container seatmap p-lg-0">
   <header class="seat-map-drawer__header mt-2 d-block">
     <div class="d-flex align-items-center">
       <button class="seat-map-drawer__close btn btn-link d-none float-left" (click)="skipSeats()">
@@ -25,6 +25,7 @@
 
     <div
       *ngIf="!isSeatmapLoading && !hasError"
+      class=""
       [ngClass]="!isSeatmapLoading ? 'segmentSection mt-2 theme__raise-priority' : 'd-none'"
     >
       <div class="d-flex align-items-center">
@@ -46,7 +47,7 @@
       </div>
 
       <div class="avlSegmentDesc d-block">
-        <img class="theme__info-icon" ImageSrc src="https://cdn1.travelstart.com/assets/icons/wt-info-icon.svg" alt="info" /> Seat selection
+        <img class="theme__info-icon" imagesrc src="https://cdn1.travelstart.com/assets/icons/wt-info-icon.svg" alt="info" /> Seat selection
         available for above segments only
       </div>
     </div>
@@ -67,7 +68,6 @@
     </div>
 
     <div class="col-sm-5 theme__pax-seat-container" *ngIf="!isSeatmapLoading && !hasError">
-      <div class="theme__pax-seat-container__notice-message" *ngIf="country === 'SB'">You can only select seats for the highlighted flight</div>
       <div *ngIf="selectedSegment">
         <label class="labl-mute">DEPARTURE FLIGHTS</label>
         <span class="labl-high"
@@ -91,7 +91,7 @@
               *ngIf="
                 (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md') &&
                 selectedTraveler.uniqueId !== traveler.uniqueId &&
-                (country !== 'ABSA' && country !== 'SB')
+                country !== 'ABSA'
               "
             >
               {{ getPaxShortName(traveler) }}
@@ -100,7 +100,7 @@
               class="paxSeat d-flex align-items-center"
               *ngIf="
                 ((responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md') &&
-                  (selectedTraveler.uniqueId == traveler.uniqueId || country === 'ABSA' || country === 'SB')) ||
+                  (selectedTraveler.uniqueId == traveler.uniqueId || country === 'ABSA')) ||
                 (responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md')
               "
             >
@@ -126,14 +126,14 @@
               *ngIf="
                 (traveler.segments?.length > 0 &&
                   (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md') &&
-                  (selectedTraveler.uniqueId == traveler.uniqueId || country === 'ABSA' || country === 'SB')) ||
+                  (selectedTraveler.uniqueId == traveler.uniqueId || country === 'ABSA')) ||
                 (responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md')
               "
             >
-              <span *ngFor="let segment of traveler.segments;let idx = index">
-                <span *ngIf="segment.seat" class="seatNumber mr-1" >
-                  <img *ngIf="idx == 0" ImageSrc src="../../../assets/icons/seat_map_Icons/pax_seat.svg" alt="pax_seat" class="mb-1" />
-                  <span [ngClass]="isSeatActiveOnSegmentSelection(segment.seat) ? 'isSeatActive' : ''">{{ segment.seat.number }}</span>
+              <span *ngFor="let segment of traveler.segments">
+                <span *ngIf="segment.seat" class="seatNumber mr-1">
+                  <img  ImageSrc src="../../../assets/icons/seat_map_Icons/pax_seat.svg" alt="pax_seat" class="mb-1" />
+                  {{ segment.seat.number }}
                 </span>
               </span>
             </div>
@@ -141,7 +141,7 @@
         </li>
       </ul>
 
-      <div class="mt-4" *ngIf="decksForSelSegment && !((country === 'ABSA' || country === 'SB') && decksForSelSegment.length <= 2)">
+      <div class="mt-4" *ngIf="decksForSelSegment && !(country === 'ABSA' && decksForSelSegment.length <= 2)">
         <label class="labl-mute">SELECT DECK</label>
         <ul>
           <li class="labl-txt p-0 theme_deck-item" *ngFor="let deck of decksForSelSegment; let idx = index">
@@ -151,13 +151,14 @@
       </div>
     </div>
     <div
-      *ngIf="(country === 'ABSA' || country === 'SB') && !isSeatmapLoading && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')"
+      *ngIf="country === 'ABSA' && !isSeatmapLoading && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')"
       class="container theme__legends-container"
     >
-      <div *ngIf="country !== 'SB'" translate class="theme__legends-header">Seat options</div>
+      <div translate class="theme__legends-header">Seat options</div>
       <div class="row">
         <div class="col-12">
           <div class="legends">
+            <!-- <div class="smp-amenities-container">Seat Options</div> -->
             <div class="legendsData d-flex d-lg-block">
               <div id="legend">
                 <div class="smp-legend-container">
@@ -213,7 +214,7 @@
                   selected: cell.isSelected
                 }"
               >
-                <div class="extra-leg-space" *ngIf="country !== 'SB' && cell.isExtraLeg"></div>
+                <div class="extra-leg-space" *ngIf="cell.isExtraLeg"></div>
                 <button
                   class="seatmap-table-cell-content"
                   class="{{
@@ -310,7 +311,7 @@
       </button>
     </div>
 
-    <div *ngIf="(country !== 'ABSA' && country !== 'SB') || !(responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')" class="container p-1">
+    <div *ngIf="country !== 'ABSA' || !(responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')" class="container p-1">
       <div class="row">
         <div class="col-12">
           <div class="legends">
@@ -356,7 +357,7 @@
   </div>
   <div class="seatMapcontinueSec" *ngIf="!isSeatmapLoading && !hasError">
     <div class="d-flex align-items-center float-lg-right mt-lg-3">
-      <span class="mr-3 seatMapTotal" *ngIf="totalSeatsCost && !hasError"
+      <span class="mr-3" *ngIf="totalSeatsCost && !hasError"
         >Total {{ currencyCode | currencyCode }}{{ totalSeatsCost | number: '1.2-2' }}</span
       >
       <button
@@ -364,12 +365,7 @@
         class="btn primary_btn ml-auto st_btn addons_continueBtn float-right onHover"
         (click)="checkSelectedSeats()"
       >
-        <span *ngIf="country !== 'SB'">
-          Continue
-        </span>
-        <span *ngIf="country === 'SB'">
-          Next
-        </span>
+        Continue
       </button>
     </div>
   </div>

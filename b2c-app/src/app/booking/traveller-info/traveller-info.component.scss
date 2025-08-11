@@ -3,9 +3,10 @@
 .mealSelector {
   background: $white;
   position: absolute;
-  z-index: 99999;
+  z-index: 999;
   box-shadow: 0 6px 12px 0 rgba(185, 194, 213, 0.76);
   margin-top: 40px;
+  margin-bottom: 50px;
   left: 0;
   border-radius: 6px;
 }
@@ -13,7 +14,7 @@
 #mealSelector {
   background: $white;
   position: absolute;
-  z-index: 99999;
+  z-index: 999;
   box-shadow: 0 6px 12px 0 rgba(185, 194, 213, 0.76);
   margin-top: 40px;
   left: 0;
@@ -53,7 +54,7 @@
     position: fixed;
     top: 0;
     right: 0;
-    z-index: 99999;
+    z-index: 999;
     width: 100%;
   }
 }
@@ -263,8 +264,8 @@
       .form-control {
         border: solid 1px var(--border_input_color);
         border-radius: 4px;
-        font-size: var(--input_font_size, 14px);
-        height: var(--input_height, 40px);
+        font-size: 14px;
+        height: 40px;
         &:focus {
           border-color: var(--border_input_focus_color);
         }
@@ -660,26 +661,5 @@ a.carousel-control-prev:hover {
   .bg-primary {
     background-color: var(--text_link_color) !important;
     border: none;
-  }
-}
-
-.travel-insurance{
-  padding: 20px;
-  border-radius: 10px;
-  background: var(--sb_greyinfo);
-  margin-top: 12px;
-  h4{
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 12px;
-    color: var(--sb_darkgrey);
-  }
-  p{
-    color: var(--text_info_dark);
-    font-size: 14px;
-    line-height: 19px;
-    a{
-      color: var(--sb_blue_cta);
-    }
   }
 }

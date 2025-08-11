@@ -139,11 +139,21 @@ export class SeatmapsComponent implements OnInit {
     this.amadeusSeatMapService.getSeatMap(payload).subscribe({
       next: (data) => {
         // call the verteil seat map
-        if (this.companyName === 'Verteil') {
-          this.fetchVerteilSeats(data);
-        }else{
-          this.mappingseats(data);
-        }
+        const verteilSeatResponse = this.fetchVerteilSeats(data);
+
+        setTimeout(() => {
+          this.seatMapResponseData = verteilSeatResponse ? verteilSeatResponse : data;
+          this.handleSeatMapWarnings(this.seatMapResponseData);
+          this.updateSegments();
+          this.renderSeatMapGraph();
+          this.calculateTotalPriceForAllTravelers();
+          this.isSeatmapLoading = false;
+          // this.seatMapData = buildDeck(data.data[0].decks[0], SeatmapFacilitiesDisplayOption.SHOW_FACILITIES);
+          this.loading = false;
+          if (data?.errors || data.errors?.length > 0) {
+            this.hasError = true;
+          }
+        }, 1500);
       },
       error: () => {
         this.hasError = true;
@@ -151,20 +161,6 @@ export class SeatmapsComponent implements OnInit {
         this.isSeatmapLoading = false;
       },
     });
-  }
-
-  private mappingseats(data: any) {
-    this.seatMapResponseData = data;
-    this.handleSeatMapWarnings(this.seatMapResponseData);
-    this.updateSegments();
-    this.renderSeatMapGraph();
-    this.calculateTotalPriceForAllTravelers();
-    this.isSeatmapLoading = false;
-    // this.seatMapData = buildDeck(data.data[0].decks[0], SeatmapFacilitiesDisplayOption.SHOW_FACILITIES);
-    this.loading = false;
-    if (data?.errors || data.errors?.length > 0) {
-      this.hasError = true;
-    }
   }
 
   // seatmap payload construction
@@ -835,7 +831,6 @@ export class SeatmapsComponent implements OnInit {
   }
 
   scrollToSegment(segmentIndex: number) {
-    if(typeof document === 'undefined') return;
     // Optional: Implement smooth scrolling to the next segment in the UI
     const segmentElement = document.querySelectorAll('.segmentsList li')[segmentIndex];
     if (segmentElement) {
@@ -1004,7 +999,6 @@ export class SeatmapsComponent implements OnInit {
     }
   }
   divScrollIntoView(param: any, index: number) {
-    if(typeof document === 'undefined') return;
     let tabInfo = document.getElementById(param + index);
     if (tabInfo && (this.responsiveService.screenWidth == 'sm' || this.responsiveService.screenWidth == 'md')) {
       tabInfo.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
@@ -1018,10 +1012,9 @@ export class SeatmapsComponent implements OnInit {
       const data = this.pricedResult_data.data;
       this.amadeusSeatMapService.getSeatMapforVerteil({ data }).subscribe((data) => {
         verteilSeatResponse = this.mergeSeatMaps(amaSeats, data);
-        this.mappingseats(verteilSeatResponse);
       });
     }
-   // return verteilSeatResponse;
+    return verteilSeatResponse;
   }
 
   // Merge Amadeus and Verteil Seat Maps
@@ -1153,10 +1146,5 @@ export class SeatmapsComponent implements OnInit {
         x.lastName = nonInfantTravelers[index].lastName;
       }
     });
-  }
-
-  /**here we are making seat is active when selected segment flightnumber matched with seat flightNumber */
-  isSeatActiveOnSegmentSelection(seatInfo:any){
-      return Boolean(this.selectedSegment.flightNumber === seatInfo?.flightNumber);
   }
 }

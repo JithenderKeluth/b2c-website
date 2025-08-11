@@ -103,33 +103,3 @@
     display: none !important;
   }
 }
-
-/*
- * Route results - show a subtotal above the Onward and Return columns for Domestic results.
- * The CSS here is the base style - configure the look and feel by overriding the variables.
- * This was introduced as part of the Std Bank whitelabel and is customized in that stylesheet.
- */
-
-.route_results {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.25rem 0;
-}
-
-.route_results__flight_lbl {
-  padding: 0;
-  margin: 0;
-  font-family: var(--heading_font_family);
-  font-size: var(--label_font_size_sm, 14px);
-  font-weight: 400;
-  line-height: 1rem;
-}
-
-.route_results__total {
-  font-family: var(--label_font_family);
-  font-size: var(--label_font_size_xs, 12px);
-  font-weight: 400;
-  line-height: 1rem;
-}

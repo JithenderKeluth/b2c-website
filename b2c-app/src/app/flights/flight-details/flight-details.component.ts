@@ -14,10 +14,6 @@ import { IframeWidgetService } from '@app/general/services/iframe-widget.service
 import { updateFareInfoTravellers } from '@app/booking/utils/traveller.utils';
 import { B2bApiService } from '../../general/services/B2B-api/b2b-api.service';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
-import { DiscountsDisplayModel, aggregateDiscounts } from '@app/flights/utils/discount.utils';
-import { ResultsDetailComponent } from '../results-detail/results-detail.component';
-import { MatDialog } from '@angular/material/dialog';
-import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-flight-details',
@@ -27,7 +23,6 @@ import { filter, take } from 'rxjs/operators';
 export class FlightDetailsComponent implements OnInit {
   public itinOdoList: any = [];
   public selectedFlightDetails: any;
-  public discounts?: DiscountsDisplayModel;
   public selectedTab: string = 'FLIGHT';
   public fareBreakdown: any = null;
   public flightTotalAmount: number = 0;
@@ -41,8 +36,7 @@ export class FlightDetailsComponent implements OnInit {
     public responsiveService: responsiveService,
     public Iframewidgetservice: IframeWidgetService,
     private b2bApiService: B2bApiService,
-    private storage: UniversalStorageService,
-    private dialog: MatDialog,
+    private storage: UniversalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -61,13 +55,6 @@ export class FlightDetailsComponent implements OnInit {
           ...this.selectedFlightDetails.outboundItineraries.odoList,
           ...this.selectedFlightDetails.inboundItineraries.odoList,
         ];
-      }
-
-      if (this.selectedFlightDetails) {
-        this.discounts = aggregateDiscounts([
-          this.selectedFlightDetails.inboundItineraries,
-          this.selectedFlightDetails.outboundItineraries,
-        ]);
       }
     });
     this.selectedActive('FLIGHT');
@@ -88,12 +75,7 @@ export class FlightDetailsComponent implements OnInit {
     this.selectedTab = item;
   }
   bookFlight(selectedDetails: any) {
-    if(this.region === 'SB'){
-      console.log(selectedDetails)
-      this.reviewFlightDetails(selectedDetails);
-    }else{
     this.selectedDomFlight.emit(selectedDetails);
-    }
   }
 
   getTotalAmount(flightDetails: any) {
@@ -162,36 +144,4 @@ export class FlightDetailsComponent implements OnInit {
     itinerary.amount = this.flightTotalAmount;
     return displayItinPrice(itinerary,false,false,true);
   }
-  /**To review the Flight for SB domestic flow */
-  reviewFlightDetails(itinerary: any) {
-    let itineraryData = { 
-      odoList : itinerary.outboundItineraries.odoList.concat(itinerary.inboundItineraries.odoList)
-    }
-      const dialog = this.dialog.open(ResultsDetailComponent, {
-        data: {
-          flightslist: this.flightslist,
-          itinerary: itineraryData,
-        },
-        panelClass: 'fullscreen-dialog', // Styled in whitelabel CSS file
-        autoFocus: false, // Prevent automatic scrolling to the Confirm button
-  
-        // Size this to fullscreen to simulate a router navigation
-        width: '100vw',
-        maxWidth: '100vw',
-        height: '100vh',
-        maxHeight: '100vh',
-  
-        // Make this behave more like a screen transition than a popup
-        disableClose: true,
-        enterAnimationDuration: '0ms',
-        exitAnimationDuration: '0ms'
-      });
-      dialog.afterClosed().pipe(
-        take(1),
-        filter(result => result),
-      ).subscribe(() => {
-        // Continue to booking
-        this.selectedDomFlight.emit(itinerary);
-      });
-    }
 }

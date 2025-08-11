@@ -5,7 +5,6 @@ import { MyAccountServiceService } from '@app/my-account/my-account-service.serv
 import { SearchService } from '@app/flights/service/search.service';
 import { DeleteModalComponent } from '@app/my-account/delete-modal/delete-modal.component';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
-import { ApiService } from '../../general/services/api/api.service';
 
 declare let $: any;
 
@@ -17,19 +16,17 @@ declare let $: any;
 export class SavedTravellersComponent implements OnInit {
   credentials: any;
   saveLocalStorage: boolean;
+
   travellers: any;
+
   userAgent: any;
-  country: string;
 
   constructor(
     public dialog: MatDialog,
     private myAccountService: MyAccountServiceService,
     private searchService: SearchService,
-    apiService: ApiService,
     private storage: UniversalStorageService
-  ) {
-    this.country = apiService.extractCountryFromDomain();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.setCredentialData();
@@ -71,7 +68,6 @@ export class SavedTravellersComponent implements OnInit {
         title: 'Delete Traveller',
         content: 'Do you permanently want to remove this traveller from your saved traveller list?',
       },
-      panelClass: 'custom-modal-delete-radius'
     });
     const $subscription = dialog.beforeClosed().subscribe((x) => {
       this.setCredentialData();

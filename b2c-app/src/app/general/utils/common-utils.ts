@@ -4,12 +4,10 @@ export function restrictEditOption(tsCountry: any, value: any) {
 }
   export function getUserCredentials(){
     let credentials = null;
-    if (typeof window !== 'undefined' && window.sessionStorage) {
-      if (sessionStorage.getItem('credentials')) {
-        credentials = JSON.parse(sessionStorage.getItem('credentials'));
-      } else if (localStorage.getItem('credentials')) {
-        credentials = JSON.parse(localStorage.getItem('credentials'));
-      }
+    if (sessionStorage.getItem('credentials')) {
+      credentials = JSON.parse(sessionStorage.getItem('credentials'));
+    } else if (localStorage.getItem('credentials')) {
+      credentials = JSON.parse(localStorage.getItem('credentials'));
     }
     return credentials;
   }

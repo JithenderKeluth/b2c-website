@@ -1067,9 +1067,6 @@ function getCurrencyCode(countryCode: string): string {
     case 'ABSA': {
       return 'ZAR';
     }
-    case 'SB': {
-      return 'ZAR';
-    }
     default: {
       return 'USD';
     }

@@ -3,6 +3,8 @@
 .booking_confiramtion_page {
   background-color: $color-neutral-25;
   padding: 10px;
+  height: 100vh;
+  overflow-y: scroll;
   .confirmation_Card{
     background-color: #fff;
     border-radius: 12px;
@@ -77,9 +79,6 @@
   label {
     display: block;
     margin: 0;
-  }
-  .word-break{
-    word-break: break-all;
   }
   .booking_status {
     padding: 15px 0px;

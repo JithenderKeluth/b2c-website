@@ -6,12 +6,15 @@ import { SearchResultsItinerary } from '../models/results/search-results-itinera
 import { getPromoInfo } from './../../flights/utils/search-results-itinerary.utils';
 import { SearchData } from './../models/search/search-data.model';
 import { SearchRequest } from '../models/search/search-request.model';
+import { ExportedLocales } from '../../_core/models/exported-locales.model';
 import { SearchResponse } from './../models/results/search-response.model';
 import { DataToken } from '../../_core/models/dataToken.model';
+import { FormArray, FormGroup } from '@angular/forms';
 import { ApiErrorscode } from '../../payment/utils/Api-error-code';
 
 export function parseSearchRequest(
   searchData: SearchData,
+  //locale: ExportedLocales,
   userProfileUsername: string,
   businessLoggedOnToken: string,
   isDeepLink: boolean,
@@ -19,6 +22,7 @@ export function parseSearchRequest(
 ): SearchRequest {
   return {
     ...searchData,
+    //locale,
     userProfileUsername,
     businessLoggedOnToken,
     ...dataToken,

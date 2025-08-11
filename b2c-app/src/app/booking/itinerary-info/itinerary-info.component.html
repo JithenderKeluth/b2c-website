@@ -2,13 +2,13 @@
   <div class="" *ngIf="pricedResult_data.itineraries">
     <div class="clearfix"></div>
     <div class="review_Flight_Section">
-      <div class="reviewFlightHead" *ngIf="!isPaymentPageView">
+      <div class="reviewFlightHead">
         <span class="head_content">Review your flight</span>
         <span class="flight_details_link" (click)="viewFlightDetails(true)" *ngIf="!isShowFlightDetails"
-          translate >See details</span
+          >See details</span
         >
         <span class="flight_details_link" (click)="viewFlightDetails(false)" *ngIf="isShowFlightDetails"
-          translate >Hide details</span
+          >Hide details</span
         >
       </div>
       <div class="reviewFlightBody">
@@ -27,7 +27,7 @@
               >
                 <div class="seg_legs">
                   <div class="row">
-                    <div [ngClass]="isPaymentPageView ? 'col-12 mb-2 pr-3' : 'col-lg-3 col-md-12 col-12 mb-lg-0 mb-2 pr-lg-0'">
+                    <div class="col-lg-3 col-md-12 col-12 mb-lg-0 mb-2 pr-lg-0">
                       <div class="airLine_block d-flex align-items-center align-items-lg-start">
                         <div class="airLine_logo">
                           <img
@@ -40,8 +40,8 @@
                           <span class="air_name pl-1">
                             {{ flightsResultsResponse.airlineNames[odoList.segments[0].airlineCode] }}</span
                           >
-                          <span  [ngClass]="isPaymentPageView ? 'flt_num' : 'flt_num d-lg-block'"> ({{ odoList.segments[0].flightNumber }})</span>
-                          <div  [ngClass]="isPaymentPageView ? 'd-none' : 'd-none d-lg-block'">
+                          <span class="flt_num d-lg-block">({{ odoList.segments[0].flightNumber }})</span>
+                          <div class="d-none d-lg-block">
                             <ng-container
                               *ngTemplateOutlet="baggage_Info; context: { $implicit: { odoList: odoList } }"
                             >
@@ -51,9 +51,9 @@
                       </div>
                     </div>
 
-                    <div  [ngClass]="isPaymentPageView ? 'col-12 pl-3' : 'col-md-12 col-lg-9 col-12 pl-lg-0'" >
-                      <div class="row" [ngClass]="isPaymentPageView ? 'mb-2' : 'mb-2 mb-lg-0'">
-                        <div class="col-lg-4 col-4 text-center" >
+                    <div class="col-md-12 col-lg-9 col-12 pl-lg-0">
+                      <div class="row mb-2 mb-lg-0">
+                        <div class="col-lg-4 col-4 text-center">
                           <label for="dept_city" class="dept_city">
                             {{ 
                               country === 'ABSA' 
@@ -69,7 +69,7 @@
                           }}</label>
                           <div class="clearfix"></div>
                         </div>
-                        <div class="fly_icon text-center" [ngClass]="isPaymentPageView ? 'col-4' : 'col-lg-3 col-4'">
+                        <div class="col-lg-3 col-4 fly_icon text-center">
                           <div class="flight_data w-100" style="line-height: 10px">
                             <div *ngIf="getTimeInHours(odoList.duration) !== '0hrs 0min'" class="dur theme__view-itinerary-duration">
                               {{ getTimeInHours(odoList.duration) }}
@@ -95,7 +95,7 @@
                                 <img class="theme__flight-duration-icon" src="./../../../assets/icons/absa_icons/flight-duration-icon.svg" alt="flight duration icon">
                               </div>
                             </div>
-                            <div class="stops" translate>
+                            <div class="stops">
                               {{ getStopsWithLocations(odoList) }}
                             </div>
                             <div class="techStops mt-2">
@@ -123,7 +123,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-12" [ngClass]="isPaymentPageView ? ' d-block ' : ' d-block d-lg-none'" >
+                    <div class="col-12 d-block d-lg-none">
                       <ng-container *ngTemplateOutlet="baggage_Info; context: { $implicit: { odoList: odoList } }">
                       </ng-container>
                     </div>
@@ -324,8 +324,8 @@
           ><span translate class="baggage_val">No baggage</span>
         </span>
         <span *ngIf="bag !== 'No baggage allowance'" class="handLaggage">
-          <span class="baggage_val"> {{ baggageDes(bag) }}</span>
-        </span> &nbsp;
+          <span class="baggage_val">{{ baggageDes(bag) }}</span>
+        </span>
       </span>
     </span>
   </div>

@@ -1,4 +1,4 @@
-<div id="theme__flight-booking-list" class="flightBookingsSec">
+<div class="flightBookingsSec theme__body-background-color">
   <div class="sorting">
     <div class="sort_types card">
       <ul class="card-header ul_list">
@@ -12,22 +12,12 @@
           <div class="card-body">
             <div class="clearfix"></div>
             <label class="bld_labl">
-              <img
-                ImageSrc
-                class="img_cls removeiconfFMM d-none"
-                src="./../../../assets/icons/briefcase.svg"
-                alt="fastest"
-              />
+              <img  ImageSrc class="img_cls removeiconfFMM d-none" src="./../../../assets/icons/briefcase.svg" alt="fastest" />
               <span translate>Upcoming</span></label
             >
           </div>
         </li>
-        <li
-          *ngIf="tsCountry !== 'ABSA' && tsCountry !== 'SB'"
-          class="card"
-          (click)="selectSort('Paid')"
-          [ngClass]="{ active: isActive('Paid') }"
-        >
+        <li *ngIf="tsCountry !== 'ABSA'" class="card" (click)="selectSort('Paid')" [ngClass]="{ active: isActive('Paid') }">
           <div class="card-body">
             <div class="clearfix"></div>
             <label class="bld_labl">
@@ -97,7 +87,7 @@
       </ul>
     </div>
   </div>
-  <div class="mt-2">
+  <div class="mt-2 mt-md-4 theme__body-background-color">
     <div
       class=""
       id="upcoming-mb"
@@ -106,224 +96,160 @@
       *ngIf="!showError && !noBookings && load"
     >
       <!-- <h5 class="card-title">{{selected }} Flights</h5> -->
-      <div class="table_data" *ngIf="rows?.length > 0">
+        <div class="table_data" *ngIf="rows?.length > 0">
         <ngx-datatable
-          class="material"
+          class="material theme__body-background-color"
           [rows]="rows"
           [columnMode]="'force'"
-          [headerHeight]="50"
           [footerHeight]="50"
           [rowHeight]="responsiveService.screenWidth == 'lg' ? '65' : '100'"
           [scrollbarV]="false"
         >
-          <ngx-datatable-column
-            *ngIf="tsCountry !== 'ABSA'"
-            [width]="
-              tsCountry !== 'SB'
-                ? 200
-                : responsiveService.screenWidth === 'sm'
-                  ? 130
-                  : responsiveService.screenWidth === 'md'
-                    ? 140
-                    : 155
-            "
-            name="{{ tsCountry !== 'SB' ? 'DEPARTURE' : 'Departure' }}"
-            class="theme__flight-booking-list_departure-header"
-          >
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <div class="d-flex align-items-center">
-                <div
-                  class="date_Wrap float-left ml-lg-2"
-                  
-                >
-                  <div class="d_mnth">{{ row.departDate | date: 'MMM' }}</div>
-                  <div class="d_date">{{ row.departDate | date: 'dd' }}</div>
-                  <div class="d_week">{{ row.departDate | date: 'EEE' }}</div>
-                </div>
-                <div
-                  class="m-0 ml-lg-3"
-                  [ngClass]="(row.returnDate !== '' && row.trip == 'Roundtrip') || row.trip == 'Return' ? 'depart' : ''"
-                >
-                  <img
-                    ImageSrc
-                    *ngIf="tsCountry !== 'SB'"
-                    class="mr-1 ml-1 ml-md-0"
-                    width="12px"
-                    src="./../../../assets/icons/plane.svg"
-                    alt="requirements"
-                  />
-                  <span class="data_view"> {{ row.departAirport }}</span>
-                  <!-- <span *ngIf=" row.trip!=='MultiCity' && row.trip!=='OneWay'"
+        <div></div>
+        <ngx-datatable-column *ngIf="tsCountry !== 'ABSA'" [width]="200" name="DEPARTURE">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div class="d-flex align-items-center">
+              <div class="date_Wrap float-left">
+                <div class="d_mnth">{{ row.departDate | date: 'MMM' }}</div>
+                <div class="d_date">{{ row.departDate | date: 'dd' }}</div>
+                <div class="d_week">{{ row.departDate | date: 'EEE' }}</div>
+              </div>
+              <div
+                class="m-0 ml-lg-3"
+                [ngClass]="
+                  (row.returnDate !== '' && row.trip == 'Roundtrip') || row.trip == 'Return' ? 'depart' : ''
+                "
+              >
+                <img
+                  ImageSrc
+                  class="mr-1 ml-1 ml-md-0"
+                  width="12px"
+                  src="./../../../assets/icons/plane.svg"
+                  alt="requirements"
+                />
+                <span class="data_view"> {{ row.departAirport }}</span>
+                <!-- <span *ngIf=" row.trip!=='MultiCity' && row.trip!=='OneWay'"
                   ><img
                     src="./../../../assets/icons/return_list.svg"
                     alt="dir"
                     width="40px"
                     class="img_flights"
                 /></span> -->
-                  <span *ngIf="row.trip !== 'MultiCity' && row.trip !== 'OpenJaw'">
-                    <img
-                      ImageSrc
-                      [src]="
-                        tsCountry !== 'SB'
-                          ? './../../../assets/icons/flight_icn_devide.svg'
-                          : './../../../assets/icons/flight_icn_devide_alternative.svg'
-                      "
-                      alt="dir"
-                      width="40px"
-                      class="img_flights"
-                    />
-                  </span>
-                  <span *ngIf="row.trip == 'MultiCity' || row.trip == 'OpenJaw'">
-                    <img
-                      ImageSrc
-                      [src]="
-                        tsCountry !== 'SB'
-                          ? './../../../assets/icons/multy_city_arrows.svg'
-                          : './../../../assets/icons/flight_icn_devide_alternative.svg'
-                      "
-                      alt="dir"
-                      width="13px"
-                      class="img_flights"
-                    />
-                  </span>
-                  <span class="data_view">{{ row.arrivalAirport }}</span>
-                </div>
-              </div>
-              <div class="responsive d-lg-none mt-2 theme__flight-booking-list_booking-status">
-                <span class="{{ row.bookingStatus }}">{{ row.bookingStatus }}</span>
-              </div>
-              <div class="bookingInfo mr-1 mt-1 mr-lg-0 d-lg-none">
-                <span class="bk_rf"><span translate>Booking Id</span> {{ row.tccReference }}</span>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-          <<ngx-datatable-column
-            *ngIf="tsCountry !== 'ABSA'"
-            [width]="
-              tsCountry !== 'SB'
-                ? 200
-                : responsiveService.screenWidth === 'sm'
-                  ? 90
-                  : responsiveService.screenWidth === 'md'
-                    ? 120
-                    : 155
-            "
-            name="{{ tsCountry !== 'SB' ? 'RETURN' : 'Return' }}"
-            class="return_clmn"
-          >
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <div
-                class="d-flex align-items-center mobile_position"
-                *ngIf="(row.returnDate !== '' && row.trip == 'Roundtrip') || row.trip == 'Return'"
-              >
-                <div
-                  class="date_Wrap float-left"
-                  *ngIf="!(tsCountry === 'SB' && responsiveService.screenWidth === 'sm')"
-                >
-                  <div class="d_mnth">{{ row.returnDate | date: 'MMM' }}</div>
-                  <div class="d_date">{{ row.returnDate | date: 'dd' }}</div>
-                  <div class="d_week">{{ row.returnDate | date: 'EEE' }}</div>
-                </div>
-                <div class="ml-lg-3 sb_return_clmn">
-                  <img
+                <span *ngIf="row.trip !== 'MultiCity' && row.trip !== 'OpenJaw'"
+                  ><img
                     ImageSrc
-                    *ngIf="tsCountry !== 'SB'"
-                    class="mr-1 ml-1 ml-md-0"
-                    width="12px"
-                    src="./../../../assets/icons/plane.svg"
-                    alt="requirements"
-                  />
-                  <span class="data_view"> {{ row.arrivalAirport }}</span>
-                  <span *ngIf="row.trip !== 'MultiCity'">
-                    <img
-                      ImageSrc
-                      [src]="
-                        tsCountry !== 'SB'
-                          ? './../../../assets/icons/flight_icn_devide.svg'
-                          : './../../../assets/icons/flight_icn_devide_alternative.svg'
-                      "
-                      alt="dir"
-                      width="40px"
-                      class="img_flights"
-                    />
-                  </span>
-                  <span class="data_view"> {{ row.departAirport }}</span>
-                </div>
+                    src="./../../../assets/icons/flight_icn_devide.svg"
+                    alt="dir"
+                    width="40px"
+                    class="img_flights"
+                /></span>
+                <span *ngIf="row.trip == 'MultiCity' || row.trip == 'OpenJaw'"
+                  ><img
+                    ImageSrc
+                    src="./../../../assets/icons/multy_city_arrows_mytrips.svg"
+                    alt="dir"
+                    width="13px"
+                    class="img_flights mr-4 ml-4"
+                /></span>
+                <span class="data_view">{{ row.arrivalAirport }}</span>
               </div>
-
-              <div *ngIf="tsCountry !== 'SB'" class="d-lg-none view_btn_bk_info float-right">
-                <div class="view_itin_bk_info mb-2 mr-3">
-                  <span class="mr-1 mr-md-2" *ngIf="row.raisedTickets">
-                    <span translate class="q_recordLink" (click)="viewItinary(row)">View Queries</span>
-                  </span>
-                  <span class="view_itin_btn">
-                    <span translate class="q_recordLink" (click)="viewItinary(row)">View Itinerary</span>
-                  </span>
-                </div>
-                <div class="bookingInfo mr-3 mr-lg-0">
-                  <span><span translate>Booked On</span> {{ row.createdDateTime | date: 'd MMM  yyyy' }}</span>
-                </div>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column
-            *ngIf="
-              (tsCountry === 'SB' && responsiveService.screenWidth === 'sm') || responsiveService.screenWidth === 'md'
-            "
-            [width]="90"
-          >
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <div class="flight_details-container">
-                <div class="theme__flight-booking-list_booking-date">
-                  <div translate>Booked on</div>
-                  <div>{{ row.createdDateTime | date: 'd MMM  yyyy' }}</div>
-                </div>
-                <div class="view_itin_bk_info mr-3">
-                  <span class="mr-1 mr-md-2" *ngIf="row.raisedTickets">
-                    <span translate class="q_recordLink" (click)="viewItinary(row)">View Queries</span>
-                  </span>
-                  <span class="view_itin_btn">
-                    <span translate class="q_recordLink mt-1" (click)="viewItinary(row)">View Itinerary</span>
-                  </span>
-                </div>
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column
-            [cellClass]="showColumn"
-            name="{{ tsCountry !== 'SB' ? 'STATUS' : 'Status' }}"
-            [width]="80"
-            *ngIf="
-              tsCountry !== 'ABSA' && responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'
-            "
-          >
-            <ng-template let-row="row" ngx-datatable-cell-template>
+            </div>
+            <div
+              class="responsive d-lg-none mt-2"
+            >
               <span class="{{ row.bookingStatus }}">{{ row.bookingStatus }}</span>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column
-            name=""
-            [width]="responsiveService.screenWidth === 'lg' ? 200 : responsiveService.screenWidth === 'md' ? 180 : 120"
-            *ngIf="
-              tsCountry !== 'ABSA' && responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'
-            "
-          >
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <div class="float-right mr-lg-3 mb-2">
-                <span *ngIf="row.raisedTickets" class="mr-2">
+            </div>
+            <div class="bookingInfo mr-1 mt-1 mr-lg-0 d-lg-none">
+              <span class="bk_rf"><span translate>Booking Id</span> {{ row.tccReference }}</span>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column *ngIf="tsCountry !== 'ABSA'" [width]="200" name="RETURN" class="return_clmn">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div
+              class="d-flex align-items-center mb-2"
+              *ngIf="(row.returnDate !== '' && row.trip == 'Roundtrip') || row.trip == 'Return'"
+            >
+              <div class="date_Wrap float-left">
+                <div class="d_mnth">{{ row.returnDate | date: 'MMM' }}</div>
+                <div class="d_date">{{ row.returnDate | date: 'dd' }}</div>
+                <div class="d_week">{{ row.returnDate | date: 'EEE' }}</div>
+              </div>
+              <div class="ml-lg-3">
+                <img
+                  ImageSrc
+                  class="mr-1 ml-1 ml-md-0"
+                  width="12px"
+                  src="./../../../assets/icons/plane.svg"
+                  alt="requirements"
+                />
+                <span class="data_view"> {{ row.arrivalAirport }}</span>
+                <span *ngIf="row.trip !== 'MultiCity'"
+                  ><img
+                    ImageSrc
+                    src="./../../../assets/icons/flight_icn_devide.svg"
+                    alt="dir"
+                    width="40px"
+                    class="img_flights"
+                /></span>
+
+                <span class="data_view"> {{ row.departAirport }}</span>
+              </div>
+            </div>
+
+            <div class="d-lg-none view_btn_bk_info float-right">
+              <div class="view_itin_bk_info mb-2 mr-3">
+                <span class="mr-1 mr-md-2" *ngIf="row.raisedTickets">
                   <span translate class="q_recordLink" (click)="viewItinary(row)">View Queries</span>
                 </span>
-                <span>
+                <span class=" view_itin_btn">
                   <span translate class="q_recordLink" (click)="viewItinary(row)">View Itinerary</span>
                 </span>
               </div>
-              <div class="bookingInfo float-right mr-lg-3">
-                <span class="bk_id"><span translate>Booking Id</span> {{ row.tccReference }}&nbsp;| &nbsp;</span>
-                <span><span translate>Booked On</span> {{ row.createdDateTime | date: 'd MMM  yyyy' }}</span>
+              <div class="bookingInfo mr-3 mr-lg-0">
+                <span
+                  ><span translate>Booked On</span> {{ row.createdDateTime | date: 'd MMM  yyyy' }}</span
+                >
               </div>
-            </ng-template>
-          </ngx-datatable-column>
-          <!-- <ngx-datatable-column>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          [cellClass]="showColumn"
+          name="STATUS"
+          [width]="100"
+          *ngIf="tsCountry !== 'ABSA' && responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'"
+        >
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="{{ row.bookingStatus }}">{{ row.bookingStatus }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          name=""
+          [width]="250"
+          *ngIf="tsCountry !== 'ABSA' && responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'"
+        >
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div class="float-right mr-lg-3 mb-2">
+              <!-- to do if directly goto queryies -->
+              <span *ngIf="row.raisedTickets" class="mr-2">
+                <span translate class="q_recordLink" (click)="viewItinary(row)">View Queries</span>
+              </span>
+              <span>
+                <span translate class="q_recordLink" (click)="viewItinary(row)">View Itinerary</span>
+              </span>
+            </div>
+            <div class="bookingInfo float-right mr-lg-3">
+              <span class="bk_id"
+                ><span translate>Booking Id</span> {{ row.tccReference }}&nbsp;| &nbsp;</span
+              >
+              <span><span translate>Booked On</span> {{ row.createdDateTime | date: 'd MMM  yyyy' }}</span>
+            </div>
+
+            <!-- <span *ngIf="!row.raisedTickets">NA</span> -->
+          </ng-template>
+        </ngx-datatable-column>
+        <!-- <ngx-datatable-column>
           <ng-template let-row="row" ngx-datatable-cell-template>
             <span class="ml-5">
               <img ImageSrc src="./../../../assets/icons/print_icon.svg" alt="print" width="20px" /> &nbsp;
@@ -334,100 +260,96 @@
             /></span>
           </ng-template>
         </ngx-datatable-column> -->
-          <ngx-datatable-column *ngIf="tsCountry === 'ABSA'" [width]="200">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <div class="theme__booking-reference-section mt-1 mr-lg-0 d-lg-none">
-                <span class="theme__booking-reference"
-                  >Booking ID <span class="theme__booking-reference-number">{{ row.tccReference }}</span></span
-                >
-                <span class="theme__status-chip theme__{{ row.bookingStatus }}">{{ row.bookingStatus }}</span>
+        <ngx-datatable-column *ngIf="tsCountry === 'ABSA'" [width]="200">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div class="theme__booking-reference-section mt-1 mr-lg-0 d-lg-none">
+              <span class="theme__booking-reference">Booking ID <span class="theme__booking-reference-number">{{ row.tccReference }}</span></span>
+              <span class="theme__status-chip theme__{{ row.bookingStatus }}">{{ row.bookingStatus }}</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="theme__date-wrap">
+                <div class="d_date">{{ row.departDate | date: 'dd' }}</div>
               </div>
-              <div class="d-flex align-items-center">
-                <div class="theme__date-wrap">
-                  <div class="d_date">{{ row.departDate | date: 'dd' }}</div>
-                </div>
-                <div class="theme__date-wrap float-left">
-                  <div class="d_week">{{ row.departDate | date: 'EEE' }}</div>
-                  <div class="d_month">{{ row.departDate | date: 'MMM' }}</div>
-                </div>
-                <div class="theme__location-details-container ml-lg-3">
-                  <span class="theme__location-name"> {{ getCityName(row.departAirport) }}</span>
-                  <span *ngIf="row.trip !== 'MultiCity' && row.trip !== 'OpenJaw'">
-                    <img
-                      ImageSrc
-                      src="./../../../assets/icons/flight_icn_devide.svg"
-                      alt="dir"
-                      width="16px"
-                      class="theme__flights-icon"
-                    />
-                  </span>
-                  <span *ngIf="row.trip == 'MultiCity' || row.trip == 'OpenJaw'">
-                    <img
-                      ImageSrc
-                      src="./../../../assets/icons/multy_city_arrows_mytrips.svg"
-                      alt="dir"
-                      width="13px"
-                      class="theme__flights-icon mr-4 ml-4"
-                    />
-                  </span>
-                  <span class="theme__location-name">{{ getCityName(row.arrivalAirport) }}</span>
-                </div>
+              <div class="theme__date-wrap float-left">
+                <div class="d_week">{{ row.departDate | date: 'EEE' }}</div>
+                <div class="d_month">{{ row.departDate | date: 'MMM' }}</div>
               </div>
-              <div
-                class="theme__return-flight-details-container d-flex align-items-center mb-2"
-                *ngIf="(row.returnDate !== '' && row.trip == 'Roundtrip') || row.trip == 'Return'"
-              >
-                <div class="theme__date-wrap">
-                  <div class="d_date">{{ row.returnDate | date: 'dd' }}</div>
-                </div>
-                <div class="theme__date-wrap float-left">
-                  <div class="d_week">{{ row.returnDate | date: 'EEE' }}</div>
-                  <div class="d_month">{{ row.returnDate | date: 'MMM' }}</div>
-                </div>
-                <div class="theme__location-details-container ml-lg-3">
-                  <span class="theme__location-name"> {{ getCityName(row.arrivalAirport) }}</span>
-                  <span *ngIf="row.trip !== 'MultiCity'">
-                    <img
-                      ImageSrc
-                      src="./../../../assets/icons/flight_icn_devide.svg"
-                      alt="dir"
-                      width="16px"
-                      class="theme__flights-icon"
-                    />
-                  </span>
-                  <span *ngIf="row.trip == 'MultiCity' || row.trip == 'OpenJaw'">
-                    <img
-                      ImageSrc
-                      src="./../../../assets/icons/multy_city_arrows_mytrips.svg"
-                      alt="dir"
-                      width="13px"
-                      class="theme__flights-icon mr-4 ml-4"
-                    />
-                  </span>
-                  <span class="theme__location-name"> {{ getCityName(row.departAirport) }}</span>
-                </div>
+              <div class="theme__location-details-container ml-lg-3">
+                <span class="theme__location-name"> {{ getCityName(row.departAirport) }}</span>
+                <span *ngIf="row.trip !== 'MultiCity' && row.trip !== 'OpenJaw'">
+                  <img
+                    ImageSrc
+                    src="./../../../assets/icons/flight_icn_devide.svg"
+                    alt="dir"
+                    width="16px"
+                    class="theme__flights-icon"
+                  />
+                </span>
+                <span *ngIf="row.trip == 'MultiCity' || row.trip == 'OpenJaw'">
+                  <img
+                    ImageSrc
+                    src="./../../../assets/icons/multy_city_arrows_mytrips.svg"
+                    alt="dir"
+                    width="13px"
+                    class="theme__flights-icon mr-4 ml-4"
+                  />
+                </span>
+                <span class="theme__location-name">{{ getCityName(row.arrivalAirport) }}</span>
               </div>
-              <div class="theme__view-itinerary-container view_btn_bk_info">
-                <div class="view_itin_bk_info mb-2">
-                  <span class="mr-1 mr-md-2" *ngIf="row.raisedTickets">
-                    <span translate class="theme__view-itinerary-button" (click)="viewItinary(row)">View Queries</span>
-                  </span>
-                  <span class="view_itin_btn">
-                    <span translate class="theme__view-itinerary-button" (click)="viewItinary(row)"
-                      >View Itinerary</span
-                    >
-                  </span>
-                </div>
+            </div>
+            <div
+              class="theme__return-flight-details-container d-flex align-items-center mb-2"
+              *ngIf="(row.returnDate !== '' && row.trip == 'Roundtrip') || row.trip == 'Return'"
+            >
+              <div class="theme__date-wrap">
+                <div class="d_date">{{ row.returnDate | date: 'dd' }}</div>
               </div>
-            </ng-template>
-          </ngx-datatable-column>
-        </ngx-datatable>
-      </div>
+              <div class="theme__date-wrap float-left">
+                <div class="d_week">{{ row.returnDate | date: 'EEE' }}</div>
+                <div class="d_month">{{ row.returnDate | date: 'MMM' }}</div>
+              </div>
+              <div class="theme__location-details-container ml-lg-3">
+                <span class="theme__location-name"> {{ getCityName(row.arrivalAirport) }}</span>
+                <span *ngIf="row.trip !== 'MultiCity'">
+                  <img
+                    ImageSrc
+                    src="./../../../assets/icons/flight_icn_devide.svg"
+                    alt="dir"
+                    width="16px"
+                    class="theme__flights-icon"/>
+                </span>
+                <span *ngIf="row.trip == 'MultiCity' || row.trip == 'OpenJaw'">
+                  <img
+                    ImageSrc
+                    src="./../../../assets/icons/multy_city_arrows_mytrips.svg"
+                    alt="dir"
+                    width="13px"
+                    class="theme__flights-icon mr-4 ml-4"
+                  />
+                </span>
+                <span class="theme__location-name"> {{ getCityName(row.departAirport) }}</span>
+              </div>
+            </div>
+            <div class="theme__view-itinerary-container view_btn_bk_info">
+              <div class="view_itin_bk_info mb-2">
+                <span class="mr-1 mr-md-2" *ngIf="row.raisedTickets">
+                  <span translate class="theme__view-itinerary-button" (click)="viewItinary(row)">View Queries</span>
+                </span>
+                <span class="view_itin_btn">
+                  <span translate class="theme__view-itinerary-button" (click)="viewItinary(row)">View Itinerary</span>
+                </span>
+              </div>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+
     </div>
     <div class="container err_section mt-4 bg-white theme__body-background-color" *ngIf="showError && !noBookings">
       <div class="err_page text-center">
         <div class="container error_body">
-          <div *ngIf="tsCountry !== 'SB'" class="sec_img">
+          <div class="sec_img">
             <img
               ImageSrc
               class="theme__enjoy-your-trip-icon"
@@ -436,22 +358,15 @@
             />
           </div>
           <div class="err_msg">
-            <h4 *ngIf="selected === 'Upcoming'">
-              <span translate class="theme__flight-booking-list_error-header">You have no upcoming trips.</span>
-              <p translate class="theme__flight-booking-list_error-description" style="font-size: 16px">
-                Let’s change that and start planning your next trip!
-              </p>
+            <h4  *ngIf="selected === 'Upcoming'">
+              <span translate>You have no upcoming trips.</span>
+              <p translate style="font-size: 16px">Let’s change that and start planning your next trip!</p>
             </h4>
             <h4 translate *ngIf="selected === 'Paid'">No Past bookings found</h4>
             <h4 translate *ngIf="selected === 'Cancelled'">No Cancelled bookings found</h4>
             <h4 translate *ngIf="selected === 'Failed'">No Failed or Suspended bookings found</h4>
             <h4 translate *ngIf="selected === 'All'">No Bookings Found</h4>
-            <button
-              class="btn primary_btn bookMytripBtn"
-              *ngIf="selected === 'Upcoming'"
-              translate
-              (click)="goToHome()"
-            >
+            <button class="btn primary_btn bookMytripBtn" *ngIf="selected === 'Upcoming'" translate (click)="goToHome()">
               Book my trip
             </button>
           </div>
@@ -461,7 +376,7 @@
     <div class="container err_section mt-4 bg-white theme__body-background-color" *ngIf="noBookings">
       <div class="err_page text-center">
         <div class="container error_body">
-          <div *ngIf="tsCountry !== 'SB'" class="sec_img">
+          <div class="sec_img">
             <img
               ImageSrc
               class="theme__enjoy-your-trip-icon"
@@ -472,9 +387,9 @@
           <div class="err_msg">
             <p translate class="Trip_head">Enjoy Your Trip</p>
             <p class="trip_des">
-              <span translate>Don't have any bookings?</span> <br *ngIf="tsCountry === 'ABSA' || tsCountry === 'SB'" />
+              <span translate>Don't have any bookings?</span> <br *ngIf="tsCountry === 'ABSA'" />
               <span translate>Search and book flights for your next trip.</span><br />
-              <span translate *ngIf="tsCountry !== 'SB'">Get going by clicking</span>
+              <span translate>Get going by clicking</span>
             </p>
             <button class="mt-3" type="button" class="btn start-btn" (click)="goToHome()">
               <span translate>Get Started</span>

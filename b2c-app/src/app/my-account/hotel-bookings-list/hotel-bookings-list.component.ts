@@ -37,7 +37,7 @@ public temp: any = [];
   ) {}
   ngOnInit(): void {
     this.centerlizedJsonData = this.storage.getItem('appCentralizedInfo', 'session') ? JSON.parse(this.storage.getItem('appCentralizedInfo', 'session')) : null;
-    this.getHotelBookingList();
+    this.hapiAPIAuthenticate();
     this.selectSort('All');
     let credentials = JSON.parse(this.storage.getItem('credentials', 'session'));
     this.userAgent = this.myAccountService.countrydata;
@@ -135,6 +135,32 @@ public temp: any = [];
     this.storage.setItem('selectedHotelInfo',JSON.stringify(hotelInfo), 'session');
     this.route.navigate(['/my-account/hotel-booking-details'], { queryParamsHandling: 'preserve' });
   }
+hapiAPIAuthenticate(){
+  let nullValue :any = null;
+  let reqData = {
+    traceId: nullValue, 
+    userId: nullValue, 
+    userAgent: nullValue, 
+    ipAddress: nullValue, 
+    userRoleCaller: nullValue, 
+    email: this.apService.get_HAPIAuthenticateCredentials() ? this.apService.get_HAPIAuthenticateCredentials()?.email : null, 
+    password: this.apService.get_HAPIAuthenticateCredentials() ? this.apService.get_HAPIAuthenticateCredentials().password : null
+  }
+//   this.myAccountService.hapiAPIAuthenticate(reqData).subscribe((res:any)=>{
+//     if(!res?.errors && res?.jwtToken){
+//         this.authorizationData = res;
+//         this.getHotelBookingList();
+//     }else{
+//       this.loading = false;
+//       this.hotelBookings = [];
+//     }
+//   },
+// (error:any)=>{
+//       this.loading = false;
+//       this.hotelBookings = [];
+// })
+this.getHotelBookingList();
+}
 getHotelBookingList(){
     this.myAccountService.getHotelBookingList().subscribe((res:any)=>{
         if(res?.bookings?.length > 0){

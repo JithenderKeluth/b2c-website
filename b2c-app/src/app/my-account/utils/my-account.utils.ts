@@ -1,7 +1,6 @@
 import { getUserCredentials } from "../../general/utils/common-utils";
 
 export function myAccountEventData(bookingId:any){
-  if (typeof window !== 'undefined' && window.sessionStorage) {
     const credentials:any = getUserCredentials();
     const locality = sessionStorage.getItem('country-language');
     const eventData = {
@@ -12,5 +11,4 @@ export function myAccountEventData(bookingId:any){
       bookingId : bookingId
     }
     return eventData;
-  }
 }

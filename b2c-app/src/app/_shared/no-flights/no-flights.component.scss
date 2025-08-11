@@ -12,16 +12,16 @@
     margin-top: 2%;
     padding: 4px 29px;
   }
-  .mt-100{
-    margin-top: 100px;
-  }
 }
 
 @media (max-width: map-get($grid-breakpoints, lg)) {
   .err_page {
     height: 72vh !important;
-    .ok-btn {
-    padding: 4px 13px !important;
   }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .err_page .ok-btn {
+    padding: 4px 13px !important;
   }
 }

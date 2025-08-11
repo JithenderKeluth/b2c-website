@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FooterComponent } from './../_shared/components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
+import { TsPlusHeadComponent } from '../travelstart-plus/ts-plus-head/ts-plus-head.component';
 
 import { CustomMaterialModule } from './../custom-material/custom-material.module';
 import { Routes, RouterModule } from '@angular/router';
@@ -63,11 +64,11 @@ import { BackButtonComponent } from './components/back-button/back-button.compon
 import { FlightDetailsInfoAlternativeComponent } from './components/flight-details-info-alternative/flight-details-info-alternative.component';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { AiTravelAgentComponent } from './components/ai-travel-agent/ai-travel-agent.component';
-import { WarningNotificationComponent } from './components/alert-notification/warning-notification.component';
-import { TravelInsuranceInfoComponent } from './components/white-labels/sb/travel-insurance-info.component';
+import { MemberDealsBenefitsComponent } from '../travelstart-plus/member-deals-benefits/member-deals-benefits.component';
+import {TsPlusSubscribeComponent} from '../travelstart-plus/ts-plus-subscribe/ts-plus-subscribe.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { CouponsInfoComponent } from './../booking/coupons-info/coupons-info.component';
-import { ItineraryInfoComponent } from './../booking/itinerary-info/itinerary-info.component';
 
 const routes: Routes = [
   {
@@ -96,6 +97,7 @@ const routes: Routes = [
     I18nModule,
     NgxMaskModule.forRoot(maskConfig),
     NgxIntlTelInputModule,
+    CarouselModule
   ],
   declarations: [
     SvgIconComponent,
@@ -145,13 +147,12 @@ const routes: Routes = [
     BackButtonComponent,
     FlightDetailsInfoAlternativeComponent,
     CreditCardInputDirective,
-    CouponsInfoComponent,
-    WarningNotificationComponent,
-    TravelInsuranceInfoComponent,
-    ItineraryInfoComponent
+    TsPlusHeadComponent,
+    MemberDealsBenefitsComponent,
+    TsPlusSubscribeComponent,
+    CouponsInfoComponent
   ],
   exports: [
-    CommonModule,
     SvgIconComponent,
     FooterComponent,
     HeaderComponent,
@@ -193,10 +194,10 @@ const routes: Routes = [
     BackButtonComponent,
     FlightDetailsInfoAlternativeComponent,
     CreditCardInputDirective,
-    CouponsInfoComponent,
-    WarningNotificationComponent,
-    TravelInsuranceInfoComponent,
-    ItineraryInfoComponent
+    TsPlusHeadComponent,
+    MemberDealsBenefitsComponent,
+    TsPlusSubscribeComponent,
+    CouponsInfoComponent
   ],
   providers: [DatePipe, I18nModule],
 })

@@ -1,17 +1,7 @@
 <div class="payment_gateway">
   <div class="payment_options" (click)="cardFlipInit()">
-    <ul
-      class="nav nav-tabs"
-      id="myTab"
-      role="tablist"
-      [ngClass]="countryValue === 'ABSA' ? 'theme__conditionally-hidden' : ''"
-    >
-      <li
-        class="nav-item"
-        *ngIf="isPaymentOptionAvailable('PAYSTACK')"
-        id="PAYSTACK_Tab"
-        [ngClass]="{ active: selectedActive('PAYSTACK') }"
-      >
+    <ul class="nav nav-tabs theme__conditionally-hidden" id="myTab" role="tablist">
+      <li class="nav-item" *ngIf="isPaymentOptionAvailable('PAYSTACK')" id="PAYSTACK_Tab" [ngClass]="{ active: selectedActive('PAYSTACK') }">
         <div class="newLabel">
           <span class="newLabel_txt">new</span>
         </div>
@@ -30,12 +20,7 @@
           <span translate class="tabLabel">Paystack</span></a
         >
       </li>
-      <li
-        class="nav-item"
-        *ngIf="isPaymentOptionAvailable('CC') || isPaymentOptionAvailable('DC')"
-        id="CC_Tab"
-        [ngClass]="{ active: selectedActive('CC') || selectedActive('DC') }"
-      >
+      <li class="nav-item" *ngIf="isPaymentOptionAvailable('CC') || isPaymentOptionAvailable('DC')" id="CC_Tab" [ngClass]="{ active: selectedActive('CC') || selectedActive('DC') }">
         <a
           [ngClass]="{ active: selectedActive('CC') || selectedActive('DC') }"
           class="nav-link active"
@@ -51,12 +36,7 @@
           <span translate class="tabLabel">Credit/Debit Card</span>
         </a>
       </li>
-      <li
-        class="nav-item"
-        *ngIf="isPaymentOptionAvailable('PAYFLEX')"
-        id="PAYFLEX_Tab"
-        [ngClass]="{ active: selectedActive('PAYFLEX') }"
-      >
+      <li class="nav-item" *ngIf="isPaymentOptionAvailable('PAYFLEX')" id="PAYFLEX_Tab"  [ngClass]="{ active: selectedActive('PAYFLEX') }">
         <div class="newLabelBNPL d-lg-none">
           <span class="newTagTxt">NEW</span>
         </div>
@@ -70,12 +50,12 @@
           role="tab"
           aria-controls="Pay-flex"
           aria-selected="false"
-          (click)="getSelectedPaymentOption('PAYFLEX')"
-        >
+          (click)="getSelectedPaymentOption('PAYFLEX')">
           <span translate class="tabLabel">
-            Book Now Pay Later
-            <span class="newLabelBNPL d-none d-lg-inline">
-              <span class="newTagTxt"> NEW </span>
+            Book Now Pay Later <span class="newLabelBNPL d-none d-lg-inline">
+              <span class="newTagTxt">
+                NEW
+              </span>
             </span>
           </span>
         </a>
@@ -105,12 +85,7 @@
           ><span translate class="tabLabel">EFT</span></a
         >
       </li>
-      <li
-        class="nav-item"
-        *ngIf="isPaymentOptionAvailable('IPAY')"
-        id="IPAY_Tab"
-        [ngClass]="{ active: selectedActive('IPAY') }"
-      >
+      <li class="nav-item" *ngIf="isPaymentOptionAvailable('IPAY')" id="IPAY_Tab"   [ngClass]="{ active: selectedActive('IPAY') }">
         <a
           [ngClass]="{ active: selectedActive('IPAY') }"
           href="#IPAY"
@@ -125,12 +100,7 @@
           ><span translate class="tabLabel">Instant EFT</span></a
         >
       </li>
-      <li
-        class="nav-item"
-        *ngIf="isPaymentOptionAvailable('CC') && budgetCCmethods"
-        id="CC_INS_Tab"
-        [ngClass]="{ active: selectedActive(budgetCCmethods_PaymentOption) }"
-      >
+      <li class="nav-item" *ngIf="isPaymentOptionAvailable('CC') && budgetCCmethods" id="CC_INS_Tab" [ngClass]="{ active: selectedActive(budgetCCmethods_PaymentOption) }">
         <a
           [ngClass]="{ active: selectedActive(budgetCCmethods_PaymentOption) }"
           class="nav-link"
@@ -145,12 +115,7 @@
           ><span translate class="tabLabel">Budget Credit Card</span></a
         >
       </li>
-      <li
-        class="nav-item"
-        *ngIf="isPaymentOptionAvailable('MOBICRED')"
-        id="MOBICRED_Tab"
-        [ngClass]="{ active: selectedActive('MOBICRED') }"
-      >
+      <li class="nav-item" *ngIf="isPaymentOptionAvailable('MOBICRED')" id="MOBICRED_Tab"  [ngClass]="{ active: selectedActive('MOBICRED') }">
         <a
           [ngClass]="{ active: selectedActive('MOBICRED') }"
           href="#MOBICRED"
@@ -165,12 +130,7 @@
           ><span translate class="tabLabel">MOBICRED</span></a
         >
       </li>
-      <li
-        class="nav-item"
-        *ngIf="isPaymentOptionAvailable('MPESA')"
-        id="MPESA_Tab"
-        [ngClass]="{ active: selectedActive('MPESA') }"
-      >
+      <li class="nav-item" *ngIf="isPaymentOptionAvailable('MPESA')" id="MPESA_Tab" [ngClass]="{ active: selectedActive('MPESA') }">
         <a
           [ngClass]="{ active: selectedActive('MPESA') }"
           href="#M-pesa"
@@ -185,6 +145,7 @@
           ><span translate class="tabLabel">M-pesa</span></a
         >
       </li>
+
     </ul>
   </div>
   <div class="paymentCardBody">
@@ -238,10 +199,7 @@
       >
         <div *ngIf="selectedTab == 'CC' || selectedTab == 'DC'">
           <ng-container *ngTemplateOutlet="ccCards"> </ng-container>
-          <div *ngIf="isMobile">
-            <div class="theme__save-card-label-container">
-              <ng-container *ngTemplateOutlet="saveCardSec"> </ng-container>
-            </div>
+          <div class="theme__save-card-label-container" *ngIf="isMobile">
             <ng-container *ngTemplateOutlet="vat"> </ng-container>
           </div>
         </div>
@@ -572,40 +530,44 @@
         </div>
       </div>
       <div
-        class="tab-pane mt-lg-2"
-        id="PAYFLEX"
-        role="tabpanel"
-        aria-labelledby="payflex-tab"
-        [ngClass]="{ active: selectedActive('PAYFLEX') }"
-      >
-        <div *ngIf="selectedTab == 'PAYFLEX'">
-          <div class="eft_cards col-sm-12 col-xs-12">
+      class="tab-pane mt-lg-2"
+      id="PAYFLEX"
+      role="tabpanel"
+      aria-labelledby="payflex-tab"
+      [ngClass]="{ active: selectedActive('PAYFLEX') }"
+    >
+      <div *ngIf="selectedTab == 'PAYFLEX'">
+        <div class="eft_cards col-sm-12 col-xs-12">
+          <div>
             <div>
-              <div>
-                <div class="gateway-header-container mb-4 pt-xs-10">
-                  <img
-                    ImageSrc
-                    class="gateway-logo pr-3"
-                    src="../../../assets/img/payment-icons/payflex-logo.svg"
-                    alt="payflex-logo"
-                    width="100px"
-                    loading="lazy"
-                  />
-                </div>
+              <div class="gateway-header-container mb-4 pt-xs-10">
+                <img
+                  ImageSrc
+                  class="gateway-logo pr-3"
+                  src="../../../assets/img/payment-icons/payflex-logo.svg"
+                  alt="payflex-logo"
+                  width="100px"
+                  loading="lazy"
+                />
+              </div>
 
-                <div class="mobocred-gateway-description">
-                  <p translate class="mb-0">Pay for your booking in 4 installments using PAYFLEX</p>
-                  <p translate>Click Pay Now to continue</p>
-                </div>
+              <div class="mobocred-gateway-description">
+                <p translate class="mb-0">
+                  Pay for your booking in 4 installments using PAYFLEX
+                </p>
+                <p translate>
+                  Click Pay Now to continue
+                </p>
               </div>
             </div>
           </div>
-          <div class="clearfix"></div>
-          <div *ngIf="isMobile && selectedTab == 'PAYFLEX'">
-            <ng-container *ngTemplateOutlet="vat"> </ng-container>
-          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div *ngIf="isMobile && selectedTab == 'PAYFLEX'">
+          <ng-container *ngTemplateOutlet="vat"> </ng-container>
         </div>
       </div>
+    </div>
     </div>
     <div (click)="cardFlipInit()" class="px-3 theme__terms-and-conditions-container">
       <div *ngIf="!isMobile">
@@ -666,22 +628,20 @@
       >
         <label for="Terms and Conditions" class="labl proceed" translate *ngIf="countryValue === 'ABSA'">
         By proceeding to book, I confirm that the passenger name(s), flight itinerary, baggage details and products are correct.
-
         </label>
-   
-        <label for="Terms and Conditions" class="labl proceed sb-terms-and-conditions" *ngIf="countryValue !== 'ABSA'">
+        <label for="Terms and Conditions" class="labl proceed" *ngIf="countryValue !== 'ABSA'">
           <span translate>By proceeding to book I agree and accept the</span>
           <a href="{{ 'terms and conditions URL' | translate }}" target="_blank" rel="noopener">
-            <span translate> Terms and Conditions</span></a
+            <span translate>Terms and Conditions</span></a
           >
           <span translate
-            > and confirm that the passenger name(s), flight itinerary, baggage details and products are correct.</span
+            >and confirm that the passenger name(s), flight itinerary, baggage details and products are correct.</span
           >
         </label>
       </div>
     </div>
   </div>
-  <!--here we can remove this dialog once everything fine with payment-view page dialog box-->
+<!--here we can remove this dialog once everything fine with payment-view page dialog box-->
   <dialog id="payment_failed_Modals">
     <div class="modal-dialog EFT_failed" role="document">
       <div class="modal-content dialog_content add_txt">
@@ -867,21 +827,30 @@
     </div>
   </dialog>
   <ng-template #vat>
-    <button
-      class="theme__add-card-button my-3"
-      *ngIf="countryValue === 'ABSA' && credentials?.data?.paymentCardList?.length > 0"
-      (click)="addCard()"
+    <button class="theme__add-card-button my-3" *ngIf="countryValue === 'ABSA' && credentials?.data?.paymentCardList?.length > 0" (click)="addCard()">Add another card</button>
+    <label
+      for="Save Card"
+      class="btn p-0 mt-xs-10 theme__save-card-label"  [ngClass]="countryValue == 'mastercardtravel' ? 'mc_SavedCard' : ''"
+      *ngIf="(countryValue === 'ABSA' && !selectedCard && (!credentials || credentials?.data?.paymentCardList?.length === 0)) || (countryValue === 'mastercardtravel' && !selectedCard && credentials)"
     >
-      Add another card
-    </button>
+      <mat-checkbox
+        type="checkbox"
+        class="mat-checkbox"
+        (click)="toggleSaveCardDetailsCheck()"
+      ></mat-checkbox>
+      <span translate class="labl theme__checkbox-label">Save Card</span>
+      <span *ngIf="countryValue !== 'mastercardtravel'" [ngbTooltip]="saveCardTipContent" triggers="click" [autoClose]="true">
+        <img ImageSrc class="theme__info-icon" src="../../../assets/icons/v1-icons/promo-info-new-icn.svg" alt="info-icon">
+      </span>
+      <ng-template #saveCardTipContent>
+        <div translate>Save your card to make your next booking quicker?</div><br>
+        <div translate>Please note: Your card information will be shared with our trusted travel partners, who will securely store it for your convenience.</div>
+      </ng-template>
+    </label>
     <label
       for="I require a VAT invoice"
       class="btn p-0 mt-xs-10 theme__require-vat-invoice-label"
-      *ngIf="
-        countryValue !== 'ABSA' &&
-        apiService.extractCountryFromDomain() !== 'NG' &&
-        apiService.extractCountryFromDomain() !== 'GI'
-      "
+      *ngIf="countryValue !== 'ABSA' && apiService.extractCountryFromDomain() !== 'NG' && apiService.extractCountryFromDomain() !== 'GI'"
     >
       <mat-checkbox
         *ngIf="apiService.extractCountryFromDomain() !== 'IB'"
@@ -892,12 +861,6 @@
       ></mat-checkbox>
       <span *ngIf="apiService.extractCountryFromDomain() !== 'IB'" translate class="labl">I require a VAT invoice</span>
     </label>
-
-    <div *ngIf="showCompanyVat && apiService.extractCountryFromDomain() === 'SB' " >
-      <app-warning-notification  [hideTitle]="true" [hideIcon]="true">
-        Please note: Standard Bank Travel is supported by Travelstart, which manages the flight booking process including ticketing, invoicing and payment collection.
-      </app-warning-notification>
-    </div>
 
     <div
       *ngIf="
@@ -919,15 +882,14 @@
                 class="form-control"
                 autocomplete="off"
                 [formControl]="companyName"
-                placeholder="Enter company name"
               />
               <div *ngIf="submitted && companyName.errors">
                 <div translate class="validation_msg" *ngIf="companyName.errors.required">Required Company Name</div>
               </div>
             </div>
             <div class="form-group">
-              <label translate for="cc_name">Company VAT no</label>
-              <input type="text" id="companyVat" class="form-control" placeholder="Company VAT no" autocomplete="off" [formControl]="companyVatNo" />
+              <label translate for="cc_name">Company VAT No</label>
+              <input type="text" id="companyVat" class="form-control" autocomplete="off" [formControl]="companyVatNo" />
               <div *ngIf="submitted && companyVatNo.errors">
                 <div class="validation_msg" *ngIf="companyVatNo.errors.required">
                   <span translate>Required Company VAT No</span>
@@ -940,43 +902,16 @@
       </div>
     </div>
 
-    <div class="proceesingFee_div" *ngIf="currencyVal && processingFeeAmount && processingFeeAmount?.processingFee > 0 && countryValue !== 'SB'">
+    <div class="proceesingFee_div" *ngIf="currencyVal && processingFeeAmount && processingFeeAmount?.processingFee > 0">
       <hr class="mt-1 mb-2 theme__dotted-line" />
       <span translate>Booking Fee</span>
       <span class="float-right feeAmount">
-        +{{ currencyVal | currencyCode
-        }}{{ processingFeeAmount.processingFee | currency: '' + ' ' + ' ' : 'symbol' : '2.0' }}
+        +{{ currencyVal | currencyCode }}{{ processingFeeAmount.processingFee | currency: '' + ' ' + ' ':'symbol':'2.0' }}
       </span>
       <hr class="mt-2 mb-0 theme__dotted-line" />
     </div>
-
   </ng-template>
-      <ng-template #saveCardSec>
-            <label
-              for="Save Card"
-              class="p-0 mt-xs-10 theme__save-card-label"
-              *ngIf="(countryValue === 'ABSA' && !selectedCard && (!credentials || credentials?.data?.paymentCardList?.length === 0)) || (countryValue === 'SB' && !selectedCard && credentials)"
-            >
-              <mat-checkbox type="checkbox" class="mat-checkbox" (click)="toggleSaveCardDetailsCheck()"></mat-checkbox>
-              <span translate class="labl theme__checkbox-label">Save Card</span>
-              <span *ngIf="countryValue !== 'SB'" [ngbTooltip]="saveCardTipContent" triggers="click" [autoClose]="true">
-                <img
-                  ImageSrc
-                  class="theme__info-icon"
-                  src="../../../assets/icons/v1-icons/promo-info-new-icn.svg"
-                  alt="info-icon"
-                />
-              </span>
-              <ng-template #saveCardTipContent>
-                <div translate>Save your card to make your next booking quicker?</div>
-                <br />
-                <div translate>
-                  Please note: Your card information will be shared with our trusted travel partners, who will securely store it
-                  for your convenience.
-                </div>
-              </ng-template>
-            </label>
-      </ng-template>
+
   <ng-template #ccCards>
     <div *ngIf="reDirect_enable">
       <div class="row m-0 mt-lg-4">
@@ -1035,7 +970,7 @@
                           <div class="form-group text-center">
                             <h5 translate for="" style="color: #fff" *ngIf="bookingAmountVal && bookingInfo">
                               Amount {{ bookingInfo.itineraryData.currencyCode | currencyCode
-                              }}{{ bookingAmountVal | currency: '' + ' ' : 'symbol' : '2.0' }}
+                              }}{{ bookingAmountVal | currency: '' + ' ':'symbol':'2.0' }}
                             </h5>
                           </div>
                         </div>
@@ -1049,21 +984,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="countryValue === 'SB'" class="pay-instantly-message" >
-      Pay instantly and securely with your <b>Standard Bank Credit card, Evolve card or Debit/Cheque card</b>
-    </div>
     <div *ngIf="(!reDirect_enable && isPaymentOptionAvailable('CC')) || isPaymentOptionAvailable('DC')">
-            <app-discount-promo
-            *ngIf="countryValue == 'SB' && totalPrice "
-            [currencyCode]="currencyVal"
-            [totalAmount]="totalPrice"
-            [discountAmount]="selectedDiscount?.amount"
-            [showInfo]="true"
-            (info)="onDiscountInfoClicked()"
-            [itinDiscount]="bookingInfo?.itineraryData?.fareBreakdown?.discountAmount"
-            [showBookingFee]="true"
-          >
-          </app-discount-promo>
       <div
         class="split_payment_sec d-flex"
         *ngIf="
@@ -1078,10 +999,7 @@
         <div class="ml-3">
           <div class="heading">Important</div>
           <div class="split_payment_txt">
-            <span translate
-              >Your booking is split between <span class="sb_wording" translate>Travelstart</span> and the airline(s). Please
-              authorize</span
-            >
+            <span translate>Your booking is split between Travelstart and the airline(s). Please authorize</span>
             <span class="price">{{ currencyVal | currencyCode }}{{ getTravelstart_Fees() | number: '1.2-2' }}</span> via
             your <span class="price">bank/OTP</span>. The airline will collect the remaining balance of
             <span class="price">{{ currencyVal | currencyCode }}{{ getAirlineFees() | number: '1.2-2' }}</span> from
@@ -1091,21 +1009,14 @@
       </div>
       <div *ngIf="countryValue === 'ABSA'">
         <div translate class="theme__section-header">Payment</div>
-        <div translate class="theme__section-sub-header">
-          Please add your Absa Credit/Debit card to make your payment.
-        </div>
+        <div translate class="theme__section-sub-header">Please add your Absa Credit/Debit card to make your payment.</div>
       </div>
-
-      <div *ngIf="countryValue === 'SB' && selectedCard">
-        <ng-container *ngTemplateOutlet="paymentErrorBlock"></ng-container>
-      </div>
-
       <div class="supp_cards" (click)="cardFlipInit()">
         <div *ngIf="credentials?.data?.paymentCardList?.length > 0 && (selectedTab == 'CC' || selectedTab == 'DC')">
           <div [ngClass]="countryValue !== 'ABSA' ? 'pb-2' : ''">
-            <div class="cardlabl  my-2" translate >Saved cards</div>
+            <div translate class="cardlabl theme__conditionally-hidden">Saved cards</div>
             <div class="user_cards" *ngFor="let card of credentials.data.paymentCardList">
-              <label class=" p-0 w-100 text-left">
+              <label class="btn p-0 w-100 text-left">
                 <input
                   type="checkbox"
                   class="form-switch radio_1set"
@@ -1117,11 +1028,9 @@
                     ImageSrc
                     *ngIf="selectedCard === card.cardToken"
                     class="fa-check-circle"
-                    [src]="
-                      countryValue === 'ABSA'
-                        ? '../../../assets/icons/absa_icons/radio-button-filled.svg'
-                        : './../../../assets/icons/travellerpage_Icons/tick_selected.svg'
-                    "
+                    [src]="countryValue === 'ABSA'
+                      ? '../../../assets/icons/absa_icons/radio-button-filled.svg'
+                      : './../../../assets/icons/travellerpage_Icons/tick_selected.svg'"
                     width="18px"
                     alt="tick_selected"
                     loading="lazy"
@@ -1131,11 +1040,9 @@
                     *ngIf="selectedCard !== card.cardToken"
                     class="fa-check-circle"
                     width="18px"
-                    [src]="
-                      countryValue === 'ABSA'
-                        ? '../../../assets/icons/absa_icons/empty-radio-button.svg'
-                        : './../../../assets/icons/travellerpage_Icons/tick_default.svg'
-                    "
+                    [src]="countryValue === 'ABSA'
+                      ? '../../../assets/icons/absa_icons/empty-radio-button.svg'
+                      : './../../../assets/icons/travellerpage_Icons/tick_default.svg'"
                     alt="tick_default"
                     loading="lazy"
                   />
@@ -1171,47 +1078,35 @@
                       >
                         Required CVV
                       </div>
+
                       <div *ngIf="invalidCvv" class="validation_msg">
                         <div translate>Invalid CVV</div>
                       </div>
                     </div>
-                      <div
-                        translate
-                        class="validation_msg mt-2 mx-3"
-                        *ngIf="countryValue === 'SB' && showStandardBankCardMessageForSix && selectedCard === card.cardToken"
-                      >
-                        Please use your Standard Bank card
-                      </div>
-                  </div>
+                    <div class="col-12">
+                    <div translate class="validation_msg mt-2" *ngIf="countryValue === 'mastercardtravel' && (showVisaCardMessage)">
+                       Please use  Mastercard only
+                    </div>
+                    </div>
 
+                  </div>
                 </div>
               </label>
             </div>
           </div>
         </div>
-        <div
-          class="pt-xs-10 d-lg-flex align-items-center theme__payment-method-header theme__raise-priority"
-          *ngIf="(isMobile && !selectCard) || !isMobile"
-        >
-          <span translate class="labl" *ngIf="(countryValue !== 'ABSA' && selectedTab === 'CC') || selectedTab == 'DC'">
+        <div class="pt-xs-10 d-lg-flex align-items-center theme__payment-method-header theme__raise-priority" *ngIf="(isMobile && !selectCard) || !isMobile">
+          <span translate class="labl" *ngIf="countryValue !== 'ABSA' && selectedTab === 'CC' || selectedTab == 'DC'">
             Pay instantly and securely with your
-            <span translate *ngIf="selectedTab === 'CC' && isCreditCardAvl && !isPaymentOptionAvailable('DC')">
-              credit/debit card</span
-            >
             <span
               translate
-              *ngIf="(selectedTab === 'CC' || selectedTab == 'DC') && isCreditCardAvl && isPaymentOptionAvailable('DC')"
-              >credit/debit card</span
+              *ngIf="(selectedTab === 'CC' || selectedTab == 'DC') && isCreditCardAvl"
+              >{{ countryValue === 'mastercardtravel' ? 'Mastercard credit/debit card' : 'credit/debit card' }}</span
             >
           </span>
-          <span
-            translate
-            class="labl"
-            *ngIf="(countryValue !== 'ABSA' && selectedTab === 'CC_3D_INS') || selectedTab === 'CC_INS'"
-          >
+          <span translate class="labl" *ngIf="countryValue !== 'ABSA' && selectedTab === 'CC_3D_INS' || selectedTab === 'CC_INS'">
             Pay instantly and securely with your budget credit card.
           </span>
-
           <span class="xs-hide ml-auto theme__conditionally-hidden">
             <ul *ngIf="paymentMethods && paymentMethods.paymentOptions">
               <li
@@ -1232,9 +1127,26 @@
           </span>
         </div>
 
-        <div *ngIf="invalid_PaymentType" class="pay_wrong">
+        <div id="errorMsg">
+          <div *ngIf="paymentErrors && paymentErrors.msg && paymentErrors.img" class="pay_wrong">
+            <img *ngIf="countryValue !== 'ABSA'" src="{{ paymentErrors.img }}" ImageSrc alt="error" loading="lazy" />
+            <img
+              *ngIf="countryValue === 'ABSA'"
+              class="theme__error-info-icon"
+              src="../../../assets/icons/absa_icons/error-info-icon.svg"
+              alt="error-info-icon"
+              loading="lazy"
+            />
+            <span *ngIf="isConnected" translate>{{ paymentErrors.msg }}</span>
+          </div>
+          <div *ngIf="getNetWorkStatus()" class="pay_wrong">
+            <span translate>Please check your internet connection</span>
+          </div>
+        </div>
+
+        <div *ngIf="invalid_PaymentType && countryValue !== 'mastercardtravel'" class="pay_wrong">
           <img
-            *ngIf="countryValue !== 'ABSA' && countryValue !== 'SB'"
+            *ngIf="countryValue !== 'ABSA'"
             ImageSrc
             src="./../../../../assets/icons/Icon/Negative-scenarios/incorrect_card_icon.svg"
             alt="incorrect_card"
@@ -1248,14 +1160,6 @@
             loading="lazy"
           />
           <span translate>Your card type is not supported. Please use a different card.</span>
-          <img
-            width="12"
-            height="12"
-            alt="close error"
-            (click)="closeInvalidPayment()"
-            ImageSrc
-            src="./../../../../assets/icons/close_cross_icn_error.svg"
-          />
         </div>
 
         <div *ngIf="invalidVoucher" class="pay_wrong">
@@ -1267,17 +1171,30 @@
           />
           <span translate>Unfortunately, your voucher code is invalid.</span>
         </div>
+
+        <div *ngIf="countryValue === 'mastercardtravel' && masterCardDiscountNotAvailable" class="pay_wrong">
+          <img 
+          ImageSrc
+            src="./../../../../assets/icons/Icon/Negative-scenarios/incorrect_card_icon.svg"
+            alt="incorrect_card"
+            loading="lazy"
+          />
+
+          <span translate>We're sorry, but this card isn't eligible for the 10% discount.</span>
+        </div>
+
+        <div *ngIf="discountAppliedForMasterCard" class="discount_applied">
+          <img
+            ImageSrc
+            src="./../../../../assets/icons/Icon/Payment/discount_applied.png"
+            alt="discount_applied"
+            loading="lazy"
+          />
+          <span translate> Awesome! You just unlocked a 10% discount.</span>
+        </div>
       </div>
 
-      <div
-        class="card-container d-none d-lg-block"
-        *ngIf="
-          countryValue !== 'ABSA' ||
-          (countryValue === 'ABSA' && (!credentials || credentials?.data?.paymentCardList?.length === 0))
-        "
-        [ngClass]="{ flip_card: flip_Card }"
-        (click)="cardFlipInit()"
-      >
+      <div class="card-container d-none d-lg-block" *ngIf="countryValue !== 'ABSA' || (countryValue === 'ABSA' && (!credentials || credentials?.data?.paymentCardList?.length === 0))" [ngClass]="{ flip_card: flip_Card }" (click)="cardFlipInit()">
         <div class="card">
           <div class="card-body">
             <div class="flip front">
@@ -1374,14 +1291,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="row m-0 Card-Enter"
-        *ngIf="
-          ((isMobile && !selectCard) || !isMobile) &&
-          (countryValue !== 'ABSA' ||
-            (countryValue === 'ABSA' && (!credentials || credentials?.data?.paymentCardList?.length === 0)))
-        "
-      >
+      <div class="row m-0 Card-Enter" *ngIf="((isMobile && !selectCard) || !isMobile) && (countryValue !== 'ABSA' || (countryValue === 'ABSA' && (!credentials || credentials?.data?.paymentCardList?.length === 0)))">
         <div class="col-2" (click)="cardFlipInit()"></div>
         <div class="col-lg-8 col-12 p-0">
           <div class="card mt-lg-4">
@@ -1406,14 +1316,9 @@
                     Please select your bank
                   </div>
                 </div>
-                <h4 *ngIf="countryValue === 'SB' " class="my-2" translate >New card</h4>
-
-                <ng-container *ngTemplateOutlet="paymentErrorBlock"></ng-container>
-
                 <div class="form-group col-sm-12 p-0" (click)="cardFlipInit()">
                   <label for="Card Number" translate class="theme__payment-method-label">Card Number</label>
                   <input
-                    id="cardNumberInput"
                     type="tel"
                     #card_number
                     class="form-control"
@@ -1454,30 +1359,20 @@
                   >
                     Required Card Number
                   </div>
-                  <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="
-                      !((showAbsaCardMessageForSix && showAbsaCardMessageForEight) || showStandardBankCardMessageForSix) &&
-                      paymentCardForm?.cardNumber?.errors?.minlength
-                    "
-                  >
+                  <div translate class="validation_msg" *ngIf="!(showAbsaCardMessageForSix && showAbsaCardMessageForEight) && countryValue !== 'mastercardtravel' &&  paymentCardForm?.cardNumber?.errors?.minlength">
                     Please enter a valid Card Number
                   </div>
-                  <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="countryValue === 'ABSA' && showAbsaCardMessageForSix && showAbsaCardMessageForEight"
-                  >
+                  <div translate class="validation_msg" *ngIf="countryValue === 'ABSA' && (showAbsaCardMessageForSix && showAbsaCardMessageForEight)">
                     Please use your Absa card
                   </div>
-                   <div
-                    translate
-                    class="validation_msg"
-                    *ngIf="countryValue === 'SB' && showStandardBankCardMessageForSix"
-                  >
-                    Please use your Standard Bank card
-                  </div>
+                  <div translate class="validation_msg" *ngIf="countryValue === 'mastercardtravel' && (showVisaCardMessage)">
+                    Please use  Mastercard only
+                    </div>
+                     
+                    
+                  <!-- <div translate class="validation_msg" *ngIf="countryValue === 'mastercardtravel' && (showMasterCardMessageForSix && showMasterCardMessageForEight)">
+                    Please use valid Master card to get 10% discount
+                  </div> -->
                 </div>
                 <div class="form-group col-sm-12 p-0" (click)="cardFlipInit()">
                   <label translate for="cc_name" class="theme__payment-method-label">Card Holder Name</label>
@@ -1539,7 +1434,7 @@
                           #card_expiry
                           class="form-control selectExpiry col-sm-12"
                           formControlName="cardExpiryMonth"
-                          placeholder="{{ (countryValue === 'ABSA' || countryValue === 'SB') ? 'MM' : 'month' }}"
+                          placeholder="{{ countryValue === 'ABSA' ? 'MM' : 'month' }}"
                           required
                         >
                           <mat-option value="01">01</mat-option>
@@ -1574,7 +1469,7 @@
                           formControlName="cardExpiry"
                           #cardExpiryYear
                           (selectionChange)="getExpiryYear()"
-                          placeholder="{{ (countryValue === 'ABSA' || countryValue === 'SB') ? 'YY' : 'year' }}"
+                          placeholder="{{ countryValue === 'ABSA' ? 'YY' : 'year' }}"
                         >
                           <mat-option value="{{ val.year }}" *ngFor="let val of yearsArray">{{ val.year }}</mat-option>
                         </mat-select>
@@ -1600,7 +1495,7 @@
                         formControlName="cvv"
                         maxlength="5"
                         #cvv
-                        placeholder="{{ (countryValue === 'ABSA' || countryValue === 'SB') ? 'CVV' : 'cvv' }}"
+                        placeholder="{{ countryValue === 'ABSA' ? 'CVV' : 'cvv' }}"
                         required
                         autocomplete="off"
                         (click)="cardFlip()"
@@ -1614,7 +1509,7 @@
                     </div>
                   </div>
                   <div
-                    class="form-group col-12 p-0"
+                    class="form-group col-sm-12 p-0"
                     (click)="cardFlipInit()"
                     *ngIf="selectedPaymentOption == 'CC_3D_INS' || selectedPaymentOption == 'CC_INS'"
                   >
@@ -1724,26 +1619,3 @@
     </div>
   </dialog>
 </div>
-
-<!-- Payment error message from book Api display block-->
-<ng-template #paymentErrorBlock>
-  <div id="errorMsg"> 
-    <div *ngIf="paymentErrors && paymentErrors.msg && paymentErrors.img && !isPaymentErrorDismissed" class="pay_wrong">
-      <img *ngIf="countryValue !== 'ABSA' && countryValue !== 'SB'" src="{{ paymentErrors.img }}" ImageSrc alt="error" loading="lazy" />
-      <img
-        *ngIf="countryValue === 'ABSA'"
-        class="theme__error-info-icon"
-        src="../../../assets/icons/absa_icons/error-info-icon.svg"
-        alt="error-info-icon"
-        loading="lazy"
-      />
-      <span *ngIf="isConnected" translate>{{ paymentErrors.msg }}</span>
-      <button class="close-btn" (click)="dismissPaymentError()" aria-label="Close error message">
-        <span class="close-icon">&times;</span>
-      </button>
-    </div>
-    <div *ngIf="getNetWorkStatus()" class="pay_wrong">
-      <span translate>Please check your internet connection</span>
-    </div>
-  </div>
-</ng-template>

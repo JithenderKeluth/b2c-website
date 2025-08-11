@@ -68,8 +68,13 @@
   }
 
   .supp_cards {
-    
     .cardlabl {
+      color: var(--text_primary_color);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .labl {
       color: var(--text_primary_color);
       font-size: 14px;
     }
@@ -96,7 +101,6 @@
         font-size: 14px;
         font-weight: 500;
         border-radius: 8px;
-        cursor: pointer;
       }
 
       .unselectedCard {
@@ -145,25 +149,25 @@
     color: var(--text_danger_color);
     position: relative;
     top: 26px;
+    margin-top: 10px;
+
+    .payment_fail {
+      white-space: nowrap;
+      position: absolute;
+    }
+  }
+
+  .discount_applied {
+    font-size: 13px;
+    padding: 11px;
+    background: #DAF9EF;
+    color: #099250;
     margin-top: 17px;
 
     .payment_fail {
       white-space: nowrap;
       position: absolute;
     }
-
-    .close-btn{
-      border: none;
-      background: none;
-      .close-icon {
-        color: #990000 !important;
-        text-align: right;
-        position: relative;
-        bottom: 12px;
-        font-size: 20px;
-      }
-    }
-
   }
 
   .pay_redirect_error {
@@ -822,7 +826,6 @@ select:invalid {
     .labl {
       font-size: 12px !important;
       text-align: left !important;
-      float: left;
     }
 
     ul {
@@ -1013,10 +1016,8 @@ select:invalid {
   overflow: unset !important;
 }
 
-.pay-instantly-message{
-  background: #FFF4E2; 
-  padding: 12px; 
-  border-radius: 8px; 
-  margin-bottom: 12px; 
-  font-size: .9em;
+.mc_SavedCard{
+  display: block;
+  text-align: left;
+  margin: 0;
 }

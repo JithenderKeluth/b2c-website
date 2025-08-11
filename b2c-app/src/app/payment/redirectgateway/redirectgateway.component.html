@@ -60,14 +60,11 @@
               <div class="text-left paymnt_addlTxt">
                 <strong translate>What should you do:</strong>
                 <div class="pl-3">
-                  <span *ngIf="apiSessionService.isWhiteLabelInstance() && apiService.extractCountryFromDomain() !== 'ABSA' && apiService.extractCountryFromDomain() !== 'SB'"
+                  <span *ngIf="apiSessionService.isWhiteLabelInstance() && apiService.extractCountryFromDomain() !== 'ABSA'"
                     >Check that you have entered your Investec Visa card details correctly and resubmit</span>
 
                     <span *ngIf="apiService.extractCountryFromDomain()== 'ABSA'"
                     >Check that you have entered your Absa card details correctly and resubmit</span>
-
-                  <span *ngIf="apiService.extractCountryFromDomain()== 'SB'"
-                  >Check that you have entered your Standard Bank card details correctly and resubmit</span>
 
                   <span *ngIf="!apiSessionService.isWhiteLabelInstance()" translate
                     >Check the above details and resubmit your card details again or select a different form of

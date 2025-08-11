@@ -8,7 +8,6 @@ export class CloseCollapseStripDirective {
   constructor(private el: ElementRef, private responsiveservice: responsiveService) {}
   @HostListener('document:click', ['$event.target'])
   public onClick(targetElement: any) {
-    if(typeof document === 'undefined') return;
     if (
       document.activeElement.tagName == 'INPUT' &&
       this.el.nativeElement &&

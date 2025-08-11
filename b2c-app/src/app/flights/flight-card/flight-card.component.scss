@@ -34,10 +34,6 @@
       background-color: var(--flight_recommended_label_bg);
       color: var(--flight_recommended_label_color);
     }
-    .Seats {
-      background-color: var(--flight_seats_label_bg);
-      color: var(--flight_seats_label_color);
-    }
   }
   .isBundled{
     .itinWdth{
@@ -69,11 +65,6 @@
         .trip_date {
           font-size: 11px;
         }
-      }
-
-      .selected_indicator {
-        margin-right: 0.125rem; /* Equivalent to mr-1 */
-        margin-left: auto; /* Equivalent to ml-auto */
       }
     }
     .bor_btm {
@@ -136,14 +127,6 @@
     }
     .flight_data {
       line-height: 10px;
-
-      /* Position the plane icon on top of the line with dots */
-      .plane_icon_container {
-        position: absolute;
-        top: 0.45rem;
-        left: 0;
-        right: 0;
-      }
     }
     .dur,
     .stops {

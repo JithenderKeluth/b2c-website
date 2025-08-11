@@ -1,8 +1,17 @@
 <div class="container-fluid white_label p-0">
   <div class="site_banner">
     <div class="container">
-      <h1 class="deals_main_headtxt text-center">Exclusive Deals for Mastercard Cardholders.</h1>
-      <h3 class="text-center deal_subtxt">With up to 30% off Travel</h3>
+      <div class="row mc_contentSec">
+        <div class="col-lg-6 col-12">
+          <div class="travel_smartTxt">
+            Travel smarter,Pay less
+          </div>
+        <div class="deals_main_headtxt">Enjoy up to 10% off</div>
+        <div class="deals_main_headtxt">on international trips</div>
+        <div class="deals_main_headtxt">with Mastercard</div>
+        </div>
+      </div>
+      
       <div class="search_section">
         <app-search></app-search>
       </div>
@@ -15,121 +24,20 @@
   </div>
 
   <div class="deals_section">
-    <div class="text-center">
-      <div class="container deals_tiles">
-        <div class="deals_subtxt">Ready to travel this wonderful world?</div>
-        <div class="deals_headtxt mt-3 mb-3 mt-lg-0 mb-lg-0">Here's how much you can save</div>
-
-        <ul class="deals_list">
-          <li class="card">
-            <div class="airline_img">
-              <img ImageSrc src="./../../assets/whitelabel/qatar-logo.svg" alt="deal" loading="lazy" />
-            </div>
-
-            <hr />
-            <p class="percent mt-3 mb-3">Up to 20% off</p>
-            <p class="desc">Book Economy or Business Class with Qatar Airways and get up to 20% off your flights.</p>
-          </li>
-          <li class="card">
-            <div class="airline_img">
-              <img ImageSrc src="./../../assets/whitelabel/air-mauritius.svg" alt="deal" loading="lazy" />
-            </div>
-
-            <hr />
-            <p class="percent mt-3 mb-3">Up to 20% off</p>
-            <p class="desc">Book international flights with Air Mauritius and get up to 20% off.</p>
-          </li>
-
-          <li class="card">
-            <div class="airline_img">
-              <img ImageSrc src="./../../assets/whitelabel/SAA.svg" alt="deal" loading="lazy" />
-            </div>
-
-            <hr />
-            <p class="percent mt-3 mb-3">Up to 15% off</p>
-            <p class="desc">
-              Book Economy or Business Class with South African Airways and get up to 15% off your flights.
-            </p>
-          </li>
-          <li class="card">
-            <div class="airline_img">
-              <img ImageSrc src="./../../assets/whitelabel/hotels-logo.svg" alt="deal" loading="lazy" />
-            </div>
-
-            <hr />
-            <p class="percent mt-3 mb-3">Up to 10% off</p>
-            <p class="desc mb-0">Use code MCTRAVEL to get 10% automatically off your hotel booking.</p>
-            <p>
-              <a href="https://hotel.travelstart.com/?source=9918" target="_blank" class="viewStaysLink"> View stays</a>
-            </p>
-          </li>
-        </ul>
-      </div>
-    </div>
-
     <div class="container deals_info mt-3">
       <div class="text-center">
         <div class="deals_headtxt">So what's the deal?</div>
         <p class="deals_desc">
-          Travelstart and Mastercard have teamed up to bring you a world filled with affordable flights. Sounds nice
-          right? But hey, hang on, what's the catch? Well we don't believe there should be anything stopping you get the
-          cheaper flights you deserve. Yup, we don't even need you to do push ups, have health checks or drive politely
-          to qualify. All you need is your Mastercard and your itinerary, bucket list or sense of adventure. It's really
-          that simple. Make it happen.
+          Travelstart and Mastercard have teamed up to bring you a world filled with affordable flights.
+           Sounds nice right? But hey, hang on, what's the catch? Well we don't believe there should be anything stopping you get the cheaper flights you deserve.
+           Yup, we don't even need you to do push ups, have health checks or drive politely to qualify. All you need is your Mastercard and your itinerary, bucket list or sense of adventure. It's really that simple. Make it happen.
         </p>
       </div>
-
-      <div class="accordion" id="termsAndConditions">
-        <div class="card">
-          <div class="card-header" data-toggle="collapse" data-target="#termsConditions" aria-expanded="true">
-            <span>
-              <span><a>Terms and conditions</a></span>
-              <div class="accicon"><i class="fa fa-angle-down rotate-icon"></i></div>
-            </span>
-          </div>
-          <div id="termsConditions" class="collapse" data-parent="#termsAndConditions">
-            <div class="card-body">
-              <app-mc-terms-conditions></app-mc-terms-conditions>
-            </div>
-          </div>
-        </div>
+      <div class="termsAndConditionSec">
+          <app-mc-terms-conditions></app-mc-terms-conditions>
       </div>
-    </div>
-  </div>
-
-  <div class="container-fluid newsletter">
-    <div class="container">
-      <div class="subscribe">
-        <div class="newsletter_head">
-          Want the very best local and international fares delivered straight to your inbox?
-        </div>
-        <div class="newsletter_desc">
-          Sign up here to receive curated low fare alerts, exclusive deals and travel updates from our team.
-        </div>
-        <div class="email_field">
-          <div class="d-block d-lg-inline">
-            <input
-              #subscribeEmail
-              type="email"
-              class="form-control"
-              [formControl]="email"
-              placeholder="{{ 'Enter your email' | translate }}"
-            />
-            <div *ngIf="submitEmail && email.errors">
-              <div translate class="validation_msg" *ngIf="submitEmail && !email.value">Enter your email</div>
-
-              <div translate class="validation_msg" *ngIf="submitEmail && email.errors.pattern">
-                Please enter a valid e-mail
-              </div>
-            </div>
-            <div translate *ngIf="validEmail" class="successMsg">Thank you for subscribing to our newsletter</div>
-          </div>
-          <div class="text-center d-block d-lg-inline">
-            <button class="signMeBtn" type="submit" aria-label="Sign Me Up" (click)="subscribeUser()">
-              <span translate>Sign Me Up</span>
-            </button>
-          </div>
-        </div>
+      <div class="campaignSec">
+        This campaign is conducted in accordance with the Mastercard Merchant Promotion Agreement. Refunds or unredeemed promotional allocations may be returned to Mastercard after the promotion concludes, as applicable.
       </div>
     </div>
   </div>

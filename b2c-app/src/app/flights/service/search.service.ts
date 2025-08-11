@@ -25,7 +25,7 @@ import { SessionUtils } from './../../general/utils/session-utils';
 
 import { QueryStringAffid } from '@app/general/utils/querystringAffid-utils';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 
 @Injectable({
@@ -196,7 +196,7 @@ export class SearchService {
     const searchPath = this.storage.getItem('authToken', 'session') ? SEARCH_PATH : SEARCH_PATH + '/';
     const url = `${this.apiService.fetchApiHostUrl()}${searchPath}?${this.queryStringaffid.getParamApiPath()}`;
     // const url = `${this.apiService.fetchApiHostUrl()}${WEB_API_PATH}${SEARCH_PATH}/?appsource=flappios&affId=microappios&cpysource=zamicroapp&correlation_id=1131F999-C3F1-401F-BC54-0CBBFD13B8FFflappIOS1617979108717&ma_active=false`;
-    searchData = this.bindTravellerId(searchData);
+
     const searchRequest: SearchRequest = parseSearchRequest(
       searchData,
       defaultTo(userEmail, ''),
@@ -241,7 +241,7 @@ export class SearchService {
   ): Observable<SearchResults> {
     const searchPath = this.storage.getItem('authToken', 'session') ? SEARCH_PATH : SEARCH_PATH + '/';
     const url = `${this.apiService.fetchApiHostUrl()}${searchPath}?${this.queryStringaffid.getParamApiPath()}`;
-    searchData = this.bindTravellerId(searchData);
+
     const searchRequest: SearchRequest = parseSearchRequest(
       searchData,
       defaultTo(userEmail, ''),
@@ -266,34 +266,6 @@ export class SearchService {
     );
   }
 
-  private bindTravellerId(searchData: SearchData): SearchData {
-    const isSB = this.apiService.extractCountryFromDomain() === 'SB';
-    if (isSB) {
-      const credentialsRaw = sessionStorage.getItem('credentials');
-      let travellerId = '';
-      let loggedOnToken = '';
-
-      if (credentialsRaw) {
-        try {
-          const userDetails = JSON.parse(credentialsRaw);
-          travellerId = userDetails?.data?.username ?? '';
-          loggedOnToken = userDetails?.data?.token ?? '';
-        } catch (err) {
-          console.error('Failed to parse sessionStorage credentials:', err);
-        }
-      }
-
-      if (travellerId.includes('@standardbank')) {
-        searchData.travellerId = travellerId.split('@standardbank')[0];
-      } else {
-        console.warn('Invalid travellerId format:', travellerId);
-        searchData.travellerId = '';
-      }
-
-      searchData.loggedOnToken = loggedOnToken;
-    }
-    return searchData;
-  }
   private hasItineraries(result: any): boolean {
     if (
       result?.response?.itineraries?.length !== 0 ||

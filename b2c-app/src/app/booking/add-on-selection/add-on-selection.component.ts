@@ -100,7 +100,6 @@ export class AddOnSelectionComponent implements OnInit {
   addonsProductDesc(desc: any) {
     if (
       this.country !== 'ABSA' &&
-      this.country !== 'SB' &&
       desc.length > 90 &&
       (this.responsiveservice.screenWidth == 'sm' || this.responsiveservice.screenWidth == 'md')
     ) {

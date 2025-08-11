@@ -1,9 +1,0 @@
-<div class="spinner-container">
-  <button (click)="adjustNumber(-1)" class="spinner-button" [disabled]="min === selectedNumber || disableSubtract">
-    <img ImageSrc width="22" height="23" src="../../../../assets/icons/minus_circle.svg" alt="">
-  </button>
-  <div class="spinner-selected-number">{{selectedNumber}}</div>
-  <button (click)="adjustNumber(1)" class="spinner-button" [disabled]="max === selectedNumber || disableAdd">
-    <img ImageSrc width="22" height="23" src="../../../../assets/icons/plus_circle.svg" alt="">
-  </button>
-</div>

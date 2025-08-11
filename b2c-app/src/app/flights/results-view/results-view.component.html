@@ -1,48 +1,15 @@
 <!-- This section for labeled Itineraries -->
 <div class="label_Itin" *ngIf="labeled_Itinerary && display_label_itin">
-
-  <ng-container *ngIf="labeled_Itinerary.cheapest"
-    [ngTemplateOutlet]="labeledItineraryFlightCard ?? flightCard"
-    [ngTemplateOutletContext]="{
-      $implicit: {
-        itinerary: getItinerary(labeled_Itinerary.cheapest, 'isBundled'),
-        viewDetails: viewDetailsHandler()
-      }
-    }">
-  </ng-container>
-
-  <ng-container *ngIf="labeled_Itinerary.fastest"
-    [ngTemplateOutlet]="labeledItineraryFlightCard ?? flightCard"
-    [ngTemplateOutletContext]="{
-      $implicit: {
-        itinerary: getItinerary(labeled_Itinerary.fastest, 'isBundled'),
-        viewDetails: viewDetailsHandler()
-      }
-    }">
-  </ng-container>
-
-  <ng-container *ngIf="labeled_Itinerary.NEGO"
-    [ngTemplateOutlet]="labeledItineraryFlightCard ?? flightCard"
-    [ngTemplateOutletContext]="{
-      $implicit: {
-        itinerary: getItinerary(labeled_Itinerary.NEGO, 'isBundled'),
-      viewDetails: viewDetailsHandler()
-      }
-    }">
-  </ng-container>
-
-  <ng-container *ngIf="labeled_Itinerary.recommended && (labeled_Itinerary.recommended.id !== labeled_Itinerary?.fastest?.id && labeled_Itinerary.recommended.id !== labeled_Itinerary?.cheapest?.id)"
-    [ngTemplateOutlet]="labeledItineraryFlightCard ?? flightCard"
-    [ngTemplateOutletContext]="{
-      $implicit: {
-        itinerary: getItinerary(labeled_Itinerary.recommended, 'isBundled'),
-        viewDetails: viewDetailsHandler()
-      }
-    }">
-  </ng-container>
-
+  <app-flight-card *ngIf="labeled_Itinerary.cheapest"
+    [itinerary]="getItinerary(labeled_Itinerary.cheapest, 'isBundled')"></app-flight-card>
+  <app-flight-card *ngIf="labeled_Itinerary.fastest"
+    [itinerary]="getItinerary(labeled_Itinerary.fastest, 'isBundled')"></app-flight-card>
+  <app-flight-card *ngIf="labeled_Itinerary.NEGO"
+    [itinerary]="getItinerary(labeled_Itinerary.NEGO, 'isBundled')"></app-flight-card>
+  <app-flight-card
+    *ngIf="labeled_Itinerary.recommended && (labeled_Itinerary.recommended.id !== labeled_Itinerary?.fastest?.id && labeled_Itinerary.recommended.id !== labeled_Itinerary?.cheapest?.id)"
+    [itinerary]="getItinerary(labeled_Itinerary.recommended, 'isBundled')"></app-flight-card>
 </div>
-
 <ng-container *ngIf="groupedItineraries.length && flightslist.itineraries.length">
   <div *ngFor="let flights of groupedItineraries | slice: 0:(page + 1) * perPage; let index = index;">
     <div [ngClass]="{ moreFlights_expanded: flights?.groupId === moreFlights_Expanded_Id }">
@@ -50,17 +17,9 @@
           let itineraries of getGroupedItIn(flights?.itineraries) | slice: 0:1;
           trackBy: trackById
         ">
-        <ng-container
-          [ngTemplateOutlet]="labeledItineraryFlightCard ?? flightCard"
-          [ngTemplateOutletContext]="{
-            $implicit: {
-              itinerary: getItinerary(itineraries, 'isBundled'),
-              isMoreFlightsAvl: checkMoreFlights(flights?.itineraries),
-              viewMoreFlights: viewMoreFlightsHandler(flights),
-              viewDetails: viewDetailsHandler()
-            }
-          }">
-        </ng-container>
+        <app-flight-card [itinerary]="getItinerary(itineraries, 'isBundled')"
+          [isMoreFlightsAvl]="checkMoreFlights(flights?.itineraries)"
+          (viewMoreFlights)="showMore(flights)"></app-flight-card>
       </ng-container>
 
       <div *ngIf="
@@ -100,7 +59,7 @@
             aria-labelledby="more_flights">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <div class="d-flex more_flights_modal_header">
+                <div class="d-flex">
                   <button type="button" class="close mr-2 ml-3" data-dismiss="modal" aria-label="Close">
                     <img ImageSrc src="./../../../assets/icons/back-arrow-resp.svg" alt="back" loading="lazy" />
                   </button>
@@ -119,15 +78,7 @@
 
         <div *ngIf="responsiveService.screenWidth === 'lg'" class="pb-1 px-3">
           <div *ngFor="let itineraries of flights?.itineraries.slice(1, displayCount); trackBy: trackById">
-            <ng-container
-              [ngTemplateOutlet]="moreFlightsFlightCard ?? flightCard"
-              [ngTemplateOutletContext]="{
-                $implicit: {
-                  itinerary: getItinerary(itineraries, 'isBundled'),
-                  viewDetails: viewDetailsHandler()
-                }
-              }">
-            </ng-container>
+            <app-flight-card [itinerary]="getItinerary(itineraries, 'isBundled')"></app-flight-card>
           </div>
           <div class="text-center d-none d-lg-block" *ngIf="flights?.itineraries.length - 1 > 1">
             <button class="hide_flights_btn" (click)="showLessFlights(flights)" translate>HIDE FLIGHTS</button>
@@ -136,9 +87,9 @@
       </div>
     </div>
 
-    <div *ngIf="flightslist.itineraries.length > 1 && index === 0">
+    <!-- <div *ngIf="flightslist.itineraries.length > 1 && index === 0">
       <ng-container *ngTemplateOutlet="ad_space_banner; context: { $implicit: { isDomFlight: false } }"></ng-container>
-    </div>
+    </div> -->
 
     <div *ngIf="flightslist.itineraries.length > 1 && index === 0 && isShowTsPlusBanner()">
       <ng-container *ngTemplateOutlet="ad_space_TSPLUS; context: { $implicit: { isDomFlight: false } }"></ng-container>
@@ -156,16 +107,6 @@
     <div class="col theme__flight-list-column">
       <div class="dom_header">
         <div class="route_def"></div>
-
-        <div class="route_results d-lg-none" *ngIf="showRouteResultCounts">
-          <label class="route_results__flight_lbl" translate>Onward</label>
-
-          <div class="route_results__total">
-            <span class="route_results__total_count">{{ outboundItineraries.length }}</span>
-            <span class="route_results__total_lbl" translate>Results found</span>
-          </div>
-        </div>
-
         <div class="sorting d-none d-lg-block">
           <ng-container *ngTemplateOutlet="
               domestic_sorting;
@@ -175,18 +116,9 @@
       </div>
 
       <div *ngFor="let outboundItinerary of outboundItineraries; let index = index; trackBy: trackById">
-        <ng-container
-          [ngTemplateOutlet]="domesticFlightCardTemplate?? flightCard"
-          [ngTemplateOutletContext]="{
-            $implicit: {
-              itinerary: getItinerary(outboundItinerary, 'outBound'),
-              seletedOutBoundItin: selectedOutBound,
-              selectedInBoundItin: selectedInBound,
-              selectedItinerary: selectedItineraryHandler(),
-            }
-          }">
-        </ng-container>
-
+        <app-flight-card [itinerary]="getItinerary(outboundItinerary, 'outBound')"
+          [seletedOutBoundItin]="selectedOutBound" [selectedInBoundItin]="selectedInBound"
+          (selectedItinerary)="selectDomesticFlight($event)"></app-flight-card>
         <div *ngIf="offlineNgAirline() && index === 0">
           <app-ng-domestic-offline-card
             [itinerary]="getItinerary(outboundItinerary, 'outBound')"></app-ng-domestic-offline-card>
@@ -197,16 +129,6 @@
     <div class="col pl-1 theme__flight-list-column">
       <div class="dom_header">
         <div class="route_def"></div>
-
-        <div class="route_results d-lg-none" *ngIf="showRouteResultCounts">
-          <label class="route_results__flight_lbl" translate>Return</label>
-
-          <div class="route_results__total">
-            <span class="route_results__total_count">{{ inboundItineraries.length }}</span>
-            <span class="route_results__total_lbl" translate>Results found</span>
-          </div>
-        </div>
-
         <div class="sorting d-none d-lg-block">
           <ng-container *ngTemplateOutlet="
               domestic_sorting;
@@ -215,18 +137,9 @@
         </div>
       </div>
       <div *ngFor="let inboundItinerary of inboundItineraries; let index = index; trackBy: trackById">
-        <ng-container
-          [ngTemplateOutlet]="domesticFlightCardTemplate ?? flightCard"
-          [ngTemplateOutletContext]="{
-            $implicit: {
-              itinerary: getItinerary(inboundItinerary, 'inBound'),
-              seletedOutBoundItin: selectedOutBound,
-              selectedInBoundItin: selectedInBound,
-              selectedItinerary: selectedItineraryHandler(),
-            }
-          }">
-        </ng-container>
-
+        <app-flight-card [itinerary]="getItinerary(inboundItinerary, 'inBound')"
+          [seletedOutBoundItin]="selectedOutBound" [selectedInBoundItin]="selectedInBound"
+          (selectedItinerary)="selectDomesticFlight($event)"></app-flight-card>
         <div *ngIf="offlineNgAirline() && index === 0">
           <app-ng-domestic-offline-card
             [itinerary]="getItinerary(inboundItinerary, 'inBound')"></app-ng-domestic-offline-card>
@@ -285,15 +198,7 @@
 <ng-template #flightsMore let-data>
   <div *ngIf="data">
     <div *ngFor="let itineraries of data.itineraries; let idx = index; let last = last; trackBy: trackById">
-      <ng-container
-        [ngTemplateOutlet]="moreFlightsMwebFlightCard ?? flightCard"
-        [ngTemplateOutletContext]="{
-          $implicit: {
-            itinerary: getItinerary(itineraries, 'isBundled'),
-            viewDetails: viewDetailsHandler()
-          }
-        }">
-      </ng-container>
+      <app-flight-card [itinerary]="getItinerary(itineraries, 'isBundled')"></app-flight-card>
     </div>
   </div>
 </ng-template>
@@ -306,7 +211,7 @@
   " class="modal bottom fade" id="res_sorting" tabindex="-1" role="dialog" aria-labelledby="res_sorting">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-body" [ngStyle]="{'min-height': country === 'ABSA' ? '' : '60dvh'}">
+      <div class="modal-body" [ngStyle]="{'height': country === 'ABSA' ? '' : '70dvh'}">
         <div class="m-web_dom_sort">
           <app-sorting class="m-web_oub_sort" [flightslist]="outboundItineraries"
             (sortEvent)="applyOutBSorting(outboundItineraries, $event)"></app-sorting>
@@ -369,29 +274,4 @@
       </div>
     </div>
   </div>
-</ng-template>
-
-<!-- Flight Card: Default template -->
-<ng-template #flightCard let-data>
-  <app-flight-card
-    [itinerary]="data.itinerary"
-    [isMoreFlightsAvl]="data.isMoreFlightsAvl"
-    [seletedOutBoundItin]="data.seletedOutBoundItin"
-    [selectedInBoundItin]="data.selectedInBoundItin"
-    (viewMoreFlights)="data.viewMoreFlights ? data.viewMoreFlights() : null"
-    (selectedItinerary)="data.selectedItinerary ? data.selectedItinerary($event) : null">
-  </app-flight-card>
-</ng-template>
-
-<!-- Flight Card: Whitelabel Alpha template (includes View Detail button) -->
-<ng-template #flightCardWhitelabelAlpha let-data>
-  <app-flight-card-whitelabel-alpha
-    [itinerary]="data.itinerary"
-    [isMoreFlightsAvl]="data.isMoreFlightsAvl"
-    [seletedOutBoundItin]="data.seletedOutBoundItin"
-    [selectedInBoundItin]="data.selectedInBoundItin"
-    (viewMoreFlights)="data.viewMoreFlights ? data.viewMoreFlights() : null"
-    (selectedItinerary)="data.selectedItinerary ? data.selectedItinerary($event) : null"
-    (viewDetails)="data.viewDetails ? data.viewDetails($event) : null">
-  </app-flight-card-whitelabel-alpha>
 </ng-template>

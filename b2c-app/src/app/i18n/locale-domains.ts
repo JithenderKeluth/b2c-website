@@ -566,9 +566,22 @@ export const LOCALE_DOMAINS = [
     id: 'IB',
     domain: 'investec.travelstart.co.za',
   },
+   
   {
-    id: 'ZA',
-    domain: 'mastercard.travelstart.co.za',
+    id: 'GO',
+    domain: 'beta-mastercard.travelstart.co.za',
+  },
+  {
+    id: 'GO',
+    domain: 'preprod-mastercard.travelstart.co.za',
+  },
+  {
+    id: 'mastercardtravel',
+    domain: 'mastercard.travelstart.com',
+  },
+  {
+    id: 'mastercardtravel',
+    domain: 'beta-mastercard.travelstart.com',
   },
   {
     id: 'GI',
@@ -630,22 +643,6 @@ export const LOCALE_DOMAINS = [
   {
     id: 'ZA',
     domain: 'beta-ssr.travelstart.co.za',
-  },
-  {
-    id: 'SB',
-    domain: 'sbsa.travelstart.co.za',
-  },
-  {
-    id: 'SB',
-    domain: 'staging-sbsa-preprod.travelstart.co.za',
-  },
-  {
-    id: 'SB',
-    domain: 'staging-sbsa-beta.travelstart.co.za',
-  },
-  {
-    id: 'SB',
-    domain: 'staging-sbsa-alpha.travelstart.co.za',
   },
    {
     id: 'ZA',

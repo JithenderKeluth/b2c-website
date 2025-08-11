@@ -12,7 +12,6 @@ import { getStorageData } from '@app/general/utils/storage.utils';
 import { modifyProduct_Desc } from '@app/payment/utils/payment-utils';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
 import { ApiService } from '../../general/services/api/api.service';
-import { responsiveService } from './../../_core/services/responsive.service';
 
 @Component({
   selector: 'app-itinary-view',
@@ -42,8 +41,7 @@ export class ItinaryViewComponent implements OnInit {
   flight_route = new Map<string, string>();
   loading: boolean = false;
   country: string;
-
-  isMobile: boolean = false;
+  
   constructor(
     private router: ActivatedRoute,
     private myAccountService: MyAccountServiceService,
@@ -52,8 +50,7 @@ export class ItinaryViewComponent implements OnInit {
     private route: Router,
     private searchService: SearchService,
     apiService: ApiService,
-    private storage: UniversalStorageService,
-    public responsiveService: responsiveService,
+    private storage: UniversalStorageService
   ) {
     this.route.routeReuseStrategy.shouldReuseRoute = () => false;
     this.country = apiService.extractCountryFromDomain();
@@ -86,12 +83,6 @@ export class ItinaryViewComponent implements OnInit {
     this.getItinerary(this.itineraryId);
     this.bookingInformation = JSON.parse(this.storage.getItem('bookingDetails', 'session'));
     this.flightsResultsResponse = JSON.parse(getStorageData('flightResults'));
-
-    if (this.responsiveService.screenWidth == 'sm') {
-      this.isMobile = true;
-    } else {
-      this.isMobile = false;
-    }
   }
 
   public getCityName(param: string) {
@@ -107,7 +98,7 @@ export class ItinaryViewComponent implements OnInit {
     return getBaggageInfo(id, param, this.flightsResultsResponse.baggageAllowanceInfos);
   }
   public getBaggageDesc(baggageDescription: any) {
-    if (this.country === 'ABSA' && this.isHandBaggage(baggageDescription)) {
+    if(this.country === 'ABSA' && this.isHandBaggage(baggageDescription)) {
       return baggageDescription.replace('hand baggage', '');
     }
 
@@ -167,7 +158,7 @@ export class ItinaryViewComponent implements OnInit {
           a.bookingFlightSegmentList.forEach((x: any) => {
             this.flight_route.set(
               x.operatingAirlineCode + x.flightNumber,
-              x.departureAirport + ' - ' + x.arrivalAirport,
+              x.departureAirport + ' - ' + x.arrivalAirport
             );
           });
         });
@@ -227,7 +218,7 @@ export class ItinaryViewComponent implements OnInit {
     });
     return isPresent;
   }
-  showManageBookingCTA(): boolean {
+  get showBtns(): boolean {
     if (
       this.viewResultData.bookingStatus == 'Failed' ||
       this.viewResultData.bookingStatus == 'Cancelled' ||
@@ -266,59 +257,5 @@ export class ItinaryViewComponent implements OnInit {
   productDesc(productDescription: any) {
     // return productDescription;
     return modifyProduct_Desc(productDescription);
-  }
-
-  getAdultsFare(): number {
-    if (!this.viewResultData?.invoiceList?.[0]?.invoiceLineList) return 0;
-
-    // Sum all "Base Fare" or "Flight" related amounts
-    return this.viewResultData.invoiceList[0].invoiceLineList
-      .filter((item: any) => item.type === 'Base Fare' || item.description.includes('Flight'))
-      .reduce((sum: number, item: any) => sum + item.amount, 0);
-  }
-
-  getTaxesAndFees(): number {
-    if (!this.viewResultData?.invoiceList?.[0]?.invoiceLineList) return 0;
-
-    // Sum all taxes, fees, and charges (everything except base fare and free items)
-    return this.viewResultData.invoiceList[0].invoiceLineList
-      .filter(
-        (item: any) =>
-          item.type === 'Taxes' ||
-          item.description.includes('Taxes') ||
-          item.description.includes('Service charges') ||
-          item.description.includes('Processing Fee') ||
-          item.description.includes('Booking details') ||
-          (item.amount > 0 && item.type !== 'Base Fare' && !item.description.includes('Flight')),
-      )
-      .reduce((sum: number, item: any) => sum + item.amount, 0);
-  }
-
-  getPaymentTypeDisplay(paymentType: string): string {
-    switch (paymentType?.toUpperCase()) {
-      case 'CARD':
-        return 'Credit card';
-      case 'CREDIT_CARD':
-        return 'Credit card';
-      case 'DEBIT_CARD':
-        return 'Debit card';
-      case 'BANK_TRANSFER':
-        return 'Bank transfer';
-      case 'PAYPAL':
-        return 'PayPal';
-      case 'CASH':
-        return 'Cash';
-      default:
-        return paymentType || 'Unknown';
-    }
-  }
-  getWeightOnly(description: string): string {
-    if (!description || description === 'No baggage allowance') {
-      return '';
-    }
-
-    // Extract just the weight number and kg
-    const weightMatch = description.match(/\d+kg/);
-    return weightMatch ? weightMatch[0] : '';
   }
 }

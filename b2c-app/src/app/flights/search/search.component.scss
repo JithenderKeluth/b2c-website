@@ -146,8 +146,7 @@
   }
   .arrive_airport {
     .floating-label {
-      /* RB: disabling this style from 4 years ago that mis-aligns From/To labels */
-      /* left: 20px !important; */
+      left: 20px !important;
     }
     input {
       padding: 10px 10px 0 20px !important;
@@ -197,7 +196,7 @@
         &:not(:focus) {
           &:valid ~ .floating-label {
             top: 7px;
-            /* left: 15px; */
+            left: 15px;
             font-size: 13px;
             opacity: 1;
             font-weight: 400;
@@ -302,14 +301,13 @@
       left: 34px !important;
     }
     input {
-      padding-left: 30px !important;
+      padding-left: 33px !important;
     }
   }
 }
 
 .search_controls {
   margin: 0;
-  width: 100%;
   .btn {
     font-size: 13px;
   }
@@ -463,8 +461,7 @@
   cursor: pointer;
 }
 
-/* RB: disabling this style from 4 years ago that mis-aligns Departure/Return labels */
-/* .return_datepick {
+.return_datepick {
   &:empty {
     &:not(:focus) ~ .floating-label {
       top: 16px;
@@ -479,7 +476,7 @@
   &:not(:empty) ~ .floating-label {
     top: 0px !important;
   }
-} */
+}
 
 .classSelect {
   list-style-type: none !important;
@@ -556,7 +553,7 @@
     img {
       position: absolute;
       right: 10px !important;
-      bottom: 40px !important;
+      bottom: 35px !important;
     }
   }
   .mt-xs-0 {
@@ -611,8 +608,7 @@
         padding: 10px 10px 0 10px !important;
       }
       .floating-label {
-        /* RB: disabling this style from 4 years ago that mis-aligns From/To labels */
-        /* left: 10px !important; */
+        left: 10px !important;
       }
     }
   }
@@ -673,7 +669,6 @@
   .input_shadow_mweb {
     box-shadow: 0 1px 2px 0 #98a2b3 !important;
   }
-
 }
 
 .swal2-html-container {
@@ -739,7 +734,9 @@
     }
   }
 }
-
+.search-sec .side-nav-bar {
+  z-index: 999 !important;
+}
 
 @media (max-width: map-get($grid-breakpoints, md)) {
   .trip_section {
@@ -751,13 +748,3 @@
     right: 22% !important;
   }
 }
-  .greyOutCTA{
-    background-color: #CDD2D6 !important;
-    color: #5E6470 !important;
-    text-transform: uppercase;
-  }
-  .greyOutOutlineCTA{
-    border: 1px solid #CDD2D6 !important;
-    color: #CDD2D6 !important;
-    text-transform: uppercase;
-  }

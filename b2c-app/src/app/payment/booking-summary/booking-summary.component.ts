@@ -22,7 +22,6 @@ import { IframeWidgetService } from '@app/general/services/iframe-widget.service
 import { getBookRef, getNegtiveAmount } from '../utils/payment-utils';
 import { getStorageData } from '@app/general/utils/storage.utils';
 import { UniversalStorageService } from '@app/general/services/universal-storage.service';
-import { DiscountDisplayModel, DiscountsDisplayModel } from '@app/flights/utils/discount.utils';
 
 @Component({
   selector: 'app-booking-summary',
@@ -44,20 +43,12 @@ export class BookingSummaryComponent implements OnInit {
   public flightResultsList: any;
   public flightsearchInfo: any;
   @Input() cc_processFee: any;
-  @Input() discounts?: DiscountsDisplayModel;
-  @Input() selectedDiscount?: DiscountDisplayModel;
-  discountLabel = 'Booking Discount';
 
   @Input()
   isLoading = false;
 
   @Output('parentFun') parentFun: EventEmitter<any> = new EventEmitter();
   @Output() paymentoptions: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() discountsAcknowledged = new EventEmitter<void>();
-
-  // The total amount calculation is coupled to this component, but we need it in the payment view.
-  // I'm emitting the internal value so that the parent component can bind to it, but ideally this would be in shared state or a shared service.
-  @Output() totalPriceChanged = new EventEmitter<number>();
 
   viewpriceUpIcon = true;
   viewpriceDownIcon = false;
@@ -82,7 +73,7 @@ export class BookingSummaryComponent implements OnInit {
     public el: ElementRef,
     private storage: UniversalStorageService
   ) {
-    this.country = this.apiService.extractCountryFromDomain();
+    this.country = apiService.extractCountryFromDomain();
   }
 
   ngOnInit(): void {
@@ -91,12 +82,12 @@ export class BookingSummaryComponent implements OnInit {
         let processingAmount = data;
         this.cC_processFee = processingAmount?.processingFee ? processingAmount?.processingFee : 0;
         this.discAmount = processingAmount?.discountAmount ? processingAmount?.discountAmount : 0;
-        if (processingAmount?.showDiscount) {
-          this._snackBar.open('Your discount has been successfully applied.', '', {
-            duration: 2000,
-            panelClass: ['ts-snackbar'],
-          });
-        }
+        // if (processingAmount?.showDiscount) {
+        //   this._snackBar.open('Your discount has been successfully applied.', '', {
+        //     duration: 2000,
+        //     panelClass: ['ts-snackbar'],
+        //   });
+        // }
       }
     });
     if (this.storage.getItem('bookingInfo', 'session')) {
@@ -138,24 +129,6 @@ export class BookingSummaryComponent implements OnInit {
       }
     });
     this.bookingRef = getBookRef();
-
-    // Emit the total price so that the payments view can consume it without duplicating this logic...
-    if (this.bookingInfo?.itineraryData && this.bookingInfo?.productDetails) {
-      const totalPrice = this.getTotalPrice(
-        this.bookingInfo.itineraryData.totalAmount + this.voucherAmount,
-        this.bookingInfo.productDetails,
-        this.cC_processFee + this.discAmount,
-        this.baggageAmount
-      );
-      this.totalPriceChanged.next(totalPrice);
-    }
-
-    if (this.country === 'SB') {
-      this.discountLabel = 'Standard Bank Discounts';
-      if(this.bookingInfo?.itineraryData?.fareBreakdown?.discountAmount === 0){
-        this.discountsAcknowledged.next();
-      }
-    }
   }
   ngAfterContentChecked() {
     this.cdref.detectChanges();
@@ -207,7 +180,6 @@ export class BookingSummaryComponent implements OnInit {
       this.totalPrice = this.totalPrice > 0 ? this.totalPrice : 0;
     // +this.bookingInfo?.itineraryData?.fareBreakdown?.discountAmount
     this.storage.setItem('bookingSummaryAmt', this.totalPrice, 'session');
-    this.totalPriceChanged.next(this.totalPrice);
     return this.totalPrice;
   }
   addFees() {
@@ -233,7 +205,7 @@ export class BookingSummaryComponent implements OnInit {
   public updatePax(): void {
     this.router.navigate(['/booking/flight-details'], { queryParamsHandling: 'preserve' });
   }
-
+  
   showPriceIcon() {
     this.viewpriceUpIcon = !this.viewpriceUpIcon;
     this.viewpriceDownIcon = !this.viewpriceDownIcon;
@@ -291,21 +263,9 @@ export class BookingSummaryComponent implements OnInit {
   getTaxFees(fareBreakDown: any, taxAmount: number): number {
     let taxAmt = taxAmount || 0;
     const discount = fareBreakDown?.discountAmount || 0;
-    if (this.country === 'MM' || this.country === 'SB') {
+    if (this.apiService.extractCountryFromDomain() === 'MM') {
       taxAmt += Math.abs(discount);
     }
     return taxAmt;
   }
-
-  acknowledgeDiscounts() {
-    this.discountsAcknowledged.next();
-  }
-
-  getSBTotalPrice(price: number): number {
-    const discount = this.selectedDiscount?.amount;
-    const discountAmount = this.bookingInfo?.itineraryData?.fareBreakdown?.discountAmount || 0;
-
-    return discount === 0 ? price - discountAmount : price;
-  }
-
 }

@@ -7,8 +7,6 @@ import { Component, Input, OnInit } from '@angular/core';
 export class FlightsLoaderComponent implements OnInit {
   @Input() showSkeltonLoader: boolean = false;
   @Input() tripType: string;
-  @Input() destinationCity: string;
-  @Input() region: string;
   public animation = 'pulse';
   ngOnInit(): void {}
 

@@ -713,7 +713,7 @@
 
     .time_filters_section {
       .dpt_times {
-        height: 100vh;
+        height: auto !important;
         max-height: none !important;
       }
     }

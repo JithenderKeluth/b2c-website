@@ -180,8 +180,6 @@ input[type="number"] {
 }
 
 #idleTimeOut {
-  background: #00000082;
-  pointer-events: unset;
   .modal-dialog {
     width: 400px;
     position: fixed;
@@ -269,7 +267,7 @@ input[type="number"] {
   color: var(--text_danger_color) !important;
   border-bottom: 1px solid var(--text_danger_color) !important;
   padding: 0.875em 0.625em !important;
-  z-index: 100000 !important;
+  z-index: 1041 !important;
   position: fixed;
   top: 0;
   left: 0;

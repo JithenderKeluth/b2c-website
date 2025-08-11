@@ -364,8 +364,8 @@ export class CardPaymentsComponent implements OnInit, OnDestroy {
         this.paxNamelengthError = true;
         this.isModalVisible = true;
       }
-       this.paymentErrors = null;
-       this.paymentErrors = paymentValidations(bookingDetails, this.appSessionService);
+      this.paymentErrors = null;
+      this.paymentErrors = paymentValidations(bookingDetails, this.appSessionService);
       if (this.paymentErrors) {
         this.invalidCvv = false;
         this.scrollToError();
