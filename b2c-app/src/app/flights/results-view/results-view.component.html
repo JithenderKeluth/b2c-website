@@ -1,0 +1,277 @@
+<!-- This section for labeled Itineraries -->
+<div class="label_Itin" *ngIf="labeled_Itinerary && display_label_itin">
+  <app-flight-card *ngIf="labeled_Itinerary.cheapest"
+    [itinerary]="getItinerary(labeled_Itinerary.cheapest, 'isBundled')"></app-flight-card>
+  <app-flight-card *ngIf="labeled_Itinerary.fastest"
+    [itinerary]="getItinerary(labeled_Itinerary.fastest, 'isBundled')"></app-flight-card>
+  <app-flight-card *ngIf="labeled_Itinerary.NEGO"
+    [itinerary]="getItinerary(labeled_Itinerary.NEGO, 'isBundled')"></app-flight-card>
+  <app-flight-card
+    *ngIf="labeled_Itinerary.recommended && (labeled_Itinerary.recommended.id !== labeled_Itinerary?.fastest?.id && labeled_Itinerary.recommended.id !== labeled_Itinerary?.cheapest?.id)"
+    [itinerary]="getItinerary(labeled_Itinerary.recommended, 'isBundled')"></app-flight-card>
+</div>
+<ng-container *ngIf="groupedItineraries.length && flightslist.itineraries.length">
+  <div *ngFor="let flights of groupedItineraries | slice: 0:(page + 1) * perPage; let index = index;">
+    <div [ngClass]="{ moreFlights_expanded: flights?.groupId === moreFlights_Expanded_Id }">
+      <ng-container *ngFor="
+          let itineraries of getGroupedItIn(flights?.itineraries) | slice: 0:1;
+          trackBy: trackById
+        ">
+        <app-flight-card [itinerary]="getItinerary(itineraries, 'isBundled')"
+          [isMoreFlightsAvl]="checkMoreFlights(flights?.itineraries)"
+          (viewMoreFlights)="showMore(flights)"></app-flight-card>
+      </ng-container>
+
+      <div *ngIf="
+          flightSearchData.tripType === 'oneway' &&
+          index === 1 &&
+          flightslist.itineraries.length >= 2 &&
+          offlineNgAirline()
+        ">
+        <app-ng-domestic-offline-card [itinerary]="ngOfflineItinerary"></app-ng-domestic-offline-card>
+      </div>
+
+      <div class="more_flights d-none d-lg-block" *ngIf="flights?.itineraries.length >= 2">
+        <button class="more_flights_btn" translate (click)="showMore(flights)"
+          *ngIf="flights?.groupId !== moreFlights_Expanded_Id">
+          {{ flights?.itineraries?.length - 1 }}
+          <span translate>{{
+            flights?.itineraries?.length - 1 > 1
+            ? 'MORE FLIGHTS AVAILABLE AT THIS PRICE'
+            : 'MORE FLIGHT AVAILABLE AT THIS PRICE'
+            }}</span>
+        </button>
+        <button class="more_flights_btn" id="moreFlightsSection" (click)="showLessFlights(flights)"
+          *ngIf="flights?.groupId === moreFlights_Expanded_Id">
+          <span translate>{{
+            flights?.itineraries?.length - 1 > 1 ? 'HIDE FLIGHTS' : 'HIDE FLIGHT'
+            }}</span>
+        </button>
+      </div>
+
+      <div *ngIf="flights?.groupId === moreFlights_Expanded_Id">
+        <!-- More Flights Modal Window -->
+        <div *ngIf="
+            flightslist.itineraries.length > 1 &&
+            (responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md')
+          ">
+          <div class="modal bottom fade more_Flights" id="more_Flights" tabindex="-1" role="dialog"
+            aria-labelledby="more_flights">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="d-flex">
+                  <button type="button" class="close mr-2 ml-3" data-dismiss="modal" aria-label="Close">
+                    <img ImageSrc src="./../../../assets/icons/back-arrow-resp.svg" alt="back" loading="lazy" />
+                  </button>
+                  <app-srp-mweb-header [flightslist]="flightslist"></app-srp-mweb-header>
+                </div>
+                <div class="modal-body px-3" style="height: 75vh; background-color: #f5f7fa">
+                  <ng-container *ngTemplateOutlet="
+                      flightsMore;
+                      context: { $implicit: { itineraries: flights?.itineraries, flightType: '' } }
+                    "></ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="responsiveService.screenWidth === 'lg'" class="pb-1 px-3">
+          <div *ngFor="let itineraries of flights?.itineraries.slice(1, displayCount); trackBy: trackById">
+            <app-flight-card [itinerary]="getItinerary(itineraries, 'isBundled')"></app-flight-card>
+          </div>
+          <div class="text-center d-none d-lg-block" *ngIf="flights?.itineraries.length - 1 > 1">
+            <button class="hide_flights_btn" (click)="showLessFlights(flights)" translate>HIDE FLIGHTS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div *ngIf="flightslist.itineraries.length > 1 && index === 0">
+      <ng-container *ngTemplateOutlet="ad_space_banner; context: { $implicit: { isDomFlight: false } }"></ng-container>
+    </div> -->
+
+    <div *ngIf="flightslist.itineraries.length > 1 && index === 0 && isShowTsPlusBanner()">
+      <ng-container *ngTemplateOutlet="ad_space_TSPLUS; context: { $implicit: { isDomFlight: false } }"></ng-container>
+    </div>
+  </div>
+
+  <!-- More results -->
+  <div class="load_more_results text-center d-none" *ngIf="isShow_MoreBtn()">
+    <button class="btn onHover" (click)="loadMoreResults()" translate>SHOW MORE RESULTS</button>
+  </div>
+</ng-container>
+
+<div *ngIf="outboundItineraries.length" class="dom_flight_section px-2 mb-5 pb-3 mb-lg-0">
+  <div class="row">
+    <div class="col theme__flight-list-column">
+      <div class="dom_header">
+        <div class="route_def"></div>
+        <div class="sorting d-none d-lg-block">
+          <ng-container *ngTemplateOutlet="
+              domestic_sorting;
+              context: { $implicit: { itineraries: outboundItineraries, flightType: 'outBound' } }
+            "></ng-container>
+        </div>
+      </div>
+
+      <div *ngFor="let outboundItinerary of outboundItineraries; let index = index; trackBy: trackById">
+        <app-flight-card [itinerary]="getItinerary(outboundItinerary, 'outBound')"
+          [seletedOutBoundItin]="selectedOutBound" [selectedInBoundItin]="selectedInBound"
+          (selectedItinerary)="selectDomesticFlight($event)"></app-flight-card>
+        <div *ngIf="offlineNgAirline() && index === 0">
+          <app-ng-domestic-offline-card
+            [itinerary]="getItinerary(outboundItinerary, 'outBound')"></app-ng-domestic-offline-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="col pl-1 theme__flight-list-column">
+      <div class="dom_header">
+        <div class="route_def"></div>
+        <div class="sorting d-none d-lg-block">
+          <ng-container *ngTemplateOutlet="
+              domestic_sorting;
+              context: { $implicit: { itineraries: inboundItineraries, flightType: 'inBound' } }
+            "></ng-container>
+        </div>
+      </div>
+      <div *ngFor="let inboundItinerary of inboundItineraries; let index = index; trackBy: trackById">
+        <app-flight-card [itinerary]="getItinerary(inboundItinerary, 'inBound')"
+          [seletedOutBoundItin]="selectedOutBound" [selectedInBoundItin]="selectedInBound"
+          (selectedItinerary)="selectDomesticFlight($event)"></app-flight-card>
+        <div *ngIf="offlineNgAirline() && index === 0">
+          <app-ng-domestic-offline-card
+            [itinerary]="getItinerary(inboundItinerary, 'inBound')"></app-ng-domestic-offline-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- More results -->
+    <div class="load_more_results text-center d-none w-100" *ngIf="isShow_MoreBtn()">
+      <button class="btn primary-btn onHover" (click)="loadMoreResults()" translate>SHOW MORE RESULTS</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #domestic_sorting let-data>
+  <div class="sortCardView" *ngIf="data.itineraries && data.itineraries.length > 0">
+    <div class="row">
+      <div class="col-12">
+        <div class="itin_info">
+          <span for="" class="route_info">{{ getCityName(data.itineraries[0].odoList[0].segments[0].origCode) }}
+            <img ImageSrc src="../../../assets/icons/srp_Icons/flight_way_icn.svg" alt="flight_way_icn"
+              loading="lazy" />
+            {{
+            getCityName(
+            data.itineraries[0].odoList[0].segments[data.itineraries[0].odoList[0].segments.length - 1].destCode
+            )
+            }}</span>
+          <span for="" class="date_info float-right">{{
+            data.itineraries[0].odoList[0].segments[0].departureDateTime | date
+            }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="sort_options_info row align-items-center">
+      <span class="col-3 pr-0">{{ data.itineraries.length }} Flights found</span>
+      <span class="col-9 text-right">
+        <span class="d-lg-inline">
+          <button class="btn showFilter_btn" (click)="toggleFiltersModal(data.flightType)" data-toggle="modal"
+            data-target="#res_filters">
+            <span *ngIf="!isShowFilter" translate>
+              <img ImageSrc src="../../../assets/icons/v1-icons/filter-new-icn.svg" alt="filter-new-icnn" width="12px"
+                loading="lazy" />
+              Filters</span>
+          </button>
+        </span>
+        <span class="d-lg-inline">
+          <app-sorting [flightslist]="data.itineraries" (sortEvent)="getFlightsByOrder($event, data.flightType)"
+            [sortOption]="sendSort"></app-sorting>
+        </span>
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<!-- More Flights in Mweb -->
+<ng-template #flightsMore let-data>
+  <div *ngIf="data">
+    <div *ngFor="let itineraries of data.itineraries; let idx = index; let last = last; trackBy: trackById">
+      <app-flight-card [itinerary]="getItinerary(itineraries, 'isBundled')"></app-flight-card>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Sorting Modal Window -->
+<div *ngIf="
+    (responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md') &&
+    outboundItineraries &&
+    outboundItineraries.length > 0
+  " class="modal bottom fade" id="res_sorting" tabindex="-1" role="dialog" aria-labelledby="res_sorting">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" [ngStyle]="{'height': country === 'ABSA' ? '' : '70dvh'}">
+        <div class="m-web_dom_sort">
+          <app-sorting class="m-web_oub_sort" [flightslist]="outboundItineraries"
+            (sortEvent)="applyOutBSorting(outboundItineraries, $event)"></app-sorting>
+          <app-sorting class="m-web_inb_sort" [flightslist]="inboundItineraries"
+            (sortEvent)="applyInBSorting(inboundItineraries, $event)"></app-sorting>
+          <div class="col-10 m-auto theme__sorting-apply-button-container">
+            <button type="button" aria-label="Apply" class="btn primary_btn w-100 mb-2" (click)="updateSortResults()">
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #ad_space_banner let-data>
+  <div class="row text-center" *ngIf="iframewidgetService.isWhiteLabelSite()">
+    <div class="col-12">
+      <div class="mt-3" *ngIf="
+          responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md' && data && !data.isDomFlight
+        ">
+        <iframe title="ad space banner" id="a347ed8e" name="a347ed8e"
+          src="https://digiwave.co.za/adserver/www/delivery/afr.php?zoneid=28&amp;cb=INSERT_RANDOM_NUMBER_HERE"
+          width="100%" height="140" allow="autoplay"><a
+            href="https://digiwave.co.za/adserver/www/delivery/ck.php?n=a10264df&amp;cb=INSERT_RANDOM_NUMBER_HERE"
+            rel="noopener" target="_blank"><img
+              src="https://digiwave.co.za/adserver/www/delivery/avw.php?zoneid=28&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a10264df"
+              border="0" alt="" loading="lazy" /></a></iframe>
+      </div>
+      <div class="mt-3" *ngIf="responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md'">
+        <iframe title="ad space banner" id="a73862c1" name="a73862c1"
+          src="https://digiwave.co.za/adserver/www/delivery/afr.php?zoneid=26&amp;cb=INSERT_RANDOM_NUMBER_HERE"
+          width="100%" height="110" allow="autoplay"><a
+            href="https://digiwave.co.za/adserver/www/delivery/ck.php?n=a9920985&amp;cb=INSERT_RANDOM_NUMBER_HERE"
+            rel="noopener" target="_blank"><img
+              src="https://digiwave.co.za/adserver/www/delivery/avw.php?zoneid=26&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a9920985"
+              border="0" alt="" loading="lazy" /></a>
+        </iframe>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ad_space_TSPLUS let-data>
+  <div class="row text-center">
+    <div class="col-12">
+      <div *ngIf="
+          responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md' && data && !data.isDomFlight
+        ">
+        <a (click)="tsPlus()" rel="noopener" target="_blank">
+          <img ImageSrc src="../../../assets/images/ts-plus-images/upgradeTSBanner.jpg" alt="conditions" width="100%" />
+        </a>
+      </div>
+      <div *ngIf="responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md'">
+        <a (click)="tsPlus()" rel="noopener" target="_blank">
+          <img ImageSrc src="../../../assets/images/ts-plus-images/upgradeTSMwebBanner.jpg" alt="conditions"
+            width="100%" />
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>

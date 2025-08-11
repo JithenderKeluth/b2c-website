@@ -1,0 +1,22 @@
+/* my-loader.component.css */
+.loading-spinner {
+  background-color: #000000b3;
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: grid;
+  z-index: 99999;
+}
+
+.loading-spinner img {
+  align-self: end;
+}
+
+.loading-message {
+  text-align: center;
+  align-self: start;
+}

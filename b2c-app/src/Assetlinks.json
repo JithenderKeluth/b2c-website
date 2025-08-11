@@ -1,0 +1,17 @@
+[
+    {
+      "relation": [
+        "delegate_permission/common.handle_all_urls"
+      ],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "za.co.travelstart.flapp",
+        "sha256_cert_fingerprints": [
+          "D3:5A:A3:71:AE:CA:F9:1F:8E:78:79:78:63:C6:6E:CD:FE:78:40:D5:2E:27:73:D2:E5:7B:BF:40:80:FB:FA:3C",
+          "AB:6E:7F:F0:71:85:17:A6:70:5D:E7:DA:10:AA:28:BC:19:FD:46:1C:98:2C:E0:44:BB:23:C4:39:E2:9C:01:60",
+          "40:81:EF:08:0B:0A:ED:68:E8:28:85:A2:DB:7A:38:77:6E:53:6F:FA:58:13:8A:18:C2:02:52:6E:04:56:0C:D5",
+          "7B:32:F0:18:7C:18:FA:5D:AD:CF:1F:F9:28:E4:82:32:16:56:F7:66:12:EA:56:1E:79:CC:2E:39:B3:46:AA:2F"
+        ]
+      }
+    }
+  ]

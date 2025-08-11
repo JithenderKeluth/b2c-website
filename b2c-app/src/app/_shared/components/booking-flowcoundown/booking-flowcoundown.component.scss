@@ -1,0 +1,13 @@
+@import "./../../../../theme/theme-variables.scss";
+.countdownSec{
+    background-color: #3E4552;
+    .countdown_content{
+        color: $white;
+        font-size: 12px;
+        padding: 5px 10px;
+        text-align: center;
+        .countdown{
+            color: #FFBB00;
+        }
+    }
+}

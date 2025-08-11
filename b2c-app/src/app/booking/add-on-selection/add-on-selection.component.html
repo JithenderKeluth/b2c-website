@@ -1,0 +1,131 @@
+<section *ngIf="showAdd_ons.length > 0" class="multicity-sec mb-xs-20">
+  <div class="container p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="multicity_box">
+          <div *ngIf="showAdd_ons" class="multi_cities">
+            <div #itenaryContent class="itenary_data">
+              <div class="itenaries_data">
+                <div class="ml-1" id="myDiv" #info *ngFor="let products of showAdd_ons; let i = index">
+                  <div class="">
+                    <div
+                      class="products_card mb-0"
+                      *ngIf="
+                        products &&
+                        products.amount &&
+                        products.name &&
+                        (!products.initSelected || products.name !== 'Booking details via SMS and WhatsApp') &&
+                        products.name !== 'Preferred Meal Service charge'
+                      "
+                    >
+                      <div class="card mt-2">
+                        <div class="card-body" [ngClass]="[country !== 'ABSA' && products.initSelected == true ? 'active' : '']">
+                          <div class="row align-items-lg-center">
+                            <div class="col-9 col-lg-8 pr-0 theme__product-description-container">
+                              <div class="row">
+                                <div class="col-lg-1 d-none d-lg-block product_Img_sec">
+                                  <span class="product_Img">
+                                    <img
+                                      ImageSrc
+                                      src="{{ loadProdId(products.id) }}"
+                                      alt="{{ products.id }}"
+                                      loading="lazy"
+                                    />
+                                  </span>
+                                </div>
+                                <div class="col-12 col-lg-10 pl-lg-0">
+                                  <div class="card-title mb-0">
+                                    <div class="mr-2 d-lg-none product_Img">
+                                      <img
+                                        ImageSrc
+                                        src="{{ loadProdId(products.id) }}"
+                                        alt="{{ products.id }}"
+                                        loading="lazy"
+                                      />
+                                    </div>
+                                    <div>
+                                      {{ products.name }}
+                                      <span
+                                        class="recomended_Flag d-none d-lg-inline"
+                                        *ngIf="country !== 'ABSA' && products.displayDetail && products.displayDetail.wowdescription"
+                                      >
+                                        <span>{{ products.displayDetail.wowdescription }}</span>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div
+                                    class="recomended_Flag d-inline d-lg-none"
+                                    *ngIf="country !== 'ABSA' && products.displayDetail && products.displayDetail.wowdescription"
+                                  >
+                                    <span>{{ products.displayDetail.wowdescription }}</span>
+                                  </div>
+                                  <div class="card-text cardDescBox mt-2 mt-lg-1">
+                                    {{ addonsProductDesc(products.description)
+                                    }}<span class="theme__add-on-card-footer">
+                                      <a
+                                        translate
+                                        class="know_more_link"
+                                        href="{{ products.displayDetail.moreInfo }}"
+                                        rel="noopener"
+                                        target="_blank"
+                                        *ngIf="products.displayDetail.moreInfo"
+                                        >Know more</a
+                                      ></span
+                                    >
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-4 col-3 p-0 pl-lg-3 pr-lg-3 pt-lg-3 text-center theme__product-price-container">
+                              <span class="product_price_sec d-block d-lg-flex align-items-lg-center float-lg-right">
+                                <span class="productPrice">
+                                  <div
+                                    [ngClass]="products.id !== 'TS_PLUS' ? 'strike_out' : ''"
+                                    *ngIf="products.preDiscountAmount"
+                                  >
+                                    +{{ products.currencyCode | currencyCode
+                                    }}{{ products.preDiscountAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+                                  </div>
+                                  <div *ngIf="products.id !== 'TS_PLUS'">
+                                    +{{ products.currencyCode | currencyCode
+                                    }}{{ products.amount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+                                  </div>
+                                </span>
+                                <span class="select_btns">
+                                  <label for="" class="mb-0">
+                                    <img
+                                      *ngIf="!products.initSelected"
+                                      ImageSrc
+                                      [src]="country !== 'ABSA' 
+                                        ? '../../../assets/icons/travellerpage_Icons/tick_default.svg' 
+                                        : '../../../assets/icons/absa_icons/product-add-icon.svg'"
+                                      alt="tick_default"
+                                      (click)="onChangeproduct(products.id, i, true)"
+                                    />
+                                    <img
+                                      *ngIf="products.initSelected"
+                                      ImageSrc
+                                      [src]="country !== 'ABSA' 
+                                        ? '../../../assets/icons/travellerpage_Icons/tick_selected.svg'
+                                        : '../../../assets/icons/absa_icons/product-check-icon.svg'"
+                                      alt="tick_selected"
+                                      (click)="onChangeproduct(products.id, i, false)"
+                                    />
+                                  </label>
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+<div class="saved-cards-container">
+  <div class="d-flex flex-column theme__hide-overflow">
+    <div translate class="cards-header">
+      Saved Cards
+    </div>
+    <div class="theme__scroll-overflow">
+      <div class="card-container" *ngFor="let card of cards; let i = index">
+          <div class="card-number-container">
+            <span class="card-filler">XXXX</span>
+            <span class="card-number">{{ formatCardNumber(card.cardNumber) }}</span>
+          </div>
+          <img
+            ImageSrc
+            class="show"
+            src="../../../assets/icons/delete_icn.svg"
+            width="13px"
+            alt=""
+            (click)="deleteCard(card)"
+          />
+      </div>
+    </div>
+  </div>
+
+  <button class="theme__button-primary" (click)="addCard()" translate>Add Card</button>
+</div>
+

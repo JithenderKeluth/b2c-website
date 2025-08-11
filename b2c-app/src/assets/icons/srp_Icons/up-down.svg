@@ -1,0 +1,21 @@
+<svg id="Group_38717" data-name="Group 38717" xmlns="http://www.w3.org/2000/svg" width="9.845" height="12.745" viewBox="0 0 9.845 12.745">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #0ca7e2;
+      }
+    </style>
+  </defs>
+  <g id="hotel-arw-up" transform="translate(9.845 7) rotate(90)">
+    <g id="Group_171" data-name="Group 171">
+      <path id="Path_6627" data-name="Path 6627" class="cls-1" d="M4.935,4.323.617.1A.368.368,0,0,0,.105.1a.352.352,0,0,0,0,.5L4.167,4.574.106,8.539a.352.352,0,0,0,0,.5.367.367,0,0,0,.512,0L4.936,4.821a.352.352,0,0,0,0-.5Z" transform="translate(0.352 0.348)"/>
+      <path id="Path_6627_-_Outline" data-name="Path 6627 - Outline" class="cls-1" d="M.811,0A.811.811,0,0,0,.239,1.385L3.786,4.922.239,8.459A.811.811,0,0,0,1.384,9.608L5.507,5.5a.816.816,0,0,0,.238-.575.806.806,0,0,0-.238-.574L1.384.237A.806.806,0,0,0,.811,0Z"/>
+    </g>
+  </g>
+  <g id="hotel-arw-up-2" data-name="hotel-arw-up" transform="translate(0 5.745) rotate(-90)">
+    <g id="Group_171-2" data-name="Group 171">
+      <path id="Path_6627-2" data-name="Path 6627" class="cls-1" d="M4.935,4.821.617,9.04a.368.368,0,0,1-.512,0,.352.352,0,0,1,0-.5L4.167,4.57.106.6a.352.352,0,0,1,0-.5A.367.367,0,0,1,.618.1L4.936,4.323a.352.352,0,0,1,0,.5Z" transform="translate(0.352 0.352)"/>
+      <path id="Path_6627_-_Outline-2" data-name="Path 6627 - Outline" class="cls-1" d="M.811,9.845A.811.811,0,0,1,.239,8.459L3.786,4.922.239,1.385A.811.811,0,0,1,1.384.237L5.507,4.348a.816.816,0,0,1,.238.575.806.806,0,0,1-.238.574L1.384,9.608A.806.806,0,0,1,.811,9.845Z"/>
+    </g>
+  </g>
+</svg>

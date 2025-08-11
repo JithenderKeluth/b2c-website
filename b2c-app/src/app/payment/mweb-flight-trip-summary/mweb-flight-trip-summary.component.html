@@ -1,0 +1,67 @@
+<div class="route_info dividerClass">
+  <div
+    class="route"
+    *ngIf="flightsearchInfo && flightsearchInfo.itineraries.length > 0"
+    data-toggle="collapse"
+    data-target="#flight-summary"
+  >
+    <div>
+      <label class="mb-0">
+        <span class="labl">{{ flightsearchInfo.itineraries[0].dept_city.city }}</span>
+        <span *ngIf="flightsearchInfo.tripType === 'return'" class="pr-2 pl-2"
+          ><img ImageSrc class="pt-1" src="./../../../assets/icons/two_arrows.svg" alt="round" loading="lazy"
+        /></span>
+        <span *ngIf="flightsearchInfo.tripType === 'oneway'" class="pr-2 pl-2" loading="lazy"
+          ><img ImageSrc class="pt-1" src="./../../../assets/icons/oneway_arw_icn.svg" alt="one way" loading="lazy"
+        /></span>
+        <span *ngIf="flightsearchInfo.tripType === 'multi'" class="pr-2 pl-2"
+          ><img
+            ImageSrc
+            class="pt-1"
+            src="./../../../assets/icons/multy_city_arrows_dark.svg"
+            alt="multi"
+            loading="lazy"
+        /></span>
+        <span class="labl">{{
+          flightsearchInfo.itineraries[flightsearchInfo.itineraries.length - 1].arr_city.city
+        }}</span>
+      </label>
+      <label class="float-right mb-0">
+        <span class="float-right collapsible"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+      </label>
+    </div>
+    <label class="mb-0">
+      <span *ngIf="flightsearchInfo.tripType !== 'multi'">
+        <span class="dt_labl">{{ getTravelDate(flightsearchInfo.itineraries[0].dept_date) }} </span>
+        <span class="dt_labl" *ngIf="flightsearchInfo.tripType == 'return'">
+          -
+          {{ getTravelDate(flightsearchInfo.itineraries[flightsearchInfo.itineraries.length - 1].arr_date) }}
+        </span>
+        <span class="pr-2 pl-2 sptr">|</span>
+      </span>
+
+      <span class="dt_labl" *ngIf="flightsearchInfo.travellers.adults"
+        >{{ flightsearchInfo.travellers.adults }} {{ getPassengers(flightsearchInfo.travellers.adults, 'adult') }}</span
+      >
+      <span class="dt_labl" *ngIf="flightsearchInfo.travellers.youngAdults"
+        >{{ flightsearchInfo.travellers.youngAdults }}
+        {{ getPassengers(flightsearchInfo.travellers.youngAdults, 'youngAdults') }}</span
+      >
+      <span class="dt_labl" *ngIf="flightsearchInfo.travellers.children"
+        >{{ flightsearchInfo.travellers.children }} Children</span
+      >
+      <span class="dt_labl" *ngIf="flightsearchInfo.travellers.infants"
+        >{{ flightsearchInfo.travellers.infants }}
+        {{ getPassengers(flightsearchInfo.travellers.infants, 'infant') }}</span
+      >
+    </label>
+    <div class="refernce">
+      <label class="mb-0" translate *ngIf="bookingRef">Booking Reference Number:</label>
+      <strong>{{ bookingRef }}</strong>
+    </div>
+  </div>
+</div>
+
+<div class="summery collapse" id="flight-summary">
+  <app-booking-summary [showIframe]="showIframe"></app-booking-summary>
+</div>

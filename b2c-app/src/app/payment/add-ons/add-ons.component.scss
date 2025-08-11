@@ -1,0 +1,101 @@
+@import "./../../../theme/theme-variables.scss";
+.products_lists {
+  .list {
+    .list_title {
+      padding: 10px 0;
+      font-size: 16px;
+      font-weight: 500;
+      label {
+        margin-left: 5px;
+      }
+    }
+    .list-info {
+      border: 1px solid #e2e4e8;
+      padding: 15px;
+      border-radius: 4px;
+      .prd-name {
+        font-weight: 500;
+        font-size: 18px;
+        padding: 0px 0px 10px 0px;
+        color: #1e3945;
+      }
+      .prd-desc {
+        padding: 10px 0;
+        color: #1e3945;
+      }
+      .prd_amt {
+        font-size: 20px;
+        font-weight: 500;
+        color: #1e3945;
+      }
+      .prd_price_view {
+        .prd_price_view_info {
+          display: block;
+          text-align: right;
+          .switch {
+            left: 0px !important;
+          }
+        }
+      }
+    }
+  }
+}
+.noProds {
+  h4 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #7f8d95;
+  }
+}
+.mat-expansion-panel-spacing {
+  margin: 0px !important;
+}
+.mat-accordion .mat-expansion-panel{
+  border-radius: 12px !important;
+  box-shadow: none;
+}
+.mat-expansion-panel-body{
+  padding: 15px;
+}
+mat-panel-title {
+  h2 {
+    font-size: 20px;
+    font-weight: normal;
+    color: #1e3945;
+  }
+}
+
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .products_lists {
+    .list {
+      .list-info {
+        .prd-name {
+          font-size: 17px !important;
+        }
+        .prd-desc {
+          padding: 0px !important;
+          font-size: 12px !important;
+        }
+        .prd_price_view {
+          float: right !important;
+          width: 40% !important;
+          .prd_price_view_info {
+            float: right;
+            height: 30px;
+            line-height: 40px;
+          }
+        }
+      }
+    }
+  }
+  .mat-expansion-panel-header {
+    padding: 0px 15px !important;
+  }
+  .mat-expansion-panel-body {
+    padding: 0px 15px !important;
+  }
+}

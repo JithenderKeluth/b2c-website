@@ -1,0 +1,103 @@
+@import "./../../theme/theme-variables.scss";
+
+.white_label {
+  .header {
+    box-shadow: 0px 2px 4px 0px #98a2b3;
+    margin-bottom: 4px;
+    padding: 12px 40px;
+  }
+  .site_banner {
+    padding: 15px 0 0 0;
+    // background-image: url("https://cdn1.travelstart.com/assets/whitelabel/mc-hero-banner.jpg");
+
+    background-color: #f5f7fa;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: -3px;
+    .site_capt {
+      // background-image: url("https://cdn1.travelstart.com/assets/whitelabel/mc-hero-banner.jpg");
+      background-image: linear-gradient(100deg, #5955e4 15%, #ed1c24 85%);
+      background-color: #fbfcfd;
+      background-repeat: no-repeat;
+      background-size: cover;
+      padding: 20px;
+      border-radius: 8px;
+      .deals_main_headtxt,
+      .deal_subtxt {
+        font-size: 24px;
+        color: #fff;
+        font-weight: 500;
+        margin: 0;
+        .mmp_logo {
+          float: right;
+        }
+      }
+    }
+
+    .search_section {
+      padding: 20px 0;
+      margin-top: 30px;
+      border-radius: 8px;
+      .btn {
+        margin-right: 6px;
+        border-radius: 8px;
+        width: 120px;
+        img {
+          height: 20px;
+          margin-right: 6px;
+        }
+        &.primary {
+          background-color: #ed1c24;
+          color: #ffffff;
+        }
+        &.default {
+          background-color: #eaedf3;
+        }
+      }
+    }
+  }
+}
+.exclusiveHeading{
+  font-size: 24px;
+  font-weight: 500;
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .search_section {
+    margin-top: 0 !important;
+    .btn{
+      width: 32.3% !important;
+      margin: 0px !important;
+    }
+  }
+  .site_banner {
+    padding: 5px 0 0 0  !important;
+    .site_capt {
+      padding: 20px !important;
+      border-radius: 0 !important;
+      .deals_main_headtxt {
+        font-size: 20px !important;
+        .mmp_logo {
+          float: left;
+          margin-bottom: 12px;
+          width: 100%;
+        }
+      }
+      .deal_subtxt {
+        font-size: 20px !important;
+        margin: 5px 0px 15px 0px !important;
+      }
+    }
+  }
+  .exclusiveHeading{
+    font-size: 20px !important;
+  }
+}
+
+.site_banner {
+  &.mmf {
+    padding-top: 0px !important;
+    .search_section {
+      margin-top: 0px !important;
+    }
+  }
+}

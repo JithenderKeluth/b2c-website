@@ -1,0 +1,21 @@
+<div class="modal-dialog payment_error_dialog cancel_mdl_dialog" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body mdl_body">
+      <div class="fare_txt mb-3" *ngIf="selectDomesticFlights && !showTimeGapMsg">
+        <span translate>Your return flight is scheduled to depart from</span>
+        {{ getCityName(selectDomesticFlights.inboundItineraries.odoList[0].segments[0].origCode) }}
+        <span translate>before your arrival there.</span> <span translate>Please check your flight selection.</span>
+      </div>
+      <div class="fare_txt mb-3" *ngIf="showTimeGapMsg">
+        <span translate>Please opt for a different combination with a time gap of more than 2 hours between the onward
+          and return flights.</span>
+      </div>
+      <div class="text-center">
+        <button type="button" class="btn ok-btn  mr-1 text-center primary_btn onHover" aria-label="Close"
+          data-dismiss="modal">
+          <span translate>Ok</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

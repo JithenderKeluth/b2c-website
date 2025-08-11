@@ -1,0 +1,45 @@
+<div *ngIf="(centralData?.bnpl?.International && isIntl) || (centralData?.bnpl?.Domestic && !isIntl)">
+  <div class="bnpl-message mb-2" *ngIf="amount > 0">
+    <div class="clearfix"></div>
+    <div class="d-none d-lg-block">
+      <p class="text-center m-0">or</p>
+      <p class="m-0"><span class="new_tag">NEW</span> Buy Now, Pay Later</p>
+      <p
+        class="m-0"
+        *ngIf="(amount < transactionLimit && !isPPSAmount && isBundled) || (amount < transactionLimit && !isBundled)"
+      >
+        <span class="bld">
+          {{ currency | currencyCode }}{{ installmentAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}</span
+        >
+        <span class="mult">x</span> {{ numberOfInstallments }}
+        installments
+      </p>
+      <p
+        class="m-0"
+        *ngIf="amount > transactionLimit || (isPPSAmount && isBundled) || (amount > transactionLimit && !isBundled)"
+      >
+        Pay in {{ numberOfInstallments }} installments
+      </p>
+    </div>
+
+    <div class="d-block d-lg-none text-right">
+      <p class="mr-2 d-inline"><span class="new_tag">NEW</span> Buy Now, Pay Later</p>
+      <p
+        class="m-0 d-inline"
+        *ngIf="(amount < transactionLimit && !isPPSAmount && isBundled) || (amount < transactionLimit && !isBundled)"
+      >
+        <span class="bld">
+          {{ currency | currencyCode }}{{ installmentAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}</span
+        >
+        <span class="mult">x</span> {{ numberOfInstallments }}
+        installments
+      </p>
+      <p
+        class="m-0 d-inline"
+        *ngIf="amount > transactionLimit || (isPPSAmount && isBundled) || (amount > transactionLimit && !isBundled)"
+      >
+        Pay in {{ numberOfInstallments }} installments
+      </p>
+    </div>
+  </div>
+</div>

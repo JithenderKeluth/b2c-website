@@ -1,0 +1,26 @@
+.payment_gateway #eft-payment .eft_cards ul .card_active, 
+.fare_subject,#filters .stops_filter .stop_panel input[type=checkbox]:checked + .stops_slab,
+#filters .baggage_filters input[type=checkbox]:checked + .bg_labl,
+#filters .filter .time_filters input[type=checkbox]:checked + .time_slab,
+#filters .baggage_filters input[type=checkbox]:checked + .bg_labl,
+.booking_confiramtion_page .payment, .custom-day.faded,.contactFormSection .sendQuery .new_req .nav-tabs .active {
+    background-color: #FFE4E4 !important;
+}
+
+.flight_card .price_section{
+    background-color : #F7F8F8 !important;
+}
+.fare_subject{
+    color: #9D1F22 !important;
+}
+.check_In_baggage_sec .baggage_InfoSec, .contact_info .isWhatsApp_alerts {
+    background-color: #F3F5F7 !important;
+}
+
+.payment_gateway .card-container .card .flip {
+    border-radius: 10px !important;
+}
+
+.payment_gateway .card-container .card {
+    border-left: none !important;
+}

@@ -1,0 +1,78 @@
+@import "./../../../theme/theme-variables.scss";
+
+.collapse {
+  table {
+    th {
+      font-weight: normal !important;
+    }
+  }
+}
+
+.totalFlightPrice {
+  th,
+  td {
+    color: var(--text_primary_color) !important;
+    font-weight: 600 !important;
+  }
+}
+
+.total_amt {
+  min-height: auto !important;
+  .price_with_addons {
+    max-width: 50% !important;
+    font-weight: 600 !important;
+    .price {
+      font-size: 16px;
+    }
+    .price_addOns {
+      font-size: 12px;
+    }
+  }
+}
+.charges_txt {
+  font-size: 9px;
+  color: var(--text_primary_color) !important;
+  display: inline-block;
+  position: relative;
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .fares_info_section {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: $color-blue-800;
+  }
+
+  .totalFlightPrice {
+    th,
+    td {
+      color: $white !important;
+    }
+  }
+
+  .total_amt {
+    .price_with_addons {
+      color: $white !important;
+    }
+  }
+
+  .tripType {
+    .sec_heading {
+      font-size: 16px !important;
+      font-weight: 500 !important;
+    }
+  }
+
+  .selcted_adons {
+    font-weight: 500 !important;
+    color: #fff;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, lg)) and (max-width: map-get($grid-breakpoints, xl)) {
+  .total_amt {
+    .price_with_addons {
+      max-width: 44% !important;
+    }
+  }
+}

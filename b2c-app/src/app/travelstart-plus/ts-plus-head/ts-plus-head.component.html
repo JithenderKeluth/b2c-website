@@ -1,0 +1,70 @@
+<div class="head_sec pt-4">
+        <button *ngIf="!router.url.includes('subscriptionSuccess') && showheaderSec()" class="head_btn" (click)="goToBack()">
+            <img ImageSrc src="../../../assets/images/ts-plus-images/bck_arrw.svg" alt="back">
+           
+        </button>
+        <div class="float-right" *ngIf="showheaderSec() || credentialsService.isAuthenticated()">
+            <button *ngIf="getUserName()" aria-label="user" class="head_btn login_btn" mat-button [matMenuTriggerFor]="menu"
+                #menuTrigger="matMenuTrigger">
+                <span>{{getUserName()}}</span>
+            </button>
+            <button *ngIf="!getUserName() && !router.url.includes('ts-plus-payments')" aria-label="user" class="head_btn login_btn" (click)="signUser()">
+                <img ImageSrc src="../../../assets/images/ts-plus-images/user_icn_ts.svg" class="pr-1" alt="user">
+                <span>Log in</span>
+            </button>
+            
+            <mat-menu #menu="matMenu">
+                <button *ngIf="!iframeWidgetService.isMasterCardRegistrationWhiteLabelSite()" name="profile" aria-label="My Profile" [disableRipple]="true" (click)="goToMyAccount()" mat-menu-item
+                    routerLinkActive="active">
+                    <span translate>My Profile</span>
+                </button>
+                <button translate mat-menu-item [disableRipple]="true" aria-label="Logout" (click)="logout()">
+                    <span translate>Logout</span>
+                </button>
+            </mat-menu>
+            
+        </div>
+</div>
+
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" data-keyboard="false"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div>
+                <app-login 
+                    [travelstartPlus]="isTravelstartPlus" 
+                    (ts_user)="signUser()"  
+                    (closeSignup)="showAccountActivateModal()"
+                    (prompt_navigation)="onPrompt_navigation()"
+                ></app-login>
+                <!-- OEM <app-login (ts_user)="onTsUser()" ></app-login> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="account_activate" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+  aria-hidden="true">
+  <div class="modal-dialog payment_error_dialog" role="document">
+    <div class="modal-content dialog_content">
+     <div class="close_icn text-right">
+      <img src="https://cdn1.travelstart.com/assets/icons/close_cross_icn.svg" data-dismiss="modal" width="18px" alt="close">
+     </div>
+      <div class="modal-body">
+        <div class="account_activation">
+          <div class="activation mt-3">
+            <h6>Hello <span>{{getUserName()}},</span></h6>
+            <p>Account Activation Pending</p>
+
+            <div class="mt-4 activation_txt">
+                We have sent you an email. Please follow the
+                account activation instructions so you can login and purchase travelstart+.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

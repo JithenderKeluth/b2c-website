@@ -1,0 +1,143 @@
+<div class="pricing-details">
+  <div class="d-flex pricing-details-row">
+    <span> Adult&nbsp; </span>
+    <span> x {{ adultQuantity }}</span>
+    <span class="border-0 bg-transparent p-0 ml-auto">
+        <span>{{ currency | currencyCode }}</span>
+        <span>{{ adultBaseFare | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span>
+    </span>
+  </div>
+  <div class="d-flex pricing-details-row" *ngIf="youngAdultQuantity">
+    <span> Young Adult&nbsp; </span>
+    <span> x {{ youngAdultQuantity }}</span>
+    <span class="border-0 bg-transparent p-0 ml-auto">
+        <span>{{ currency | currencyCode }}</span>
+        <span>{{ youngAdultBaseFare | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span>
+    </span>
+  </div>
+  <div class="d-flex pricing-details-row" *ngIf="childrenQuantity">
+    <span> Children&nbsp; </span>
+    <span> x {{ childrenQuantity }}</span>
+    <span class="border-0 bg-transparent p-0 ml-auto">
+        <span>{{ currency | currencyCode }}</span>
+        <span>{{ childrenBaseFare | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span>
+    </span>
+  </div>
+  <div class="d-flex pricing-details-row" *ngIf="infantQuantity">
+    <span> Infants&nbsp; </span>
+    <span> x {{ infantQuantity }}</span>
+    <span class="border-0 bg-transparent p-0 ml-auto">
+        <span>{{ currency | currencyCode }}</span>
+        <span>{{ infantBaseFare | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span>
+    </span>
+  </div>
+  <div class="d-flex pricing-details-row font-weight-normal text-muted">
+    <span>Taxes & fees</span>
+    <span class="ml-auto"
+      >{{ currency | currencyCode
+      }}<span>{{ taxAmount | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span></span
+    >
+  </div>
+  <div class="d-flex pricing-details-row">
+    <span>Markup</span>
+    <span class="ml-auto">
+      <i
+        aria-hidden="true"
+        matTooltipPosition="right"
+        class="fa fa-info-circle pr-2"
+        matTooltip="Markup already added in Total"
+      >
+      </i>
+      {{ currency | currencyCode }}<span>{{ markup | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span></span
+    >
+  </div>
+  <div class="d-flex pricing-details-row">
+    <span>Total</span>
+    <span class="ml-auto"
+      >{{ currency | currencyCode }}<span>{{ total | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span>
+    </span>
+  </div>
+
+  <div class="d-flex pricing-details-row discount-row">
+    <div>Additional Markup</div>
+    <span class="ml-auto">
+      <i
+        aria-hidden="true"
+        matTooltipPosition="right"
+        class="fa fa-info-circle pr-2"
+        matTooltip="Only absolute values can be entered"
+      >
+      </i>
+      {{ currency | currencyCode }}
+      <input
+        type="text"
+        [formControl]="additionalMarkup"
+        mask="separator.2"
+        thousandSeparator=","
+        separatorLimit="99999999"
+        [allowNegativeNumbers]="false"
+        class="input_box"
+        min="0"
+        placeholder="0"
+        #AdditionalMarkup
+        (keypress)="onlyNumbersKeysAllowed($event)"
+        (keyup)="addAdditionalMarkup($event.target.value)"
+        style="width: 62px !important"
+      />
+    </span>
+  </div>
+
+  <div class="d-flex pricing-details-row discount-row">
+    
+    <div>Discount</div>
+    <span class="ml-auto">
+      <i
+        aria-hidden="true"
+        matTooltipPosition="right"
+        class="fa fa-info-circle pr-2"
+        matTooltip="Only absolute values can be entered"
+      >
+      </i>
+      {{ currency | currencyCode }}
+      <input
+        type="text"
+        [formControl]="discount"
+        mask="separator.2"
+        thousandSeparator=","
+        separatorLimit="99999999"
+        [allowNegativeNumbers]="false"
+        class="input_box"
+        min="0"
+        placeholder="0"
+        #Discount
+        (keypress)="onlyNumbersKeysAllowed($event)"
+        (keyup)="updateDiscount($event.target.value)"
+      />
+    </span>
+  </div>
+  <div *ngIf="isDiscountPriceGreater" class="validationError_msg clearfix">
+    <div class="float-right">Discount amount should not be greater than flight price.</div>
+  </div>
+  <div class="d-flex pricing-details-row discount-row align-items-center"
+   *ngIf="iframewidgetService.isB2BApp() && 
+   (iframewidgetService?.b2bOrganization() == 'TS_CT' || iframewidgetService?.b2bOrganization() == 'TS_FS')">
+    <div class="mr-1">display discount on quote</div>
+  <label  class="toggle-switch ml-auto mb-0">
+    <input
+      type="checkbox"
+      name=""
+      class="d-none"  
+      (change)="showDiscountOnQuote()"
+      [checked]="displayDiscountOnQuote"
+    />
+    <div class="slider_switch"></div>
+  </label>
+  </div>
+  <div class="d-flex pricing-details-row final-price-row">
+    <span>Final cost</span>
+    <strong class="ml-auto"
+      >{{ currency | currencyCode
+      }}<span>{{ totalAmount() | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span></strong
+    >
+  </div>
+</div>

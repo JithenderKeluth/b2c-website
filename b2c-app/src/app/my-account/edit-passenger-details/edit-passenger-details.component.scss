@@ -1,0 +1,243 @@
+@import "./../../../theme/theme-variables.scss";
+.edit_passenger_page {
+  background-color: var(--primary_Body_bg);
+  .edit_passenger_section {
+    .edit_passenger_body {
+      background-color: $white;
+      padding: 25px 15px;
+      border-radius: 0px 0px 12px 12px;
+      .edit_header {
+        h4 {
+          font-size: 18px;
+          font-weight: 500;
+          color: var(--text_primary_color);
+        }
+      }
+      .edit_body {
+        .travel_route {
+          .route_info {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--text_primary_color);
+            .ticketCreated {
+              font-size: 13px;
+              background-color: #fedcdd;
+              padding: 5px 10px;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+      .passenger_list {
+        border-radius: 5px;
+        color: var(--text_primary_color);
+        padding: 15px;
+        background-color: #f1f4f8;
+        label {
+          font-size: 12px;
+          margin: 0px;
+        }
+        .form-control {
+          height: 30px;
+          font-size: 13px !important;
+        }
+      }
+    }
+  }
+  .sub_btn {
+    padding: 10px 50px;
+    border: none;
+  }
+}
+// .dob_pick_date ::ng-deep ngb-datepicker {
+//   transform: translate(700px, 15px) !important;
+// }
+::ng-deep .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background: #f4fbff !important;
+  color: var(--text_link_color);
+}
+::ng-deep.mat-select-disabled {
+  background-color: #e9ecef;
+}
+::ng-deep {
+  .pick_date ngb-datepicker-navigation-select > .custom-select {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+    /* display: block; */
+    //height: 1.85rem;
+    display: block !important;
+  }
+  .pick_date .ngb-dp-arrow-btn {
+    padding: 0 0.25rem;
+    margin: 0 0.5rem;
+    /* border: none; */
+    background-color: transparent;
+    z-index: 1;
+    display: none !important;
+  }
+  .bg-primary {
+    background-color: var(--text_link_color) !important;
+    border: none;
+  }
+  .btn-light:hover {
+    color: $white !important;
+    background-color: var(--text_link_color) !important;
+    border-color: none;
+  }
+}
+.q_recordLink {
+  color: var(--text_link_color);
+  border: 1px solid var(--text_link_color);
+  padding: 5px 8px;
+  font-size: 12px;
+  border-radius: 3px;
+  position: relative;
+  top: 25%;
+}
+.viewQuery_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  min-width: 600px;
+  text-align: center;
+  background-color: $white;
+  border-radius: 3px;
+
+  .mdl_heading {
+    font-size: 23px;
+    margin-bottom: 24px;
+    font-weight: 600;
+    .close_img {
+      cursor: pointer;
+    }
+  }
+  .mdl_body {
+    padding: 15px 10px;
+  }
+}
+.fare_rules {
+  #fare {
+    position: relative;
+    top: 10px;
+    padding: 0px;
+  }
+  #fare #fare_accordian .card {
+    border: none;
+    overflow: unset;
+  }
+  #fare #fare_accordian .card .card-header {
+    border: 0;
+    border-radius: 2px;
+    padding: 0;
+  }
+  #fare #fare_accordian .card .card-header .btn-header-link:focus {
+    box-shadow: none;
+  }
+  #fare #fare_accordian .card .card-header .btn-header-link {
+    display: block;
+    text-align: left;
+    background-color: $color-neutral-25;
+    padding: 13px 19.5px 13px 13px;
+    border-bottom: 1px solid var(--border_default_color); //not added color code
+    border-radius: 0;
+    font-size: 13px;
+    font-weight: 550;
+  }
+
+  #fare #fare_accordian .card .card-header .btn-header-link:after {
+    content: "❯";
+    float: right;
+    transform: rotate(-90deg);
+    color: var(--text_info_color); //not added color code
+  }
+
+  #fare #fare_accordian .card .card-header .btn-header-link.collapsed:after {
+    transform: rotate(90deg);
+    content: "❯";
+    color: var(--text_info_color); //not added color code
+  }
+  #fare #fare_accordian .card .collapsing {
+    line-height: 30px;
+  }
+  #fare #fare_accordian .card .collapse {
+    border: 0;
+  }
+}
+.form-control[readonly] {
+  background-color: #e9ecef !important;
+}
+.dob_pick_date ::ng-deep {
+  ngb-datepicker {
+    transform: translate(15px, -54px) !important;
+  }
+  ngb-datepicker-navigation-select > .custom-select {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+    /* display: block; */
+    //height: 1.85rem;
+    display: block !important;
+  }
+  .changepick_date .ngb-dp-arrow-btn {
+    padding: 0 0.25rem;
+    margin: 0 0.5rem;
+    /* border: none; */
+    background-color: transparent;
+    z-index: 1;
+    display: none !important;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .collapse {
+    display: block !important;
+  }
+  .dropdown-menu {
+    border-radius: 6px !important;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .passenger_list {
+    padding: 15px 0px 15px 15px !important;
+    background-color: #fff !important;
+    label {
+      font-size: 12px;
+      margin: 0px;
+    }
+    .form-control {
+      height: 35px !important;
+      font-size: 13px !important;
+      border-radius: 3px;
+    }
+  }
+  #fare #fare_accordian .card {
+    border: 1px solid rgba(0, 0, 0, 0.125) !important;
+  }
+  .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+    background: #f4fbff !important;
+    color: var(--text_link_color);
+  }
+  .mat-select-disabled {
+    background-color: #fff !important;
+  }
+  .form-control[readonly] {
+    background-color: #fff !important;
+  }
+
+  // .collapse{
+  //   display: block!important;
+  // }
+  .sub_btn {
+    width: 100% !important;
+  }
+  .edit_passenger_page .edit_passenger_section .edit_passenger_body .edit_header h4 {
+    font-size: 16px;
+  }
+  .dropdown-menu {
+    border-radius: 6px !important;
+  }
+}

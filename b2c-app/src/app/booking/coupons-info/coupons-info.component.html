@@ -1,0 +1,130 @@
+<div class="wallet-vouchers" *ngIf="vouchers && vouchers.flightVouchers && vouchers.flightVouchers.length > 0">
+  <h4 class="mb-3">Redeem your vouchers and funds</h4>
+
+  <!-- Flight Vouchers List (change)="onVoucherSelected(voucher.voucherId, voucher.voucherCode)"-->
+  <ul class="voucher-list">
+    <li *ngFor="let voucher of vouchers.flightVouchers">
+      <div class="voucher-info d-flex align-items-center" >
+        <div>
+          <span class="d-block">
+            Flight Voucher
+          </span>
+          <span *ngIf="apiService.extractCountryFromDomain() !== 'MM'">
+            <span class="txt-mute">Use Flight Voucher</span> {{ voucher.currency | currencyCode}}{{ voucher.amount }}
+          </span>
+        </div>
+        <div class="ml-auto">
+          <span>
+          <span *ngIf="selectedVoucher?.voucherId !== voucher.voucherId">
+            <img
+            (click)="onVoucherSelected(voucher.voucherId, voucher.voucherCode)"
+            class="ml-2"
+            ImageSrc
+            src="../../../assets/icons/travellerpage_Icons/tick_default.svg"
+            alt="tick_default"
+          />
+          </span>
+          <span class="active" *ngIf="selectedVoucher?.voucherId === voucher.voucherId ">
+            Applied
+            <img
+            (click)="apiService.extractCountryFromDomain() !== 'MM' ? onVoucherSelected(voucher.voucherId, voucher.voucherCode) : ''"
+            class="ml-2"
+            ImageSrc
+            src="../../../assets/icons/travellerpage_Icons/tick_selected.svg"
+            alt="tick_selected"
+          />
+          </span>
+          </span>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="savings text-center pt-2" *ngIf="selectedVoucher && voucherCodeApplied">
+    <img ImageSrc class="mr-1" src="../../../assets/icons/wallet-icons/cheers-icn.svg" alt="cheers" /> You saved
+    {{ currency | currencyCode }}{{ calculateSavings() }}
+  </div>
+  <div class="invalidVoucherTxt text-center pt-2" *ngIf="voucherResponse && !voucherResponse?.voucherValid">
+    Voucher is invalid
+  </div>
+  <div class="exceededAmountVoucherTxt  pt-2 d-flex align-items-center" *ngIf="selectedVoucher && voucherCodeApplied && (bookingAmountValue < calculateSavings())">
+    <span class="mr-2"><img src="../../../assets/images/ts+landing/MM-info.svg" alt="MM-info.svg"></span>
+    <span>The voucher is worth more than your booking. The remaining balance will be returned to your wallet.</span>
+  </div>
+</div>
+<section class="coupon_info" *ngIf="!credentials?.data?.isTSPlusSubscriptionActive || (credentials?.data?.isTSPlusSubscriptionActive && vouchers?.flightVouchers?.length == 0)">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 p-0">
+        <div class="content">
+          <form>
+            <label for="Apply a voucher code" translate class="sec_title">
+              Apply a voucher code<span translate class="optional">(optional)</span>
+            </label>
+            <div class="input-group">
+              <img
+                ImageSrc
+                class="ml-2"
+                src="./../../../assets/icons/voucher-icon-new.svg"
+                width="18px"
+                alt="voucher"
+                loading="lazy"
+              />
+              <input
+                type="email"
+                class="form-control voucher_color"
+                (input)="voucherChange()"
+                [formControl]="voucherCode"
+                placeholder="{{ 'FREEFLIGHT' | translate }}"
+              />
+              <span *ngIf="voucherCode.value"
+                ><img
+                  ImageSrc
+                  src="./../../../assets/icons/cross-nt-available.svg"
+                  alt="round"
+                  (click)="clearVoucherCode()"
+                  class="cancelIcon"
+                  loading="lazy"
+              /></span>
+
+              <button
+                class="btn primary_btn apply_vocher onHover"
+                aria-label="Apply"
+                type="submit"
+                (click)="applyVoucherCode()"
+              >
+                <span translate>Apply</span>
+              </button>
+            </div>
+            <div translate *ngIf="country !== 'ABSA' && voucherCodeApplied" class="successMsg">Great! Your voucher has been applied.</div>
+            <div translate *ngIf="invalidVoucher" class="validation_msg">
+              Voucher code is invalid. Please try again.
+            </div>
+            <div translate class="validation_msg" *ngIf="submitVoucherCode && voucherCode?.errors?.required">
+              Voucher code is required.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="country === 'ABSA' && voucherCodeApplied" class="container">
+    <div class="row">
+      <div class="col-sm-12 p-0">
+        <div class="theme__voucher-applied-container">
+          <div translate class="theme__voucher-applied-header">
+            Flight voucher applied
+            <img ImageSrc class="theme__voucher-applied-icon" src="../../../assets/icons/travellerpage_Icons/tick_selected.svg" alt="applied-check">
+          </div>
+          <div class="theme__voucher-updated-price-message">
+            Total Price: R{{ (bookingSummaryAmt + processingFee + voucherAmount) | currency: '' + ' ':'symbol':'2.0' }} <span class="theme__line-through">R{{ (bookingSummaryAmt + processingFee) | currency: '' + ' ':'symbol':'2.0' }}</span>
+          </div>
+          <div class="theme__voucher-amount-saved-message">
+            <img class="theme__voucher-cheers-icon" src="../../../assets/icons/absa_icons/cheers-icon.svg" alt="cheers">
+            You saved R{{ (voucherAmount * -1) | currency: '' + ' ':'symbol':'2.0' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

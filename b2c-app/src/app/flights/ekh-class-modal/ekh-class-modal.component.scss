@@ -1,0 +1,16 @@
+@import "./../../../theme/theme-variables.scss";
+.ek_h_content {
+  .ek_h_fare {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text_primary_color);
+  }
+}
+.ek_h_conditions {
+  color: $color-neutral-400;
+  font-size: 12px;
+  .note_conditions {
+    color: var(--text_primary_color);
+    font-weight: 600;
+  }
+}

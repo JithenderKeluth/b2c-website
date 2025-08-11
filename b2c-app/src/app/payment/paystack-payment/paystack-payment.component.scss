@@ -1,0 +1,225 @@
+@import "./../../../theme/theme-variables.scss";
+
+.payStack_sec {
+  .paystack_card {
+    margin: auto;
+    border-top: 0;
+    border-bottom: 0;
+    background: none;
+    min-height: 250px;
+    max-width: 400px;
+    position: relative;
+    border-radius: 10px;
+    background-color: #f2f7ff;
+.card-body{
+  padding: 15px 0px;
+}
+    .card-info {
+      left: 0;
+      width: 100%;
+      display: flex;
+      font-size: 14px;
+      font-weight: 500;
+      align-items: flex-end;
+      padding-bottom: 10px;
+      justify-content: center;
+      border-radius: 10px;
+
+      .card_details {
+        width: 100%;
+        position: relative;
+
+        .fa {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .add-money-input {
+    font-size: 15px;
+    font-weight: bold;
+    position: relative !important;
+
+    span {
+      margin-left: 5px;
+      position: absolute;
+      display: block;
+      transform: translate(0, -50%);
+      top: 50%;
+      pointer-events: none;
+      text-align: center;
+      font-style: normal;
+    }
+
+    input {
+      padding-right: 0;
+    }
+
+    .form-control {
+      height: 44px;
+    }
+
+    .pl-22 {
+      padding-left: 22px;
+    }
+  }
+
+  .add-money-tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 0px;
+    justify-content: center;
+
+    li {
+        display: block;
+        font-size: 14px;
+        padding: 5px 12px;
+        border-radius: 16px;
+        background-color: #e6f8ff;
+        border: 1px dashed #1db2f5;
+        margin: 0px 2px;
+
+        &:hover {
+          cursor: pointer;
+          background-color: white;
+          color: black;
+        }
+    }
+  }
+
+  .btn_addMoney {
+    border: none;
+    color: $white;
+    font-size: 16px;
+    padding: 8px 25px;
+    font-weight: bold;
+    border-radius: 3px;
+    background-color: $color-blue-500;
+  }
+}
+
+
+.iframe_payment_gateway {
+  @media (max-width: map-get($grid-breakpoints, sm)) {
+    padding: 20px 5px;
+  }
+
+  .iframe_section {
+    .form-horizontal iframe {
+      border: none;
+      display: block;
+      max-height: 600px;
+      min-height: 400px;
+    }
+  }
+}
+
+#spinner {
+  -webkit-animation: frames 1s infinite linear;
+  animation: frames 1s infinite linear;
+  background: transparent;
+  border: 5px solid #fff;
+  border-radius: 100%;
+  border-top-color: var(--text_primary_color);
+  width: 100px;
+  height: 100px;
+  opacity: 0.6;
+  padding: 0;
+  z-index: 999;
+}
+
+@keyframes frames {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+#pause {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 10px;
+  left: 0;
+  z-index: 1000;
+}
+
+.accept-fee {
+  & ::ng-deep.mat-checkbox-layout {
+    white-space: normal !important;
+  }
+
+  & ::ng-deep.mat-checkbox-inner-container {
+    margin-top: 4px;
+    width: 15px !important;
+    height: 15px !important;
+    border: 1px solid $white !important;
+    border-radius: 3px;
+  }
+}
+.payment_response{
+    padding: 50px 0px;
+}
+  .success_text {
+    font-size: 16px;
+    font-weight: 500;
+    color: $color-teal-600;
+  }
+.click_btn {
+  border: none;
+  color: $white;
+  margin: 20px 0 0;
+  border-radius: 6px;
+  padding:4px 25px;
+  background-color: $color-blue-500;
+}
+
+.payment_failedtext {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--label_color);
+  a {
+    color: $color-link-blue;
+  }
+}
+
+.failure_img {
+  width: 80px;
+}
+
+.process_txt {
+  font-size: 16px;
+  color: black;
+}
+
+#process-spinner {
+  -webkit-animation: frames 1s infinite linear;
+  animation: frames 1s infinite linear;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 100%;
+  border-top-color: var(--text_primary_color);
+  width: 25px;
+  height: 25px;
+  opacity: 0.6;
+  padding: 0;
+  z-index: 999;
+}
+/**D-commits*/
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .paystack_card{
+      width: 100% !important;
+      .add-money-tags li{
+        font-size: 10px !important;
+        padding: 5px 10px !important;
+
+  }
+}
+}

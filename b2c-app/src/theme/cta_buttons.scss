@@ -1,0 +1,86 @@
+.primary_btn {
+  background-color: var(--primary_btn_bg) !important;
+  color: #ffffff !important;
+  border-radius: var(--border_radius) !important;
+
+  &:hover {
+    color: #ffffff;
+  }
+}
+
+.success_btn {
+  background-color: var(--success_btn_bg);
+  color: #ffffff;
+  border-radius: var(--border_radius) !important;
+
+  &:hover {
+    color: #ffffff;
+  }
+}
+
+.default_btn {
+  border: 1px solid var(--primary_btn_bg) !important;
+  color: var(--primary_btn_bg) !important;
+  border-radius: var(--border_radius) !important;
+
+  &:hover {
+    color: var(--primary_btn_bg) !important;
+  }
+}
+
+.nav_links {
+  border: none;
+  color: var(--text_primary_color) !important;
+
+  &.active {
+    border-bottom: 2px solid var(--text_link_color) !important;
+    color: var(--text_link_color) !important;
+  }
+}
+
+.site_links {
+  color: var(--text_link_color);
+}
+
+.btn-link {
+  color: var(--primary_btn_bg) !important;
+  font-size: 11px !important;
+}
+
+.btn-link:disabled,
+.btn-link.disabled {
+  color: var(--border_default_color) !important;
+}
+
+/* Works on Chrome, Edge, and Safari */
+/* Works on Firefox */
+/* Works on Chrome, Edge, and Safari */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #efefef;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b5b5c7;
+  border-radius: 20px;
+  border: 0px solid rgb(6 34 49 / 60%);
+}
+
+.ok-btn {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  height: 34px;
+  // background-color: $color-link-blue;
+  // color: $white;
+  margin-top: 2%;
+  padding: 4px 29px;
+}
+
+.ok-btn:hover {
+  color: $white;
+}

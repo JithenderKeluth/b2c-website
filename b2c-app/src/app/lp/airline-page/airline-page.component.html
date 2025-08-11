@@ -1,0 +1,117 @@
+<app-header></app-header>
+<div *ngIf="!airlinePage">Airline not found</div>
+<app-loader [isLoading]="loading"></app-loader>
+
+<!-- Airline Page Details -->
+<div *ngIf="airlinePage" class="airline-page">
+  <!-- Hero Banner -->
+  <section class="section-white" *ngIf="showHeroItems">
+    <lp-hero [items]="heroItems"></lp-hero>
+    <!-- hide dropdown for Desktop -->
+    <div class="search-dropdown bg-light-grey pt-4">
+      <button class="btn dropdown-toggle" type="button" (click)="toggleSearch()">
+        <span translate>Search Flights</span>
+        <span class="accordian-icon" *ngIf="!searchExpanded">
+          <i class="fa fa-chevron-down"></i>
+        </span>
+        <span class="accordian-icon" *ngIf="searchExpanded">
+          <i class="fa fa-chevron-up"></i>
+        </span>
+      </button>
+      <div class="dropdown-content" [ngClass]="{ 'hide-search': !searchExpanded }">
+        <app-search></app-search>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Flight Routes -->
+  <section class="pb-5 pt-md-5 mt-md-5" *ngIf="showFlightRoutes">
+    <lp-flight-routes [flightRoutes]="flightRoutes"></lp-flight-routes>
+  </section>
+
+  <!-- Airline Unique Selling Points -->
+  <section class="pb-5 pt-5 bg-grey" id="unique_selling_points">
+    <div class="section-title pt-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h2>{{ airlinePage?.usp_heading }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="container">
+        <!-- Airline Unique Selling Points -->
+        <div class="row bg-white pa-2 mb-4 usp">
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <img
+              class="usp-image"
+              src="{{ airlineUniqueSellingPoints.imageURL }}"
+              alt="{{ airlinePage?.usp_heading }} - Unique selling point"
+            />
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div *ngFor="let item of airlineUniqueSellingPoints.points; let i = index" class="usp-card">
+              <h3 class="usp-card-title">{{ item.title }}</h3>
+              <p class="usp-card-text">
+                {{ item.body }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Airline Info Card -->
+        <div class="row pt-4">
+          <div class="col-lg-4 col-md-4 pl-0 col-sm-12">
+            <div
+              *ngIf="airlineInfoCard"
+              class="airline-card"
+              style="
+                background: url('{{ airlineInfoCard?.imageURL }}')
+                  no-repeat bottom center;
+              "
+            >
+              <div class="card-body">
+                <img
+                  class="mb-4"
+                  src="{{ airlineInfoCard?.logoURL }}"
+                  alt="{{ airlinePage?.usp_heading }} - Airline logo"
+                />
+                <span *ngFor="let item of airlineInfoCard.items" class="card-item">
+                  <h5 class="card-title">{{ item.header }}</h5>
+                  <p class="card-text">{{ item.text }}</p>
+                  <div class="separator"></div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- Airline Info Accordian -->
+          <div class="col-lg-8 col-md-8 col-sm-12">
+            <lp-accordian *ngIf="accordianItems" [items]="accordianItems"> </lp-accordian>
+          </div>
+        </div>
+        <div class="row pb-1 pt-4">
+          <p class="col-12 disclaimer-text">
+            {{ airlinePage?.Airline_info_disclaimer }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pt-5 pb-5">
+    <!-- General USP -->
+    <lp-general-usp></lp-general-usp>
+  </section>
+
+  <!-- Footer Outtro -->
+  <section class="section-white mt-5 pt-5">
+    <!-- Footer Links -->
+    <span *ngIf="footerItems" class="mt-5">
+      <lp-footer-links [items]="footerItems"></lp-footer-links>
+    </span>
+  </section>
+</div>
+
+<app-footer [hideFooterLinks]="true"></app-footer>

@@ -1,0 +1,34 @@
+@import "./../../../theme/theme-variables.scss";
+.travelAdvice {
+  font-size: 14px;
+  color: $color-neutral-900;
+  padding: 6px 20px;
+  background-color: var(--travelAdvice_Bg);
+  border-radius: 4px;
+  margin-top: 20px !important;
+  a {
+    color: $color-link-blue;
+  }
+  img {
+    padding: 5px;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .travelAdvice {
+    margin-top: 5px !important;
+    margin-bottom: 10px !important;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .travelAdvice {
+    font-size: 11px !important;
+    margin-top: 5px !important;
+    margin-bottom: 10px !important;
+    float: left;
+    width: 100%;
+    .imgTrAdvice {
+      float: left !important;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<div *ngIf="memberDeals?.length !== 0" class="memberDeals">
+    <owl-carousel-o [options]="owlOptions">
+      <ng-container *ngFor="let data of memberDeals; let index = index">
+        <ng-template carouselSlide [id]="index">
+          <a>
+            <img
+              [src]="data.image_src"
+              [alt]="data.alt_text"
+              [width]="img_width"
+              height="100%"
+              [title]="data.header"
+              loading="lazy"
+            />
+            <div class="deals_wrapper" style="text-align: left; width: 70%;">
+              <div class="deals_heading">{{ data.header }}</div>
+              <div class="deals_info">{{ data.description }}</div>
+            </div>
+          </a>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+  </div>
+  

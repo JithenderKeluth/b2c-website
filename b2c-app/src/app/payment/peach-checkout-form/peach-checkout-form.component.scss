@@ -1,0 +1,67 @@
+@import "./../../../theme/theme-variables.scss";
+
+.peachCheckoutFormSec{
+    background-color: #fff;
+    padding: 20px;
+    min-height: 500px;
+    border-radius: 12px;
+    #payment-form{
+        .scroll-util{
+            min-height: 500px !important;
+            overflow: hidden;
+            iframe{
+                min-height: 400px !important;
+            }
+           
+        }
+    }
+}
+::ng-deep{
+    .scroll-util{
+        min-height: 500px !important;
+        overflow: hidden;
+        iframe{
+            min-height: 400px !important;
+        }
+    }
+    .peach [bg-cards-background=""]{
+        background-color: var(--primary_Body_bg);
+    }
+} 
+/** we can make one file for spinners once everything done */
+#spinner {
+    -webkit-animation: frames 1s infinite linear;
+    animation: frames 1s infinite linear;
+    background: transparent;
+    border: 5px solid #fff;
+    border-radius: 100%;
+    border-top-color: var(--border_default_Color);
+    width: 100px;
+    height: 100px;
+    opacity: 0.6;
+    padding: 0;
+    z-index: 999;
+  }
+  
+  @keyframes frames {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      -webkit-transform: rotate(359deg);
+      transform: rotate(359deg);
+    }
+  }
+  
+  #pause {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 10px;
+    left: 0;
+    z-index: 1000;
+  }
+  

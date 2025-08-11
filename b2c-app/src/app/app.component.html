@@ -1,0 +1,80 @@
+<div class="theme-wrapper" *ngIf="isAppInitialized">
+  <div
+    class="app-body"
+    (window:resize)="onResize()"
+    [ngClass]="!iframeWidgetService.isShowComponent() ? 'isIframeContent' : ''"
+  >
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<div class="offline-message" *ngIf="!isConnected && isAppInitialized">
+  <div class="offline-body">
+    <div class="offline-icon">
+      <span></span>
+    </div>
+    <div class="offline_txt ml-3">
+      <strong translate>Offline</strong>
+      <p class="mb-0" translate>Please check your internet connection.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal hide" id="idleTimeOut" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true" *ngIf="isAppInitialized">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body consistent-modal-body">
+        <div class="text-center">
+          <img
+            ImageSrc
+            class="w-mob-set consistent-modal-icon"
+            src="./../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg"
+            alt="session_expired"
+          />
+          <div class="sessionContent">
+            <div class="consistent-header-txt" translate>
+              Looks like time got away.
+            </div>
+            <div class="consistent-body-text" translate>
+              Flight prices change on the fly, we want to ensure that you always
+              see the most up-to-date prices for your search.
+            </div>
+          </div>
+          <div class="modal-btn-container">
+            <button
+              *ngIf="(router.url === '/booking/flight-details' || router.url === '/booking/products') && domainCountry !== 'MM'"
+              translate
+              type="button"
+              class="btn updatePriceBtn default_btn d-none"
+              (click)="refreshResultsOrUpdatePrice()"
+              data-dismiss="modal"
+            >
+              Update price
+            </button>
+            <button
+              (click)="newSearch()"
+              translate
+              type="button"
+              class="btn primary_btn searchBtn"
+              data-dismiss="modal"
+            >
+              Start a new search
+            </button>
+            <button
+              *ngIf="router.url === '/flights/results'"
+              translate
+              type="button"
+              class="btn primary_btn searchBtn d-none"
+              (click)="refreshResultsOrUpdatePrice()"
+              data-dismiss="modal"
+            >
+              Refresh results
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

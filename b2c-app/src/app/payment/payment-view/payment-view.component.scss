@@ -1,0 +1,267 @@
+@import "./../../../theme/theme-variables.scss";
+.payment_view_page {
+  background-color: var(--body_bg_clr);
+
+  padding: 20px;
+  .sec_header {
+    h4 {
+      color: var(--text_primary_color);
+      font-size: 22px;
+      font-weight: normal;
+      padding: 10px 0px;
+    }
+  }
+  .iframe_payment_gateway {
+    padding: 20px 0px;
+    .iframe_section {
+      padding: 15px;
+      border-radius: 12px;
+      .redirect_head {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .donotCloseMsg {
+        background-color: #fff2c7;
+        color: var(--text_primary_color);
+        padding: 10px;
+        font-size: 13px;
+        line-height: 16px;
+        border-radius: 3px;
+      }
+      .countDownSec {
+        font-size: 13px;
+        .countDownTimer {
+          background-color: #ff204f;
+          padding: 3px 5px;
+          color: #fff;
+          font-size: 11px;
+          border-radius: 4px;
+        }
+      }
+      .redirect_content {
+        font-size: 12px;
+      }
+      .countdown {
+        border-radius: 3px;
+        font-size: 12px;
+        border: 1px solid #b2b5b7;
+        padding: 0px 5px;
+      }
+    }
+  }
+  .fares_display_section {
+    box-shadow: 0 2px 2px 0 rgba(5, 35, 49, 0.12);
+    background: $white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+  }
+  .btn-controls {
+    .back {
+      color: var(--text_link_color);
+    }
+    .book_btn {
+      padding: 10px 40px;
+    }
+  }
+  // .coupon_info_section {
+  //   box-shadow: 0 2px 2px 0 rgba(5, 35, 49, 0.12);
+  //   background: $white;
+  //   padding: 15px 0px;
+  //   border-radius: 12px;
+  // }
+  .disableCouponSec {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  .iframe3dPayment {
+    width: 75%;
+    height: 700px;
+    margin: auto 10%;
+    border: none;
+  }
+}
+.vocherProduct {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-80%, -50%) !important;
+  width: 50%;
+  .vocher_modal_body {
+    padding: 40px 30px;
+  }
+  .dialog_content {
+    width: 600px;
+  }
+}
+.EFT_failed {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  width: 50%;
+
+  .failed_modal_body {
+    padding: 40px 30px;
+  }
+
+  .dialog_content {
+    width: 450px;
+  }
+
+  .add_txt {
+    width: 600px;
+  }
+
+  .ok-btn {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    height: 34px;
+    color: $white;
+    padding: 4px 29px;
+    margin-top: 14px;
+  }
+  .payment_failedtext {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text_primary_color);
+
+    a {
+      color: var(--text_link_color);
+    }
+
+    .paymnt_addlTxt {
+      width: 48%;
+      border: 1px solid $color-neutral-100;
+      margin: 0px 5px;
+      padding: 10px;
+
+      .payment_fail_content {
+        font-size: 12px !important;
+
+        span {
+          display: list-item;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .mwebBookingInfo_section {
+    background-color: $color-neutral-25;
+    padding: 15px;
+    .mwebBookingInfo {
+      background-color: $white;
+      box-shadow: 0 2px 2px 0 rgb(5 35 49 / 12%);
+      border-radius: 6px;
+      padding: 15px;
+    }
+  }
+  .payment_view_page {
+    padding: 15px;
+    min-height: 50vh;
+    .container {
+      padding: 0;
+      .pl-xs-15 {
+        padding-left: 15px !important;
+      }
+      .card-container {
+        padding: 0;
+      }
+    }
+    .payment_cards_section {
+      margin-bottom: 4em;
+      border-radius: 6px !important;
+    }
+    .sec_header {
+      h4 {
+        font-size: 18px;
+        font-weight: 500;
+        padding: 0px;
+      }
+    }
+  }
+  .fares_display_section {
+    padding: 0px !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+  .fares_info_section {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 999;
+    padding: 20px 30px;
+    background: var(--text_primary_color) !important;
+    color: $white !important;
+    a.link {
+      color: $white !important;
+      text-align: center;
+      font-size: 12px;
+    }
+  }
+  .vocherProduct {
+    transform: translate(-50%, -50%) !important;
+    width: 50%;
+  }
+  .EFT_failed {
+    width: calc(100% - 20px) !important;
+  }
+  .add_txt {
+    width: 100% !important;
+
+    .paymnt_addlTxt {
+      width: 100% !important;
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .mwebBookingInfo_section {
+    background: #ffffff;
+    padding: 15px 15px 0 15px;
+    border-radius: 12px;
+  }
+
+  .payment_view_page {
+    padding: 7px 15px 15px 15px;
+    min-height: 50vh;
+  }
+}
+
+//spinner Css
+#spinner {
+  -webkit-animation: frames 1s infinite linear;
+  animation: frames 1s infinite linear;
+  background: transparent;
+  border: 5px solid #fff;
+  border-radius: 100%;
+  border-top-color: #1db2f5;
+  width: 100px;
+  height: 100px;
+  opacity: 0.6;
+  padding: 0;
+  z-index: 999;
+}
+@keyframes frames {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+#pause {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 10px;
+  left: 0;
+  z-index: 1000;
+}

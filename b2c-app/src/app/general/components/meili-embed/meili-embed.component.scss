@@ -1,0 +1,11 @@
+@import "./../../../../theme/theme-variables.scss";
+
+p{
+    background-color: #edf1f9;
+    padding: 15px;
+    font-size: 13px;
+    border-radius: 12px;
+    a{
+        color: var(--text_link_color);
+    }
+}

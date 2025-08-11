@@ -1,0 +1,38 @@
+<div class="modal-dialog fare_increased" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body duplicateBookingModal consistent-modal-body">
+      <div class="text-center">
+        <div class="fare text-center mb-3">
+          <img ImageSrc src="../../../assets/icons/travellerpage_Icons/duplicatebooking.svg" alt="duplicatebooking" class="consistent-modal-icon">
+          <div translate class="headTxt consistent-header-txt">This appears to be a duplicate booking</div>
+        </div>
+      <div class="consistent-body-text">
+        <div class="descriptionTxt">
+          <span translate>Our systems show you have a duplicate booking that was created recently.</span>
+        </div>
+        <div class="bookingRefTxt mt-3">
+          <div translate>Your booking reference is</div>
+          <div translate>{{duplicateBookingInfo?.tccBookingReference}}</div>
+        </div>
+        <div class="mt-4">
+          <div *ngIf="countryDomain == 'NG'">
+            <button type="button" aria-label="Cancel" class="btn ok-btn  pl-4 pr-4 primary_btn" data-dismiss="modal"
+              (click)="payExistingBooking()">
+              <span translate>Pay for existing booking</span>
+            </button>
+          </div>
+          <div class="modal-btn-container d-block">
+            <button type="button" aria-label="Yes, Continue" class="btn ok-btn default_btn" data-dismiss="modal"
+              (click)="continueSameBooking()">
+              <span translate>Continue this booking</span>
+            </button>
+            <button type="button" data-dismiss="modal" class="btn primary_btn cancel_btn">
+              <span translate>Cancel</span>
+            </button>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

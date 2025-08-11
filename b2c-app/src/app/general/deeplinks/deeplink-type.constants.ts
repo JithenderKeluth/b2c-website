@@ -1,0 +1,7 @@
+export const enum DEEP_LINK_TYPE {
+  SEARCH = 'SEARCH',
+  PRICE = 'PRICE',
+  APIS = 'APIS_LINK',
+  PAYMENT = 'PAYMENT_LINK',
+  PRODUCTS = 'PRODUCTS_LINK',
+}

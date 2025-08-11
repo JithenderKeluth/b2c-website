@@ -1,0 +1,537 @@
+<div class="contactFormSection">
+  <div class="container">
+    <div class="row">
+      <div class="pr-40 col-12" [ngClass]="!isB2BApp ? 'p-0':''">
+        <div class="sendQuery">
+          <div class="sect_header" *ngIf="tsCountry !== 'ABSA'">
+            <div class="sect_title"><span class="sect_title" translate>Send us your query</span>:</div>
+          </div>
+          <p translate>Drop your query in this contact form and we’ll be in touch with you shortly.</p>
+          <div *ngIf="tsCountry === 'ZA' || tsCountry === 'ABSA'" class="row new_req">
+            <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+              <li class="nav-item mr-2">
+                <a
+                  class="nav-link theme__contact-form-nav-link"
+                  (click)="selectBookingType('existBooking')"
+                  [style.border]="selectedTab === 'existBooking' ? '1px solid #a7afc0' : 'none'"
+                  [ngClass]="[selectedTab === 'existBooking' ? 'active' : '']"
+                  translate
+                  href="#existingBooking"
+                  id="post-booking"
+                  data-toggle="tab"
+                  role="tab"
+                  aria-controls="Existing booking"
+                  aria-selected="false"
+                  >Existing booking</a
+                >
+              </li>
+
+              <li class="nav-item" *ngIf="!isB2BApp && tsCountry !== 'ABSA'">
+                <a
+                  class="nav-link theme__contact-form-nav-link"
+                  (click)="selectBookingType('newBooking')"
+                  [style.border]="selectedTab === 'existBooking' ? '1px solid #a7afc0' : 'none'"
+                  [ngClass]="[selectedTab === 'newBooking' ? 'active' : '']"
+                  href="#newBooking"
+                  id="new-booking"
+                  data-toggle="tab"
+                  role="tab"
+                  aria-controls=">New booking"
+                  translate
+                  aria-selected="false"
+                >
+                  New booking</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <form [formGroup]="contactUsForm" class="theme__contact-form-section-container theme__no-side-margins">
+            <div class="tab-content" id="tabcontentData">
+              <div class="tab-pane active" id="existingBooking" role="tabpanel" aria-labelledby="existingBooking-tab">
+                <ng-container *ngTemplateOutlet="newBooking"> </ng-container>
+
+                <div class="row">
+                  <div class="col-md-12 form-group">
+                    <label for="category" translate class="control-label theme__contact-form-label">What can we help you with?</label>
+                    <select
+                      id="category"
+                      class="form-control category_select"
+                      placeholder="Choose an option below"
+                      formControlName="category"
+                      (change)="selectChange()"
+                    >
+                      <option value="">Please select a category</option>
+                      <option
+                        [ngValue]="reason"
+                        *ngFor="let reason of contactFormCategories"
+                      >
+                        {{ reason.category }}
+                      </option>
+                    </select>
+                    <div
+                      class="validation_msg"
+                      *ngIf="submitContactUsForm && contactUsForm?.get('category')?.errors?.required"
+                    >
+                      <span translate>Required Category</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12 form-group" *ngIf=" subCategories?.length !== 0">
+                    <label for="subcategory" translate class="control-label theme__contact-form-label">Sub category</label>
+                    <select
+                      id="subCategory"
+                      class="form-control category_select"
+                      (change)="selectSubCategory()"
+                      placeholder="Choose an option below"
+                      formControlName="subcategory"
+                    >
+                      <option value="">Please select sub category</option>
+                      <option [ngValue]="reason" *ngFor="let reason of subCategories">
+                        {{ reason.category }}
+                      </option>
+                    </select>
+                    <div *ngIf="getAirlineLink()" class="airline_link">
+                      <a href="https://www.flysafair.co.za/" target="_blank" rel="noopener">Flysafair</a>
+                      <div><a href="https://www.lift.co.za/en" target="_blank" rel="noopener">Lift</a></div>
+                    </div>
+                    <div
+                      class="validation_msg"
+                      *ngIf="
+                        submitContactUsForm &&
+                        (contactUsForm?.get('subcategory')?.errors?.required ||
+                          contactUsForm?.get('subcategory')?.value === '')
+                      "
+                    >
+                      <span translate>Required Sub Category</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" *ngIf="contactUsForm?.get('subcategory')?.value?.questionnaire_json">
+                  <div class="col-12 mb-3"*ngFor="let question of contactUsForm?.get('subcategory')?.value?.questionnaire_json | keyvalue">
+                    <label for="questions" class="control-label theme__contact-form-label" translate>{{question.value}}</label>
+                    <input type="text" class="form-control" formControlName="{{question.key}}" attr.id="{{question.key}}" />
+                    <div
+                      class="validation_msg"
+                      *ngIf="submitContactUsForm && contactUsForm?.get(question.key)?.errors?.required"
+                    >
+                      <span translate>This field is required </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="row"
+                  *ngIf="
+                    contactUsForm?.get('category')?.value?.isbookingreferncemandatory ||
+                    contactUsForm?.get('subcategory')?.value?.isbookingreferncemandatory
+                  "
+                >
+                  <div class="col-md-12 form-group">
+                    <label for="bookingReference" translate class="control-label theme__contact-form-label">Booking reference</label>
+                    <input
+                      #bookingReference
+                      type="text"
+                      class="form-control"
+                      placeholder="{{ (tsCountry == 'ABSA') ? 'XB00000000' : 'ZA00000000' | translate }}"
+                      formControlName="bookingReference"
+                    />
+                    <div
+                      class="validation_msg"
+                      *ngIf="submitContactUsForm && contactUsForm?.get('bookingReference')?.errors?.required"
+                    >
+                      <span translate>Enter a booking reference.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="row"
+                  *ngIf="
+                    contactUsForm.get('subcategory')?.value?.categoryKey === 'CHANGES' ||
+                    contactUsForm.get('subcategory')?.value?.categoryKey === 'CANCELLATION_REFUND_QUOTE' ||
+                    contactUsForm.get('subcategory')?.value?.categoryKey === 'CONFIRMATION_DATE_CHANGE' ||
+                    contactUsForm.get('category')?.value?.categoryKey === 'CHANGES' ||
+                    contactUsForm.get('category')?.value?.categoryKey === 'CANCELLATION_REFUND_QUOTE'
+                  "
+                >
+                  <ng-container
+                    formArrayName="paxNames"
+                    *ngFor="let nameControl of nameControls.controls; let i = index"
+                  >
+                    <div
+                      *ngIf="contactUsForm.get('subcategory')?.value?.categoryKey !== 'CONFIRMATION_DATE_CHANGE'"
+                      class="form-group"
+                      [ngClass]="{ 'col-lg-8': i === 0, 'col-lg-7': i > 0, 'col-12': i === 0, 'col-10': i > 0 }"
+                    >
+                      <label
+                        for="pax full name"
+                        class="control-label theme__contact-form-label"
+                        *ngIf="
+                          contactUsForm.get('subcategory')?.value?.categoryKey === 'CHANGES' ||
+                          contactUsForm.get('category')?.value?.categoryKey === 'CHANGES'
+                        "
+                        translate
+                        >Full Name of passenger changing</label
+                      >
+                      <label
+                        for="pax name for cancellation"
+                        class="control-label theme__contact-form-label"
+                        *ngIf="
+                          contactUsForm.get('subcategory')?.value?.categoryKey === 'CANCELLATION_REFUND_QUOTE' ||
+                          contactUsForm.get('category')?.value?.categoryKey === 'CANCELLATION_REFUND_QUOTE'
+                        "
+                        translate
+                        >Full Name of the passenger for cancellation</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        [formControlName]="i"
+                        appBlurOnScroll
+                        placeholder="{{ 'Name of the passenger' | translate }}"
+                        attr.id="paxName"
+                      />
+                      <div
+                        class="validation_msg"
+                        *ngIf="
+                          submitContactUsForm && i === 0 && showPaxNameError(contactUsForm?.get('paxNames')?.value)
+                        "
+                      >
+                        <span translate>Required Name of passenger</span>
+                      </div>
+                      <div class="validation_msg" *ngIf="duplicateNameCheck(i)">
+                        <span translate>Passenger names should not duplicate</span>
+                      </div>
+                    </div>
+
+                    <div [ngClass]="{ 'd-none': i === 0, 'col-1': i > 0 }">
+                      <label for="passenger" class="imgLabel theme__contact-form-label">pax</label>
+                      <div class="closePaxName" (click)="removeName(i)">
+                        <img
+                          ImageSrc
+                          *ngIf="i > 0"
+                          src="../../../assets/icons/close_cross_icn.svg"
+                          alt="delete"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  </ng-container>
+                  <div
+                    *ngIf="contactUsForm.get('subcategory')?.value?.categoryKey !== 'CONFIRMATION_DATE_CHANGE'"
+                    class="form-group col-lg-4 col-md-8"
+                  >
+                    <label for="pax" class="paxLabel d-none d-lg-block theme__contact-form-label">pax</label>
+                    <button
+                      mat-button
+                      class="btn default_btn add_row bor-rad-3"
+                      aria-label="Add passenger"
+                      (click)="addName()"
+                    >
+                      <img
+                        ImageSrc
+                        src="../../../assets/icons/plus_icon.svg"
+                        alt="add"
+                        width="11px"
+                        loading="lazy"
+                      />&nbsp;
+                      <span translate>Add passenger</span>
+                    </button>
+                  </div>
+                  <div
+                    *ngIf="
+                      contactUsForm.get('subcategory')?.value?.categoryKey === 'CHANGES' ||
+                      contactUsForm.get('category')?.value?.categoryKey === 'CHANGES' ||
+                      contactUsForm.get('subcategory')?.value?.categoryKey === 'CONFIRMATION_DATE_CHANGE'
+                    "
+                    class="col-md-6 form-group pick_date"
+                  >
+                    <label for="deptDate" class="control-label theme__contact-form-label" translate
+                      ><span *ngIf="contactUsForm.get('subcategory')?.value?.categoryKey !== 'CONFIRMATION_DATE_CHANGE'"
+                        >New</span
+                      >
+                      Departure Date</label
+                    >
+                    <input
+                      #d="ngbDatepicker"
+                      type="text"
+                      [minDate]="expminDate"
+                      class="form-control"
+                      ngbDatepicker
+                      (click)="d.toggle()"
+                      (foucs)="d.toggle()"
+                      (keydown)="(false)"
+                      autocomplete="off"
+                      formControlName="deptDate"
+                      placeholder="{{ 'New Departure Date' | translate }}"
+                      attr.id="deptDate"
+                    />
+                    <div
+                      class="validation_msg"
+                      *ngIf="submitContactUsForm && contactUsForm?.get('deptDate')?.errors?.required"
+                    >
+                      <span translate>Required Departure Date</span>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="
+                      contactUsForm.get('subcategory')?.value?.categoryKey === 'CHANGES' ||
+                      contactUsForm.get('category')?.value?.categoryKey === 'CHANGES' ||
+                      contactUsForm.get('subcategory')?.value?.categoryKey === 'CONFIRMATION_DATE_CHANGE'
+                    "
+                    class="col-md-6 form-group pick_date"
+                  >
+                    <label for="returnDate" class="control-label theme__contact-form-label" translate
+                      ><span *ngIf="contactUsForm.get('subcategory')?.value?.categoryKey !== 'CONFIRMATION_DATE_CHANGE'"
+                        >New</span
+                      >
+                      Return Date</label
+                    >
+                    <input
+                      #dp="ngbDatepicker"
+                      [minDate]="expminDate"
+                      type="text"
+                      class="form-control"
+                      ngbDatepicker
+                      (click)="dp.toggle()"
+                      (foucs)="dp.toggle()"
+                      (keydown)="(false)"
+                      appBlurOnScroll
+                      formControlName="returnDate"
+                      placeholder="{{ 'New Return Date' | translate }}"
+                      attr.id="returnDate"
+                    />
+                  </div>
+
+                  <div
+                    class="col-md-12 form-group"
+                    *ngIf="
+                      contactUsForm.get('subcategory')?.value?.categoryKey === 'CANCELLATION_REFUND_QUOTE' ||
+                      contactUsForm.get('category')?.value?.categoryKey === 'CANCELLATION_REFUND_QUOTE'
+                    "
+                  >
+                    <label for="cancellingRoute" class="control-label theme__contact-form-label" translate>Route cancelling</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      appBlurOnScroll
+                      formControlName="cancellingRoute"
+                      placeholder="{{ 'Route cancelling' | translate }}"
+                      attr.id="cancellingRoute"
+                    />
+                    <div
+                      class="validation_msg"
+                      *ngIf="submitContactUsForm && contactUsForm?.get('cancellingRoute')?.errors?.required"
+                    >
+                      <span translate>Required Route cancelling</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" *ngIf="!getAirlineLink()">
+                  <div class="col-md-12 form-group">
+                    <label for="message" translate class="control-label theme__contact-form-label">Comments</label><br />
+                    <textarea
+                      #message
+                      rows="2"
+                      placeholder="{{ 'Please provide us with more details if possible' | translate }}"
+                      input
+                      type="text"
+                      class="form-control txt_message"
+                      formControlName="message"
+                    >
+                    </textarea>
+                    <div
+                      class="validation_msg"
+                      *ngIf="submitContactUsForm && contactUsForm?.get('message')?.errors?.required"
+                    >
+                      <span translate>Please let us know how we can help.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-pane" id="newBooking" role="tabpanel" aria-labelledby="newBooking-tab">
+                <ng-container *ngTemplateOutlet="newBooking"> </ng-container>
+              </div>
+            </div>
+
+            <div class="row">
+              <div
+                class="suggestion_msg mx-3 mb-2 d-lg-none d-block"
+                *ngIf="
+                  (tsCountry !== 'FS') && !isB2BApp  && ((!contactUsForm?.get('subcategory').value?.isbookingreferncemandatory) ||
+                  !contactUsForm?.get('category').value?.isbookingreferncemandatory)
+                "
+              >
+                <img
+                  ImageSrc
+                  src="./../../../../assets/icons/info_hme_yellow.svg"
+                  width="12px"
+                  alt="advice"
+                  loading="lazy"
+                />
+
+                <span translate>If you don't have a booking please email us at</span>
+                <span *ngIf="tsCountry !== 'ABSA'">{{ this.contactUsForm.get('subcategory')?.value?.email }}</span>
+                <span translate>or call 021 468 4300.</span>
+              </div>
+              <div class="col-md-12 btn_msg d-flex mb-3" *ngIf="!getAirlineLink()">
+                <button
+                  mat-button
+                  type="submit"
+                  (click)="sendMessage()"
+                  aria-label="Send Message"
+                  class="btn message-btn primary_btn ml-auto theme__contact-us-form-button"
+                >
+                  <span translate>Send Message</span>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div style="width: 100%" *ngIf="contactUsApiErrors" class="mt-3 validation_msg">
+                {{ contactUsApiErrors | translate }}
+              </div>
+              <div translate style="width: 100%" *ngIf="cancellationCategoryError" class="mt-3 validation_msg">
+                Oops, looks like your booking wasn’t made today, select Booking Cancellation instead
+              </div>
+            </div>
+          </form>
+        </div>
+        </div>
+      </div>
+
+
+  </div>
+
+</div>
+
+  <ng-template #newBooking let-d>
+    <form [formGroup]="contactUsForm">
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label for="name" class="control-label theme__contact-form-label" translate>Name</label>
+          <input #name type="text" class="form-control" formControlName="name" (input)="filterNameInput($event)"/>
+          <div class="validation_msg" *ngIf="submitContactUsForm && contactUsForm?.get('name')?.errors?.required">
+            <span translate>Required Name</span>
+          </div>
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="surName" translate class="control-label theme__contact-form-label">Surname</label>
+          <input #surName type="text" class="form-control" formControlName="surName" (input)="filterNameInput($event)"/>
+          <div class="validation_msg" *ngIf="submitContactUsForm && contactUsForm?.get('surName')?.errors?.required">
+            <span translate>Required Surname</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label for="email" translate class="control-label theme__contact-form-label">Email</label>
+          <input #email type="email" class="form-control" formControlName="email" (input)="filterEmailCharacters($event)"/>
+          <div class="validation_msg" *ngIf="submitContactUsForm && contactUsForm?.get('email')?.errors?.required">
+            <span translate>Required Email</span>
+          </div>
+          <div
+            class="validation_msg"
+            translate
+            *ngIf="submitContactUsForm && contactUsForm?.get('email')?.errors?.pattern"
+          >
+            Invalid Email
+          </div>
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="contactNumber" translate class="control-label theme__contact-form-label">Contact number</label>
+          <!-- <input
+            #contactNumber
+            type="tel"
+            (keypress)="onlyNumberKey($event)"
+            ng2TelInput
+            [ng2TelInputOptions]="{ separateDialCode: true, formatOnDisplay: true }"
+            (intlTelInputObject)="telInputObject($event)"
+            class="form-control"
+            formControlName="contactNumber"
+          />-->
+          <ngx-intl-tel-input
+            #contactNumber
+            #phone
+            (keypress)="onlyNumberKey($event)"
+            [cssClass]="'custom-international form-control'"
+            [preferredCountries]="preferredCountries"
+            [enableAutoCountrySelect]="true"
+            [enablePlaceholder]="true"
+            [searchCountryFlag]="true"
+            [searchCountryField]="[
+              SearchCountryField.Iso2,
+              SearchCountryField.Name
+            ]"
+            [selectFirstCountry]="false"
+            [selectedCountryISO]="selectedCountryCode"
+            [maxLength]="'15'"
+            [separateDialCode]="separateDialCode"
+            [numberFormat]="PhoneNumberFormat.National"
+            name="contactNumber"
+            formControlName="contactNumber"
+            [phoneValidation]="false"
+          ></ngx-intl-tel-input>
+          <div
+            class="validation_msg"
+            *ngIf="submitContactUsForm && contactUsForm?.get('contactNumber')?.errors?.required"
+          >
+            <span translate>Required Contact number</span>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="activeTab === 'newBooking'">
+        <div class="col-md-12 form-group">
+          <label for="message" translate class="control-label theme__contact-form-label">Comments</label><br />
+          <textarea
+            #message
+            rows="2"
+            placeholder="{{ 'Please provide us with more details if possible' | translate }}"
+            input
+            type="text"
+            class="form-control txt_message"
+            formControlName="message"
+          >
+          </textarea>
+          <div class="validation_msg" *ngIf="submitContactUsForm && contactUsForm?.get('message')?.errors?.required">
+            <span translate>Please let us know how we can help.</span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <div class="modal fade" id="query_success_Modal" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog query_success" role="document">
+      <div class="modal-content dialog_content">
+        <div class="modal-body">
+          <div class="text-center">
+            <img
+              ImageSrc
+              src="./../../../../assets/icons/booking_success_icn.svg"
+              alt="query"
+              width="50px"
+              loading="lazy"
+            />
+            <div class="mt-3">
+              <p translate>Thank you! We will respond via E-Mail within 24 Hours</p>
+            </div>
+            <button
+              class="mt-3"
+              type="button"
+              aria-label="Okay"
+              class="btn ok-btn"
+              data-dismiss="modal"
+              (click)="closeSuccessModal()"
+            >
+              <span translate>Okay</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

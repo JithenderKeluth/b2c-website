@@ -1,0 +1,108 @@
+[
+  {
+    "airLinecode": "UN",
+    "airports": [
+      { "name": "Lagos", "code": "LOS" },
+      { "name": "Abuja", "code": "ABV" },
+      { "name": "Sokoto", "code": "SKO" },
+      { "name": "Yenagoa", "code": "YNB" },
+      { "name": "Anambra", "code": "ANA" },
+      { "name": "Asaba", "code": "ABB" },
+      { "name": "Benin", "code": "BNI" },
+      { "name": "Kano", "code": "KAN" },
+      { "name": "Enugu", "code": "ENU" },
+      { "name": "Port Harcourt", "code": "PHC" }
+    ],
+    "airlineName": "Fly United Nigeria",
+    "Business": {
+      "checked": "30kg",
+      "hand": "10kg"
+    },
+    "Economy": {
+      "checked": "23kg",
+      "hand": "10kg"
+    },
+    "price": "130,457"
+  },
+  {
+    "airLinecode": "QI",
+    "airports": [
+      { "name": "Lagos", "code": "LOS" },
+      { "name": "Abuja", "code": "ABV" },
+      { "name": "Uyo", "code": "QUO" },
+      { "name": "calabar", "code": "CBQ" },
+      { "name": "Enugu", "code": "ENU" },
+      { "name": "Port Harcourt", "code": "PHC" }
+    ],
+    "airlineName": "Ibom Air",
+    "Premium": {
+      "checked": "30kg",
+      "hand": "7kg"
+    },
+    "Economy": {
+      "checked": "20kg",
+      "hand": "7kg"
+    },
+    "price": "120,846"
+  },
+  {
+    "airLinecode": "Q9",
+    "airports": [
+      { "name": "Lagos", "code": "LOS" },
+      { "name": "Abuja", "code": "ABV" },
+      { "name": "Owerri", "code": "QOW" },
+      { "name": "Enugu", "code": "ENU" },
+      { "name": "Port Harcourt", "code": "PHC" }
+    ],
+    "airlineName": "Green Africa",
+    "Business": {
+      "checked": "30kg",
+      "hand": "7kg"
+    },
+    "Economy": {
+      "checked": "23kg",
+      "hand": "7kg"
+    },
+    "price": "118,000"
+  },
+  {
+    "airLinecode": "AJ",
+    "airports": [
+      { "name": "Lagos", "code": "LOS" },
+      { "name": "Abuja", "code": "ABV" },
+      { "name": "calabar", "code": "CBQ" },
+      { "name": "Benin", "code": "BNI" },
+      { "name": "Asaba", "code": "ABB" },
+      { "name": "Port Harcourt", "code": "PHC" },
+      { "name": "Kano", "code": "KAN" },
+      { "name": "Yola", "code": "YOL" }
+    ],
+    "airlineName": "Aero Contractors",
+    "Business": {
+      "checked": "30kg",
+      "hand": "6kg"
+    },
+    "Economy": {
+      "checked": "20kg",
+      "hand": "6kg"
+    },
+    "price": "123,000"
+  },
+  {
+    "airLinecode": "R4",
+    "airports": [
+      { "name": "Lagos", "code": "LOS" },
+      { "name": "Abuja", "code": "ABV" },
+      { "name": "Kano", "code": "KAN" },
+      { "name": "Katsina ", "code": "DKA" },
+      { "name": "Maiduguri", "code": "MIU" },
+      { "name": "Sokoto", "code": "SKO" }
+    ],
+    "airlineName": "Rano Air",
+    "Economy": {
+      "checked": "10kg",
+      "hand": "7kg"
+    },
+    "price": "130,000"
+  }
+]

@@ -1,0 +1,315 @@
+@import "../../../../../theme/theme-variables.scss";
+
+.itinerary_info {
+  label {
+    margin: 0;
+  }
+  font-size: 14px;
+
+  .route_details {
+    border-radius: 6px;
+    .segments {
+      margin-bottom: 20px;
+      &:last-child {
+        margin-bottom: 10px !important;
+      }
+      .direction {
+        display: inline-block;
+        border-radius: 100px;
+        padding: 3px 10px;
+        background-color: $color-blue-25;
+        color: $color-link-blue;
+        margin-bottom: 12px;
+        font-size: 12px;
+      }
+      .fare_ref {
+        display: inline-block;
+      }
+      .non-ref-text {
+        color: $color-red-200;
+        font-size: 12px;
+        font-weight: 500;
+        background-color: $color-red-100;
+        padding: 3px 10px;
+        border-radius: 3px;
+      }
+      .fareRules_sec {
+        .fareRules_txt {
+          color: var(--text_link_color); //not added color code
+          font-size: 13px;
+          font-weight: normal;
+        }
+        .fare-content {
+          .fare_labl {
+            color: var(--text_info_color);
+            font-size: 12px;
+            text-transform: lowercase;
+            .fa {
+              color: #ff6f5e; //not added color code
+            }
+          }
+        }
+      }
+
+    }
+    .seg_legs {
+      .layover_section {
+        padding: 10px 6px;
+        margin: 8px 0;
+        color: var(--text_info_color);
+        font-size: 13px;
+        font-weight: normal;
+        .ic_baggage {
+          margin-right: 2px;
+          position: relative;
+          bottom: 2px;
+        }
+        .layover_labl {
+          color: #e68d32;
+          font-weight: 600;
+          font-size: 11px;
+        }
+        .des_baggage {
+          color: var(--text_info_color); //not added color code
+        }
+        .baggage_val {
+          color: var(--text_primary_color);
+        }
+        .layover_time {
+          border-top: 1px dashed var(--border_default_color); //not added color code
+          border-bottom: 1px dashed var(--border_default_color); //not added color code
+          padding: 8px 0px;
+          margin-bottom: 10px;
+        }
+      }
+      .air_name {
+        color: var(--text_primary_color);
+        font-size: 12px;
+        display: block;
+      }
+      .flt_num {
+        color: var(--text_info_color);
+        font-size: 12px;
+      }
+      .dept_city,
+      .arr_city {
+        color: var(--text_primary_color);
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 16px;
+        display: block;
+      }
+
+      .time_labl,
+      .date_labl {
+        color: var(--text_info_color);
+        font-size: 13px;
+        font-weight: normal;
+      }
+      .fly_icon {
+        position: relative;
+        font-size: 12px;
+        color: var(--text_primary_color);
+        text-transform: capitalize;
+        font-weight: normal;
+        .cls_labl {
+          text-transform: capitalize;
+        }
+        hr {
+          background-color: #8a90a2; //not added color code
+          border-color: #8a90a2; //not added color code
+        }
+        .fa {
+          position: absolute;
+          top: 3px;
+          left: 41%;
+          background: $white-secondary;
+          padding: 6px;
+          border-radius: 100px;
+          transform: rotate(45deg);
+          color: var(--text_info_color);
+        }
+      }
+    }
+
+    &:first-child {
+      border-bottom: solid 1px rgb(112 112 112 / 20%);
+    }
+    &:last-child {
+      border-bottom: none !important;
+    }
+    .flightOverview {
+      .time_labl {
+        font-size: 18px !important;
+        color: var(--text_primary_color) !important;
+        font-weight: 600 !important;
+        line-height: 10px !important;
+      }
+    }
+  }
+}
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .airLine_block{
+    display: flex;
+    align-items: center;
+  }
+  .flight_info{
+    padding: 15px !important;
+  }
+}
+
+.flight_info {
+  padding: 0px;
+
+  .bor_btm {
+    border-bottom: 1px solid #dfe4ed;
+  }
+  .flagIncluded {
+    padding: 5px 0px 15px 0px !important;
+  }
+  input[type="radio"] {
+    display: none;
+  }
+  input[type="radio"] + *::before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #9da4b7;
+  }
+  .checked input[type="radio"] + *::before {
+    background: radial-gradient(var(--text_link_color) 0%, var(--text_link_color) 40%, transparent 50%, transparent);
+    border-color: var(--text_link_color);
+  }
+  .cabinClass {
+    text-transform: capitalize;
+  }
+  .airl_logo {
+    display: block;
+    margin-right: 14px;
+    img {
+      width: 28px;
+    }
+  }
+  .air_info {
+    .airl_name {
+      font-size: 13px;
+    }
+    .airl_numb {
+      font-size: 11px;
+      color: var(--label_color);
+    }
+    .opAirline {
+      color: #e68d32;
+      font-size: 11px;
+    }
+  }
+  .flight_data {
+    width: 80%;
+  }
+  .time {
+    font-size: 20px;
+    font-weight: 600;
+    sup {
+      font-size: 9px;
+      color: #d50f30;
+      font-weight: 500;
+    }
+  }
+  .dur,
+  .stops {
+    color: var(--text_primary_color);
+    font-size: 12px;
+  }
+  .airp_name {
+    color: var(--text_primary_color);
+    font-size: 13px;
+    line-height: 14px;
+    font-weight: 500;
+  }
+  .baggage {
+    font-size: 13px;
+    img {
+      position: relative;
+      top: -2px;
+    }
+  }
+
+  .flight_row {
+    position: relative;
+    .flight_details_link {
+      position: absolute;
+      right: 10px;
+      bottom: -10px;
+      padding: 3px 2px 4px 8px;
+      background: white;
+      font-size: 10px;
+      font-weight: 500;
+      z-index: 9;
+      color: var(--text_link_color);
+      border-radius: 2px;
+      box-shadow: 0 0 2px 0 #b3bbcb;
+      .updown {
+        background-color: var(--price_sec_active_bg);
+        padding: 4px 6px;
+        border-radius: 3px;
+        img {
+          width: 8px;
+        }
+      }
+    }
+    .bottom_up_link {
+      bottom: -3px !important;
+    }
+  }
+  .hide_details {
+    display: none;
+  }
+  .show_details {
+    display: flex;
+  }
+}
+.layover_section {
+  background-color: #f4f6fa;
+  padding: 6px;
+  font-size: 12px;
+  margin: 10px 0px;
+  color: var(--text_primary_color);
+  border-radius: 3px;
+  .lap_txt {
+    color: #e68d32;
+  }
+}
+.f_line {
+  width: 100%;
+  border-bottom: 1px solid #cccccc;
+  position: relative;
+  z-index: 1;
+  margin: 3px 0px;
+  &:before {
+    background: #cccccc;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    border: 1px solid #cccccc;
+    position: absolute;
+    content: "";
+    top: -2px;
+    left: 0;
+  }
+  &:after {
+    width: 16px;
+    height: 20px;
+    position: absolute;
+    content: "";
+    top: -7.6px;
+    right: 0;
+    background-image: url("../../../../../assets/icons/srp_Icons/flight_icn.svg");
+    background-repeat: no-repeat;
+    background-size: 16px;
+  }
+}

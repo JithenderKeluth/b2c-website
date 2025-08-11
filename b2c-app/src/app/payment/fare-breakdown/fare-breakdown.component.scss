@@ -1,0 +1,94 @@
+@import "./../../../theme/theme-variables.scss";
+
+.collapse {
+  table {
+    th {
+      font-weight: normal !important;
+    }
+  }
+}
+.selctedAddOn {
+  font-size: 14px;
+  color: var(--text_primary_color);
+  font-weight: 600;
+  border-top: 1px dashed #ccc;
+  padding: 10px 0px;
+  margin-top: 5px;
+  .prod_amt {
+    font-weight: normal;
+  }
+}
+
+.fare_info {
+  padding: 0px !important;
+  .price_breakup {
+    .fares {
+      border-bottom: none !important;
+    }
+  }
+  .processing_fee {
+    color: var(--text_info_color);
+    font-size: 14px;
+    font-weight: normal;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .fares_info_section {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: var(--primaryBgColor);
+  }
+  .fare_info {
+    padding: 0px !important;
+
+    .price_breakup {
+      .total_amt {
+        top: 0px !important;
+      }
+      .fares {
+        border-bottom: none !important;
+        padding-bottom: 15px !important;
+        hr {
+          background-color: #223b4a;
+        }
+      }
+      .amt {
+        float: none !important;
+        bottom: 0 !important;
+        .total {
+          float: none !important;
+        }
+      }
+    }
+  }
+  .tripType {
+    .sec_heading {
+      font-size: 16px !important;
+      font-weight: 500 !important;
+    }
+  }
+  .selcted_adons {
+    font-weight: 500 !important;
+    font-size: 16px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .fare_info {
+    .tripType .sec_heading {
+      color: $white;
+    }
+    .price_breakup {
+      .fares .table {
+        th,
+        td {
+          color: #fff;
+        }
+        #AD {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

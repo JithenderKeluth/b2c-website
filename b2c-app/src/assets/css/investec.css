@@ -1,0 +1,294 @@
+body,
+.mat-button {
+  font-family: "Inter", sans-serif !important;
+}
+
+/* search section changes*/
+.search-sec {
+  padding: 20px 0px 0px 0px;
+  border-radius: 6px;
+}
+
+.primary_btn {
+  font-weight: 500 !important;
+}
+
+.search_form input,
+.trip_section .pax_sel a {
+  background-color: #ededea !important;
+  box-shadow: none !important;
+}
+
+.border-left-1 {
+  border-left: 1px solid #DBDAD4 !important;
+}
+
+.depart_airport input {
+  border-radius: 6px 0 0 6px !important;
+}
+
+
+.search_form .return_datepick,
+.search_form .dept_date {
+  border-radius: 0 6px 6px 0 !important;
+}
+
+.trip_section .pax_sel a,
+.landing_page .landing_page_bg .site_title .hello {
+  color: #242b39 !important;
+  border-radius: 4px;
+}
+
+/* .flight_results_section .flight_lists .price_info .btn{
+  border-radius: 50px !important;
+  background-color: #000000 !important;
+} */
+
+.search-btn {
+  width: 85% !important;
+  float: right;
+  border-radius: 50px;
+}
+
+
+.travelAdvice {
+  color: #ffffff !important;
+}
+
+.MoreFlightsBooking {
+  background-color: #ffffff !important;
+}
+
+.MoreFlightsBooking::before {
+  border-right: 10px solid #ffffff !important;
+}
+
+.itinerary_info .route_details .segments .direction {
+  background: none !important;
+  color: #242b39 !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 0px !important;
+}
+
+.travelAdvice a {
+  color: #000 !important;
+  float: right !important;
+  background: #fff !important;
+  padding: 4px 8px;
+  border-radius: 50px;
+}
+
+.special_Requests .mat-tab-label {
+  border: 1px solid #242b39 !important;
+  color: #242b39 !important;
+}
+
+.special_Requests .mat-tab-label.mat-tab-label-active {
+  border: 1.5px solid #ae6425 !important;
+  background: transparent;
+  color: #ae6425 !important;
+}
+
+.flight_details_section .baggage_class ul li.card .selectedBag {
+  border: 1px solid #ae6425 !important;
+}
+
+.multicity-sec .itenary_data .itenaries_data .card .card-body .product_price {
+  color: #ae6425 !important;
+}
+
+.web_strip_bookNow {
+  background: #ffffff !important;
+  color: #242b39 !important;
+}
+
+.search_form .exchange {
+  border: 1px solid #DBDAD4;
+}
+
+.flights_content .layover_section .lap_txt,
+.seg_legs .layover_section .layover_labl,
+.layover_section .lap_txt {
+  color: #ae6425 !important;
+}
+
+.sorting .sort_types ul li.card .labl,
+.sorting .sort_types ul li.card .bld_labl,
+.traveller_section .travellers_details .nam_req .namereq_head,
+.baggage_selection .Adds,
+.cars_hotels_links .sec_txt {
+  color: #242b39 !important;
+}
+
+.booking_view_page .st-card .st-card__body .stBtn:disabled {
+  opacity: 0.2 !important;
+}
+
+.nameLengthIcn {
+  height: 100px !important;
+  width: 90px !important;
+}
+
+/* filter section*/
+#filters .controls .btn {
+  padding: 0px 20px !important;
+}
+
+.iti--separate-dial-code .iti__selected-flag {
+  background-color: transparent !important;
+  border-right: 1px solid #C1C3C8 !important;
+}
+
+.booking_view_page .cat_colpse_one .route_info h4 {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.carousel-control-prev-icon {
+  background-image: url("https://cdn1.travelstart.com/assets/investec-assets/icons/arrow-left-meals.svg") !important;
+  background-size: 35px;
+  width: 30px;
+  height: 30px;
+}
+
+.carousel-control-prev-icon:hover {
+  background-image: url("https://cdn1.travelstart.com/assets/investec-assets/icons/arrow-left-meals-hover.svg") !important;
+}
+
+.carousel-control-next-icon {
+  opacity: 0.9 !important;
+  background-image: url("https://cdn1.travelstart.com/assets/investec-assets/icons/arrow-right-meals.svg") !important;
+  background-size: 35px;
+  width: 30px;
+  height: 30px;
+}
+
+.carousel-control-next-icon:hover {
+  background-image: url("https://cdn1.travelstart.com/assets/investec-assets/icons/arrow-right-meals-hover.svg") !important;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 20px !important;
+  height: 20px !important;
+  background-size: 20px !important;
+}
+
+.ok-btn {
+  text-transform: unset !important;
+}
+
+.payment_gateway .form-group label{
+    text-transform:none !important
+}
+
+.search_form .floating-label {
+  color: var(--primary_btn_bg) !important;
+}
+
+.journey_info input[type="radio"]+*::before {
+  border-color: var(--primary_btn_bg) !important;
+}
+
+.checked input[type="radio"]+*::before {
+  border-color: var(--text_link_color) !important;
+}
+
+.special_Requests .mat-tab-labels {
+  padding: 10px 0px !important;
+}
+
+.travellers_details form .form-control {
+  height: 40px !important;
+  font-size: 13px !important;
+}
+
+.pax_controls {
+  max-width: 25% !important;
+  padding-right: 10px !important;
+  padding-left: 0px !important;
+}
+
+.lastControl {
+  max-width: 27% !important;
+  padding: 0px !important;
+}
+
+.dobSelection .form-control {
+  padding-left: 6px !important;
+}
+
+/*media for responsive design*/
+@media (max-width: 992px) {
+  .search-btn {
+    width: 100% !important;
+  }
+
+  .w-mob-set {
+    height: 100px !important;
+  }
+
+  .pax_controls,
+  .lastControl {
+    max-width: 100% !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  .search_form input,
+  .search_form .return_datepick,
+  .search_form .dept_date {
+    border-radius: 6px !important;
+    border: none !important;
+  }
+
+  .search-sec {
+    padding: 10px !important;
+  }
+
+  .fare-info .btn,
+  .fares_info_section .continueBtn,
+  .bookNow_btn {
+    background: #ffffff !important;
+    color: #242b39 !important;
+  }
+}
+
+#filters ::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+#flight_details_modal ::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+::-webkit-scrollbar {
+  width: 0px !important;
+}
+
+#fare_increased_Modal {
+  .proceedBtn {
+    border: none !important;
+  }
+}
+
+/** new SRP changes*/
+.result_page_view .search_section,
+.srp_resHeader .sort_filters .domInfo {
+  background: #fff !important;
+}
+
+.flight_card .price_section .price_labl,
+.dom_mweb_fare,
+.flight_details_head .fare_details .fare,
+.content,
+.sticky_price .price_info .total_Amt,
+.showFilter_btn {
+  color: #242b39 !important;
+}
+
+.flight_card .price_section {
+  background-color: #f7f6f5 !important;
+}

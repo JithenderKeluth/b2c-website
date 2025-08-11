@@ -1,0 +1,91 @@
+@import "./../../../theme/theme-variables.scss";
+
+.dana_air_Modal {
+    max-width: 550px !important;
+    .modal-body {
+        padding: 25px !important;
+        h4{
+          font-size: 14px;
+        }
+        h6{
+          font-size: 18px;
+        }
+        .close_icon{
+          cursor: pointer;
+        }
+        .succsMsg{
+          img{
+            width: 40px;
+          }
+          span{
+            font-size: 18px;
+          }
+        }
+        .flight_info{
+          a{
+            color: var(--text_link_color) !important;
+            text-decoration: none;
+          }
+        }
+        form {
+            .form-control{
+            font-size: 14px !important;
+            }
+            .form-group .control-label {
+                color: var(--payment_card_strip);
+                font-size: 13px;             
+            }
+            .btn{
+              margin-right: 25px;
+            }
+           
+        }
+    }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+    .pick_date::ng-deep ngb-datepicker, .return_date::ng-deep ngb-datepicker {
+      left: 15% !important;
+      top: 10% !important;
+    } 
+    .return_date::ng-deep ngb-datepicker { 
+      transform: translate(-21px, 52px) !important;
+    } 
+    .pick_date::ng-deep ngb-datepicker{
+      transform: translate(-32px, 50px) !important;
+    }
+    .dana_air_Modal .modal-body{
+      max-height: 95vh;
+      overflow: scroll;
+      h4{
+       font-size: 13px !important;
+      }
+      h6{
+       font-size: 15px !important;
+      }
+    }
+  }
+
+::ng-deep .pick_date ngb-datepicker-navigation-select>.custom-select,
+::ng-deep .return_date ngb-datepicker-navigation-select>.custom-select {
+  display: block !important;
+}
+
+::ng-deep .pick_date ngb-datepicker {
+  transform: translate(-200px, -184px) !important;
+}
+
+::ng-deep .return_date .ngb-dp-arrow-btn,
+::ng-deep .pick_date .ngb-dp-arrow-btn {
+  padding: 0 0.25rem;
+  margin: 0 0.5rem;
+  background-color: transparent;
+  z-index: 1;
+  display: none !important;
+}
+
+::ng-deep .return_date ngb-datepicker {
+  transform: translate(73px, -264px) !important;
+}
+
+

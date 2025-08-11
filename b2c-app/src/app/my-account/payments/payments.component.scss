@@ -1,0 +1,365 @@
+@import "./../../../theme/theme-variables.scss";
+
+.payment_gateway {
+  .saved_cards {
+    background-color: #fafcfc;
+    padding: 20px;
+    border-radius: 8px;
+    .savedCardheading{
+      font-size: 20px;
+    }
+
+    ul {
+      padding: 10;
+      margin: 0;
+      list-style-type: none;
+      li {
+        margin: 10px 10px 10px 0px;
+        display: inline-block;
+        padding: 15px;
+        border-radius: 6px !important;
+        border: 1px solid var(--border_default_color);
+      }
+    }
+  }
+  .labl {
+    color: var(--label_color);
+    font-size: 14px;
+    &.proceed {
+      font-size: 12px;
+    }
+  }
+  .add_payment_card {
+    .sec_heading{
+      .newcardTxt{
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+    .add_error_cls {
+      font-size: 14px;
+      padding: 11px;
+      background: #fee8ec;
+      color: var(--text_danger_color);
+      margin: 10px 0px;
+    }
+    .selectcards {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .selct_lbl {
+      font-size: 12px;
+    }
+    img {
+      width: 50px;
+    }
+    .card-container {
+      display: block;
+      margin: 0 auto;
+      padding: 0 12px;
+      perspective: 900px;
+      text-align: center;
+      margin-top: 30px;
+      position: relative;
+      top: 5px;
+      z-index: 1000;
+      &.flip_card {
+        .card {
+          transform: rotateY(180deg);
+          .flip {
+            border-radius: 0px 10px;
+          }
+        }
+      }
+      .card {
+        position: relative;
+
+        transition: all 0.6s ease;
+        transform-style: preserve-3d;
+        background: none;
+        border-left: 10px solid var(--payment_card_border);
+        border-radius: 10px;
+        border-top: 0;
+        border-bottom: 0;
+        margin: auto;
+        .flip {
+          position: absolute;
+          background-image: var(--payment_card);;
+          top: 0;
+          left: 0;
+
+          border-radius: 0px 10px 10px 0px;
+          color: var(--label_color);
+          box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+          backface-visibility: hidden;
+          font-size: 14px;
+          font-weight: 500;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.24;
+          letter-spacing: 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9;
+          .card_details {
+            position: relative;
+            width: 100%;
+            &.cvv_field {
+              top: 20px;
+            }
+            .fa {
+              cursor: pointer;
+            }
+            h5 {
+              color: #ffffff;
+              font-size: 18px;
+              font-weight: 500;
+            }
+            .btn_cvv {
+              border-radius: 6px;
+              color: var(--text_link_color) !important;
+              background: none;
+              border: 1px solid var(--text_link_color);
+              font-size: 12px;
+              float: right;
+              position: relative;
+              top: 32px;
+              cursor: pointer;
+            }
+            .form-group {
+              label {
+                color: var(--label_color);
+                font-size: 11px;
+                font-weight: 500;
+                margin: 4px 0;
+                text-transform: uppercase;
+              }
+            }
+          }
+          .card_flip {
+            .fa {
+              position: relative;
+              top: 44px;
+              right: 0;
+              font-size: 16px;
+            }
+          }
+          &.back {
+            transform: rotateY(180deg);
+            border-radius: 10px 0 0 10px;
+            img {
+              position: relative;
+              bottom: 100px;
+            }
+          }
+          .paymentMethodLogo {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+          }
+        }
+      }
+    }
+    .cvv_card {
+      padding: 12px 4px;
+      height: 43px;
+      border-radius: 3px;
+      background-color: #ffffff;
+    }
+
+    .details {
+      font-size: 13px;
+      border-radius: 3px;
+    }
+    .strip {
+      height: 40px;
+      background-color: var(--payment_card_strip);
+      position: relative;
+      bottom: 20px;
+    }
+    .selectExpiry {
+      padding: 8.5px 10px;
+      border-radius: 3px;
+      border-color: #ced4da;
+    }
+    .cancel_btn {
+      border: 1px solid var(--border_active_color);
+      border-radius: 3px;
+      padding: 10.5px 35.5px 10.5px;
+      background-color: #ffffff;
+      color: var(--text_link_color);
+    }
+    .sub_btn {
+      border: 1px solid var(--border_active_color);
+      border-radius: 3px;
+      padding: 10.5px 35.5px 10.5px;
+    }
+  }
+}
+.countryOPtion {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .payment_gateway .saved_cards ul li {
+    width: 32%;
+    img {
+      width: 32px;
+    }
+    .show{
+      display: inline;
+      color: red;
+      cursor: pointer;
+      width: 13px !important;
+    }
+  }
+  .p-xs-0 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .payment_gateway .add_payment_card .details {
+    width: 52%;
+  }
+
+  .payment_gateway .add_payment_card .card-container .card {
+    border-left: none !important;
+    width: 385px;
+    height: 200px;
+    .flip {
+      width: 385px;
+      height: 200px;
+      border-radius: 6px !important;
+      box-shadow: none !important;
+      .card_details {
+        top: 40px;
+      }
+    }
+  }
+
+  .mdl_dialog {
+    transform: translate(-50%, -50%) !important;
+    width: 30%;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .payment_gateway .saved_cards ul li {
+    width: 100%;
+    box-shadow: none !important;
+    padding: 15px !important;
+    margin-bottom: 5px !important;
+    img {
+      width: 32px;
+    }
+    .show {
+      display: inline;
+      width: 13px !important;
+    }
+  }
+  .p-xs-0 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .payment_gateway .saved_cards ul {
+    padding: 0px !important;
+  }
+  .payment_gateway .add_payment_card .details {
+    width: 100%;
+    padding: 0;
+  }
+  .payment_gateway .add_payment_card .card-container {
+    padding: 0px !important;
+  }
+  .payment_gateway .add_payment_card .card-container .card {
+    width: 325px;
+    height: 175px;
+    border-left: none !important;
+    .flip {
+      width: 325px;
+      height: 175px;
+      border-radius: 6px !important;
+      box-shadow: none !important;
+      .card_details {
+        top: 20px;
+      }
+    }
+  }
+
+  .mdl_dialog {
+    transform: translate(-50%, -50%) !important;
+    width: 85%;
+  }
+}
+::placeholder {
+  color: rgb(104 113 137 / 35%);
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgb(104 113 137 / 35%);
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgb(104 113 137 / 35%);
+}
+.Process_fee {
+  font-size: 14px;
+  color: var(--text_primary_color);
+}
+.Card-Enter {
+  .card {
+    border: none;
+    .form-control {
+      height: 40px;
+    }
+  }
+}
+.mdl_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 6px;
+
+  .mdl_heading {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  .mdl_body {
+    padding: 40px;
+  }
+  .mdl_subheading {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text_info_color);
+    margin-bottom: 30px;
+  }
+  p {
+    font-size: 13px;
+    font-weight: 500;
+    color: #b4bdc1;
+  }
+  .cancel_btn {
+    border: 1px solid var(--border_active_color);
+    border-radius: 3px;
+    padding: 10.5px 35.5px 10.5px;
+    background-color: #ffffff;
+  }
+  .sub_btn {
+    padding: 10.5px 35.5px 10.5px;
+    border: 1px solid var(--border_active_color) !important;
+  }
+}
+
+::ng-deep .cvv .form-control {
+  text-align: right;
+}
+::ng-deep .modal-content {
+  display: inline-table !important;
+  border: none;
+}

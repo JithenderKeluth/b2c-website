@@ -1,0 +1,52 @@
+<div class="vocher_product">
+  <h5 class="mb-3">
+    Save {{ vocherProductData.responseProduct.currencyCode | currencyCode
+    }}{{ vocherProductData.responseProduct.amount }} on your next booking!
+  </h5>
+  <div class="row">
+    <div class="col-sm-12 col-md-8">
+      <p>
+        For only {{ vocherProductData.responseProduct.currencyCode | currencyCode }}{{ amount }} , you or a loved one
+        can get {{ vocherProductData.responseProduct.currencyCode | currencyCode
+        }}{{ vocherProductData.responseProduct.amount }} off your next booking on Travelstart. This offer is only valid
+        for this purchase. The voucher can only be redeemed once on any return booking made within the next year. After
+        completing your payment, the voucher will be emailed to you.
+      </p>
+    </div>
+    <div class="col-sm-12 col-md-4 price_breakup">
+      <div>
+        <span class="float-left">Your Booking total</span>
+        <span class="float-right"
+          >{{ vocherProductData.responseProduct.currencyCode | currencyCode
+          }}{{ bookingAmount | currency: '' + ' ':'symbol':'2.0' }}</span
+        >
+      </div>
+      <br />
+      <div>
+        <span class="float-left">Voucher price</span>
+        <span class="float-right"
+          >{{ vocherProductData.responseProduct.currencyCode | currencyCode
+          }}{{ amount | currency: '' + ' ':'symbol':'2.0' }}</span
+        >
+      </div>
+      <hr class="mt-4 mb-2" />
+      <div>
+        <span class="float-left">Total price</span>
+        <span class="float-right"
+          >{{ vocherProductData.responseProduct.currencyCode | currencyCode
+          }}{{ totalAmt | currency: '' + ' ':'symbol':'2.0' }}</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12 text-right">
+      <span class="continue" (click)="withoutVocher()">Continue(without Voucher)</span>
+      <span>
+        <button class="btn ok-btn primary_btn" aria-label="Purchase Voucher" (click)="purchaseVocher()">
+          Purchase Voucher
+        </button></span
+      >
+    </div>
+  </div>
+</div>

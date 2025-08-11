@@ -1,0 +1,16 @@
+<div class="lp-accordian">
+  <div class="accordian-item" *ngFor="let item of items">
+    <h3 class="accordian-header" (click)="toggleAccordian(item)" [ngClass]="{ 'bg-white': !item.expanded }">
+      {{ item.header }}
+      <span class="accordian-icon" *ngIf="!item.expanded">
+        <i class="fa fa-chevron-down"></i>
+      </span>
+      <span class="accordian-icon" *ngIf="item.expanded">
+        <i class="fa fa-chevron-up"></i>
+      </span>
+    </h3>
+    <div class="accordian-body" [ngClass]="{ 'hide-accordian': !item.expanded }">
+      <markdown [data]="item.content"> </markdown>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+<div class="chatWithUs theme__contact-form-section-container">
+  <div class="sect_header">
+    <a *ngIf="tsCountry === 'NG'" href="{{ getWhatsAppLink() | translate }}" target="_blank" rel="noopener"
+      ><img ImageSrc src="./../../assets/images/whatsapp.jpg" alt="whatsapp" loading="lazy"
+    /></a>
+    <div translate class="sect_title">Chat with us:</div>
+  </div>
+  <p translate *ngIf="tsCountry !== 'NG'" class="chatService mb-2">Connect with one of our agents for assistance</p>
+  <div class="contact_sec">
+    <div *ngIf="tsCountry !== 'NG' && tsCountry !== 'ABSA'">
+      <span translate class="boldTxt">Call us </span> <span>at +27 21 468 4300</span>
+    </div>
+    <div *ngIf="tsCountry == 'ZA'">
+      <div>
+        <span translate class="boldTxt">WhatsApp us </span>
+        <span translate>by tapping the WhatsApp icon or saving the number </span> <br class="d-none d-lg-block" />
+        <span translate *ngIf="apiService.isTS_PLUSUser()">+27 82 049 9848</span>
+        <span translate *ngIf="!apiService.isTS_PLUSUser()">+27 71 482 7158</span>
+        <span translate>to your contacts.</span>
+      </div>
+      <div>
+        <span class="boldTxt">Tip: </span>
+        <span translate>Keep your WhatsApp app updated for a smoother experience.</span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="tsCountry === 'NG'" class="addWhatsApp">
+    <p>
+      <span translate>You can now chat to our agents on WhatsApp. Click on the WhatsApp</span>
+      <span translate>icon or add</span>
+      <a class="phnNumber" href="{{ getWhatsAppLink() | translate }}" target="_blank" rel="noopener">
+        <span translate>+27 71 482 7158</span>
+      </a>
+      <span translate>to your contact list.</span>
+    </p>
+  </div>
+
+  <p *ngIf="tsCountry === 'NG'" class="chatService">
+    <span translate>This is a</span>
+    <span translate class="chat_only">chat only</span>
+    <span translate>service.</span>
+    <span translate> WhatsApp call is unavailable and will not work.</span>
+  </p>
+
+  <div translate class="timings pt-2">Our operating hours are as follows:</div>
+  <ul>
+    <li>
+      <i class="fa fa-check" aria-hidden="true" *ngIf="tsCountry !== 'ABSA'"></i><span *ngIf="tsCountry !== 'ABSA'">&nbsp;&nbsp;</span><span translate>Monday to Friday: 07:00 - 19:00</span>
+    </li>
+
+    <li>
+      <i class="fa fa-check" aria-hidden="true" *ngIf="tsCountry !== 'ABSA'"></i><span *ngIf="tsCountry !== 'ABSA'">&nbsp;&nbsp;</span><span translate
+        >Weekends and Public holidays: 08:00 - 14:00</span
+      >
+    </li>
+  </ul>
+
+<div *ngIf="tsCountry === 'NG'">
+  <div>
+    <p translate class="timings pt-2">You can now reach us on Call via:</p>
+    <div class="phn_nums">Phone number: <a href="tel:+2347002255876"> 0700-CALL-TSN (0700-2255-876) </a></div>
+  </div>
+  <div>
+    <p class="timings pt-2">Our agents are available:</p>
+    <ul>
+      <li>Monday - Friday: 7am - 7pm</li>
+      <li>Weekends & Public Holidays: 9am - 5pm</li>
+    </ul>
+  </div>
+  <div class="visitUs_travel">
+    <h2>Visit Us at Travel Experience Centers</h2>
+    <p>Physical and Postal Address</p>
+    <ul>
+      <li>47 Allen Avenue</li>
+      <li>Studio 24 building</li>
+      <li>Allen, Ikeja</li>
+      <li>Lagos, Nigeria</li>
+    </ul>
+    <p>Open Hours:</p>
+    <ul class="opening_hrs">
+      <li>Monday - Friday: 9am - 5pm</li>
+      <li>Weekends & Public Holidays: Closed</li>
+    </ul>
+    <h6>Airport Kiosk Physical and Postal Address</h6>
+    <ul>
+      <li>Murtala Muhammed Airport 2</li>
+      <li>(MMA2), Ikeja</li>
+      <li>Lagos, Nigeria</li>
+    </ul>
+    <p>Open Hours:</p>
+    <ul class="opening_hrs">
+      <li>Monday - Friday: 8am - 5pm</li>
+      <li>Weekends & Public Holidays: Closed</li>
+    </ul>
+  </div>
+</div>
+  <p class="anyQueries pt-2 d-none">
+    <span translate>For any queries on the latest travel updates and regulations, visit our</span>
+    <a [routerLink]="'/travel-restrictions'" rel="nofollow">
+      <span translate>Travel Info page</span>
+    </a>
+  </p>
+</div>

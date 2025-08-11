@@ -1,0 +1,52 @@
+<div class="add-ons-section" *ngIf="bookingInfo?.products?.length > 0">
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-panel-title>
+        <h2 class="mt-4">Customise your trip</h2>
+      </mat-panel-title>
+
+      <div class="products_section">
+        <div class="products_lists">
+          <div class="list" *ngFor="let product of bookingInfo.products">
+            <div class="list_title">
+              <span>
+                <img ImageSrc src="./../../assets/images/{{ getIcons(product.id) }}.svg" alt="product" loading="lazy" />
+              </span>
+              <label>
+                {{ getListTitle(product.id) }}
+              </label>
+            </div>
+            <div class="list-info">
+              <div class="row">
+                <div class="col-12 col-sm-8">
+                  <div class="prd-name">{{ product.name }}</div>
+                  <div class="prd-desc">{{ product.description }}</div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="prd_price_view">
+                    <div class="prd_price_view_info">
+                      <label class="switch mt-2">
+                        <input
+                          type="checkbox"
+                          [checked]="product.initSelected"
+                          (change)="selectProducts($event, product)"
+                        />
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                    <div class="prd_price_view_info mt-4">
+                      <div class="prd_amt">{{ product.currencyCode | currencyCode }}{{ product.amount }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<div class="d-block d-md-none" style="height: 120px"></div>
+<div class="clearfix"></div>

@@ -1,0 +1,158 @@
+<div class="payStack_sec">
+  <div class="credit-card pt-2" [formGroup]="paymentGatewayForm" *ngIf="!showPaymentGatewayIframe">
+    <div class="paystack_card">
+      <div class="card-body">
+        <div class="card-info">
+          <div class="row card_details">
+            <div class="col-sm-12">
+              <div class="row m-0">
+                <div class="col-sm-12 text-left">
+                  <div class="add-money-input">
+                    <input
+                      class="form-control bg-transparent pl-22"
+                      placeholder="Enter your deposit amount"
+                      type="tel"
+                      [formControl]="paymentGatewayForm"
+                      (keypress)="onlyNumbers($event)"
+                      (paste)="(false)"
+                      required
+                    />
+                    <span>
+                      {{ currency_code | currencyCode }}
+                    </span>
+                  </div>
+                  <div *ngIf="isSubmitted && paymentGatewayForm.errors">
+                    <div class="validation_msg" *ngIf="isSubmitted && paymentGatewayForm.errors.required">
+                      Required Amount
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row m-0">
+                <div class="col-sm-12 text-left">
+                  <ul class="list-unstyled add-money-tags">
+                    <li
+                      (click)="selectAmountToBeAdded(defaultAmount)"
+                      *ngFor="let defaultAmount of currency_code == 'ZAR' ? ZA_default_Amount : NG_default_Amount"
+                    >
+                      <span>{{ currency_code | currencyCode }}{{ defaultAmount }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row m-0 accept-fee">
+                <div class="col-sm-12">
+                  <label for="amount" class="btn p-0">
+                    <mat-checkbox
+                      type="checkbox"
+                      class="mat-checkbox"
+                      (change)="askConsentToProceedPaymentHandler($event)"
+                      [checked]="isVaildAmount"
+                      [ngClass]="{ opacity05: paymentGatewayForm.value == 0 }"
+                    >
+                      <span translate class="labl" *ngIf="!isFlightSiteOrg()">I agree to pay processing fee.</span>
+                      <span translate class="" *ngIf="isFlightSiteOrg()">
+                        <span translate> I agree to the Flightsite</span>
+                        <a
+                          target="_blank"
+                          href="{{ 'terms and conditions URL' | translate }}"
+                          rel="noopener"
+                          class="termsLink"
+                          ><span translate>T&C</span></a
+                        >
+                      </span>
+                    </mat-checkbox>
+                    <div *ngIf="isSubmitted && !isVaildAmount">
+                      <div class="validation_msg" translate>Please select pay processing fee.</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center m-0">
+                <div class="text-center">
+                  <span>
+                    <button
+                      class="btn_addMoney"
+                      (click)="paymentGatewayHandler()"
+                      translate
+                      [disabled]="isLoading"
+                      [ngClass]="{ opacity05: isLoading || !isAddMoneyViaPaystackInProgress }"
+                    >
+                      <i class="fa fa-spinner fa-spin mr-2" *ngIf="isLoading" aria-hidden="true"></i>
+                      Proceed
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="iframe_payment_gateway" *ngIf="showPaymentGatewayIframe">
+    <div class="iframe_section bg-white">
+      <div class="text-center payment_response" *ngIf="isPaymentProcessing && paymentVerificationDetails">
+        <div class="paymentSuccess" *ngIf="paymentVerificationDetails.success">
+          <img
+            ImageSrc
+            class="img_section"
+            src="../../../assets/icons/booking_success_icn.svg"
+            alt="success_img"
+            width="100px"
+          />
+          <div class="success_text align-self-center mt-3">Money added successfully to wallet</div>
+          <button class="mt-3 click_btn" type="button" data-dismiss="modal" (click)="closeAddMoneySectionModal()">
+            Ok
+          </button>
+        </div>
+        <div
+          class="paymentFailed"
+          *ngIf="
+            !paymentVerificationDetails.success &&
+            (paymentVerificationDetails?.message == 'failed' || paymentVerificationDetails?.message == 'abandoned')
+          "
+        >
+          <div class="text-center">
+            <img
+              ImageSrc
+              class="failure_img"
+              src="../../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg"
+              alt="payment failed"
+            />
+            <div class="mt-3">
+              <div><strong translate>Sorry something went wrong please try again.</strong></div>
+            </div>
+            <button class="mt-3 click_btn" type="button" data-dismiss="modal" (click)="closeAddMoneySectionModal()">
+              Ok
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="iframeContainer" class="form form-horizontal" *ngIf="!isPaymentProcessing">
+        <div
+          id="pause"
+          class="d-flex align-items-center justify-content-center mt-5"
+          *ngIf="isPaystackCallbackUrlLoading"
+        >
+          <div id="spinner"></div>
+        </div>
+        <div [hidden]="isPaystackCallbackUrlLoading">
+          <iframe
+            title="3DIframe"
+            id="threeDSecureIFrame"
+            name="threeDSecureIFrame"
+            class="w-100"
+            height="100%"
+            [src]="paystackTargetIFrameUrl"
+          >
+            <div>
+              <span translate>Your browser does not support iFrames.</span>
+            </div>
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

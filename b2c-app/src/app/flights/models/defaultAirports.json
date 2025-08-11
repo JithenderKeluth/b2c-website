@@ -1,0 +1,640 @@
+{
+    "defalutAirports": [
+        {
+            "default": [
+                {
+                    "type": "city",
+                    "city": "All Airports",
+                    "airport": "city",
+                    "iata": "JNB",
+                    "code": "JNB",
+                    "country": "South Africa",
+                    "countryIata": "ZA",
+                    "locationId": "ZA_city_JNB"
+                },
+                {
+                    "type": "city",
+                    "city": "London",
+                    "airport": "All Airports",
+                    "iata": "LON",
+                    "code": "LON",
+                    "country": "United Kingdom",
+                    "countryIata": "GB",
+                    "locationId": "GB_city_LON"
+                },
+                {
+                    "type": "airport",
+                    "city": "Lagos",
+                    "airport": "Murtala Muhammed International Airport",
+                    "iata": "LOS",
+                    "code": "LOS",
+                    "country": "Nigeria",
+                    "countryIata": "NG",
+                    "locationId": "airport_LOS"
+                },
+                {
+                    "type": "city",
+                    "city": "Dubai",
+                    "airport": "All Airports",
+                    "iata": "DXB",
+                    "code": "DXB",
+                    "country": "United Arab Emirates",
+                    "countryIata": "AE",
+                    "locationId": "AE_city_DXB"
+                }
+            ],
+            "en-BW": [
+                {
+                    "type": "airport",
+                    "city": "Gaborone",
+                    "airport": "Gaborone",
+                    "iata": "GBE",
+                    "code": "GBE",
+                    "country": "Botswana",
+                    "countryIata": "BW",
+                    "locationId": "airport_GBE"
+                },
+                {
+                    "type": "city",
+                    "city": "Johannesburg",
+                    "airport": "All Airports",
+                    "iata": "JNB",
+                    "code": "JNB",
+                    "country": "South Africa",
+                    "countryIata": "ZA",
+                    "locationId": "ZA_city_JNB"
+                },
+                {
+                    "type": "city'",
+                    "city": "London",
+                    "airport": "All Airports",
+                    "iata": "LON",
+                    "code": "LON",
+                    "country": "United Kingdom",
+                    "countryIata": "GB",
+                    "locationId": "GB_city_LON"
+                }
+            ],
+            "en-NA": [
+                {
+                    "type": "'airport",
+                    "city": "Windhoek",
+                    "airport": "Hosea Kutako International",
+                    "iata": "WDH",
+                    "code": "WDH",
+                    "country": "Namibia",
+                    "countryIata": "NA",
+                    "locationId": "airport_WDH"
+                },
+                {
+                    "type": "airport",
+                    "city": "Walvis Bay Rooikop",
+                    "airport": "Walvis Bay Rooikop",
+                    "iata": "WVB",
+                    "code": "WVB",
+                    "country": "Namibia",
+                    "countryIata": "NA",
+                    "locationId": "airport_WVB"
+                },
+                {
+                    "type": "city",
+                    "city": "Johannesburg",
+                    "airport": "All Airports",
+                    "iata": "JNB",
+                    "code": "JNB",
+                    "country": "South Africa",
+                    "countryIata": "'ZA",
+                    "locationId": "ZA_city_JNB"
+                }
+            ],
+            "en-ZW": [
+                {
+                    "type": "city",
+                    "city": "Johannesburg",
+                    "airport": "All Airports",
+                    "iata": "JNB",
+                    "code": "JNB",
+                    "country": "South Africa",
+                    "countryIata": "ZA",
+                    "locationId": "ZA_city_JNB"
+                },
+                {
+                    "type": "airport",
+                    "city": "Harare",
+                    "airport": "Harare",
+                    "iata": "HRE",
+                    "code": "HRE",
+                    "country": "Zimbabwe",
+                    "countryIata": "ZW",
+                    "locationId": "airport_HRE"
+                }
+            ],
+            "en-EG": [
+                {
+                    "type": "airport",
+                    "city": "Cairo",
+                    "airport": "International",
+                    "iata": "CAI",
+                    "code": "CAI",
+                    "country": "Egypt",
+                    "countryIata": "EG",
+                    "locationId": "airport_CAI"
+                },
+                {
+                    "type": "airport",
+                    "city": "Sharm El Sheikh Ophira",
+                    "airport": "Sharm El Sheikh Ophira",
+                    "iata": "SSH",
+                    "code": "SSH",
+                    "country": "Egypt",
+                    "countryIata": "EG",
+                    "locationId": "airport_SSH"
+                },
+                {
+                    "type": "airport",
+                    "city": "Hurghada",
+                    "airport": "Hurghada",
+                    "iata": "HRG",
+                    "code": "HRG",
+                    "country": "Egypt",
+                    "countryIata": "EG",
+                    "locationId": "airport_HRG"
+                },
+                {
+                    "type": "airport",
+                    "city": "Alexandria",
+                    "airport": "All Airports",
+                    "iata": "ALY",
+                    "code": "ALY",
+                    "country": "Egypt",
+                    "countryIata": "EG",
+                    "locationId": "EG_city_ALY"
+                }
+            ],
+            "en-KE": [
+                {
+                    "type": "airport",
+                    "city": "Mombasa",
+                    "airport": "Mombasa",
+                    "iata": "MBA",
+                    "code": "MBA",
+                    "country": "Kenya",
+                    "countryIata": "KE",
+                    "locationId": "airport_NBO"
+                },
+                {
+                    "type": "airport",
+                    "city": "Nairobi",
+                    "airport": "Jomo Kenyatta",
+                    "iata": "NBO",
+                    "code": "NBO",                  
+                    "country": "Kenya",
+                    "countryIata": "KE",
+                    "locationId": "airport_MBA"
+                },
+                {
+                    "type": "city",
+                    "city": "Dubai",
+                    "airport": "All Airports",
+                    "iata": "DXB",
+                    "code": "DXB",
+                    "country": "United Arab Emirates",
+                    "countryIata": "AE",
+                    "locationId": "AE_city_DXB"
+                },
+                {
+                    "type": "city",
+                    "city": "London",
+                    "airport": "All Airports",
+                    "iata": "LON",
+                    "code": "LON",
+                    "country": "United Kingdom",
+                    "countryIata": "GB",
+                    "locationId": "GB_city_LON"
+                }
+            ],
+            "en-BH": [
+                {
+                    "type": "airport",
+                    "city": "Bahrain",
+                    "airport": "Bahrain",
+                    "iata": "BAH",
+                    "code": "BAH",
+                    "country": "Bahrain",
+                    "countryIata": "BAH",
+                    "locationId": "airport_BAH"
+                },
+                {
+                    "type": "airport",
+                    "city": "Cairo",
+                    "airport": "International",
+                    "iata": "CAI",
+                    "code": "CAI",
+                    "country": "Egypt",
+                    "countryIata": "EG",
+                    "locationId": "airport_CAI"
+                },
+                {
+                    "type": "airport",
+                    "city": "Manila",
+                    "airport": "Manila",
+                    "iata": "MNL",
+                    "code": "MNL",
+                    "country": "Philippines",
+                    "countryIata": "PH",
+                    "locationId": "airport_MNL"
+                }
+            ],
+            "en-TR": [
+                {
+                    "type": "city",
+                    "city": "Istanbul",
+                    "airport": "All Airports",
+                    "iata": "IST",
+                    "code": "IST",
+                    "country": "Turkey",
+                    "countryIata": "TR",
+                    "locationId": "TR_city_IST"
+                },
+                {
+                    "type": "airport",
+                    "city": "Izmir",
+                    "airport": "Adnan Mend",
+                    "iata": "ADB",
+                    "code": "ADB",
+                    "country": "Turkey",
+                    "countryIata": "TR",
+                    "locationId": "airport_ADB"
+                },
+                {
+                    "type": "airport",
+                    "city": "Antalya",
+                    "airport": "Antalya",
+                    "iata": "AYT",
+                    "code": "AYT",
+                    "country": "Turkey",
+                    "countryIata": "TR",
+                    "locationId": "airport_AYT"
+                },
+                {
+                    "type": "city",
+                    "city": "Ankara",
+                    "airport": "All Airports",
+                    "iata": "ANK",
+                    "code": "ANK",
+                    "country": "Turkey",
+                    "countryIata": "TR",
+                    "locationId": "TR_city_ANK"
+                }
+            ],
+            "en-NG": [
+                {
+                    "type": "airport",
+                    "city": "Lagos",
+                    "airport": "Murtala Muhammed International Airport",
+                    "iata": "LOS",
+                    "code": "LOS",
+                    "country": "Nigeria",
+                    "countryIata": "NG",
+                    "locationId": "airport_LOS"
+                },
+                {
+                    "type": "airport",
+                    "city": "Abuja",
+                    "airport": "Nnamdi Azikiwe International Airport",
+                    "iata": "ABV",
+                    "code": "ABV",
+                    "country": "Nigeria",
+                    "countryIata": "NG",
+                    "locationId": "airport_ABV"
+                },
+                {
+                    "type": "city",
+                    "city": "Johannesburg",
+                    "airport": "All Airports",
+                    "iata": "JNB",
+                    "code": "JNB",
+                    "country": "South Africa",
+                    "countryIata": "ZA",
+                    "locationId": "ZA_city_JNB"
+                },
+                {
+                    "type": "city",
+                    "city": "London",
+                    "airport": "All Airports",
+                    "iata": "LON",
+                    "code": "LON",
+                    "country": "United Kingdom",
+                    "countryIata": "GB",
+                    "locationId": "GB_city_LON"
+                }
+            ],
+            "en-OM": [
+                {
+                    "type": "airport",
+                    "city": "Muscat",
+                    "airport": "Muscat",
+                    "iata": "MCT",
+                    "code": "MCT",
+                    "country": "Oman",
+                    "countryIata": "OM",
+                    "locationId": "airport_MCT"
+                },
+                {
+                    "type": "city",
+                    "city": "Dubai",
+                    "airport": "All Airports",
+                    "iata": "DXB",
+                    "code": "DXB",
+                    "country": "United Arab Emirates",
+                    "countryIata": "AE",
+                    "locationId": "AE_city_DXB"
+                },
+                {
+                    "type": "city",
+                    "city": "Abu Dhabi",
+                    "airport": "All Airports",
+                    "iata": "AUH",
+                    "code": "AUH",
+                    "country": "United Arab Emirates",
+                    "countryIata": "AE",
+                    "locationId": "AE_city_AUH"
+                },
+                {
+                    "type": "city'",
+                    "city": "London",
+                    "airport": "All Airports",
+                    "iata": "LON",
+                    "code": "LON",
+                    "country": "United Kingdom",
+                    "countryIata": "GB",
+                    "locationId": "GB_city_LON"
+                }
+            ],
+            "en-QA": [
+                {
+                    "type": "airport",
+                    "city": "Doha",
+                    "airport": "All Airports",
+                    "iata": "DOH",
+                    "code": "DOH",
+                    "country": "Qatar",
+                    "countryIata": "QA",
+                    "locationId": "airport_DOH"
+                },
+                {
+                    "type": "city",
+                    "city": "Dubai",
+                    "airport": "All Airports",
+                    "iata": "DXB",
+                    "code": "DXB",
+                    "country": "United Arab Emirates",
+                    "countryIata": "AE",
+                    "locationId": "AE_city_DXB"
+                },
+                {
+                    "type": "city",
+                    "city": "London",
+                    "airport": "All Airports",
+                    "iata": "LON",
+                    "code": "LON",
+                    "country": "United Kingdom",
+                    "countryIata": "GB",
+                    "locationId": "GB_city_LON"
+                },
+                {
+                    "type": "airport",
+                    "city": "Manila",
+                    "airport": "Manila",
+                    "iata": "MNL",
+                    "code": "MNL",
+                    "country": "Philippines",
+                    "countryIata": "PH",
+                    "locationId": "airport_MNL"
+                }
+            ],
+            "en-SA": [
+                {
+                    "type": "airport",
+                    "city": "Riyadh",
+                    "airport": "Riyadh",
+                    "iata": "RUH",
+                    "code": "RUH",
+                    "country": "Saudi Arabia",
+                    "countryIata": "SA",
+                    "locationId": "airport_RUH"
+                },
+                {
+                    "type": "airport",
+                    "city": "Jeddah",
+                    "airport": "Jeddah",
+                    "iata": "JED",
+                    "code": "JED",
+                    "country": "Saudi Arabia",
+                    "countryIata": "SA",
+                    "locationId": "airport_JED"
+                },
+                {
+                    "type": "airport",
+                    "city": "Dammam",
+                    "airport": "King Fahad Int l",
+                    "iata": "DMM",
+                    "code": "DMM",
+                    "country": "Saudi Arabia",
+                    "countryIata": "SA",
+                    "locationId": "airport_DMM"
+                },
+                {
+                    "type": "airport",
+                    "city": "Cairo",
+                    "airport": "International",
+                    "iata": "CAI",
+                    "code": "CAI",
+                    "country": "Egypt",
+                    "countryIata": "EG",
+                    "locationId": "airport_CAI"
+                }
+            ],
+            "en-ZA": [
+                {
+                    "type": "city",
+                    "city": "Johannesburg",
+                    "airport": "All Airports",
+                    "iata": "JNB",
+                    "code": "JNB",
+                    "country": "South Africa",
+                    "countryIata": "ZA",
+                    "locationId": "ZA_city_JNB"
+                },
+                {
+                    "type": "airport",
+                    "city": "Cape Town",
+                    "airport": "International",
+                    "iata": "CPT",
+                    "code": "CPT",
+                    "country": "South Africa",
+                    "countryIata": "ZA",
+                    "locationId": "airport_CPT"
+                },
+                {
+                    "type": "airport",
+                    "city": "Durban",
+                    "airport": "Durban",
+                    "iata": "DUR",
+                    "code": "DUR",
+                    "country": "South Africa",
+                    "countryIata": "ZA",
+                    "locationId": "airport_DUR"
+                },
+                {
+                    "type": "airport",
+                    "city": "Port Elizabeth",
+                    "airport": "Port Elizabeth",
+                    "iata": "PLZ",
+                    "code": "PLZ",
+                    "country": "South Africa",
+                    "countryIata": "ZA",
+                    "locationId": "airport_PLZ"
+                },
+                {
+                    "type": "city",
+                    "city": "London",
+                    "airport": "All Airports",
+                    "iata": "LON",
+                    "code": "LON",
+                    "country": "United Kingdom",
+                    "countryIata": "GB",
+                    "locationId": "GB_city_LON"
+                },
+                {
+                    "type": "airport",
+                    "city": "Windhoek",
+                    "airport": "Hosea Kutako International",
+                    "iata": "WDH",
+                    "code": "WDH",
+                    "country": "Namibia",
+                    "countryIata": "NA",
+                    "locationId": "airport_WDH"
+                },
+                {
+                    "type": "city",
+                    "city": "Dubai",
+                    "airport": "All Airports",
+                    "iata": "DXB",
+                    "code": "DXB",
+                    "country": "United Arab Emirates",
+                    "countryIata": "AE",
+                    "locationId": "AE_city_DXB"
+                }
+            ],
+            "en-TZ": [
+                {
+                    "type": "airport",
+                    "city": "Dar Es Salaam",
+                    "airport": "Julius Nyerere",
+                    "iata": "DAR",
+                    "code": "DAR",
+                    "country": "Tanzania",
+                    "countryIata": "TZ",
+                    "locationId": "airport_DAR"
+                },
+                {
+                    "type": "airport",
+                    "city": "Nairobi",
+                    "airport": "Jomo Kenyatta",
+                    "iata": "NBO",
+                    "code": "NBO",
+                    "country": "Kenya",
+                    "countryIata": "KE",
+                    "locationId": "airport_NBO"
+                },
+                {
+                    "type": "city",
+                    "city": "Johannesburg",
+                    "airport": "All Airports",
+                    "iata": "JNB",
+                    "code": "JNB",
+                    "country": "South Africa",
+                    "countryIata": "ZA",
+                    "locationId": "ZA_city_JNB"
+                }
+            ],
+            "en-AE" : [
+                {
+                    "type": "city",
+                    "city": "Dubai",
+                    "airport": "All Airports",
+                    "iata": "DXB",
+                    "code": "DXB",
+                    "country": "United Arab Emirates",
+                    "countryIata": "AE",
+                    "locationId": "AE_city_DXB"
+                },
+                {
+                    "type": "city",
+                    "city": "Abu Dhabi",
+                    "airport": "All Airports",
+                    "iata": "AUH",
+                    "code": "AUH",
+                    "country": "United Arab Emirates",
+                    "countryIata": "AE",
+                    "locationId": "AE_city_AUH"
+                },
+                {
+                    "type": "city",
+                    "city": "London",
+                    "airport": "All Airports",
+                    "iata": "LON",
+                    "code": "LON",
+                    "country": "United Kingdom",
+                    "countryIata": "GB",
+                    "locationId": "GB_city_LON"
+                },
+                {
+                    "type": "airport",
+                    "city": "Manila",
+                    "airport": "Manila",
+                    "iata": "MNL",
+                    "code": "MNL",
+                    "country": "Philippines",
+                    "countryIata": "PH",
+                    "locationId": "airport_MNL"
+                }
+
+            ],
+            "en-MA" : [
+                {
+                    "type": "city",
+                    "city": "Casablanca",
+                    "airport": "All Airports",
+                    "iata": "CAS",
+                    "code": "CAS",
+                    "country": "Morocco",
+                    "countryIata": "MA",
+                    "locationId": "MA_city_CAS"  
+                },
+                {
+                    "type": "airport",
+                    "city": "Marrakech",
+                    "airport": "Marrakech",
+                    "iata": "RAK",
+                    "code": "RAK",
+                    "country": "Morocco",
+                    "countryIata": "MA",
+                    "locationId": "airport_RAK"
+                },
+                {
+                    "type": "city",
+                    "city": "London",
+                    "airport": "All Airports",
+                    "iata": "LON",
+                    "code": "LON",
+                    "country": "United Kingdom",
+                    "countryIata": "GB",
+                    "locationId": "GB_city_LON"
+                }
+
+            ]
+        }
+    ]
+}

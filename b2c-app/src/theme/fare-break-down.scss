@@ -1,0 +1,129 @@
+@import "./theme-variables.scss";
+.fare_info {
+  padding: 20px 15px;
+  font-size: 16px;
+  label {
+    margin: 0;
+  }
+
+  .tripType {
+    .sec_heading {
+      color: var(--text_primary_color);
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .trip {
+      color: $color-link-blue;
+      font-size: 12px;
+      background-color: $color-blue-25;
+      padding: 5px 15px;
+      border-radius: 100px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+  }
+  .selcted_adons {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .price_breakup {
+    .fares {
+      border-bottom: 1px dashed #e4e5ea;
+      padding-bottom: 8px;
+      .table {
+        font-size: 14px;
+        margin: 0;
+
+        th {
+          padding: 4px 10px;
+          text-align: left;
+          padding-left: 0px;
+          font-weight: normal;
+          color: var(--text_info_color); //not added color code
+          border: none !important;
+        }
+
+        td {
+          padding: 4px 10px;
+          text-align: right;
+          padding-right: 0;
+          color: var(--text_info_color); //not added color code
+          font-size: 14px;
+          width: 38%;
+          border: none !important;
+        }
+        .voucher {
+          color: $color-teal-400 !important;
+        }
+        #AD {
+          font-weight: normal;
+          color: var(--text_info_color);
+        }
+      }
+    }
+    .total_amt {
+      padding: 5px 0;
+      .labl {
+        color: var(--text_primary_color);
+        color: 16px;
+        font-weight: 500;
+      }
+      .amt {
+        float: right;
+        color: var(--text_primary_color);
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.2;
+        position: relative;
+        bottom: 8px;
+        .total {
+          float: right;
+          margin-top: 1rem;
+          .angleIcon {
+            color: var(--primary_btn_bg);
+          }
+        }
+      }
+      .link {
+        font-size: 11px;
+        font-weight: normal;
+        color: var(--text_link_color);
+        position: relative;
+        bottom: 8px;
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .fare_info {
+    background-color: var(--text_primary_color);
+    .tripType .sec_heading {
+      color: $white;
+    }
+    .price_breakup {
+      .fares {
+        border-bottom: none !important;
+        hr {
+          background-color: #223b4a;
+        }
+      }
+      .amt {
+        float: none !important;
+        bottom: 0 !important;
+        .total {
+          float: none !important;
+        }
+      }
+      .fares .table {
+        th,
+        td {
+          color: #fff;
+        }
+        #AD {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

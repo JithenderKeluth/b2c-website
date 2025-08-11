@@ -1,0 +1,201 @@
+.onHover:hover {
+  background-color: #f03e45 !important;
+}
+
+.tabs_list .nav-tabs .nav-item .nav-link.active {
+  color: #001300 !important;
+}
+
+#filters .baggage_filters input[type='checkbox']:checked+.bg_labl {
+  background-color: #ffebf0 !important;
+}
+.sticky_price .price_info,.srp_resHeader .sort_filters .domInfo{
+  background-color: #edf1f9 !important ;
+}
+.name_Sug{
+  background-color: #edf1f9 !important ;
+  color: #001330 !important;
+
+}
+.name_Sug:before {
+  border-bottom: 10px solid #edf1f9 !important;
+}
+.primary_btn,
+.default_btn,
+.fare-btn,
+.eventBtns .default_btn,
+.fare_increased .proceedBtn,
+.fare_increased .fare-btn,
+.domestic_sort .sort_btn,
+.flightsViewSection .sortSection .showFilter .showFiltersBtn,
+.segmentsList li,
+.bookings_tab .q_recordLink,
+.sortCardView .sort_options_info .showFilter_btn,
+.search_btn ,
+.add_row,
+#filters .stops_filter .stop_panel .stops_slab, #filters .bg_labl,
+.travel_options .price_info .btn{
+  border-radius: 100px !important;
+}
+
+.search-btn .btn {
+  border-radius: 12px !important;
+}
+
+.flight_card .price_section {
+  background-color: #f7f8f8 !important;
+}
+
+.flight_card .price_section .book_btn {
+  padding: 5px 20px !important;
+  width: revert !important;
+  margin: 10px 10px !important;
+}
+
+.flight_card .price_section .price_labl,.traveller_section .travellers_details .nam_req .namereq_head {
+  color: #001330 !important;
+}
+
+body,
+.mat-button {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.flight_card .price_section .book_btn {
+  width: unset !important;
+}
+
+.avlSegmentDesc,
+.labl-mute {
+  color: #748093 !important;
+}
+
+.baggage_Info {
+  color: #001330;
+}
+
+.coupon_info .content .input-group {
+  border-radius: 100px !important;
+}
+
+.noBaggage_Bg {
+  background-color: var(--flight_fastest_label_bg);
+  padding: 4px;
+  border-radius: 4px;
+
+  img {
+    margin: 0 !important;
+    height: 16px !important;
+  }
+}
+
+.myaccount_page .dashboard .main-tab-section .nav-tabs li a.active {
+  color: #fff !important;
+  border-bottom: 4px solid var(--border_active_color) !important;
+  padding-bottom: 8px !important;
+}
+
+.userNameSec .user_btn {
+  color: #052231 !important;
+  font-size: 14px;
+}
+
+.eventBtns .btn {
+  line-height: 34px !important;
+  padding: 0px 20px !important;
+}
+
+.addons_continueBtn,
+.proceed .btn,
+.payment_view_page .btn-controls .book_btn,
+.fares_info_section .continueBtn,
+.book_btn {
+  padding: 8px 30px !important;
+  font-size: 14px !important;
+}
+
+.wallet-vouchers {
+  background-color: #fff !important;
+
+  .savings {
+    color: #ed1c34 !important;
+  }
+}
+.voucher{
+  color: #ed1c24 !important;
+}
+
+.bookings_tab .outer,
+.sorting .sort_types .ul_list {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+.ngx-datatable .datatable-body .datatable-row-wrapper{
+  background-color: transparent !important;
+  border: 1px solid #CFD6E3;
+  border-radius: 8px !important;
+}
+.payment_gateway .add_payment_card .card-container,.remove_for_MM,.sorting .sort_types ul li .img_cls{
+  display: none !important;
+}
+.sorting .sort_types .ul_list{
+  padding: 10px 10px 0px 10px !important;
+  .active{
+    border-bottom: 2px solid #ed1c34 !important;
+    border-radius: 0px !important;
+  }
+}
+.myaccount_page .sec_header .travelInfo{
+  color: #fff !important;
+}
+
+@media (max-width: 992px) {
+  .flight_card .price_section .book_btn {
+    width: unset !important;
+  }
+
+  .eventBtns .btn,
+  .search-btn .btn {
+    border-radius: 100px !important;
+  }
+
+  .mat-button {
+    border-radius: 12px !important;
+  }
+  .myaccount_page .sec_header h1{
+    padding: 0px 15px !important;
+  }
+  .result_page_view .search_section{
+    padding: 0px 0px 30px 0px !important;
+  }
+  .fare_info,.fare-info .fares{
+    background-color: #fff !important;
+    border-radius: 12px 12px 0px 0px;
+    box-shadow: 0px 0px 20px -3px #98a2b3;
+    color: var(--text_primary_color) !important;
+    .tripType .sec_heading{
+      color: var(--text_primary_color) !important;
+    }
+  }
+  #fareBreakdown {
+    .fare_info{
+      .sec_heading{
+        color: var(--text_primary_color) !important;
+      }
+    } 
+  }
+  .fare_info .price_breakup .fares .table .tableData, #fareBreakdown .fare_info .price_breakup .adon_title, #fareBreakdown .fare_info .price_breakup .fares .table .tableData,
+  .fares .table .tableData,.selcted_adons{
+    color: var(--text_primary_color) !important;
+  }
+  .bookings_tab .outer .nav-tabs, .sorting .sort_types .ul_list{
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  .trip_types li{
+    width: 50% !important;
+  }
+  .myaccount_page .dashboard .main-tab-section .nav-tabs > li > a{
+      padding: 2px 15px !important;
+  }
+}

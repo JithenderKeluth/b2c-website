@@ -1,0 +1,32 @@
+<div class="modal-dialog payment_error_dialog" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body consistent-modal-body">
+      <div class="text-center">
+        <img
+          ImageSrc
+          class="w-mob-set consistent-modal-icon"
+          src="./../../../../assets/icons/Icon/Negative-scenarios/something_was_not_right.svg"
+          alt="Flight not available"
+        />
+          <div class="consistent-header-txt" translate>Something was not right.</div>
+          <div translate class="consistent-body-text">
+            Flight prices can change on the fly, so please check the date and price of your ticket again.
+          </div>
+
+        <div class="modal-btn-container">
+          <span
+            ><button
+              type="button"
+              aria-label="Go Back to Search Page"
+              class="btn ok-btn mr-3 text-center primary_btn"
+              data-dismiss="modal"
+              (click)="goToSearchPage()"
+            >
+              <span translate>Go Back to Search Page</span>
+            </button></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

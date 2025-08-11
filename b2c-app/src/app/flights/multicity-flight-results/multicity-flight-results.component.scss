@@ -1,0 +1,142 @@
+@import "./../../../theme/theme-variables.scss";
+.multicity-sec {
+  .multicity_box {
+    box-shadow: 0 0 4px 0 $color-neutral-200;
+    cursor: pointer;
+    .left_icon {
+      position: relative;
+      top: -5px;
+      font-size: 35px;
+      left: 2%;
+      z-index: 9999;
+      .fa {
+        color: var(--text_link_color);
+        font-size: 30px;
+      }
+    }
+    .left_arrow {
+      float: left;
+      position: relative;
+      left: 12px;
+      width: 2%;
+      cursor: pointer;
+      background: $white;
+      z-index: 9;
+    }
+    .mulicity_itenaries {
+      padding: 0;
+      margin-bottom: 14px;
+      padding-bottom: 6px;
+      padding-top: 6px;
+      height: 58px;
+      background-color: #fff;
+    }
+  }
+  .txt_style {
+    text-align: right;
+  }
+  .multi_cities {
+    padding: 0px 30px 0px 10px;
+  }
+  .search_again-btn {
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: capitalize;
+    padding: 17px 20px;
+    width: 100%;
+    margin-top: 0;
+  }
+  .itenary_data {
+    height: 100%;
+    overflow: auto;
+    white-space: nowrap;
+
+    .itenaries_data {
+      display: inline;
+      overflow: scroll;
+      .traveller-info {
+        display: inline-block;
+        border-left: 1px solid var(--border_default_color);
+        overflow-x: hidden;
+        overflow-y: hidden;
+        padding: 0px 0px 0px 20px;
+        span {
+          color: var(--text_primary_color);
+        }
+        &.col-4 {
+          .arrival_cities,
+          .depart_cities {
+            text-overflow: ellipsis;
+          }
+        }
+        .arrival_cities,
+        .depart_cities {
+          //max-width: 140px;
+          font-size: 13px;
+          font-weight: 600;
+          display: inline-block;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          vertical-align: middle;
+        }
+        .passengers {
+          font-size: 12px;
+          font-weight: 400;
+          position: relative;
+          // right: 8px;
+        }
+        .dprtDate {
+          font-size: 12px;
+          font-weight: 400;
+        }
+        .cabin_class {
+          font-size: 12px;
+          font-weight: 500;
+          position: relative;
+          right: -1px;
+        }
+        .seprtr {
+          border-right: solid 1px var(--border_default_color);
+          margin-left: 5px;
+          margin-right: 9px;
+        }
+        .seprtr_pax {
+          border-right: 1px solid var(--border_default_color);
+          margin-left: -3px;
+        }
+        .itn-seperate {
+          height: 11px;
+          width: 2px;
+          background-color: $color-neutral-100;
+          margin: 0 5px;
+          display: inline-block;
+        }
+      }
+      .traveller-info:first-child {
+        border-right: none !important;
+        border-left: 0px;
+        padding-left: 0px;
+      }
+    }
+  }
+  .right_icon {
+    margin-bottom: 0px;
+    position: absolute;
+    left: 98%;
+    bottom: 28px;
+    color: var(--text_link_color);
+    font-size: 30px;
+    cursor: pointer;
+  }
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.itenary li {
+  float: left;
+  width: 30%;
+}
+li {
+  list-style-type: none;
+}

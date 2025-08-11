@@ -1,0 +1,801 @@
+@import "./../../../theme/theme-variables.scss";
+
+.booking_confiramtion_page {
+  background-color: $color-neutral-25;
+  padding: 10px;
+  height: 100vh;
+  overflow-y: scroll;
+  .confirmation_Card{
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 10px 0px;
+    .sec_head{
+      display: flex;
+      align-items: center;
+      .sec_title{
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--text_primary_color);
+      }
+      .angleIcon{
+        .fa{
+          font-size: 25px;
+        }
+        color: var(--text_link_color);
+        cursor: pointer;
+      }
+    }
+  }
+  .payment {
+    width: 75%;
+    border: 1px solid var(--border_default_color);
+    border-radius: 8px;
+    padding: 10px;
+    .price {
+      width: 50%;
+      display: inline-block;
+      line-height: 1.4;
+      .labl {
+        color: var(--text_info_color);
+        font-size: 12px;
+      }
+      .price_labl {
+        color: var(--text_primary_color);
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+    .pay {
+      float: right;
+      .btn {
+        border-radius: 3px;
+        padding: 8px 15px;
+        a {
+          font-size: 14px;
+          font-weight: 500;
+          text-decoration: none;
+          color: $white;
+        }
+      }
+    }
+  }
+  .payment_ng {
+    background-color: $white;
+    width: 100%;
+    .price {
+      .labl {
+        color: $color-neutral-900 !important;
+        border: transparent !important;
+        padding: 6px 0px 0px 0px !important;
+      }
+      .price_labl {
+        padding: 0px !important;
+        font-size: 14px;
+      }
+    }
+  }
+
+  label {
+    display: block;
+    margin: 0;
+  }
+  .booking_status {
+    padding: 15px 0px;
+    .icon_booking_wrapper {
+      margin: 0px 5px;
+      .pad-40 {
+        padding-top: 48px;
+      }
+      img{
+        width: 80px;
+      }
+    }
+    .pad-60 {
+      padding-top: 70px;
+    }
+    .pad-30 {
+      padding-top: 33px;
+    }
+    .status_title {
+      .desc {
+        font-size: 13px;
+        color: var(--text_primary_color);
+        margin-bottom: 10px;
+      }
+      .desc_booking {
+        font-size: 12px;
+        color: var(--text_primary_color);
+      }
+      .ref_details {
+        .ref_txt {
+          color: var(--label_color);
+        }
+        color: var(--text_primary_color);
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+    }
+    .route_defn {
+      .city_labls {
+        color: var(--text_primary_color);
+        font-size: 18px;
+        font-weight: 500;
+      }
+      img {
+        width: 16px;
+        margin: 0px 10px;
+      }
+      .book_ref {
+        .labls {
+          color: var(--text_info_color);
+          font-size: 12px;
+        }
+        .booking_details_send {
+          font-size: 12px;
+          color: var(--text_primary_color);
+        }
+      }
+    }
+    .view_account_info {
+      .confirm_labls {
+        padding: 10px;
+        background: var(--filter_strip_bg);
+        margin-top: 5px;
+        color: var(--text_primary_color);
+        font-size: 12px;
+        border-radius: 8px;
+        a {
+          color: var(--text_link_color);
+          cursor: pointer;
+        }
+      }
+    }
+    .b2B_EFT_Msg{
+      padding: 10px 20px;
+      background: var(--flight_selected_Bg);
+      margin-top: 12px;
+      color: var(--text_primary_color);
+      font-size: 13px;
+      border-radius: 8px;
+      span {
+        color: var(--text_link_color);
+        cursor: pointer;
+      }
+    }
+  }
+  .flightDetailsCard_expanded {
+    .flight_head {
+      color: var(--text_primary_color);
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .travellerDetailsCard_expanded {
+    margin: 10px 0;
+    .sec_title {
+      label {
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--text_primary_color);
+      }
+    }
+    .ul_top_border {
+      border-top: 1px solid var(--border_light_color);
+    }
+    .list {
+      list-style-type: none;
+      display: block;
+      padding: 0;
+      margin: 0;
+      li {
+        border-bottom: 1px solid var(--border_light_color);
+        font-size: 12px;
+        padding: 10px 0;
+        &:last-child {
+          border: none;
+        }
+        .pax_info {
+          font-weight: 500;
+          min-width: 20%;
+          .pax_icn img {
+            margin: 0px 3px 2px 0px;
+            width: 10px;
+          }
+          color: var(--text_primary_color);
+        }
+        .seats_Data {
+          align-items: center;
+          .seat_info {
+            display: inline-table;
+            padding: 5px 15px;
+            border: 1px solid var(--border_default_color);
+            border-radius: 3px;
+            margin: 0px 5px;
+          }
+        }
+      }
+    }
+  }
+  .paymentDetailsCard_expanded {
+    .sec_title {
+      label {
+        font-size: 24px;
+        color: var(--text_primary_color);
+      }
+    }
+    .card_details_sec,.ipay_details_sec{
+      .cardCharge {
+        font-size: 14px;
+        color: var(--text_primary_color);
+        .price_labl {
+          color: var(--text_primary_color);
+          font-weight: 600;
+        }
+      }
+      .afterPay_txt {
+        padding: 10px 0px;
+        font-size: 14px;
+        color: var(--text_primary_color);
+      }
+      .charges_txt_CC {
+        padding: 10px 20px;
+        font-size: 13px;
+        color: var(--text_primary_color);
+        background-color: var(--bm_name_reqmt_strip_bg);
+        border-radius: 3px;
+      }
+      .card_details {
+        .amt {
+          color: var(--text_success_color);
+        }
+        label {
+          width: 50%;
+          font-size: 14px;
+          border-bottom: 1px solid var(--border_light_color);
+          padding: 6px 0;
+          &:last-child {
+            border: none;
+          }
+          .key {
+            width: 40%;
+            display: inline-block;
+          }
+          .val {
+            width: 50%;
+            display: inline-block;
+          }
+          .cpy {
+            width: 5%;
+            display: inline-block;
+          }
+        }
+      }
+    }
+    .mpesa_details_sec{
+      .mpesa-list {
+        li {
+          font-size: 14px;
+          line-height: 2.2;
+        }
+      }
+    }
+    .eft_details_sec {
+      .sec_title {
+        label {
+          font-size: 20px;
+          font-weight: 500;
+          color: var(--text_primary_color);
+        }
+      }
+      .payment_desc {
+        font-size: 14px;
+        p {
+          color: var(--text_primary_color);
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+      .bank_details_ng {
+        background-color: #fcb477;
+        max-width: 50%;
+        border-radius: 10px;
+        padding: 20px;
+
+        .price_labl {
+          font-size: 18px;
+        }
+
+        label {
+          width: 100%;
+          padding: 10px 0px;
+
+          .key {
+            width: 25%;
+          }
+
+          .val {
+            width: 70%;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    h4 {
+      color: var(--text_primary_color);
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .payment_Details{
+      box-shadow: 0 1px 3px 0 rgba(35, 64, 99, 0.29);
+      border-radius: 8px;
+      .bank_details {
+        .heading {
+          color: var(--text_primary_color);
+          font-size: 20px;
+          font-weight: 500;
+          padding: 10px 15px;
+        }
+      }
+      .table{
+        tr:nth-child(2n+1) {
+          background-color: #f7f8fa;
+        }
+        th,td{
+          font-size: 13px;
+          color: var(--text_primary_color);
+          padding: 10px 15px;
+          border-top: none !important;
+          
+        }
+
+      }
+      .payment_CTA_sec{
+        border: none !important;
+        border-top: 2px solid var(--border_default_color) !important;
+        border-radius: 0 !important;
+      }
+  }
+  }
+  .hotels_section {
+    box-shadow: 0 2px 3px 0 rgb(0 0 0 / 6%);
+    background-color: $white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 3px;
+  }
+}
+.notvalid-visa {
+  position: relative;
+}
+.notvalid-visa::after{
+  content: '';
+  float: left;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url("https://cdn1.travelstart.com/assets/images/Notvalidforvyisa.png") repeat;
+  opacity: 0.2;
+  pointer-events: none;
+  height: 100%;
+}
+.itinerary_info {
+  label {
+    margin: 0;
+  }
+  font-size: 14px;
+  .route_details {
+    background-color: var(--bm_flight_review_bg);
+    border-radius: 10px;
+    margin: 0px 15px 15px 15px;
+    .segments {
+      .direction {
+        display: inline-block;
+        border-radius: 100px;
+        padding: 4px 20px;
+        background-color: color-blue-25;
+        color: var(--text_link_color);
+        margin-bottom: 12px;
+      }
+      padding: 10px 15px;
+      .seg_legs {
+        font-weight: 600;
+        .layover_section {
+          border-top: 1px dashed var(--border_default_color);
+          border-bottom: 1px dashed var(--border_default_color);
+          padding: 6px;
+          margin: 10px 0;
+          color: var(--text_info_color);
+          font-size: 12px;
+          font-weight: normal;
+          .layover_labl {
+            color: #e68d32;
+          }
+          img.ic_baggage {
+            position: relative;
+            bottom: 2px;
+            margin-right: 3px;
+          }
+        }
+        .air_name {
+          color: var(--text_primary_color);
+          font-size: 12px;
+        }
+        .flt_num {
+          color: var(--text_info_color);
+          font-size: 12px;
+        }
+        .dept_city {
+          color: var(--text_primary_color);
+        }
+        .arr_city {
+          color: var(--text_primary_color);
+        }
+        .time_labl,
+        .date_labl {
+          color: var(--text_info_color);
+          font-size: 13px;
+          font-weight: normal;
+        }
+        .fly_icon {
+          position: relative;
+          color: var(--text_info_color);
+          font-size: 12px;
+          .cls_labl {
+            text-transform: capitalize;
+          }
+        }
+      }
+    }
+  }
+}
+
+.invoiceDetailsCard_expanded {
+  padding: 20px 15px;
+  .fare_info {
+    font-size: 16px;
+    width: 40%;
+    border-radius: 5px;
+    label {
+      margin: 0;
+    }
+      .sec_heading {
+        color: var(--text_primary_color);
+        font-size: 20px;
+        font-weight: 500;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    .price_breakup {
+      box-shadow: 0 1px 3px 0 rgba(35, 64, 99, 0.29);
+      border-radius: 8px;
+      .fares {
+        .table {
+          font-size: 14px;
+          margin: 0;
+          tr:nth-child(2n+1) {
+            background-color: #f7f8fa;
+          }
+          th,td {
+            padding: 10px 15px
+          }
+          .txt_align {
+            text-align: left;
+            line-height: 16px;
+            font-weight: normal;
+            color: var(--text_info_color);
+            border: none;
+          }
+          .txt_des {
+            text-align: right;
+            // padding: 5px 0px;
+            color: var(--text_primary_color);
+            font-size: 14px;
+            width: 38%;
+            border: none;
+            font-weight: 600;
+          }
+        }
+      }
+      .disc_text {
+        color: #15c4a1;
+      }
+    }
+    .total_amt {
+      padding: 20px 15px;
+      min-height: 50px;
+      font-size: 18px;
+      .labl {
+        color: var(--text_primary_color);
+        color: 18px;
+        font-weight: bold;
+      }
+      .amt {
+        float: right;
+        color: var(--text_primary_color);
+        font-size: 20px;
+        font-weight: bold;
+        position: relative;
+        bottom: 26px;
+      }
+    }
+    .border_top{
+      border-top: 1px solid var(--border_default_color);
+    }
+  }
+}
+.insurance_sec {
+  box-shadow: 0 2px 3px 0 rgb(0 0 0 / 6%);
+  background-color: $white;
+  border-radius: 3px;
+  padding: 20px 15px;
+  margin: 10px 0;
+}
+
+.cars_section {
+  background-color: $color-neutral-25;
+  padding-top: 15px !important;
+}
+
+::ng-deep .mat-expansion-panel, .mat-expansion-panel-body {
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+.dur,
+.cls_labl {
+  font-weight: 500;
+  font-size: 12px;
+}
+.mr-100 {
+  margin-right: 100px;
+}
+
+.airLine_block {
+  padding-top: 12px;
+  .airLine_logo {
+    float: left;
+    img {
+      margin-right: 15px;
+      width: 40px;
+    }
+  }
+  .airLine_name_num {
+    color: red !important;
+    span {
+      display: block;
+    }
+  }
+}
+.WidgetTemplate1 {
+  border: none !important;
+}
+.helpLink {
+  color: var(--text_link_color);
+  cursor: pointer;
+}
+.paymentFailed {
+  width: 65%;
+  padding: 10px 20px;
+  background: var(--dangerBgColor);
+  margin-top: 12px;
+  color: var(--text_primary_color);
+  font-size: 12px;
+  border-radius: 3px;
+  a {
+    color: var(--text_link_color);
+    cursor: pointer;
+  }
+}
+
+
+.cars_link {
+  height: 220px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.find_cars {
+  background-color: #e4e3df;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  height: 220px;
+  .desc_sec {
+    font-size: 19px;
+    max-width: 395px;
+    .sec_labl {
+      font-size: 16px;
+    }
+  }
+}
+.insurance {
+  background-color: #e4e3df;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  height: 220px;
+}
+.insurance_link {
+  height: 220px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.book_car_tr_insurance {
+  font-size: 12px !important;
+  padding: 8px 40px;
+  margin-top: 40px;
+  border: none;
+}
+
+.cars_insurance_txt {
+  max-width: 395px;
+  color: $text-primary-color;
+  padding: 30px;
+  .insurance_desc {
+    font-size: 19px;
+    line-height: 25px;
+  }
+}
+
+.hotels_widgetCard {
+  background-color: #fff;
+    border-radius: 12px;
+    padding: 0px 20px;
+    margin: 10px 0px;
+}
+.hotels_Banner {
+  background: url("https://cdn1.travelstart.com/assets/images/hotel-bc-img.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  height: 200px;
+  border-radius: 12px;
+  .hotels_txt {
+    position: absolute;
+    color: #fff;
+    font-weight: 500;
+    padding: 20px;
+    .hotel_labl {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .find_htl {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+  .bookBtn {
+    font-size: 16px;
+    border-radius: 4px !important;
+    padding: 5px 30px;
+    border: solid 1px var(--text_link_color);
+    background-color: var(--text_link_color);
+    color: $white;
+    margin-top: 30px;
+  }
+}
+.seat_error {
+  font-size: 12px;
+  border-radius: 3px;
+  color: #e68d32;
+  margin: 10px 15px 0px 15px;
+  .seat_err_labl {
+    display: inline-block;
+    background-color: #fff7eb;
+    padding: 8px 20px;
+    border-radius: 4px;
+  }
+}
+/* app banner css*/
+.travel_app_banner {
+  background: rgb(37, 50, 107);
+  background: linear-gradient(135deg, rgba(37, 50, 107, 1) 10%, rgba(29, 178, 245, 1) 100%);
+  padding: 25px 15px 0px 15px;
+  color: $white;
+  border-radius: 12px;
+  .heading{
+    font-size: 18px;
+    color: $white;
+    text-align: center;
+  }
+  .download_txt{
+    font-size: 16px;
+    color: var(--text_link_color);
+    text-align: center;
+  }
+  .content {
+    ul {
+      list-style-type: none;
+     
+      li {
+        display: flex;
+        margin: 5px 0px;
+        font-size: 14px;
+
+        img {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .ordiv {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .social_btns {
+    width: 100%;
+    text-align: center !important;
+    margin-top: 12px !important;
+  
+    ul {
+      list-style-type: none;
+      display: inline-flex !important;
+  
+      li {
+        margin: 0px 5px;
+        .store_img {
+          height: 48px;
+        }
+      }
+    }
+  }
+  .app_img {
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+}
+.BannerSec{
+  .hotels_bg {
+    background: url("https://cdn1.travelstart.com/assets/images/hotel_bg.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height: 160px;
+    border-radius: 12px;
+   
+  }
+  .car_bg {
+    background: url("https://cdn1.travelstart.com/assets/images/car_bg.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height: 160px;
+    border-radius: 12px;
+   
+    
+  }
+  .banner_txt {
+    color: #fff;
+    font-weight: 500;
+    padding: 15px;
+    width: 55%;
+    height: 100%;
+    background-image: linear-gradient(135deg, #0d87be 20%, rgba(10, 16, 20, 0) 102%);
+    border-radius: 6px;
+    .banner_labl {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .find_banner {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+}
+.bannersbookBtn {
+  font-size: 14px;
+  border-radius: 4px !important;
+  padding: 5px 20px;
+  border: solid 1px $color-link-blue;
+  background-color: $color-link-blue;
+  color: $white;
+  margin-top: 20px;
+}
+.carBanner{
+ 
+}
+
+
+

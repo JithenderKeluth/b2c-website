@@ -1,0 +1,350 @@
+<div class="itinerary_info" *ngIf="pricedResult_data">
+  <div class="" *ngIf="pricedResult_data.itineraries">
+    <div class="clearfix"></div>
+    <div class="review_Flight_Section">
+      <div class="reviewFlightHead">
+        <span class="head_content">Review your flight</span>
+        <span class="flight_details_link" (click)="viewFlightDetails(true)" *ngIf="!isShowFlightDetails"
+          >See details</span
+        >
+        <span class="flight_details_link" (click)="viewFlightDetails(false)" *ngIf="isShowFlightDetails"
+          >Hide details</span
+        >
+      </div>
+      <div class="reviewFlightBody">
+        <div class="route_details">
+          <!-- overview flightDetails -->
+          <div [hidden]="isShowFlightDetails" class="flightOverview mt-3">
+            <div
+              class="itin"
+              *ngFor="let itineraries of pricedResult_data.itineraries; let itin = index"
+              [ngClass]="itin > 0 ? 'segement_border' : ''"
+            >
+              <div
+                class="segments"
+                *ngFor="let odoList of itineraries.odoList; let idx = index; let last = last"
+                [ngClass]="idx > 0 ? 'segement_border' : ''"
+              >
+                <div class="seg_legs">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-12 col-12 mb-lg-0 mb-2 pr-lg-0">
+                      <div class="airLine_block d-flex align-items-center align-items-lg-start">
+                        <div class="airLine_logo">
+                          <img
+                            ImageSrc
+                            src="assets/img/carriers/retina48px/carrier-{{ odoList.segments[0].airlineCode }}.png"
+                            alt="{{ odoList.segments[0].airlineCode }}"
+                          />
+                        </div>
+                        <div class="airLine_name_num">
+                          <span class="air_name pl-1">
+                            {{ flightsResultsResponse.airlineNames[odoList.segments[0].airlineCode] }}</span
+                          >
+                          <span class="flt_num d-lg-block">({{ odoList.segments[0].flightNumber }})</span>
+                          <div class="d-none d-lg-block">
+                            <ng-container
+                              *ngTemplateOutlet="baggage_Info; context: { $implicit: { odoList: odoList } }"
+                            >
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 col-lg-9 col-12 pl-lg-0">
+                      <div class="row mb-2 mb-lg-0">
+                        <div class="col-lg-4 col-4 text-center">
+                          <label for="dept_city" class="dept_city">
+                            {{ 
+                              country === 'ABSA' 
+                                ? (odoList.segments[0].departureDateTime | date: 'd MMM yy') 
+                                : (odoList.segments[0].departureDateTime | date: 'd MMM yyyy') 
+                            }}
+                          </label>
+                          <label for="time_labl" [ngClass]="country === 'ABSA' ? 'theme__time-label' : 'time_labl'">
+                            {{ odoList.segments[0].departureDateTime | date: 'HH:mm' }}
+                          </label>
+                          <label for="dept_city" class="dept_city">{{
+                            getCityName(odoList.segments[0].origCode)
+                          }}</label>
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="col-lg-3 col-4 fly_icon text-center">
+                          <div class="flight_data w-100" style="line-height: 10px">
+                            <div *ngIf="getTimeInHours(odoList.duration) !== '0hrs 0min'" class="dur theme__view-itinerary-duration">
+                              {{ getTimeInHours(odoList.duration) }}
+                            </div>
+                            <div class="stops-container">
+                              <div *ngIf="country !== 'ABSA'" class="line-with-dots">
+                                <div class="line"></div>
+                                <div
+                                  *ngFor="let position of getStopPositions(odoList?.segments?.length - 1)"
+                                  class="middle-dot itinerary-dot"
+                                  [style.left.%]="position"
+                                >
+                                  <img
+                                    ImageSrc
+                                    *ngIf="country === 'ABSA'"
+                                    class="review-flights-plane-icon"
+                                    src="./../../../assets/icons/flight_icn_devide.svg"
+                                    alt="Review Flight Place Icon"
+                                  />
+                                </div>
+                              </div>
+                              <div class="theme__flight-duration-icon-container" *ngIf="country === 'ABSA'">
+                                <img class="theme__flight-duration-icon" src="./../../../assets/icons/absa_icons/flight-duration-icon.svg" alt="flight duration icon">
+                              </div>
+                            </div>
+                            <div class="stops">
+                              {{ getStopsWithLocations(odoList) }}
+                            </div>
+                            <div class="techStops mt-2">
+                              <div class="tech_stps_txt" *ngIf="getTechnicalStopsTxt(odoList)">
+                                {{ getTechnicalStopsTxt(odoList) }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-4 text-center">
+                          <label for="arr_city" class="arr_city">
+                            {{ 
+                              country === 'ABSA' 
+                                ? (odoList.segments[odoList.segments.length - 1].arrivalDateTime | date: 'd MMM yy')
+                                : (odoList.segments[odoList.segments.length - 1].arrivalDateTime | date: 'd MMM yyyy')
+                            }}
+                          </label>
+                          <label for="time_labl" [ngClass]="country === 'ABSA' ? 'theme__time-label' : 'time_labl'">
+                            {{ odoList.segments[odoList.segments.length - 1].arrivalDateTime | date: 'HH:mm' }}
+                          </label>
+                          <label for="arr_city" class="arr_city">{{
+                            getCityName(odoList.segments[odoList.segments.length - 1].destCode)
+                          }}</label>
+                          <div class="clearfix"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 d-block d-lg-none">
+                      <ng-container *ngTemplateOutlet="baggage_Info; context: { $implicit: { odoList: odoList } }">
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Total flightDetails section -->
+          <div class="collapse show mb-1" [hidden]="!isShowFlightDetails">
+            <app-flight-details-info [itinerary_Data_Info]="pricedResult_data"></app-flight-details-info>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- fareRules section -->
+<div class="fare_rules">
+  <div class="modal fade" id="fare_rules_Modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl fare_increased" role="document">
+      <div class="modal-content fare-content">
+        <div class="modal-header fare_head pr-4">
+          <p translate class="fare_text">Fare Rules</p>
+          <div class="fare_options">
+            <p translate class="cancel_head mb-0">Cancellation & Change Policies and Reissues</p>
+          </div>
+          <img
+            ImageSrc
+            src="../../../assets/icons/close_cross_icn.svg"
+            alt="close"
+            class="float-right close_img"
+            width="13px"
+            data-dismiss="modal"
+            aria-label="Close"
+            loading="lazy"
+          />
+
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span class="cross-icon" aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body tab_text">
+          <div id="fare" class="container">
+            <div *ngFor="let itenary of itinerariesArray; let i = index">
+              <div *ngFor="let odo of itenary.odoList; let odoIndex = index">
+                <div
+                  class="accordion"
+                  id="fare_accordian"
+                  *ngIf="odo.segments[0].airlineCode !== 'GE' && odo.segments[0].airlineCode !== 'FA'"
+                >
+                  <div class="card">
+                    <div class="card-header" id="fare-cancellation">
+                      <a
+                        href="#"
+                        class="btn btn-header-link"
+                        data-toggle="collapse"
+                        [attr.data-target]="'#collapse' + i"
+                        aria-expanded="true"
+                        aria-controls="faq2"
+                        rel="nofollow"
+                      >
+                        <img
+                          ImageSrc
+                          class="carrier_logo"
+                          width="20px"
+                          src="assets/img/carriers/retina48px/carrier-{{ odo.segments[0].airlineCode }}.png"
+                          alt="{{ odo.segments[0].airlineCode }}"
+                          loading="lazy"
+                        />
+                        {{ odo.segments[0].origCode }}-{{ odo.segments[odo.segments.length - 1].destCode }}
+                        <span
+                          translate
+                          class="non-refund"
+                          *ngIf="
+                            pricedResult_data?.fareChargesRules?.cancellations == 'ANY TIME TICKET IS NON-REFUNDABLE.'
+                          "
+                          >Non Refundable</span
+                        >
+                      </a>
+                    </div>
+
+                    <div
+                      [attr.id]="'collapse' + i"
+                      class="collapse show"
+                      aria-labelledby="faqhead2"
+                      data-parent="#fare_accordian"
+                    >
+                      <div class="card-body">
+                        <div class="col-md-12 p-0">
+                          <table class="table cancel_table" aria-describedby="Cancel details">
+                            <thead>
+                              <tr>
+                                <th translate id="canceltime">Fare Charges Rules</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class="cancel_dept">
+                                  <ul
+                                    class="pl-0"
+                                    *ngIf="
+                                      pricedResult_data.fareChargesRules &&
+                                      (pricedResult_data.fareChargesRules.cancellations ||
+                                        pricedResult_data.fareChargesRules.changes ||
+                                        pricedResult_data.fareChargesRules.reissue)
+                                    "
+                                  >
+                                    <li class="p-1">
+                                      <span class="fare_heading">Cancellations : </span>
+                                      <span *ngIf="pricedResult_data.fareChargesRules.cancellations">{{
+                                        pricedResult_data.fareChargesRules.cancellations | titlecase
+                                      }}</span>
+                                      <span *ngIf="!pricedResult_data?.fareChargesRules?.cancellations">N/A</span>
+                                    </li>
+                                    <li class="p-1">
+                                      <span class="fare_heading">Changes : </span>
+                                      <span *ngIf="pricedResult_data?.fareChargesRules?.changes">
+                                        {{ pricedResult_data.fareChargesRules.changes | titlecase }}</span
+                                      >
+                                      <span *ngIf="!pricedResult_data?.fareChargesRules?.changes">N/A</span>
+                                    </li>
+                                    <li class="p-1">
+                                      <span class="fare_heading">Reissue : </span>
+                                      <span *ngIf="pricedResult_data.fareChargesRules.reissue">
+                                        {{ pricedResult_data.fareChargesRules.reissue | titlecase }}</span
+                                      >
+                                      <span *ngIf="!pricedResult_data?.fareChargesRules?.reissue">N/A</span>
+                                    </li>
+                                  </ul>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Todo if add terms and conditions(v) -->
+            <!-- <div class="row">
+                  <div class="col-sm-12">
+                    <div class="terms_cndns">
+                      <div>
+                        <h6 class="terms_head">Terms & Conditions</h6>
+                        <p class="terms_content mb-0">
+                          Total Resheduling Charges = Airline Resheduling Fees + Fare Difference(if applicable)
+                        </p>
+                        <p class="terms_content">
+                          The airline cancel/reshedule fees is indicative and can be charged without any prior notice by
+                          airline.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #baggage_Info let-data>
+  <div class="baggage_Info">
+    <span class="baggage" *ngIf="data.odoList.segments[0].baggageAllowance.length > 0">
+      <span
+        *ngFor="let bag of data.odoList.segments[0].baggageAllowance; let idx = index; let first = first"
+        class="baggage_des" [ngClass]="bag === 'No baggage allowance'? 'noBaggage_Bg': ''"
+      >
+        <img
+          ImageSrc
+          *ngIf="handBag(bag)"
+          class="bag_icon"
+          src="./../../../assets/icons/srp_Icons/new_hand_baggage.svg"
+          alt="hand"
+        />
+        <img
+          ImageSrc
+          *ngIf="bag === 'No baggage allowance'"
+          ImageSrc
+          class="bag_icon"
+          src="./../../../assets/icons/srp_Icons/new_no_baggage.svg"
+          alt="no bag"
+        />
+        <img
+          ImageSrc
+          *ngIf="bagageDesc(bag) === 'Checked baggage'"
+          class="bag_icon"
+          src="./../../../assets/icons/srp_Icons/new_checked_baggage.svg"
+          alt="checked_baggage"
+        />
+        <span *ngIf="bag === 'No baggage allowance'" class="handLaggage"
+          ><span translate class="baggage_val">No baggage</span>
+        </span>
+        <span *ngIf="bag !== 'No baggage allowance'" class="handLaggage">
+          <span class="baggage_val">{{ baggageDes(bag) }}</span>
+        </span>
+      </span>
+    </span>
+  </div>
+</ng-template>
+
+<!-- <ul class="timeline">
+  <li>
+    <a target="_blank" href="https://www.totoprayogo.com/#">New Web Design</a>
+    <a href="#" class="float-right">21 March, 2014</a>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula....</p>
+  </li>
+  <li>
+    <a href="#">21 000 Job Seekers</a>
+    <a href="#" class="float-right">4 March, 2014</a>
+    <p>Curabitur purus sem, malesuada eu luctus eget, suscipit sed turpis. Nam pellentesque felis vitae justo accumsan, sed semper nisi sollicitudin...</p>
+  </li>
+  <li>
+    <a href="#">Awesome Employers</a>
+    <a href="#" class="float-right">1 April, 2014</a>
+    <p>Fusce ullamcorper ligula sit amet quam accumsan aliquet. Sed nulla odio, tincidunt vitae nunc vitae, mollis pharetra velit. Sed nec tempor nibh...</p>
+  </li>
+</ul> -->

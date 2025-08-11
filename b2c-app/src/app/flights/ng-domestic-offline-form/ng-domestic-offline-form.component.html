@@ -1,0 +1,206 @@
+<div class="modal-dialog payment_error_dialog dana_air_Modal" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body">
+        <img
+        ImageSrc
+        class="close_icon float-right"
+        src="https://cdn1.travelstart.com/assets/icons/close_cross_icn.svg"
+        aria-label="Close"
+        data-dismiss="modal"
+        alt="close"
+      />    
+    <div *ngIf="successMsg" class="text-center succsMsg mb-3">
+        <img ImageSrc src="./../../../../assets/icons/booking_success_icn.svg" alt="query" width="50" loading="lazy" />
+        <span translate>Your request has been successfully submitted. Our team will review your details and get back to you shortly.</span>
+    </div>
+   
+
+    <div class="row">
+        <div class="col-md-12 flight_info p-0" *ngIf="!successMsg">
+            <h4 translate>Exploring other flight options? Book with <span>{{this.selectedAirLine.airlineName}}</span></h4>
+            <h4>Fill the form to request a quote within 24 hours. For a faster response, whatsapp us on <a href="https://wa.me/+27823286400?text=Hey%20Travelstart" rel="noopener" target="_blank">+27 82 328 6400</a></h4>
+            <h6 translate class="mb-4">Fill the form to request a callback</h6>
+           </div>
+    </div>
+
+      <form  *ngIf="loadForm" [formGroup]="ng_offline_form" (ngSubmit)="submitForm()">
+            <div class="row">
+                <div class="col-md-6  form-group">        
+                    <label for="paxName" class="control-label" translate>Name</label>
+                    <input #paxName
+                    type="text" 
+                    class="form-control" 
+                    formControlName="paxName" 
+                    attr.id="paxName"
+                    autocomplete="off"
+                    placeholder="Name as per ID/Passport"
+                     />
+                    <div class="validation_msg"
+                        *ngIf="submitng_offline_form && ng_offline_form?.get('paxName')?.errors?.required">
+                        <span translate>Required Name</span>
+                    </div>          
+                </div>
+                <div class="col-md-6  form-group">        
+                    <label for="paxCount" class="control-label" translate>Traveller(s)</label>
+                    <input #paxCount
+                    [readonly]="true"
+                    type="text" 
+                    class="form-control" 
+                    formControlName="paxCount"   
+                    autocomplete="off"
+                    placeholder="Name"
+                     />             
+                </div>
+                <div class="col-md-6  form-group">
+                    <label for="email" class="control-label" translate>Email</label>
+                    <input 
+                    #email 
+                    type="text" 
+                    class="form-control" 
+                    formControlName="email"                    
+                    autocomplete="off"
+                    placeholder="Email"
+                     />
+                    <div class="validation_msg"
+                        *ngIf="submitng_offline_form && ng_offline_form?.get('email')?.errors?.required">
+                        <span translate>Required Email</span>
+                    </div>
+                    <div class="validation_msg"
+                        *ngIf="submitng_offline_form && ng_offline_form?.get('email')?.errors?.pattern">
+                        <span translate>Invalid Email</span>
+                    </div>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="phone" class="control-label" translate>Phone number</label>
+                    <ngx-intl-tel-input
+                      #phone
+                      [cssClass]="'custom-international form-control'"
+                      [preferredCountries]="preferredCountries"
+                      [enableAutoCountrySelect]="true"
+                      [enablePlaceholder]="true"
+                      customPlaceholder="Phone number"
+                      [searchCountryFlag]="true"
+                      [searchCountryField]="[
+                        SearchCountryField.Iso2,
+                        SearchCountryField.Name
+                      ]"
+                      [selectFirstCountry]="false"
+                      [selectedCountryISO]="selectedCountryCode"
+                      [maxLength]="'15'"
+                      [phoneValidation]="false"
+                      [separateDialCode]="separateDialCode"
+                      [numberFormat]="PhoneNumberFormat.National"
+                      formControlName="phone"
+                      autocomplete="off"
+                    >
+                    </ngx-intl-tel-input>
+                    <div class="validation_msg" *ngIf="submitng_offline_form && ng_offline_form?.get('phone')?.errors?.required">
+                        <span translate>Required Phone number</span>
+                    </div>
+                    <div class="validation_msg" *ngIf="submitng_offline_form && ng_offline_form?.get('phone')?.errors?.minlength">
+                        <span translate>Mobile number should have minimum 6 digits.</span>
+                    </div>
+                    <div class="validation_msg" *ngIf="submitng_offline_form && ng_offline_form?.get('phone')?.errors?.maxlength">
+                        <span translate>Mobile number should have maximum 14 digits.</span>
+                    </div>
+                </div>
+               
+                <div class="col-md-6  form-group">
+                    <label for="departure" class="control-label" translate>Departure city</label>            
+                        <mat-select class="form-control dana_air" placeholder="Country" formControlName="departure" disableOptionCentering
+                            panelClass="selectCity">
+                            <mat-option *ngFor="let city of citiesData" [value]="city.name">
+                                <div>
+                                    <span>{{city.name}} ({{city.code}})</span>
+                                </div>
+                            </mat-option>
+                        </mat-select>
+                    <div class="validation_msg"
+                        *ngIf="submitng_offline_form && ng_offline_form?.get('departure')?.errors?.required">
+                        <span translate>Required Departure city</span>
+                    </div>
+                </div>
+    
+    
+                <div class="col-md-6  form-group">
+                    <label for="arrival" class="control-label" translate>Arrival city</label>
+                    <mat-select #arrival class="form-control dana_air" placeholder="Country" formControlName="arrival" disableOptionCentering
+                        panelClass="selectCity">
+                        <mat-option *ngFor="let city of citiesData" [value]="city.name">
+                            <div>
+                                <span>{{ city.name }} ({{city.code}})</span>
+                            </div>
+                        </mat-option>
+                    </mat-select>
+                    <div class="validation_msg" *ngIf="submitng_offline_form && ng_offline_form?.get('arrival')?.errors?.required">
+                        <span translate>Required Arrival city</span>
+                    </div>
+                </div>
+
+                <div class="col-md-12  form-group">        
+                    <label for="paxCount" class="control-label" translate>Cabin class</label>
+                    <input 
+                    [readonly]="true"
+                    type="text" 
+                    class="form-control" 
+                    [value]="flightSearchData?.cabinClass?.display"
+                    autocomplete="off"
+                    placeholder="Cabin class"
+                     />             
+                </div>
+    
+    
+                <div class="form-group pick_date" [ngClass]="flightSearchData.tripType == 'oneway' ? 'col-md-12' : 'col-md-6'">
+                    <label for="deptDate" class="control-label" translate>Departure date</label>                       
+                    <input #deptDate
+                    #rd="ngbDatepicker" 
+                    type="text"  
+                    class="form-control" 
+                    ngbDatepicker
+                    (click)="rd.toggle()" 
+                    (foucs)="rd.toggle()" 
+                    (keydown)="false" 
+                    autocomplete="off" 
+                    formControlName="deptDate"
+                    placeholder="Departure date"
+                    [minDate]="minDate" 
+                    />
+                    <div class="validation_msg"
+                        *ngIf="submitng_offline_form && ng_offline_form?.get('deptDate')?.errors?.required">
+                        <span translate>Required Departure date</span>
+                    </div>
+                </div>
+                
+                <div *ngIf="flightSearchData.tripType !== 'oneway'" class="col-md-6  form-group return_date">
+                    <label for="returnDate" class="control-label" translate>Return date</label>                       
+                    <input 
+                    #returnDate
+                    #d="ngbDatepicker" 
+                    type="text"  
+                    class="form-control" 
+                    ngbDatepicker
+                    (click)="d.toggle()" 
+                    (foucs)="d.toggle()" 
+                    (keydown)="false" 
+                    autocomplete="off" 
+                    formControlName="returnDate"
+                    placeholder="Return date" 
+                    [minDate]="minDate" />
+                    <div class="validation_msg"
+                        *ngIf="submitng_offline_form && ng_offline_form?.get('deptDate')?.errors?.required">
+                        <span translate>Required Return date</span>
+                    </div>
+                </div>     
+    
+            </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" aria-label="submit" class="btn ok-btn primary_btn float-right" (click)="submitForm()">
+                    <span translate>Submit</span>
+                </button>
+            </div>
+        </div>
+    </form>        
+      </div>
+    </div>
+  </div>  

@@ -1,0 +1,903 @@
+// @import url("https://fonts.googleapis.com/css?family=Helvetica+Neue:300,400,700");
+@use '@angular/material' as mat;
+
+@import "./theme/theme-variables";
+@import "./theme/carousel-customization.scss";
+@import "./theme/common.scss";
+@import "font-awesome/scss/font-awesome.scss";
+@import "node_modules/bootstrap/dist/css/bootstrap.css";
+
+
+// Custom Theming for Angular Material
+@import "@angular/material/theming";
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
+@include mat.all-legacy-component-typographies();
+@include mat.legacy-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$B2C-App-primary: mat.define-palette(mat.$indigo-palette);
+$B2C-App-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$B2C-App-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$B2C-App-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $B2C-App-primary,
+      accent: $B2C-App-accent,
+      warn: $B2C-App-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-legacy-component-themes($B2C-App-theme);
+
+
+@import "theme/sidenav.scss";
+@import "./assets/css/svg.css";
+
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary_Body_bg: "#F2F4F7";
+  --secondary_Body_bg: "#fbfcfd";
+  --filter_strip_bg: "#e8f7fe";
+  --filter_Bg: "#f4f9fb";
+  --pax_bg: "#dff4fe";
+  --travelAdvice_Bg: "#fff7eb";
+  --results_strip_Bg: "rgba(29,178,245,.04)";
+  --flight_selected_Bg: "#EFFBFF";
+  --more_flight_selected_Bg: "#e8f7fe";
+  --more_flight_bg: "#D0D5DD";
+  --sorting_card_active_bg: "#e5f7ff";
+  --price_sec_active_bg: "#cce9fa";
+
+  --bm_flight_review_bg: "#fafcfc";
+  --bm_name_reqmt_strip_bg: "#fff7eb";
+  --bm_meal_pref_active_bg: "#1db2f5";
+  --bm_checkIN_bag_bg: "#f4f7fc";
+
+  --payment_card: "linear-gradient(28deg, #1e3845 6%, #094862 95%)";
+  --payment_card_strip: "#1e3945";
+  --payment_card_border: "#158fc4";
+
+  --text_primary_color: "#062231";
+  --text_secondary_color: "#1db2f5";
+  --text_info_color: "#6d7a83";
+  --text_link_color: "#1db2f5";
+  --text_warning_color: "#CE7E07";
+  --text_success_color: "#2aa04a";
+  --text_danger_color: "#f51b46";
+  --text_white_color: "#ffffff";
+
+  --primary_btn_bg: "#1db2f5";
+  --success_btn_bg: "#15c4a1";
+  --btn_outline_col: "#1db2f5";
+
+  --primaryBgColor: #062231;
+  --secondaryBgColor: #1db2f5;
+  --dangerBgColor: "#fee8ec";
+  --productsBgColor: "#E0F3FE";
+
+  --border_radius: "8px";
+  --border_default_color: "#e7e8ea";
+  --border_light_color: "#f2f4f3";
+  --border_active_color: "#1db2f5";
+  --border_input_color: "#a7afc0";
+  --border_input_focus_color: "#687189";
+
+  --seatmap_seat_Selected: "#20be79";
+  --seatmap_seat_Available: "#76d1f9";
+  --seatmap_seat_Occupied: "#5197eb";
+  --seatmap_seat_Blocked: "#fdd700";
+  --seatmap_notseat: "#c1c3c8";
+  --search_sec_boxshadow: "0 0 4px 0 rgb(0 0 0 / 20%)";
+
+  --flight_recommended_label_bg: "#DDE0FF";
+  --flight_recommended_label_color: "#532BD7";
+  --flight_cheapest_label_bg: "#DCFAE6";
+  --flight_cheapest_label_color: "#067647";
+  --flight_fastest_label_bg: "#EAECF5";
+  --flight_fastest_label_color: "#363F72";
+  --new_UI_active_color: "#00C2F0";
+  --new_UI_active_text_color: "#00A1D4";
+  --layover_bg_color: "#FFFAEB";
+  --layover_text_color: "#B54708";
+  --myAccount_header_Bg: "linear-gradient(180deg, #052231 100%, #052231 100%)";
+}
+
+@import "theme/cta_buttons.scss";
+@import "theme/ngb_date_picker.scss";
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-weight: normal;
+  font-size: 16px;
+  width: 100%;
+}
+
+[app-boot] {
+  display: none !important;
+}
+
+#app-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #000;
+}
+
+.theme-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  sm-max: 767px,
+  md: 768px,
+  md-max: 991px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+.iti--allow-dropdown {
+  width: 100%;
+}
+
+// manage bookings table
+.dataTableCss .table_body .table_body_row {
+  border-radius: 5px !important;
+  background-color: $tr-background-color;
+  line-height: 60px;
+  margin: 7px 0px;
+}
+
+.dataTableCss .table_Head .table_head_row span {
+  border: transparent !important;
+  color: $thbg-light-color !important;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+}
+
+.dataTableCss .table_body .table_body_row,
+.dataTableCss .table_Head .table_head_row {
+  font-size: 12px;
+
+  .traveller_data {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+
+  .date_flights {
+    display: flex;
+
+    .date_Wrap {
+      text-transform: uppercase;
+      padding-top: 12px;
+
+      .d_mnth {
+        color: #9098ac;
+        font-size: 10px;
+        line-height: 8px;
+      }
+
+      .d_date {
+        color: #2c304d;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 20px;
+      }
+
+      .d_week {
+        color: #9098ac;
+        font-size: 10px;
+        line-height: 9px;
+      }
+    }
+
+    .flights_details {
+      margin-left: 35px;
+    }
+
+    .route_view {
+      font-size: 16px;
+    }
+  }
+
+  .resposive_lbl {
+    line-height: 0px;
+    margin-top: 25px;
+    color: #9098ac;
+    font-size: 10px;
+  }
+
+  .Pending {
+    color: #ff6f5e;
+    font-weight: 400;
+  }
+
+  .Failed {
+    color: #ff204f;
+    font-weight: 400;
+  }
+
+  .Cancelled {
+    color: #ff6f5e;
+    font-weight: 400;
+  }
+
+  .Upcoming {
+    color: #17c3a1;
+    font-weight: 400;
+  }
+}
+
+.mat-simple-snackbar {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.mat-snack-bar-container {
+  background-color: $white-secondary !important;
+  color: var(--text_link_color) !important;
+  border-radius: 4px;
+  padding: 35px 45px !important;
+  min-height: 48px;
+  position: fixed !important;
+}
+
+.baggage-seperate {
+  height: 11px;
+  width: 2px;
+  background-color: #cdd3d6;
+  margin: 0 10px;
+  display: inline-block;
+}
+
+// create ticket dialogRef
+.createticket_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  min-width: 600px;
+  text-align: center;
+  background-color: $white;
+  border-radius: 3px;
+
+  .mdl_heading {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .mdl_body {
+    padding: 30px 26px;
+
+    .close_dialog {
+      position: relative;
+      top: -20px;
+      left: 2%;
+      cursor: pointer;
+    }
+  }
+
+  .mdl_subheading {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 25px;
+  }
+
+  .sub_btn {
+    border: 1px solid var(--btn_outline_col);
+    border-radius: var(--border_radius);
+    padding: 10.5px 40.5px 10.5px;
+  }
+}
+
+.fare_increased {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  width: 50%;
+
+  img {
+    position: relative;
+    bottom: 25px;
+  }
+
+  .fare {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .dialog_content {
+    width: 493px;
+    margin: 50.6px 86px 49px 37px;
+    padding: 42px 33px 20.5px;
+    border-radius: 12px;
+    background-color: $white;
+  }
+
+  .fare-btn {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text_link_color);
+    padding: 4px 13px;
+    border-radius: var(--border_radius);
+    border: solid 1px var(--btn_outline_col);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: normal;
+  }
+
+  .proceedBtn {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 13px;
+  }
+
+  .fare_txt {
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--text_info_color);
+  }
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+.viewQuery_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  min-width: 600px;
+  text-align: center;
+  background-color: $white;
+  border-radius: 3px;
+
+  .mdl_heading {
+    font-size: 23px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  .mdl_body {
+    padding: 15px 10px;
+  }
+}
+
+#flight-summary {
+  .toggle_section {
+    display: block !important;
+  }
+
+  #fareBreakdown {
+    display: none;
+  }
+}
+
+.payment_error_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+
+  .dialog_content {
+    border-radius: 12px !important;
+  }
+
+  .payment_error_modal_text {
+    color: $text-primary-color;
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 500;
+
+    span {
+      font-weight: 600;
+    }
+  }
+}
+
+.btn_height {
+  height: 40px;
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .ok-btn {
+    font-weight: 500 !important;
+  }
+
+  .wid40per-xs {
+    width: 40% !important;
+  }
+
+  .datatable-body-cell {
+    width: 100% !important;
+  }
+
+  #internetDisconnect {
+    .modal-body {
+      padding: 20px 40px !important;
+
+      img {
+        width: 40%;
+      }
+
+      .internetDisconnectContent {
+        padding: 15px 0px 0px 10px;
+      }
+    }
+  }
+
+  .modal-dialog {
+    width: 100% !important;
+    width: calc(100% - 20px) !important;
+  }
+
+  #fare_increased_Modal {
+    .fare_increased img {
+      bottom: 12px;
+      width: 80px;
+    }
+
+    .fare_increased .fare-btn {
+      font-size: 12px;
+      padding: 4px 9px !important;
+    }
+
+    .fare_increased .fare {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .fare_increased .fare_txt {
+      font-size: 12px;
+    }
+  }
+
+  .dataTableCss .table_body .table_body_row .date_flights .date_Wrap,
+  .dataTableCss .table_Head .table_head_row .date_flights .date_Wrap {
+    padding-top: 5px !important;
+  }
+
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .isIframeContent {
+    .sticky_priceFooter,
+    .eventBtns,
+    .fares_info_section,
+    .fare-info {
+      bottom: 0px !important;
+    }
+  }
+  .seatMapcontinueSec {
+    background-color: #fff;
+    width: 100%;
+    padding: 15px 15px;
+    left: 0;
+    bottom: 0px;
+    position: fixed;
+    transition: all 1s;
+    transform: translateX(0) !important;
+  }
+  .side-nav-bar {
+    overflow: hidden;
+    z-index: 99999 !important;
+  }
+  .side-nav-bar-collapsed {
+    .seatMapcontinueSec {
+      transition: all 1s;
+      transform: translateX(100%) !important;
+    }
+  }
+}
+.cat_colpse_two {
+  .side-nav-bar-menu-container {
+    width: 100% !important;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px !important;
+  }
+}
+
+#travellers_list {
+  select {
+    &.form-control {
+      height: 43px;
+      max-height: 65px !important;
+      overflow: auto;
+      border: none;
+      padding: 0;
+    }
+
+    option {
+      display: inline-block !important;
+      margin-right: 12px !important;
+      padding: 6px;
+      border: 1px solid var(--btn_outline_col);
+      border-radius: 3px;
+      font-size: 13px;
+      &:hover {
+        background-color: #dce1ea;
+        border: none;
+      }
+    }
+  }
+}
+
+#segmentItem {
+  select {
+    background-color: transparent !important;
+    &::-webkit-scrollbar {
+      width: 1px !important;
+    }
+    border: none !important;
+    padding: 0;
+    overflow: auto;
+    option {
+      padding: 5px 10px;
+      border: 1px solid #a7afc0;
+      // background-color: transparent;
+      border-radius: 3px;
+      margin-bottom: 2px;
+      font-size: 13px;
+      float: left;
+      color: #9ea7ac;
+      &:hover {
+        background-color: #dce1ea;
+      }
+      &:checked {
+        background-color: #dff5fd;
+        color: var(--text_primary_color);
+        border: 1px solid var(--border_active_color);
+      }
+    }
+  }
+}
+
+.wpwl-container {
+  .wpwl-form-card {
+    background-color: $white !important;
+    background-image: none !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    border: none !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    padding: 0px !important;
+    margin-top: -13px !important;
+  }
+
+  button {
+    background-color: $color-link-blue;
+    border: none !important;
+    margin-top: 20px !important;
+    &:hover {
+      background-color: $color-link-blue;
+      border: none !important;
+    }
+  }
+
+  .wpwl-label {
+    font-size: 12px !important;
+  }
+  input {
+    font-size: 16px !important;
+    text-transform: capitalize !important;
+    &::placeholder {
+      color: #909aae !important;
+    }
+  }
+}
+
+.smp-exit::after,
+.smp-exit::before {
+  display: none !important;
+}
+
+.more_Flights {
+  .sort_filters,
+  .modify_btn,
+  .back_arr {
+    display: none !important;
+  }
+  .jour_info {
+    display: block !important;
+    width: 100% !important;
+  }
+}
+
+/* Mweb domestic Sorting Filter */
+.m-web_oub_sort {
+  .sorting_actions {
+    display: none !important;
+  }
+  .sorting {
+    box-shadow: none !important;
+    .route_info {
+      display: block !important;
+    }
+  }
+}
+.m-web_inb_sort {
+  .close_Icn,
+  .close_Icn + .sort_labl_head,
+  .close,
+  .close + label,
+  .apply + .col-6,
+  .sorting_actions {
+    display: none !important;
+  }
+  .applyBtn + .col-6 {
+    margin: auto;
+  }
+  .sorting {
+    box-shadow: none !important;
+    padding-top: 0 !important;
+    .route_info {
+      display: block !important;
+    }
+  }
+}
+.bg-primary {
+  background-color: var(--primary_btn_bg) !important;
+  border: none;
+}
+.form-control:focus {
+  box-shadow: none;
+}
+
+// Landing Pages General Styles
+.bg-grey {
+  background-color: #ededed;
+}
+.bg-light-grey {
+  background-color: #f9f9f9;
+}
+.bg-white {
+  background-color: #fff;
+}
+.bg-transparent {
+  background-color: transparent;
+}
+.disclaimer-text {
+  color: #8d8d8d;
+  text-align: center;
+  font-size: 0.75rem;
+}
+.section-title {
+  padding-bottom: 1.5rem;
+  text-align: center;
+  z-index: 1;
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+  .subtext {
+    font-size: 0.75rem;
+    color: #8d8d8d;
+  }
+}
+
+.section-white {
+  background-color: #fff;
+  box-shadow: 0px ​15px 20px -15px rgb(0 0 0 / 10%);
+  z-index: 1;
+}
+.force_redirection.cdk-overlay-container,
+.force_redirection.cdk-overlay-pane {
+  z-index: 9999 !important;
+}
+
+.ts_plus_hme img {
+  width: 100% !important;
+}
+
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container {
+  z-index: 99999 !important;
+}
+.mat-select-arrow {
+  margin: 0px !important;
+}
+.collapseSection .accordion-body p {
+  margin-bottom: 0px !important;
+}
+
+.eft_selected {
+  .wallet_balance_card,
+  .reserveNowCTA,
+  .is_sufficient_mny {
+    display: none;
+  }
+}
+
+.wallet_selected {
+  .eft_methods,.selected_EFT_DetailsSec {
+    display: none;
+  }
+}
+
+.strikeOut {
+  text-decoration: line-through;
+}
+.strikeoutOrginalAmount {
+  font-size: 18px;
+  color: var(--text_link_color);
+}
+.savingTxt {
+  font-size: 13px;
+  .labl {
+    color: var(--text_info_color);
+  }
+  .amount {
+    color: var(--text_primary_color);
+  }
+}
+
+.consistent-modal-body {
+  padding: 40px 20px !important;
+  text-align: center;
+}
+
+.consistent-modal-icon {
+  width: 60px;
+  height: 50px;
+  margin-bottom: 18px;
+}
+
+.consistent-header-txt {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;
+  margin-bottom: 15px !important;
+}
+
+.consistent-body-text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  margin-bottom: 18px;
+}
+
+.modal-btn-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.modal-btn-container .btn {
+  min-width: 120px;
+  text-align: center;
+  height: 36px !important;
+  margin-top: 10px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+}
+/*****************************************************
+  Custom ngx-intl-tel-input  bellow.
+*****************************************************/
+.iti__selected-flag {
+  background-color: #f2f2f2 !important;
+}
+
+.iti .dropdown-menu.country-dropdown {
+  border: 1px solid #767676 !important;
+}
+.iti .dropdown-menu{
+  padding: 5px 0 5px 5px !important;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+.search-container::before {
+    content: " ";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    left: 20px;
+    background-image: url("assets/icons/search.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 20px;
+    height: 20px;
+    color: #aaa;
+    font-size: 14px;
+    margin-left: 10px;
+    opacity: 0.3;
+}
+
+.search-container input {
+    width: 100%;
+    padding-left: 10px !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    border-radius: none;
+}
+
+.search-container input:focus {
+    outline: none !important;
+    border: 1px solid red;
+}
+
+.iti .iti__country-list {
+  box-shadow: none;
+}
+
+
+.iti input[type="tel"] {
+  font-size: 14px;
+  line-height: 1.5;
+  height: 44px !important
+}
+#mobileNumber{
+  .dropdown-menu{
+    min-width: 15rem !important;
+  }
+}
+
+.iti__country-list {
+  height: 40vh;
+  overflow: scroll;
+}
+#country-search-box{
+  padding: 6px !important;
+}

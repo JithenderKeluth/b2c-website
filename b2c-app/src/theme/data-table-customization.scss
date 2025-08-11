@@ -1,0 +1,65 @@
+@import "./theme-variables.scss";
+
+::ng-deep .ngx-datatable.material {
+  background: #fff;
+  box-shadow: none !important;
+}
+::ng-deep .ngx-datatable .datatable-header .datatable-header-cell .sort-btn {
+  display: none !important;
+}
+.ngx-datatable.material .datatable-footer {
+  display: none !important;
+}
+::ng-deep .ngx-datatable.material .datatable-header {
+  border-bottom: none;
+  height: 20px !important;
+  width: 100%;
+}
+::ng-deep .ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
+  height: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  color: rgb(0, 0, 0, 0.7) !important;
+}
+::ng-deep .ngx-datatable.material:not(.cell-selection) .datatable-body-row:hover,
+.ngx-datatable.material:not(.cell-selection) .datatable-body-row:hover .datatable-row-group {
+  background-color: transparent !important;
+}
+::ng-deep .datatable-body-row:hover .datatable-row-group {
+  background-color: transparent !important;
+}
+::ng-deep .ngx-datatable .datatable-body .datatable-row-wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: #f1f4f8;
+  // border: 1px solid #dadfe6;
+  margin: 10px 0px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  // cursor: pointer;
+}
+::ng-deep .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell,
+.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-group-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+}
+::ng-deep .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+  text-align: left;
+  padding: 8px 10px !important;
+  display: flex;
+  align-items: center;
+}
+::ng-deep.ngx-datatable .datatable-header .datatable-header-cell .resize-handle {
+  cursor: ew-resize;
+  display: none !important;
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  ::ng-deep .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+    text-align: left;
+    padding: 8px 10px !important;
+    display: inline !important;
+  }
+
+}

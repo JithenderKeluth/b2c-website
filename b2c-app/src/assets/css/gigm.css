@@ -1,0 +1,100 @@
+body,
+.mat-button {
+  font-family: "EuclidCircularB-Regular", "Inter", sans-serif !important;
+}
+
+.price_section {
+    .price_labl {
+        color: #021218 !important;
+    }
+
+    .add_txt .seat_info {
+        color: #e21d00 !important;
+        font-weight: 600 !important;
+    }
+}
+
+
+.result_page_view .search_section {
+    background: #f0f2f4 !important;
+}
+
+
+.hotels_link .bookBtn {
+    border: none !important;
+}
+
+.booking_confiramtion_page .payment {
+    background: #e6f9ff !important;
+    border: none !important;
+}
+
+.itinerary_info .route_details .segments .direction{
+    background-color: #FFF3F3 !important;
+    color: #e21d00 !important;
+}
+   
+.mat-checkbox-layout {
+    margin-bottom: 1px !important;
+}
+
+.mat-checkbox-frame {
+    border: 1px solid rgb(112 112 112 / 56%) !important;
+}
+
+.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+.mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+.cars_hotels_links .bookBtn
+{
+    background: #e21d00 !important;
+}
+ 
+.fare_increased .fare-btn {
+ border: 1px solid var(--primary_btn_bg) !important;
+}
+
+.progress .progress-bar {
+    background: linear-gradient(to left, #e21d00, #e21d00) !important;
+}
+.flight_card .flight_info .checked input[type=radio] + *::before, 
+.traveller_section .travellers_details form .gender input[type=radio]:checked {
+    background: radial-gradient(#e21d00 0%,#e21d00 40%, transparent 50%, transparent) !important;
+    border-color: #e21d00 !important; 
+}
+
+.primary_btn, .default_btn, .stops_slab, .time_slab, .baggage_labl {
+    border-radius: 8px !important;
+}
+.success_btn, .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.ngb-dp-arrow-btn,
+input:checked+.slider:before,.custom-day:hover,.custom-day.range,.custom-day.focused,
+.mat-progress-bar .mat-progress-bar-fill::after,.segmentSection .segments .selected,
+.travellers .guestCounter li.selected:after, .mat-checkbox-checked.mat-accent .mat-checkbox-background{
+    background-color: #e21d00 !important;
+}
+
+
+.trip_section .trip_types li .btn-info.tbActive, .fare_subject, .total_amt .amt .angleIcon {
+    color: #e21d00 !important;
+}
+
+.toggle-switch {
+    input {
+      &:checked + .slider_switch {
+        background-color: #e21d00 !important;
+      }
+    }
+}
+
+.payment_gateway #eft-payment .eft_cards ul .card_active, 
+.fare_subject,#filters .stops_filter .stop_panel input[type=checkbox]:checked + .stops_slab,
+#filters .filter .time_filters input[type=checkbox]:checked + .time_slab,
+#filters .baggage_filters input[type=checkbox]:checked + .bg_labl,
+.flight_card .price_section, .booking_confiramtion_page .payment, .custom-day.faded {
+    background-color: #FFF3F3 !important;
+}
+
+
+
+
+

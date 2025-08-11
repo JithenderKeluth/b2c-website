@@ -1,0 +1,345 @@
+@import "./../../../theme/theme-variables.scss";
+
+.flight_details {
+  color: var(--text_primary_color);
+  .routes {
+    font-size: 18px;
+    padding: 20px;
+    margin-top: 1px;
+    .airlineName {
+      font-size: 12px;
+    }
+    .journey_info {
+      .duration {
+        font-size: 12px;
+        color: var(--label_color);
+        .dur {
+          color: var(--label_color);
+        }
+        .route_logo {
+          line-height: 8px;
+        }
+        .stop {
+          line-height: 12px;
+        }
+        .cabinClass {
+          text-transform: capitalize;
+        }
+      }
+      .date {
+        color: var(--text_primary_color) r;
+        font-size: 12px;
+      }
+      .time {
+        font-size: 16px;
+        color: var(--text_primary_color);
+        font-weight: 600;
+      }
+      .airport {
+        font-size: 13px;
+        color: var(--text_primary_color);
+        line-height: 14px;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+      }
+    }
+    .baggage {
+      font-size: 13px;
+      img {
+        position: relative;
+        top: -2px;
+      }
+    }
+    .layover_section {
+      border-bottom: 1px solid $color-neutral-50;
+      border-top: 1px solid $color-neutral-50;
+      padding: 5px 0px;
+      font-size: 14px;
+      margin: 20px 0px;
+      color: var(--text_primary_color);
+      .lap_txt {
+        color: var(--layover_text_color);
+      }
+    }
+  }
+  .line-with-dots {
+    height: 10px !important;
+  }
+  .book_flight_btn {
+    background-color: $color-link-blue;
+    color: $white;
+    padding: 6px 30px;
+    border-radius: 2px;
+    font-size: 16px;
+  }
+  .flight_details_head {
+    padding: 15px 15px 0px 15px;
+    .details_head {
+      .closeIcon {
+        position: absolute;
+      }
+    }
+    .fare_details {
+      background-color: var(--flight_selected_Bg);
+      padding: 20px 15px;
+      border-radius: 20px;
+      margin: 20px 0px;
+      .fare {
+        color: var(--new_UI_active_text_color);
+        font-weight: 600;
+        font-size: 22px;
+      }
+    }
+    .airport {
+      font-size: 12px;
+      color: var(--text_primary_color);
+      line-height: 14px;
+    }
+  }
+  .baggage {
+    font-size: 11px;
+  }
+  .layover_section {
+    border-bottom: 1px solid $color-neutral-50;
+    border-top: 1px solid $color-neutral-50;
+    padding: 5px 0px;
+    font-size: 14px;
+    margin: 20px 0px;
+    color: var(--text_primary_color);
+    .lap_txt {
+      color: #e68d32;
+    }
+  }
+}
+.book_flight_btn {
+  background-color: $color-link-blue;
+  color: $white;
+  padding: 10px 40px;
+  border-radius: 2px;
+  font-size: 16px;
+}
+.flight_details_head {
+  padding: 15px 15px 0px 15px;
+  .details_head {
+    .closeIcon {
+      position: absolute;
+    }
+  }
+  .fare_details {
+    background-color: var(--flight_selected_Bg);
+    padding: 20px 15px;
+    border-radius: 5px;
+    margin: 20px 0px;
+    .fare {
+      color: var(--text_primary_color);
+      font-weight: 500;
+      font-size: 20px;
+    }
+  }
+  color: var(--text_primary_color);
+}
+.tabs_list {
+  .nav-tabs {
+    .nav-item {
+      padding: 0 5px;
+
+      .nav-link {
+        border: none;
+        color: $color-neutral-600;
+        font-size: 14px;
+
+        &.active {
+          border-bottom: 2px solid var(--border_active_color);
+          color: var(--text_link_color);
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+.book_flight_sec {
+  min-height: 250px;
+}
+.bg_card {
+  box-shadow: 0 2px 3px 0 #b4bdc1;
+  background: $white;
+}
+h6 {
+  font-size: 18px;
+  color: var(--text_primary_color);
+}
+
+.price_breakdown {
+  padding: 15px;
+  .priceBreak {
+    border-radius: 4px;
+    margin-bottom: 10px;
+    .fare_breakdown {
+      h6 {
+        font-size: 12px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid $color-neutral-25;
+      }
+      .fares {
+        .table {
+          margin-bottom: 0px !important;
+          tr {
+            th {
+              font-weight: normal;
+              border-top: none;
+              padding: 0px 0px 10px 0px !important;
+              font-size: 14px;
+              vertical-align: middle;
+              &#total_amt {
+                font-size: 13px;
+                font-weight: 600;
+                padding: 15px 0px 0px 0px !important;
+              }
+              &#cap {
+                font-size: 12px;
+                font-weight: normal;
+              }
+              &#tax {
+                font-size: 12px;
+                font-weight: normal;
+                color: var(--label_color);
+              }
+              &#total {
+                padding: 15px 0px 0px 0px !important;
+              }
+            }
+            td {
+              font-weight: normal;
+              border-top: none;
+              padding: 0px 0px 10px 0px !important;
+              font-size: 14px;
+              vertical-align: middle;
+              text-align: right;
+              &.total_price {
+                font-size: 16px;
+                font-weight: 600;
+                padding: 15px 0px 0px 0px !important;
+              }
+              &.taxes {
+                font-size: 12px;
+                font-weight: normal;
+                color: var(--label_color);
+              }
+            }
+          }
+          .total_price {
+            border-top: 1px solid $color-neutral-50;
+          }
+        }
+        .total_ticket_txt {
+          font-size: 9px;
+          color: var(--text_primary_color);
+        }
+      }
+    }
+  }
+}
+
+.sticky_price {
+  .price_info {
+    background-color: var(--price_sec_active_bg) ;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px 10px 0px 0px;
+    .total_labl {
+      font-size: 16px;
+    }
+    .fare_breakdown_labl {
+      .infoImg{
+        position: relative;
+        top: -3px;
+        width: 12px;
+      }
+    }
+    .total_Amt {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text_primary_color);
+    }
+  }
+  .sticky_priceFooter {
+    background-color: var(--text_primary_color) !important;
+    color: $white;
+    .price_footer {
+      ul {
+        display: block;
+        list-style-type: none;
+        padding: 10px;
+        margin: 0;
+        li {
+          display: inline-block;
+          &.w-37 {
+            width: 37%;
+          }
+          &:first-child {
+            border-right: 1px solid var(--label_color);
+          }
+          .flight_Info {
+            line-height: 16px;
+            display: inline-flex;
+            .carrier_logo {
+              margin: 5px 5px 0px 5px;
+            }
+            .info,
+            .city_labl {
+              font-size: 12px;
+              img {
+                margin: 0px 5px;
+              }
+            }
+          }
+          &.btnControls {
+            float: right;
+            button {
+              border-radius: 3px;
+              padding: 5px 20px;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.price_info_sec {
+  .head_lbl {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  ul {
+    list-style-type: none;
+    li {
+      padding: 10px 0px;
+      font-size: 14px;
+      &:first-child {
+        border-bottom: 1px solid #edf0f7;
+      }
+    }
+  }
+  #priceInfo {
+    padding: 15px 15px 0px 15px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 88px;
+    border-radius: 10px 10px 0px 0px;
+  }
+}
+.price_info_sec:has(.collapse.show) {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.6) !important;
+  margin-bottom: 120px;
+  min-height: 90vh;
+  border-radius: 10px 10px 0px 0px;
+}

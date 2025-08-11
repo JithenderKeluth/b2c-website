@@ -1,0 +1,30 @@
+@import "./../../../theme/theme-variables.scss";
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+  margin-bottom: 0;
+}
+.footer_area {
+  position: relative;
+  color: #fff;
+  z-index: 100;
+  background: #ffffff;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.ftr_btm_area {
+  background: transparent;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px dotted var(--border_light_color);
+  z-index: 100;
+  position: relative;
+}
+.copyright_text {
+  margin: 6px 0;
+  color: var(--text_info_color) !important;
+  font-size: 12px;
+  font-weight: normal;
+}

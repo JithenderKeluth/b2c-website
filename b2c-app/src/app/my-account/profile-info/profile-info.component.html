@@ -1,0 +1,397 @@
+<div class="profileInfo">
+  <div class="profile_Header">
+    <h4 translate class="main_head mb-0">Contact Details</h4>
+    <p translate class="sub_head">Contact details for you to use when travelling</p>
+  </div>
+  <div class="profile_details">
+    <div class="row">
+      <div class="col-sm-2 d-sm-none d-lg-block">
+        <div class="profile_img">
+          <img ImageSrc src="../../../assets/icons/user_profile_img.svg" alt="" class="profile_img" />
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-10 profile_Data">
+        <div class="notActivated mb-3" *ngIf="credentials && credentials.data.status == 'PENDING'">
+          <h6 translate>Your account is not activated</h6>
+          <p translate class="mb-0">
+            This account is not active. Please check your email for activation link or sign up again.
+          </p>
+        </div>
+        <form [formGroup]="myprofileForm">
+          <div>
+            <div class="mb-2">
+              <!-- To Do if require update gender -->
+              <!-- <div class="mb-2">
+                <div class="clearfix"></div>
+                <label class=" p-0 mb-0">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    formControlName="gender"
+                    value="Mr"
+                  />
+                  <span class="g_type"> Mr</span>
+                </label>
+                <div class="btn p-0 ml-2">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    formControlName="gender"
+                    value="Ms"
+                  />
+                  <span class="g_type">Ms</span>
+                </div>
+                <div class="btn p-0 ml-2">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    formControlName="gender"
+                    value="Mrs"
+                  />
+                  <span class="g_type">Mrs</span>
+                </div>
+              </div> -->
+
+              <div class="form-row mb-3 mb-xs-0">
+                <div class="col-md-6 col-lg-5 col-sm-12 mb-3">
+                  <label translate class="control-label">First name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="firstName"
+                    placeholder="{{ 'First name' | translate }}"
+                    required
+                  />
+                  <div *ngIf="submitted && form.firstName.errors">
+                    <div class="validation_msg" *ngIf="submitted && form.firstName.errors.required">
+                      Required First name
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-lg-5 mb-3 ml-lg-3">
+                  <label translate class="control-label">Surname</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="{{ 'Surname' | translate }}"
+                      required
+                      formControlName="surName"
+                    />
+                  </div>
+                  <div *ngIf="submitted && form.surName.errors">
+                    <div class="validation_msg" *ngIf="submitted && form.surName.errors.required">
+                      Required Sur name
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row mb-3">
+                <div class="col-md-6 col-sm-12 col-lg-5 mb-3">
+                  <label translate class="control-label">Email</label>
+                  <input
+                    class="form-control rounded-0"
+                    readonly
+                    placeholder="{{ 'name@gmail.com' | translate }}"
+                    formControlName="email"
+                  />
+                  <div class="clearfix"></div>
+                </div>
+                <div class="col-md-6 col-lg-5 col-sm-12 ml-lg-3">
+                  <label translate class="control-label">Contact Number</label>
+                  <div class="input-group">
+                    <ngx-intl-tel-input
+                      #phone
+                      (paste)="onPaste($event)"
+                      [cssClass]="'custom-international form-control'"
+                      style="width: 100% !important"
+                      [preferredCountries]="preferredCountries"
+                      [enableAutoCountrySelect]="true"
+                      [enablePlaceholder]="true"
+                      customPlaceholder="{{ 'Contact Number' | translate }}"
+                      [searchCountryFlag]="true"
+                      [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                      [selectFirstCountry]="false"
+                      [selectedCountryISO]="selectedCountryCode"
+                      [maxLength]="'15'"
+                      [separateDialCode]="separateDialCode"
+                      [numberFormat]="PhoneNumberFormat.National"
+                      formControlName="phone"
+                      id="phoneNumber"
+                      name="phone"
+                      (countryChange)="onCountryChange($event)"
+                      [phoneValidation]="false"
+                      autocomplete="off"
+                    >
+                    </ngx-intl-tel-input>
+                  </div>
+                  <div *ngIf="submitted && form.phone.errors">
+                    <div class="validation_msg" *ngIf="submitted && form.phone.errors.required">
+                      Required contact number
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1"></div>
+              </div>
+
+              <div class="clearfix"></div>
+              <div class="row mb-3" *ngIf="showChangePwd()">
+                <div class="col-sm-10 p-0 pl-3">
+                  <div [ngClass]="[changePasswordShow == true ? 'cp_border' : 'none']"></div>
+                </div>
+                <div class="col-sm-3 col-md-3 cp_mobile">
+                  <p translate class="change_pwd mt-md-3 mb-0" (click)="changePassword()">Change Password</p>
+                </div>
+              </div>
+
+              <div class="form-row mb-3" *ngIf="changePasswordShow">
+                <div class="col-md-4 col-lg-3 col-sm-12 mb-3 mr-lg-5" *ngIf="!hideCurrentpassword">
+                  <label translate class="control-label">Current Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder=""
+                    formControlName="currentpassword"
+                    autocomplete="off"
+                  />
+                  <div *ngIf="submitted && form.currentpassword.errors">
+                    <div translate class="validation_msg" *ngIf="submitted && form.currentpassword.errors.required">
+                      Required Current Password
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-sm-12 mb-3">
+                  <label translate class="control-label">New Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder=""
+                    formControlName="newpassword"
+                    autocomplete="off"
+                  />
+                  <div *ngIf="submitted && form.newpassword.errors">
+                    <div translate class="validation_msg" *ngIf="submitted && form.newpassword.errors.required">
+                      Required New Password
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-3 col-sm-12 ml-lg-5">
+                  <label translate class="control-label">Confirm Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder=""
+                    formControlName="confirmpassword"
+                    autocomplete="off"
+                  />
+                  <div *ngIf="submitted && form.confirmpassword.errors">
+                    <div translate class="validation_msg" *ngIf="submitted && form.confirmpassword.errors.pattern">
+                      Passwords didn’t match
+                    </div>
+                    <div translate class="validation_msg" *ngIf="submitted && form.confirmpassword.errors.required">
+                      Required Confirm Password
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="form-row">
+          <div class="col-sm-12 col-lg-6 d-lg-flex align-iteams-center mb-3 mb-lg-0">
+            <p
+              *ngIf="showChangePwd() && !changePasswordShow"
+              translate
+              class="change_pwd mt-md-3 mb-0 mr-3 d-none d-lg-block"
+              (click)="changePassword()"
+            >
+              Change Password
+            </p>
+            <button class="delete_btn btn mr-md-2" (click)="openDeleteAccountModal()">
+              <span translate>Delete Account</span>
+            </button>
+          </div>
+
+          <div class="col-12 col-lg-4 text-sm-center text-md-right ml-md-3">
+            <button class="cancel_btn mr-md-2" (click)="cancel()"><span translate>Cancel</span></button>
+            <button class="sub_btn primary_btn" (click)="save()" [disabled]="isLoading">
+              <i class="fa fa-spinner fa-spin mr-2" *ngIf="isLoading" aria-hidden="true"></i
+              ><span translate> Save</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="delete_Account_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog deleteAccount_modal" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body p-0">
+        <div class="deleteAccountHeader d-flex align-iteams-center">
+          <span>Delete my account</span>
+          <img
+            ImageSrc
+            src="../../../assets/icons/close-new-icn.svg"
+            aria-label="Close"
+            data-dismiss="modal"
+            alt="close"
+            loading="lazy"
+            class="ml-auto"
+          />
+        </div>
+        <div class="deleteAccountBody">
+          <div class="subHead mb-2">Why do you want to delete your account?</div>
+          <div class="reasonsList">
+            <ul class="mb-0">
+              <li>
+                <label class="p-0 mb-0">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    (change)="selectReason('The website is not functioning properly?')"
+                    value="2"
+                  />
+                  <span translate>The website is not functioning properly?</span>
+                </label>
+              </li>
+
+              <li>
+                <label class="p-0 mb-0">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    (change)="selectReason('I am unhappy with my experience on the app')"
+                    value="3"
+                  />
+                  <span translate>I am unhappy with my experience on the app</span>
+                </label>
+              </li>
+              <li>
+                <label class="p-0 mb-0">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    (change)="selectReason('My account is hacked')"
+                    value="4"
+                  />
+                  <span translate>My account is hacked</span>
+                </label>
+              </li>
+              <li>
+                <label class="p-0 mb-0">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    (change)="selectReason('I am unhappy with my experience on the app')"
+                    value="5"
+                  />
+                  <span translate>I am unhappy with my experience on the app</span>
+                </label>
+              </li>
+              <li>
+                <label class="p-0 mb-0">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    (change)="selectReason('Never use my account')"
+                    value="5"
+                  />
+                  <span translate>Never use my account</span>
+                </label>
+              </li>
+              <li>
+                <label class="p-0 mb-0">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    (change)="selectReason('Too many promotional notifications')"
+                    value="5"
+                  />
+                  <span translate>Too many promotional notifications</span>
+                </label>
+              </li>
+              <li>
+                <label class="p-0 mb-0">
+                  <input
+                    type="radio"
+                    class="form-switch radio_1set"
+                    name="gender"
+                    (change)="selectReason('Other')"
+                    value="5"
+                  />
+                  <span translate>Other</span>
+                </label>
+              </li>
+            </ul>
+            <p translate class="validation_msg ml-3 mr-3" *ngIf="submittedDeleteAccount && !deleteAccountReason">
+              Please select the reason
+            </p>
+          </div>
+          <div class="description mt-3">
+            By deleting your account, the following categories of Information(among other information) will be
+            permanently Deleted from Travelstart per our Privacy Policy
+          </div>
+          <div class="categoriesList">
+            <ul>
+              <li>Profile Info</li>
+              <li>Favorites</li>
+              <li>Booking History</li>
+              <li>Offers</li>
+            </ul>
+          </div>
+          <div class="confirmDiv">
+            <div>Enter <span class="delete">DELETE</span> Before you delete profile</div>
+            <div class="row mt-2">
+              <div class="col-7">
+                <input type="text" class="form-control" [formControl]="deleteInput" />
+                <p
+                  translate
+                  class="validation_msg"
+                  *ngIf="
+                    submittedDeleteAccount &&
+                    deleteInput.errors &&
+                    (deleteInput.errors.required || deleteInput.errors.pattern)
+                  "
+                >
+                  Please enter DELETE
+                </p>
+              </div>
+              <div class="col-4">
+                <button class="btn primary_btn" (click)="submitDelete()" [disabled]="deleteAccountLoading">
+                  <i
+                    class="fa fa-spinner fa-spin"
+                    style="font-size: 20px"
+                    [hidden]="!deleteAccountLoading"
+                    aria-label="Sign up"
+                    aria-hidden="true"
+                  ></i>
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

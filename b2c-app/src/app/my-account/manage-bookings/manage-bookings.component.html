@@ -1,0 +1,785 @@
+<app-header></app-header>
+<div class="manage_booking_section">
+  <div class="manage_bookings_page">
+    <div>
+      <div class="mybkng_bg"></div>
+      <div class="dashboard">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="">
+                <div class="main-tab-section">
+                  <div class="sec_header">
+                    <div>
+                      <h1>
+                        <img
+                          ImageSrc
+                          class="mr-2 back_page"
+                          width="22px"
+                          src="./../../../assets/icons/Shape.svg"
+                          alt="requirements"
+                          (click)="goToProfile()"
+                        />
+                        <span translate>Manage Bookings</span>
+                      </h1>
+                    </div>
+                  </div>
+                  <!-- <div class="float-right qry_record mr-3">Query Record</div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="booking_section">
+    <div class="container total_viewcontainer p-0 pl-md-3 pr-md-3">
+      <div class="row m-0">
+        <div class="col-sm-12 p-0">
+          <div class="view_Bookings">
+            <div class="outer">
+              <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <li
+                  class="nav-item"
+                  (click)="tabVal('cancelTicket')"
+                  *ngIf="view == 'manage' || (view == 'viewQuery' && querydata.length != 0)"
+                >
+                  <a
+                    translate
+                    class="nav-link p-2 theme__bookings-tab"
+                    [ngClass]="{ active: isActive('cancelTicket') }"
+                    id="one-tab-mb"
+                    data-toggle="tab"
+                    href="#one-mb"
+                    role="tab"
+                    aria-controls="One-mb"
+                    aria-selected="true"
+                    >Cancel Ticket</a
+                  >
+                </li>
+                <li
+                  class="nav-item"
+                  *ngIf="
+                    (view == 'manage' && !showTabsVal && showChangeTab) ||
+                    (view == 'viewQuery' && changeQId.length != 0 && !showTabsVal && !showChangeTab)
+                  "
+                  (click)="tabVal('changeDate')"
+                >
+                  <a
+                    translate
+                    class="nav-link p-2 theme__bookings-tab"
+                    [ngClass]="{ active: isActive('changeDate') }"
+                    id="two-tab-mb"
+                    data-toggle="tab"
+                    href="#two-mb"
+                    role="tab"
+                    aria-controls="two-mb"
+                    aria-selected="false"
+                    >Change Date</a
+                  >
+                </li>
+                <li
+                  class="nav-item"
+                  *ngIf="
+                    (view == 'manage' && !showTabsVal && showEditTab) ||
+                    (view == 'viewQuery' && editQId.length != 0 && !showTabsVal && !showEditTab)
+                  "
+                  (click)="tabVal('editPassenger')"
+                >
+                  <a
+                    class="nav-link p-2 theme__bookings-tab"
+                    [ngClass]="{ active: isActive('editPassenger') }"
+                    id="three-tab-mb"
+                    data-toggle="tab"
+                    href="#three-mb"
+                    role="tab"
+                    aria-controls="three-mb"
+                    aria-selected="false"
+                  >
+                    <span *ngIf="responsiveservice.screenWidth !== 'sm'" translate>Edit Passenger Details</span>
+                    <span *ngIf="responsiveservice.screenWidth == 'sm'" translate>Edit Passenger</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="tab-content">
+              <div
+                class="tab-pane"
+                id="one-mb"
+                role="tabpanel"
+                aria-labelledby="one-tab-mb"
+                [ngClass]="{ active: isActive('cancelTicket') }"
+              >
+                <div class="cancel_booking_section">
+                  <div *ngIf="viewResultData" class="cancel_booking">
+                    <div *ngIf="viewResultData.airReservationList" class="route_traveller">
+                      <div *ngFor="let itineraries of viewResultData.airReservationList; let itin = index">
+                        <!-- <div
+                          *ngFor="
+                            let odoList of itineraries.originDestinationOptionsList;
+                            let idx = index;
+                            let first = first;
+                            let last = last
+                          "
+                        > -->
+                        <h5 *ngIf="country !== 'ABSA'" class="route_info">
+                          {{
+                            itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList[0]
+                              .departureAirport
+                          }}
+                          <span>
+                            <img
+                              ImageSrc
+                              src="./../../../assets/icons/flight_icn_devide.svg"
+                              alt="dir"
+                              width="40px"
+                              class="m-1"
+                            />
+                          </span>
+                          {{
+                            itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList[
+                              itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList.length - 1
+                            ].arrivalAirport
+                          }}
+                        </h5>
+                        <div class="travellers mt-3">
+                          <div aria-describedby="user journey details" class="dataTableCss internalListTable mb-0">
+                            <div class="table_Head d-none d-md-block">
+                              <div class="d-flex table_head_row">
+                                <span translate id="passender" class="col-2">PASSENGER</span>
+                                <span translate id="date" class="col-3">TRAVEL DATE</span>
+                                <span translate id="status" class="col-2">STATUS</span>
+                                <span translate id="pnr" class="col-1">PNR</span>
+                                <span translate id="bookedDate" class="col-2">BOOKED ON</span>
+                                <span translate id="queryCreated" class="col-2"></span>
+                              </div>
+                            </div>
+                            <div class="table_body">
+                              <ng-container *ngFor="let traveller of itineraries.travellerList">
+                                <div
+                                  class="table_body_row row theme__raise-priority"
+                                  *ngIf="
+                                    view == 'manage' ||
+                                    (view !== 'manage' &&
+                                      getQuery(
+                                        traveller.personName.givenName,
+                                        traveller.personName.surname,
+                                        itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList[0]
+                                          .departureAirport,
+                                        itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList[
+                                          itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList
+                                            .length - 1
+                                        ].arrivalAirport
+                                      ))
+                                  "
+                                >
+                                  <div class="col-8 col-md-2">
+                                    <span
+                                      class="d-none"
+                                      *ngIf="
+                                        !getQuery(
+                                          traveller.personName.givenName,
+                                          traveller.personName.surname,
+                                          itineraries.originDestinationOptionsList[showIndex]
+                                            .bookingFlightSegmentList[0].departureAirport,
+                                          itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList[
+                                            itineraries.originDestinationOptionsList[showIndex].bookingFlightSegmentList
+                                              .length - 1
+                                          ].arrivalAirport
+                                        )
+                                      "
+                                    >
+                                      <mat-checkbox
+                                        class="form-switch radio_1set"
+                                        name=""
+                                        [checked]="true"
+                                        [disabled]="true"
+                                        (change)="
+                                          onSelectTraveller(
+                                            $event,
+                                            traveller,
+                                            showIndex,
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                          )
+                                        "
+                                      ></mat-checkbox
+                                    ></span>
+                                    <span class="traveller_data">
+                                      {{ traveller.personName.givenName | titlecase }}
+                                      {{ traveller.personName.surname | titlecase }}
+                                    </span>
+                                  </div>
+                                  <div class="col-4 d-block p-0 d-md-none">
+                                    <span *ngIf="querydata.length != 0">
+                                      <a
+                                        class="q_recordLink"
+                                        (click)="
+                                          viewmobileRecord(
+                                            getQuery(
+                                              traveller.personName.givenName,
+                                              traveller.personName.surname,
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                                .bookingFlightSegmentList[0].departureAirport,
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                                .bookingFlightSegmentList[
+                                                itineraries.originDestinationOptionsList[showIndex]
+                                                  .bookingFlightSegmentList.length - 1
+                                              ].arrivalAirport
+                                            )
+                                          )
+                                        "
+                                        *ngIf="
+                                          getQuery(
+                                            traveller.personName.givenName,
+                                            traveller.personName.surname,
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[0].departureAirport,
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                                .bookingFlightSegmentList.length - 1
+                                            ].arrivalAirport
+                                          )
+                                        "
+                                        >View Queries</a
+                                      >
+                                    </span>
+                                  </div>
+                                  <div class="col-12 col-md-3">
+                                    <div class="date_flights">
+                                      <span *ngIf="country !== 'ABSA'" class="date_Wrap">
+                                        <div class="d_mnth">
+                                          {{
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[0].departureDateTime | date: 'MMM'
+                                          }}
+                                        </div>
+                                        <div class="d_date">
+                                          {{
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[0].departureDateTime | date: 'dd'
+                                          }}
+                                        </div>
+                                        <div class="d_week">
+                                          {{
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[0].departureDateTime | date: 'EEE'
+                                          }}
+                                        </div>
+                                      </span>
+                                      <span *ngIf="country === 'ABSA'" class="theme__date-container">
+                                        <div class="theme__date-wrap">
+                                          <div class="d_date">
+                                            {{
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                                .bookingFlightSegmentList[0].departureDateTime | date: 'dd'
+                                            }}
+                                          </div>
+                                        </div>
+                                        <div class="theme__date-wrap">
+                                          <div class="d_month">
+                                            {{
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[0].departureDateTime | date: 'MMM'
+                                            }}
+                                          </div>
+                                          <div class="d_week">
+                                            {{
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                                .bookingFlightSegmentList[0].departureDateTime | date: 'EEE'
+                                            }}
+                                          </div>
+                                        </div>
+                                      </span>
+                                      <span class="flights_details">
+                                        <img
+                                          ImageSrc
+                                          *ngIf="country !== 'ABSA'"
+                                          class="mr-1"
+                                          width="12px"
+                                          src="./../../../assets/icons/plane.svg"
+                                          alt="requirements"
+                                        />
+                                        <span class="route_view theme__raise-priority theme__raise-priority-higher">
+                                          {{
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[0].departureAirport
+                                          }}
+                                        </span>
+                                        <span
+                                          ><img
+                                            ImageSrc
+                                            src="./../../../assets/icons/flight_icn_devide.svg"
+                                            alt="dir"
+                                            width="40px"
+                                            class="img_flights theme__flights-icon"
+                                        /></span>
+                                        <span class="route_view theme__raise-priority theme__raise-priority-higher">
+                                          {{
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                                .bookingFlightSegmentList.length - 1
+                                            ].arrivalAirport
+                                          }}
+                                        </span>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div class="col-4 col-md-2">
+                                    <div class="resposive_lbl d-md-none theme__booking-label">{{ country === 'ABSA' ? 'Status' : 'STATUS' }}</div>
+                                    <span class="{{ viewResultData.bookingStatus }} theme__booking-text">
+                                      {{ viewResultData.bookingStatus }}
+                                    </span>
+                                  </div>
+                                  <div class="col-3 col-md-1">
+                                    <div class="resposive_lbl d-md-none theme__booking-label">PNR</div>
+                                    <span class="theme__booking-text" translate *ngIf="!itineraries.pnrReference">N/A</span>
+                                    <span class="theme__booking-text" *ngIf="itineraries.pnrReference"> {{ itineraries.pnrReference }}</span>
+                                  </div>
+                                  <div class="col-5 col-md-2">
+                                    <div class="resposive_lbl d-md-none theme__booking-label">{{ country === 'ABSA' ? 'Booked On' : 'BOOKED ON' }}</div>
+                                    <span class="theme__booking-text">
+                                      {{
+                                        country === 'ABSA'
+                                          ? (viewResultData.createdDateTime | date: 'EEE, MMM d')
+                                          : (viewResultData.createdDateTime | date: 'EEE, MMM d, yyyy')
+                                      }}
+                                    </span>
+                                  </div>
+                                  <div class="col-md-2 d-none d-md-block">
+                                    <span *ngIf="querydata.length != 0">
+                                      <a
+                                        class="q_recordLink"
+                                        (click)="
+                                          viewRecord(
+                                            getQuery(
+                                              traveller.personName.givenName,
+                                              traveller.personName.surname,
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                                .bookingFlightSegmentList[0].departureAirport,
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                                .bookingFlightSegmentList[
+                                                itineraries.originDestinationOptionsList[showIndex]
+                                                  .bookingFlightSegmentList.length - 1
+                                              ].arrivalAirport
+                                            )
+                                          )
+                                        "
+                                        *ngIf="
+                                          getQuery(
+                                            traveller.personName.givenName,
+                                            traveller.personName.surname,
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[0].departureAirport,
+                                            itineraries.originDestinationOptionsList[showIndex]
+                                              .bookingFlightSegmentList[
+                                              itineraries.originDestinationOptionsList[showIndex]
+                                                .bookingFlightSegmentList.length - 1
+                                            ].arrivalAirport
+                                          )
+                                        "
+                                        >View Queries</a
+                                      >
+                                    </span>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- </div> -->
+                      </div>
+                      <p
+                        translate
+                        class="validation_msg mb-0 d-none"
+                        *ngIf="cancelContinue == true && selectTravellers.length == 0"
+                      >
+                        Please select the passenger
+                      </p>
+                    </div>
+                    <div *ngIf="view == 'manage' && !showTabsVal">
+                      <div class="cancel_reasons" *ngIf="!showTabsVal">
+                        <div class="reason_head">
+                          <h5 *ngIf="country !== 'ABSA'" translate>What is the reason for cancelling your booking?</h5>
+                          <span *ngIf="country === 'ABSA'" class="theme__reason-header" translate>What is the reason for cancelling your booking?</span>
+                        </div>
+                        <div class="reason_body">
+                          <ul class="mb-0 theme__reasons-list-container">
+                            <li>
+                              <label class="btn p-0">
+                                <input
+                                  type="radio"
+                                  class="form-switch radio_1set"
+                                  name="gender"
+                                  (change)="selectReason('I want to cancel my booking (includes penalty fee).')"
+                                  value="1"
+                                />
+                                <span translate>I want to cancel my booking (includes penalty fee).</span>
+                              </label>
+                            </li>
+
+                            <li>
+                              <label class="btn p-0">
+                                <input
+                                  type="radio"
+                                  class="form-switch radio_1set"
+                                  name="gender"
+                                  (change)="
+                                    selectReason('I directly cancelled my booking with the airline (includes penalty).')
+                                  "
+                                  value="2"
+                                />
+                                <span translate>I directly cancelled cancel my booking (includes penalty fee).</span>
+                              </label>
+                            </li>
+
+                            <!-- <li>
+                                  <label class="btn p-0">
+                                    <input
+                                      type="radio"
+                                      class="form-switch radio_1set"
+                                      name="gender"
+                                      (change)="selectReason('I directly cancelled my booking with the airline (includes penalty).')"
+                                      value="2"
+                                    />
+                                    <span translate>I directly cancelled my booking with the airline (includes penalty).</span>
+                                  </label>
+                                  <span></span>
+                                </li> -->
+                            <li>
+                              <label class="btn p-0">
+                                <input
+                                  type="radio"
+                                  class="form-switch radio_1set"
+                                  name="gender"
+                                  (change)="selectReason('My flight was cancelled by the airline.')"
+                                  value="3"
+                                />
+                                <span translate>My flight was cancelled by the airline.</span>
+                              </label>
+                            </li>
+                            <li>
+                              <label class="btn p-0">
+                                <input
+                                  type="radio"
+                                  class="form-switch radio_1set"
+                                  name="gender"
+                                  (change)="selectReason('My flight was rescheduled by the airline.')"
+                                  value="4"
+                                />
+                                <span translate>My flight was rescheduled by the airline.</span>
+                              </label>
+                            </li>
+                            <li>
+                              <label class="btn p-0">
+                                <input
+                                  type="radio"
+                                  class="form-switch radio_1set"
+                                  name="gender"
+                                  (change)="selectReason('I missed my flight.')"
+                                  value="5"
+                                />
+                                <span translate>I missed my flight.</span>
+                              </label>
+                            </li>
+                          </ul>
+                          <p
+                            translate
+                            class="validation_msg ml-3 mr-3"
+                            *ngIf="cancelContinue == true && !selectedReason"
+                          >
+                            Please select the reason
+                          </p>
+                        </div>
+                      </div>
+                      <div class="cancel_proceed" *ngIf="!showTabsVal">
+                        <div class="proceed_head">
+                          <h5 *ngIf="country !== 'ABSA'" translate>Do you want to proceed with your cancellation?</h5>
+                          <span *ngIf="country === 'ABSA'" class="theme__reason-header" translate>Do you want to proceed with your cancellation?</span>
+                        </div>
+                        <div class="proceed_body">
+                          <!-- ToDo if refund selects -->
+                          <!-- <div class="select_refund">
+                                <ul class="ul_list">
+                                  <li
+                                    class="card"
+                                    (click)="selectedRefund('Wallet')"
+                                    [ngClass]="{ active: isActive('Wallet') }"
+                                  >
+                                    <div class="card-body">
+                                      <div class="clearfix"></div>
+                                      <label class="bld_labl mb-0">
+                                        <img
+                                          class="active mr-2"
+                                          src="./../../../assets/icons/input_selected.svg"
+                                          width="16px"
+                                          alt="selected"
+                                        />
+                                        <img
+                                          class="in-active mr-2"
+                                          width="16px"
+                                          src="./../../../assets/icons/input_none_selected.svg"
+                                          alt="selected"
+                                        />
+                                        TS Wallet</label
+                                      >
+                                    </div>
+                                  </li>
+                                  <li
+                                    class="card"
+                                    (click)="selectedRefund('Bank/Credit Card')"
+                                    [ngClass]="{ active: isActive('Bank/Credit Card') }"
+                                  >
+                                    <div class="card-body">
+                                      <div class="clearfix"></div>
+                                      <label class="bld_labl mb-0">
+                                        <img
+                                          class="active mr-2"
+                                          src="./../../../assets/icons/input_selected.svg"
+                                          width="16px"
+                                          alt="selected"
+                                        />
+                                        <img
+                                          class="in-active mr-2"
+                                          width="16px"
+                                          src="./../../../assets/icons/input_none_selected.svg"
+                                          alt="selected"
+                                        />
+                                        Bank/Credit Card</label
+                                      >
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div> -->
+                          <div class="proceed_des" *ngIf="!showTabsVal">
+                            <ul>
+                              <li translate>
+                                The fare will be refunded to the same account you used while you make the booking
+                              </li>
+                              <li translate>What you should know before cancelling these tickets?</li>
+                              <li>
+                                *
+                                <span translate
+                                  >The ticket price will be refunded to the same account you used to make the
+                                  booking.</span
+                                >
+                              </li>
+                              <li>
+                                *
+                                <span translate
+                                  >The refundable amount is calculated based on the airline rules and restrictions, and
+                                  flight booking policy</span
+                                >
+                              </li>
+
+                              <li>
+                                *
+                                <span translate
+                                  >The final amount refunded to your account may be less than the amount you paid.</span
+                                >
+                              </li>
+
+                              <li>* <span translate>Any used tickets will not be refunded.</span></li>
+                              <br *ngIf="country !== 'ABSA'" />
+
+                              <li>
+                                <span translate
+                                  >Your refund will be processed to the same payment method you used to make the
+                                  booking.</span
+                                >
+                              </li>
+                              <!-- <li>1. Travelstart+</li>
+                                  <li>2. Account/Cards</li> -->
+                              <li>
+                                <span
+                                  ><span translate
+                                    >Please note that any voucher codes applied to your booking will be deducted from
+                                    the refundable amount.</span
+                                  ><span translate
+                                    >Once you have cancelled, you will receive a complete breakdown of your
+                                    refund.</span
+                                  >
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="terms_cndns" *ngIf="!showTabsVal">
+                            <span>
+                              <mat-checkbox
+                                class="form-switch radio_1set"
+                                name=""
+                                [checked]="terms"
+                                (change)="SelectTermsCond($event)"
+                              ></mat-checkbox
+                            ></span>
+                            <span translate>I agree with the refunds</span>
+                            <a
+                              translate
+                              href="{{ 'terms and conditions URL' | translate }}"
+                              target="_blank"
+                              rel="noopener"
+                              class="terms"
+                              >Terms and Conditions</a
+                            >
+                            <p translate class="validation_msg" *ngIf="cancelContinue == true && !terms">
+                              Please accept the Terms & Conditions
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row m-0 mt-3" *ngIf="viewResultData && !showTabsVal && view == 'manage'">
+                    <div class="col-sm-12 text-right">
+                      <button class="sub_btn primary_btn" (click)="cancelFlight()">
+                        <span translate>Cancel Now</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane mb-4"
+                id="two-mb"
+                role="tabpanel"
+                aria-labelledby="two-tab-mb"
+                [ngClass]="{ active: isActive('changeDate') }"
+              >
+                <app-change-booking-date
+                  (changeTabVal)="changeDateVAl($event)"
+                  [queryIdVal]="changeQId"
+                  [cancelQueryVal]="querydata"
+                ></app-change-booking-date>
+                <div class="clearfix"></div>
+              </div>
+              <div
+                class="tab-pane mb-4"
+                id="three-mb"
+                role="tabpanel"
+                aria-labelledby="three-tab-mb"
+                [ngClass]="{ active: isActive('editPassenger') }"
+              >
+                <span *ngIf="loadeditPage"
+                  ><app-edit-passenger-details
+                    (editTabVal)="editVal($event)"
+                    [queryIdVal]="editQId"
+                    [cancelQueryVal]="querydata"
+                  ></app-edit-passenger-details
+                ></span>
+
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="cancelFlight_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog cancel_mdl_dialog" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body mdl_body">
+        <div translate class="mdl_heading">Are you sure you want to cancel?</div>
+        <p class="mdl_subheading">
+          <span translate
+            >Your refund amount is an estimate, calculated on the rules and restrictions of your ticket</span
+          >, <span translate>as well as the airline’s booking policy.</span>
+        </p>
+
+        <!-- <h5 class="mb-5">
+          Estimated Refund Amount<br />
+          <span class="refamount" *ngIf="viewResultData"
+            >{{ viewResultData.totalCurrency }}&nbsp;{{ viewResultData.totalAmount }}</span>
+        </h5> -->
+
+        <div class="text-center">
+          <button type="button" class="cancel_btn mr-md-2 mb-3 mb-md-0" aria-label="Close" data-dismiss="modal">
+            <span translate>Go Back</span>
+          </button>
+          <button type="button" class="sub_btn primary_btn" aria-label="Close" (click)="continueCancel()">
+            <span translate>Cancel Ticket</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  ​
+</div>
+
+<div
+  class="modal fade"
+  id="ticketResponse_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog createticket_dialog" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body mdl_body">
+        <div translate class="mdl_heading">
+          We’ve received your cancellation request.One of our travel experts will be in touch shortly.
+        </div>
+        <div class="text-center">
+          <button type="button" class="sub_btn primary_btn" aria-label="Close" data-dismiss="modal">
+            <span translate>ok</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  ​
+</div>
+<div
+  class="modal fade"
+  id="queryRecord_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog viewQuery_dialog" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body mdl_body">
+        <!-- <div translate class="mdl_heading">
+          We’ve received your cancellation request.One of our travel experts will be in touch shortly.
+        </div>
+        <div class="text-center">
+          <button type="button" class="sub_btn primary_btn" aria-label="Close" data-dismiss="modal">
+            <span translate>ok</span>
+          </button>
+        </div> -->
+        <div class="mdl_heading">
+          <img
+            ImageSrc
+            src="../../../assets/icons/close_cross_icn.svg"
+            alt="close"
+            class="float-right close_img"
+            width="13px"
+            data-dismiss="modal"
+            aria-label="Close"
+          />
+        </div>
+
+        <div *ngIf="queryId && viewResultData">
+          <app-query-record [queryIdVal]="queryId" (queryDesc)="queryDesc($event)"></app-query-record>
+        </div>
+      </div>
+    </div>
+  </div>
+  ​
+</div>

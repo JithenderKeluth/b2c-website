@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+    <g data-name="Group 29217">
+        <g data-name="Ellipse 1870" style="fill:#fff;stroke:#1db2f5">
+            <circle cx="18" cy="18" r="18" style="stroke:none"/>
+            <circle cx="18" cy="18" r="17.5" style="fill:none"/>
+        </g>
+        <g data-name="Group 28922">
+            <path data-name="Icon ionic-md-arrow-round-back" d="m1.8 11.311 11.712-.111-2.041 1.952a.813.813 0 0 0 0 1.111.727.727 0 0 0 1.062 0l3.4-3.294a.749.749 0 0 0 .221-.551v-.01a.749.749 0 0 0-.221-.551l-3.4-3.294a.727.727 0 0 0-1.062 0 .813.813 0 0 0 0 1.111l2.041 1.952L1.8 9.738c-.415 0-.752.787-.752.787s.333.786.752.786z" transform="translate(8.953 3.67)" style="fill:#1db2f5"/>
+            <path data-name="Icon ionic-md-arrow-round-back" d="M17.4 11.311 5.687 11.2l2.041 1.952a.813.813 0 0 1 0 1.111.727.727 0 0 1-1.062 0l-3.4-3.294a.749.749 0 0 1-.221-.551v-.01a.749.749 0 0 1 .221-.551l3.4-3.294a.727.727 0 0 1 1.062 0 .813.813 0 0 1 0 1.111l-2.044 1.95 11.716.114c.415 0 .752.787.752.787s-.334.786-.752.786z" transform="translate(7.226 11.555)" style="fill:#1db2f5"/>
+        </g>
+    </g>
+</svg>

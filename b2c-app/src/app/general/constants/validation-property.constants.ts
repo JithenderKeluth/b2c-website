@@ -1,0 +1,16 @@
+export const VALIDATION_PROPERTY = {
+  BAGGAGE: 'baggage',
+  DOB: 'dob',
+  DOCUMENT_NUMBER: 'documentNumber',
+  DOCUMENT_TYPE: 'documentType',
+  EMAIL: 'email',
+  FIRST_NAME: 'firstName',
+  LAST_NAME: 'lastName',
+  MOBILE_CODE: 'mobileCode',
+  MOBILE_NO: 'mobileNo',
+  NATIONALITY: 'nationality',
+  PASSPORT_COUNTRY: 'passportCountry',
+  PASSPORT_EXPIRY: 'passportExpiry',
+  PASSPORT_NUMBER: 'passportNumber',
+  TITLE: 'title',
+};

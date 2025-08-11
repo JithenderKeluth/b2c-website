@@ -1,0 +1,172 @@
+<!-- <app-header></app-header> -->
+<div class="query_record_page">
+  <!-- ToDo if seperate component -->
+  <div class="query_record_page_header d-md-none">
+    <div class="header_bg"></div>
+    <div class="dashboard">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="">
+              <div class="main-tab-section">
+                <div class="sec_header text-center mb-4">
+                  <div>
+                    <h1>
+                      <img
+                        ImageSrc
+                        class="mr-2 back_page mt-2 float-left"
+                        width="22px"
+                        src="./../../../assets/icons/Shape.svg"
+                        alt="requirements"
+                        (click)="gotoBack()"
+                      />
+                      <span>Query Record</span>
+                    </h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="query_section">
+    <div class="container query_record_page_body">
+      <div class="row">
+        <div class="col-sm-12 p-0">
+          <div class="query_records">
+            <div class="outer">
+              <div class="header_sec">
+                <div class="reconfirm_sec">
+                  <h5 translate>Query Record</h5>
+                  <p>
+                    <span translate>Ticket No</span> : <span class="ticketNo">{{ ticketId }}</span>
+                  </p>
+                  <!-- To do if select another record -->
+                  <!-- <input type="text"
+                                    placeholder="Pick one"
+                                    aria-label="Number"
+                                    matInput
+                                    class="form-control"
+                                    [formControl]="ticket"
+                                    [matAutocomplete]="auto">
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                      <mat-option *ngFor="let option of allTickets" [value]="option.id"
+                                      (click)="selectTicket(option.id)">
+                                        {{option.id}}
+                                      </mat-option>
+                                    </mat-autocomplete> -->
+                </div>
+                <!-- <span class="float-right pr-4">
+                                  <img ImageSrc src="../../../assets/icons/Icon.svg" alt="search" class="
+                                  search_icon" width="16px">
+                               </span> -->
+              </div>
+              <div class="body_sec m-0 m-md-3">
+                <div class="chat_section" *ngIf="msgdesc">
+                  <div class="row mt-3 mb-3">
+                    <div class="col-sm-5"></div>
+                    <div class="col-sm-12">
+                      <div class="chat_sec_user">
+                        <div class="user_chat_txt">
+                          <p class="mb-0" *ngIf="msgdesc">{{ msgdesc }}</p>
+                        </div>
+                        <div class="ml-2 mr-2 chat_logo">
+                          <img ImageSrc src="../../../assets/icons/user_profile_img.svg" alt="user" width="40px" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-sm-12">
+                      <div class="chat_sec_ts">
+                        <div class="ml-2 mr-2 chat_logo">
+                          <span translate class="ts_logo">TS</span>
+                        </div>
+                        <div class="chat_txt">
+                          <p class="mb-0">
+                            <span translate
+                              >Ticket has been created with your request. One of our travel experts will be in touch
+                              shortly.</span
+                            >
+                            <span translate>Your Ticket ID is</span> {{ ticketId }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="chatDeskData && chatDeskData.length != 0">
+                  <div class="chat_section" *ngFor="let data of chatDeskData">
+                    <p class="date_class text-center">
+                      <span class="chat_date">{{ data.date | date: 'd MMM  yyyy' }}</span>
+                    </p>
+                    <div *ngFor="let item of data.chat">
+                      <div class="row mb-3" *ngIf="user_Id != item.user_id">
+                        <div class="col-sm-12">
+                          <div class="chat_sec_ts">
+                            <div class="ml-2 mr-2 chat_logo">
+                              <span translate class="ts_logo">TS</span>
+                            </div>
+                            <div class="chat_txt">
+                              <p class="mb-0">{{ getAgentText(item.body_text) }}</p>
+                            </div>
+                            <div class="chat_time">
+                              <p class="mb-0">{{ item.created_at | date: 'shortTime' }}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-3 mb-3" *ngIf="user_Id == item.user_id">
+                        <div class="col-sm-5"></div>
+                        <div class="col-sm-12">
+                          <div class="chat_sec_user">
+                            <div class="chat_time">
+                              <p class="mb-0">{{ item.created_at | date: 'shortTime' }}</p>
+                            </div>
+                            <div class="user_chat_txt">
+                              <p class="mb-0">{{ item.body_text }}</p>
+                            </div>
+                            <div class="ml-2 mr-2 chat_logo">
+                              <img ImageSrc src="../../../assets/icons/user_profile_img.svg" alt="user" width="40px" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="msg_footer">
+                <div class="messeging_sec mt-3">
+                  <div class="row pt-3 pb-md-3 pt-xs-0">
+                    <div class="user_chat col-9">
+                      <textarea
+                        class="auto_height"
+                        placeholder="{{ 'Type a message' | translate }}"
+                        [formControl]="newMsg"
+                      ></textarea>
+                      <!-- <input type="text" name="chat_text" id="" class="form-control" placeholder="Type a message" [formControl]="newMsg" (keyup.enter)="sendMsg()">
+                                   -->
+                    </div>
+                    <div class="col-3 text-right">
+                      <!-- Todo file attachment -->
+                      <!-- <img ImageSrc src="../../../assets/icons/file_attach.svg" alt="fileupload" class="mr-2 fileupload" width="16px" (click)="file.click()"> -->
+                      <!-- <input type="file" class="fileuploadInput"  (change)="fileChange($event)" placeholder="Upload file"  #file> -->
+                      <button class="btn primary_btn send_btn" (click)="sendMsg()">
+                        <span translate class="d-none d-md-inline-block">Send</span>
+                        <span><img ImageSrc src="../../../assets/icons/send-chat.svg" width="14px" alt="send" /></span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

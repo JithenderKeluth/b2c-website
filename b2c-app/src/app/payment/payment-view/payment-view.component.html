@@ -1,0 +1,411 @@
+<app-back-button
+  *ngIf="
+    country === 'ABSA' &&
+    (responsiveService.screenWidth == 'sm' ||
+      responsiveService.screenWidth == 'md')
+  " [navigationLink]="'/booking/products'"
+  >
+  <span translate>Payment</span>
+</app-back-button>
+<app-header></app-header>
+<div *ngIf="!paymentDeeplinkData" class="mwebBookingInfo_section d-block d-lg-none">
+  <div class="container p-0">
+    <div
+      *ngIf="responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md'"
+      class="d-block d-lg-none mwebBookingInfo"
+    >
+      <app-mweb-flight-trip-summary [showIframe]="showIframe"></app-mweb-flight-trip-summary>
+    </div>
+
+    <section class="coupon_info_section mt-2 d-block d-lg-none"
+    [ngClass]="isLoading || showIframe ? 'disableCouponSec' : ''"
+    *ngIf="showCouponSection() && (responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md')">
+      <!-- <app-wallet-vouchers></app-wallet-vouchers> -->
+      <app-coupons-info  [bookingAmount]="bookingSummary?.totalPrice" (voucherCodeInfo) = "getVoucherCode($event)"></app-coupons-info>
+    </section>
+  </div>
+</div>
+
+<div class="payment_view_page">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-lg-8 pl-0 pl-xs-15">
+        <div class="sec_header" *ngIf="!showIframe && country !== 'ABSA'">
+          <h4 translate>Select method of payment</h4>
+        </div>
+        <section class="payment_cards_section" *ngIf="!showIframe" [hidden]="showPeachCheckoutForm">
+          <app-payment-cards
+            #paymentCard
+            (cc_ProcessingFee)="get_cc_ProcessingFee($event)"
+            (setSaveCardDetails)="setSaveCardDetails($event)"
+            [bookingAmount]="bookingAmountVal"
+          ></app-payment-cards>
+        </section>
+
+        <section class="iframe_payment_gateway" *ngIf="showIframe">
+          <div class="iframe_section bg-white">
+            <div class="d-lg-flex align-items-center">
+              <span class="redirect_head" translate>Redirect Gateway </span>
+              <span class="countDownSec ml-lg-auto d-block d-lg-inline" *ngIf="counter">
+                Stay active! your session is set to expire in
+                <label for="counter" class="countDownTimer mb-0">{{ counter }} seconds</label>
+              </span>
+            </div>
+            <!--{{iframeUrl}}-->
+            <div class="clearfix"></div>
+            <hr />
+            <div
+              class="donotCloseMsg mb-3"
+              *ngIf="
+                selected_Payment_option && selected_Payment_option != 'IPAY' && selected_Payment_option != 'PAYSTACK'
+              "
+            >
+              Please do not close this window or refresh the page as your payment is being processed. Thank you for your
+              patience.
+            </div>
+
+            <div class="redirect_content mb-3" translate *ngIf="showOTPContent()">
+              Kindly note, the amount reflected on the in-app or OTP request may differ from your total purchase amount,
+              charges are split between the Airline and Travelstart to secure your booking. The balance will be charged
+              directly to your card.
+            </div>
+            <div id="pause" class="d-flex align-items-center justify-content-center mt-4" *ngIf="three3DLoad">
+              <div id="spinner"></div>
+            </div>
+            <div *ngIf="three3DIframe">
+              <section class="ts-card ts-card--ecommerce mt-4">
+                <div class="ts-card__body">
+                  <div class="form form--horizontal">
+                    <iframe
+                      title="3DIframe"
+                      style="display: block; min-height: 600px; border: none"
+                      width="100%"
+                      name="threeDSecureIFrame"
+                      id="threeDSecureIFrame"
+                    >
+                      <div class="modal__text--message" class="modal__text--message">
+                        <span translate>Your browser does not support iFrames.</span>
+                      </div>
+                    </iframe>
+                    <form
+                      #f
+                      action="{{ targetUrl }}"
+                      method="post"
+                      target="threeDSecureIFrame"
+                      id="threeDSecureForm"
+                      name="threeDSecureForm"
+                      (ngSubmit)="onSubmit($event)"
+                    >
+                      <div *ngFor="let param of threeDparams | keyvalue">
+                        <input name="{{ param.key }}" value="{{ param.value }}" type="hidden" />
+                      </div>
+                      <input id="submitIframe" type="submit" value="post" class="d-none" />
+                    </form>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+        <section class="iframe_payment_gateway" *ngIf="showPeachCheckoutForm">
+          <div class="iframe_section bg-white">
+            <div id="pause" class="d-flex align-items-center justify-content-center mt-4" *ngIf="showPeachCheckoutLoader">
+              <div id="spinner"></div>
+            </div>
+            <iframe
+            title="peachCheckoutFormIframe"
+            style="display: block; min-height: 600px; border: none;background-color: #fff;border-radius: 12px;"
+            width="100%"
+            [src]="targetUrl"
+            id="peachCheckoutFormIframe"
+          >
+          </iframe>
+          </div>
+          <!-- <app-peach-checkout-form
+            #peachCheckoutForm
+            [peachCheckoutData]="peachCheckoutData"
+          ></app-peach-checkout-form> -->
+
+        </section>
+        <div class="btn-controls d-none d-lg-block mt-4 mb-4" *ngIf="!showIframe && !showPeachCheckoutForm">
+          <div class="button-group">
+            <button
+              type="button"
+              class="btn book_btn primary_btn onHover float-right"
+              [disabled]="isLoading"
+              aria-label="Pay Now"
+              (click)="processPayment()"
+            >
+              <i class="fa fa-spinner fa-spin" style="font-size: 24px" [hidden]="!isLoading" aria-hidden="true"></i>
+              <span
+                translate
+                *ngIf="
+                  (apiService.extractCountryFromDomain() !== 'NG' && apiService.extractCountryFromDomain() !== 'GI') ||
+                  ((apiService.extractCountryFromDomain() === 'NG' || apiService.extractCountryFromDomain() === 'GI') &&
+                    paymentcard?.selectedPaymentOption !== 'EFT')
+                "
+                >Pay Now</span
+              >
+              <span
+                translate
+                *ngIf="
+                  (apiService.extractCountryFromDomain() === 'NG' || apiService.extractCountryFromDomain() === 'GI') &&
+                  paymentcard?.selectedPaymentOption === 'EFT'
+                "
+                >Reserve</span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-4 pr-0">
+        <!-- <app-wallet-vouchers></app-wallet-vouchers> -->
+
+        <section class="coupon_info_section d-none d-lg-block" *ngIf="showCouponSection()" [ngClass]="isLoading || showIframe ? 'disableCouponSec' : ''">
+          <app-coupons-info [bookingAmount]="bookingSummary?.totalPrice" (voucherCodeInfo) = "getVoucherCode($event)"></app-coupons-info>
+        </section>
+        <section
+          class="fares_display_section mt-2"
+          *ngIf="
+            ((responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md') && !showIframe && !showPeachCheckoutForm) ||
+            (responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md')
+          "
+        >
+          <app-booking-summary
+            #bookingSummary
+            (parentFun)="processPayment()"
+            [isLoading]="isLoading"
+            [showIframe]="showIframe"
+            [cc_processFee]="cc_ProcessingFee"
+          ></app-booking-summary>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-payments-footer class="d-none d-lg-block"></app-payments-footer>
+
+<div
+  class="modal fade"
+  id="vocher_product"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <!-- Sadly, your flight is no longer available -->
+  <div class="modal-dialog vocherProduct" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body vocher_modal_body">
+        <app-vocherproduct
+          *ngIf="vocherProductData"
+          (productVocher)="selectedProductVocher($event)"
+          [bookingAmount]="bookingAmountVal"
+          [vocherData]="vocherProductData"
+        ></app-vocherproduct>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="iframeTimeout_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <!-- Sadly, your  iframe is Timeout -->
+  <div class="modal-dialog vocherProduct" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body vocher_modal_body text-center">
+        <p>Unfortunately, there was no response received from your bank</p>
+        <button
+          class="btn primary_btn mt-3"
+          id="timeout_Modal_cta"
+          (click)="retryPayment()"
+          [disabled]="gatewayAuthLoading"
+        >
+          <i
+            class="fa fa-spinner fa-spin"
+            style="font-size: 24px"
+            [hidden]="!gatewayAuthLoading"
+            aria-hidden="true"
+          ></i>
+          Retry Payment
+        </button>
+        <button class="btn primary_btn mt-3" id="timeout_Modal_Close_CTA" [hidden]="true" data-dismiss="modal"></button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal for mweb payment not selected -->
+<div
+  class="modal fade"
+  id="paymentOptionsNotSelected_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <!-- Sadly, your  iframe is Timeout -->
+  <div class="modal-dialog vocherProduct" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body vocher_modal_body text-center">
+        <p>Please select a method of payment</p>
+        <button class="btn primary_btn mt-3" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />
+
+
+<!--- payment failed Modal -->
+<dialog id="payment_failed_Modal" style="padding: 0 !important;">
+  <div class="modal-dialog EFT_failed" role="document">
+    <div class="modal-content dialog_content add_txt">
+      <div class="modal-body failed_modal_body">
+        <div class="text-center">
+          <img
+            ImageSrc
+            class=""
+            src="./../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg"
+            alt="payment failed"
+            width="80px"
+            loading="lazy"
+          />
+          <div class="mt-3">
+            <div *ngIf="BookApiError">
+              <strong translate> {{ BookApiError.description }} </strong>
+            </div>
+
+            <div
+              *ngIf="
+                !paymentcard?.BookApiError &&
+                !paymentcard?.paxNamelengthError &&
+                selected_Payment_option &&
+                (selected_Payment_option == 'CC' ||
+                selected_Payment_option == 'DC' ||
+                selected_Payment_option == 'CC_3D_INS' ||
+                selected_Payment_option == 'CC_INS')
+              "
+              class="payment_failedtext"
+            >
+              <div>
+                <strong translate>Hmmm… Something went wrong with your payment.</strong>
+              </div>
+              <div class="row mt-3">
+                <div class="text-left paymnt_addlTxt mb-2 mb-lg-0">
+                  <strong translate>What could have caused this?</strong>
+                  <ul class="pl-4">
+                    <li translate>You may have entered incorrect card details.</li>
+                    <li *ngIf="appSessionService.isWhiteLabelInstance()" translate>
+                      Your card issuer may have rejected your payment request or you have insufficient funds in your
+                      account.
+                    </li>
+                    <li *ngIf="!appSessionService.isWhiteLabelInstance()" translate>
+                      Your card issuer may have rejected your payment request or you don’t have enough funds in your
+                      account.
+                    </li>
+                    <li *ngIf="!appSessionService.isWhiteLabelInstance()" translate>
+                      You may not be registered with 3D secure.
+                    </li>
+                  </ul>
+                </div>
+                <div class="text-left paymnt_addlTxt">
+                  <strong translate>What should you do:</strong>
+                  <ul class="pl-4">
+                    <li *ngIf="appSessionService.isWhiteLabelInstance() && country !== 'ABSA'">
+                      Check that you have entered your Investec Visa card details correctly and resubmit
+                    </li>
+                     <li *ngIf="country !== 'ABSA'">
+                      Check that you have entered your Absa card details correctly and resubmit
+                    </li>
+                    <li *ngIf="!appSessionService.isWhiteLabelInstance()" translate>
+                      Check the above details and resubmit your card details again or select a different form of
+                      payment.
+                    </li>
+                    <li translate>
+                      Check with your bank and register for 3D secure and create a new booking online.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                !paymentcard?.BookApiError &&
+                !paymentcard?.paxNamelengthError &&
+                selected_Payment_option &&
+                selected_Payment_option !== 'CC' &&
+                selected_Payment_option !== 'DC' &&
+                selected_Payment_option !== 'CC_3D_INS' &&
+                selected_Payment_option !== 'CC_INS'
+              "
+            >
+              <div>
+                <strong translate>Sorry, your booking has failed, please try again.</strong>
+              </div>
+              <div class="payment_failedtext">
+                <span translate>Don’t worry, no money has been deducted from your account.</span>
+                <span translate>If there has been a deduction, please </span>
+                <a translate [routerLink]="['/contact-us']" rel="nofollow" target="_blank">contact us</a>.
+              </div>
+            </div>
+            <div class="payment_failedtext" *ngIf="!BookApiError && paxNamelengthError">
+              <span translate
+                >Hold up! It looks like your names have exceeded our max character limit to book online.</span
+              >
+              <span translate>Please contact us to assist you with your flight booking by calling</span>
+              <span translate>+27 21 468 4300</span>
+            </div>
+            <div *ngIf="BookApiError?.category === 'supplierfailures'">
+              <strong>Please try searching for a different flight</strong>
+            </div>
+          </div>
+          <button
+            *ngIf="BookApiError?.category === 'paymentfailures' || BookApiError?.category === 'validationfailures'"
+            class="mt-3"
+            type="button"
+            class="btn ok-btn primary_btn"
+            data-dismiss="modal"
+            aria-label="Ok"
+            (click)="close_Payment_failed_Modal()"
+          >
+            <span translate>Ok</span>
+          </button>
+
+          <button
+            *ngIf="!BookApiError || paxNamelengthError"
+            class="mt-3"
+            type="button"
+            class="btn ok-btn primary_btn"
+            data-dismiss="modal"
+            aria-label="Ok"
+            (click)="navigateToTravelerPage()"
+          >
+            <span translate>Ok</span>
+          </button>
+
+          <button
+            *ngIf="BookApiError?.category === 'supplierfailures' || BookApiError?.category === 'unknown'"
+            (click)="flight_results()"
+            class="mt-3"
+            type="button"
+            class="btn ok-btn primary_btn"
+            data-dismiss="modal"
+            aria-label="Search New Flight"
+          >
+            <span translate>Search New Flight</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>

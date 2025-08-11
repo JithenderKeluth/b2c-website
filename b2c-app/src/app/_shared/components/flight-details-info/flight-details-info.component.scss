@@ -1,0 +1,134 @@
+@import "./../../../../theme/theme-variables.scss";
+@import "../../../flights/flight-card/flight-card.component.scss";
+
+.flight_card {
+  margin: 0 !important;
+  box-shadow: none !important;
+  .flight_info {
+    .airl_logo {
+      margin-right: 8px;
+    }
+    .dept_seg {
+      .way_def {
+        color: var(--text_link_color);
+        padding: 0 10px;
+        font-weight: 500;
+        font-size: 12px;
+      }
+      .date_Info {
+        font-size: 13px;
+        font-weight: 500;
+      }
+    }
+  }
+  .baggage img {
+    position: relative;
+    top: -2px;
+  }
+  .border_btm {
+    border-bottom: 1px dashed var(--more_flight_bg);
+  }
+}
+
+.is_Itin_hide {
+  .collapse {
+    .flight_info {
+      padding: 0 !important;
+    }
+  }
+}
+
+.layover_section {
+  background-color: var(--layover_bg_color);
+  padding: 6px;
+  font-size: 12px;
+  margin: 10px 0px;
+  color: var(--layover_text_color);
+  border-radius: 8px;
+  font-weight: 500;
+  .lap_txt {
+    color: #dc6803;
+  }
+}
+.f_line {
+  width: 100%;
+  border-bottom: 1px solid #cccccc;
+  position: relative;
+  z-index: 1;
+  margin: 3px 0px;
+  &:before {
+    background: #cccccc;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    border: 1px solid #cccccc;
+    position: absolute;
+    content: "";
+    top: -2px;
+    left: 0;
+  }
+  &:after {
+    width: 16px;
+    height: 20px;
+    position: absolute;
+    content: "";
+    top: -7.6px;
+    right: 0;
+    background-image: url("../../../../assets/icons/srp_Icons/flight_icn.svg");
+    background-repeat: no-repeat;
+    background-size: 16px;
+  }
+}
+.non-ref-text {
+  color: $color-red-200;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: $color-red-100;
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+.fareRules_sec {
+  .fareRules_txt {
+    color: var(--text_link_color); //not added color code
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 3px;
+  }
+  .fare-content {
+    .fare_labl {
+      color: var(--text_info_color);
+      font-size: 12px;
+      text-transform: lowercase;
+      .fa {
+        color: #ff6f5e; //not added color code
+      }
+    }
+  }
+}
+
+.techStops .tech_stps_txt {
+  width: 90% !important;
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .flight_card .flight_info .flight_row {
+    padding-bottom: 0px !important;
+    .airl_logo img {
+      width: 30px !important;
+    }
+    .time {
+      font-size: 18px !important;
+      font-weight: 500 !important;
+      margin-top: 0px !important;
+    }
+    .dur,
+    .stops {
+      font-size: 12px !important;
+    }
+    .techStops .tech_stps_txt {
+      width: 80% !important;
+      font-size: 9px;
+    }
+  }
+}

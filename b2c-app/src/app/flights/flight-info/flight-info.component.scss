@@ -1,0 +1,49 @@
+@import "./../../../theme/theme-variables.scss";
+
+.flight_card {
+  margin: 0 !important;
+  box-shadow: none !important;
+  .flight_info {
+    .dept_seg {
+      font-size: 12px;
+      .way_def {
+        color: var(--text_link_color);
+        padding: 0 10px;
+        font-weight: 500;
+        font-size: 12px;
+      }
+      .trip_date {
+        font-size: 11px;
+        display: none;
+      }
+    }
+
+    .flight_row {
+      .row {
+        padding: 0 10px;
+      }
+    }
+  }
+}
+
+.is_Itin_hide {
+  .collapse {
+    .flight_info {
+      padding: 0 !important;
+    }
+  }
+}
+
+.layover_section {
+  background-color: var(--layover_bg_color);
+  padding: 4px 10px;
+  font-size: 12px;
+  margin: 10px 0px;
+  color: var(--layover_text_color);
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  .lap_txt {
+    color: #dc6803;
+  }
+}

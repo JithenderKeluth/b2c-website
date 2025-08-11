@@ -1,0 +1,51 @@
+@import "./../../../theme/theme-variables.scss";
+
+.faq {
+  .faqNav {
+    ul {
+      padding: 0px;
+    }
+    li {
+      list-style-type: none;
+      a {
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--text_color_new);
+        border: 1px solid #dadfe6;
+        border-radius: 4px;
+        margin-right: 20px;
+        margin-top: 17px;
+        transition: transform 0.2s ease-out 0s, box-shadow 0.2s ease-out 0s;
+        padding: 6px 20px 6px 20px;
+        line-height: 42px;
+        width: 31%;
+        float: left;
+        img {
+          margin-right: 20px;
+          width: 32px;
+          height: 32px;
+        }
+        i {
+          font-size: 20px;
+          color: #7f90b5;
+          line-height: 42px;
+          float: right;
+        }
+      }
+      a:hover {
+        border: 1px solid $color-neutral-400;
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .faq .faqNav {
+    li a {
+      width: 100%;
+    }
+    li a:first-child {
+      margin-top: 10px !important;
+    }
+  }
+}

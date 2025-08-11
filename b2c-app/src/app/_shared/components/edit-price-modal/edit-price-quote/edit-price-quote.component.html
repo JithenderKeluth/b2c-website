@@ -1,0 +1,88 @@
+<div class="quote-page">
+  <div id="bookingQuote" #bookingQuote class="mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-2 mt-3">
+      <div>
+        <span class="agencyInfo" *ngIf="agencyInfo">
+          <img [src]="agencyInfo?.logo" alt="agencylogo" class="agencylogo" *ngIf="agencyInfo?.logo">
+          <span *ngIf="!agencyInfo?.logo && agencyInfo?.name" class="agencyName">{{agencyInfo?.name}}</span>
+        </span>
+        <span class="quote-title" *ngIf="!agencyInfo">
+          QUOTE
+        </span>
+      </div>
+      <div>
+        <div>Quote: #{{ quoteNumber }}</div>
+        <div>
+          {{ date | date: ' d MMM, y' }}
+        </div>
+      </div>
+    </div>
+    <div class="flight-details-section">
+      <span class="font-weight-bold">Flight Details</span>
+    </div>
+    <div *ngIf="tripType == MULTI">
+      <div class="filght-details pb-3" *ngFor="let odoList of itinerary.odoList; let idx = index">
+        <div class="flight-details-top pl-3 py-2 mb-3">
+          <span><strong>Trip {{ idx + 1 }} |
+              {{ itinerary.odoList[idx].segments[0].departureDateTime | date: 'EEEE, d
+              MMMM' }}
+            </strong>
+          </span>
+        </div>
+        <div>
+          <app-flight-details-view [odoList]="itinerary.odoList[idx]"></app-flight-details-view>
+        </div>
+      </div>
+    </div>
+    <div class="filght-details pb-3" *ngIf="tripType !== MULTI">
+      <div class="flight-details-top pl-3 py-2 mb-3">
+        <span><strong>Departure | {{ getFirstOdoFirstSegment().departureDateTime | date: 'EEEE, d
+            MMMM' }}
+          </strong>
+        </span>
+      </div>
+      <div>
+        <app-flight-details-view [odoList]="itinerary.odoList[ARRAY_ZERO_INDEX]"></app-flight-details-view>
+      </div>
+    </div>
+    <div class="filght-details pb-3 " *ngIf="tripType === RETURN">
+      <div class="flight-details-top pl-3 py-2 mb-3">
+        <span><strong>Return | {{ getSecondOdoFirstSegment().departureDateTime | date: 'EEEE, d MMMM' }} </strong>
+        </span>
+      </div>
+      <div>
+        <app-flight-details-view [odoList]="itinerary.odoList[ARRAY_FIRST_INDEX]"></app-flight-details-view>
+      </div>
+    </div>
+    <div class="filght-details pb-3 ">
+      <div class="flight-details-top mb-3 pl-3 py-2">
+        <span><strong>Price Details</strong> </span>
+      </div>
+      <div *ngIf="updatedPrice">
+        <div class="d-flex justify-content-between align-items-center pt-3 px-3 font-weight-bold">
+          <div>Actual amount</div>
+          <div>
+            {{ currency | currencyCode
+            }}<span>{{ updatedPrice?.original_amount + updatedPrice?.markupAmount | currencyCode | currency: '' + '
+              ':'symbol':'2.0' }}</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center pt-3 px-3 font-weight-bold" *ngIf="displayDiscountonQuote">
+          <div>Discount amount</div>
+          <div>
+            -{{ currency | currencyCode
+            }}<span>{{ updatedPrice?.discountAmount | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center pt-3 px-3 font-weight-bold">
+          <div>Amount to be paid</div>
+          <div>
+            {{ currency | currencyCode
+            }}<span>{{ updatedPrice?.totalAmount | currencyCode | currency: '' + ' ':'symbol':'2.0' }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,141 @@
+@import "./../../../theme/theme-variables.scss";
+
+.check_In_baggage_sec{
+    .baggage_desc{
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text_success_color);
+    }
+    .baggageItin{
+      color: var(--text_primary_color);
+      padding: 15px 0px;
+      .baggage_info{
+        font-size: 13px;
+        .includedTag{
+          background-color: var(--text_success_color);
+          color: $white;
+          font-size: 10px;
+          text-transform: uppercase;
+          padding: 4px 10px;
+          border-radius: 11px;
+          margin-left: 5px;
+        }
+      }
+    }
+   
+    .baggage_InfoSec{
+      background-color: #f4f7fc;
+      border-radius: 8px;
+      padding: 10px 20px ;
+     
+      .baggageInfo{
+       margin: 10px 0px;
+       .paxname{
+        font-size: 16px;
+        font-weight: 500;
+        width: 25%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: var(--text_primary_color);
+      }
+        ul {
+          display: block;
+          padding: 0;
+          width: 75%;
+          border: none !important;
+          background-color: transparent;
+          margin-left: auto;
+          li {
+            list-style-type: none;
+            .baggage_class {
+                border-radius: 5px;
+               
+                .card {
+                  width: 100%;
+                  border: none !important;
+                  background-color: transparent;
+                  margin-left: auto;
+                  .selectedBag {
+                    border: 1px solid var(--text_link_color);
+                    border-radius: 8px;
+                  }
+                  .unselectBag {
+                    border-radius: 8px;
+                    border: 1px solid #acb3c1;
+                  }
+                  .card-body {
+                    padding: 10px 15px;
+                    width: 100%;
+                    display: inline-flex;
+                    font-size: 14px;
+                    align-items: center;
+                    line-height: 10px;
+                   
+                    .des_cls {
+                      width: 100%;
+                      line-height: 24px;
+                      .bag_des {
+                        font-weight: 500;
+                        color: var(--text_primary_color);
+                        margin: 0px 0px 0px 38px;
+                        font-size: 14px;
+                        img{
+                          position: relative;
+                          top: -2px;
+                        }
+                      }
+                      .amt {
+                        font-size: 15px;
+                      }
+                    }
+                    .select_cls {
+                      font-weight: 600;
+                      width: 8%;
+                     .baggage_select{
+                      cursor: pointer;
+                     }
+                    }
+                    
+                  }
+                }
+              }
+            
+          }
+        }
+      }
+    }
+   
+    
+  }
+  @media (max-width: map-get($grid-breakpoints, lg)) {
+    .baggage_InfoSec{
+      padding: 15px !important;
+    }
+    .baggageInfo{
+      margin: 0px 0px 10px 0px !important;
+      .paxname{
+        width: 100% !important;
+        font-size: 14px !important;
+      }
+      ul{
+        width: 100% !important;
+      }
+      .baggage_class{
+        padding: 0px !important;
+        .card{
+          width: 100% !important;
+        }
+        .card-body{
+          padding: 10px !important;
+          .select_cls{
+            width: 10% !important;
+          }
+        }
+       .bag_des{
+            font-size: 14px !important;
+        }
+       
+      }
+    }
+   
+  }

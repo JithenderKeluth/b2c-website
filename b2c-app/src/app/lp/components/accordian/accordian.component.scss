@@ -1,0 +1,47 @@
+@import "../../../../../src/theme/theme-variables.scss";
+.lp-accordian {
+  background: transparent;
+  transition: all 0.5s ease;
+  .accordian-item {
+    border-radius: 5px;
+    background: none;
+    border: none;
+    margin-bottom: 1rem;
+    transition: all 0.5s ease;
+    .accordian-header {
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 5px;
+      padding-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      .accordian-icon {
+        color: #a6a6a6;
+        transition: all 0.3s ease;
+        i {
+          font-size: 0.75rem;
+        }
+      }
+    }
+    .accordian-header.bg-white {
+      padding: 1rem;
+      box-shadow: 0 0 0.25rem 0.05rem rgba(0, 0, 0, 0.05);
+    }
+    .accordian-body {
+      font-size: 0.75rem;
+      transition: all 0.3s ease;
+    }
+    .hide-accordian {
+      visibility: hidden;
+      opacity: 0;
+      height: 0;
+      padding: 0;
+      transition: all 0.3s ease;
+    }
+  }
+  @media screen and (max-width: $screen-lg-min-width) {
+    padding-top: 1rem;
+  }
+}

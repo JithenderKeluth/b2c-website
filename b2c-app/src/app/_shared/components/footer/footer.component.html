@@ -1,0 +1,222 @@
+<div *ngIf="footerLinks && !hideFooterLinks && countryValue !== 'FS'" class="subscription_sec">
+  <div class="container" *ngIf="footerLinks.length !== 0">
+    <div class="row">
+      <div class="col pad-footer">
+        <div class="content">
+          <div class="foot_head" translate>Plan your trip</div>
+          <div *ngFor="let planTrip of planYourTripArray; let i = index" class="mt-1">
+            <a href="{{ planTrip.url }}" rel="noopener" target="_blank">{{ planTrip.name }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col pad-footer">
+        <div class="content">
+          <div class="foot_head" translate>Partners</div>
+          <div *ngFor="let partner of partnersArray; let j = index" class="mt-1">
+            <a href="{{ partner.url }}" rel="noopener" target="_blank">{{ partner.name }}</a>
+          </div>
+          <div *ngIf="countryValue === 'NG'" class="mt-1">
+            <a href="https://www.travelstart.com.ng/lp/agents" rel="noopener" target="_blank">Become a Travelstart Agent</a>
+          </div>
+          <div class="mt-1">
+            <a *ngIf="isShowTSPLUS()" rel="nofollow" (click)="upgradeTsPlus()" target="_blank">Join Travelstart +</a>
+            <span *ngIf="isShowTSPLUS()" class="ts_plus">NEW</span>
+          </div>
+        </div>
+      </div>
+      <div class="col pad-footer">
+        <div class="content">
+          <div class="foot_head" translate>Need help?</div>
+          <div *ngFor="let help of needHelpArray; let k = index" class="mt-1">
+            <a href="{{ help.url }}" rel="noopener" target="_blank">{{ help?.name }}</a>
+          </div>
+          <div class="mt-1">
+            <a *ngIf="countryValue === 'ZA'" rel="nofollow" (click)="upgradeTsPlus()" target="_blank"
+              >Access to massive discounts</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col pad-footer">
+        <div class="content">
+          <div class="foot_head" translate>TravelLab Group</div>
+          <div *ngFor="let tsGroup of travelLabGroup; let k = index" class="mt-1">
+            <a href="{{ tsGroup.url }}" rel="noopener" target="_blank">{{ tsGroup.name }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer *ngIf="iframeWidgetService.isShowComponent() && countryValue !== 'FS'" class="footer_area">
+  <div class="ftr_btm_area">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6 left_nav">
+          <div class="text-left text-center-xs">
+            <ul class="nav-list">
+              <li class="nav-list-item">
+                <a href="{{ 'about us URL' | translate }}" rel="noopener" class="nav-link">
+                  <span translate>About Us</span>
+                </a>
+              </li>
+              <li class="nav-list-item">
+                <a translate class="nav-link" rel="nofollow" (click)="goToContactUs()">
+                  <span translate>Contact Details</span>
+                </a>
+              </li>
+
+              <li class="nav-list-item">
+                <a translate href="{{ 'careers URL' | translate }}" rel="noopener" class="nav-link">
+                  <span translate>Careers</span>
+                </a>
+              </li>
+              <li class="nav-list-item">
+                <a translate href="{{ 'press URL' | translate }}" rel="noopener" class="nav-link">
+                  <span translate>Press</span>
+                </a>
+              </li>
+
+              <li class="nav-list-item">
+                <a
+                  translate
+                  href="{{ 'terms and conditions URL' | translate }}"
+                  target="_blank"
+                  rel="noopener"
+                  class="nav-link"
+                >
+                  <span translate>T&Cs</span>
+                </a>
+              </li>
+              <li>
+                <a translate href="{{ 'privacy URL' | translate }}" target="_blank" rel="noopener" class="nav-link">
+                  <span translate>Privacy</span>
+                </a>
+              </li>
+              <li *ngIf="isShowTSPLUS()" class="nav-list-item">
+                <a rel="nofollow" (click)="upgradeTsPlus()" target="_blank">
+                  <span translate>About travelstart +</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-6 text-right text-center-xs">
+          <span class="copyright_text text-right text-center-xs">
+            <span translate>Invented in Sweden, made with</span>
+            <span>
+              <img
+                src="https://d24ndt2yiijez0.cloudfront.net/uploads/image/asset/16682/Heart-12x12.png"
+                height="12px"
+                width="12px"
+                loading="lazy"
+                alt="cpt"
+                style="vertical-align: text-bottom"
+            /></span>
+            <span translate>in Sunny Cape Town.</span>
+          </span>
+          <div class="ts-social-list">
+            <ul>
+              <li>
+                <a href="{{ 'facebook_URL' | translate }}" target="_blank" rel="noopener" class="tssi-color-grey-500">
+                  <img ImageSrc src="../../../../assets/icons/fb-new-icn.svg" alt="fb" />
+                </a>
+              </li>
+              <li *ngIf="countryValue !== 'NG'">
+                <a href="{{ 'twitter_URL' | translate }}" target="_blank" rel="noopener" class="tssi-color-grey-500">
+                  <img ImageSrc src="../../../../assets/icons/x-new-icn.svg" alt="twitter" />
+                </a>
+              </li>
+              <li>
+                <a href="{{ 'linked_in_URL' | translate }}" target="_blank" rel="noopener" class="tssi-color-grey-500">
+                  <img ImageSrc src="../../../../assets/icons/lin-new-icn.svg" alt="linkedin" />
+                </a>
+              </li>
+
+              <li>
+                <a href="{{ 'instagram_URL' | translate }}" target="_blank" rel="noopener" class="tssi-color-grey-500">
+                  <img ImageSrc src="../../../../assets/icons/insta-new-icn.svg" alt="instagram" />
+                </a>
+              </li>
+              <li>
+                <a href="{{ 'you_tube_link' | translate }}" target="_blank" rel="noopener" class="tssi-color-grey-500">
+                  <img ImageSrc src="../../../../assets/icons/yt-new-icn.svg" alt="youtube" />
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ftr_copy_rights_new">
+    <div class="container">
+      <div class="row pb-4">
+        <div class="col-lg-6 col-sm-12 col-md-12">
+          <div class="ts_copy_rights">
+            <span translate>Copyright ©</span> <span>{{ getPresentYear() }}</span>
+            <span translate>Travelstart Online Travel Operations Pty LTD (2004/016841/07).</span>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 col-md-12">
+          <div class="trust-logos float-right text-center-xs">
+            <img
+              ImageSrc
+              *ngIf="show3DSecure"
+              src="./../../../../assets/images/3D_secure.jpg"
+              alt="3DSecure"
+              loading="lazy"
+            />
+
+            <img
+              *ngIf="show3DSecure"
+              ImageSrc
+              src="./../../../../assets/images/DigiCert_Blue_Logo_Large.jpg"
+              alt="3DSecure"
+              loading="lazy"
+            />
+
+            <img
+              *ngIf="show3DSecure"
+              ImageSrc
+              src="./../../../../assets/images/PCI.jpg"
+              alt="3DSecure"
+              loading="lazy"
+            />
+
+            <img
+              ImageSrc
+              *ngIf="showIataSecured()"
+              src="../../../../assets/img/trustlogos/trustlogo-footer-iata.png"
+              alt="3DSecure"
+              width="34"
+              loading="lazy"
+            />
+
+            <img
+              *ngIf="showIataSecured()"
+              ImageSrc
+              src="../../../../assets/img/trustlogos/trustlogo-footer-cgso.png"
+              alt="3DSecure"
+              width="134"
+              loading="lazy"
+            />
+            <img
+              *ngIf="showIataSecured()"
+              ImageSrc
+              src="../../../../assets/img/trustlogos/trustlogo-footer-popia.png"
+              alt="3DSecure"
+              width="34px"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<app-fs-footer *ngIf="countryValue === 'FS'"></app-fs-footer>

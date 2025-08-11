@@ -1,0 +1,90 @@
+<div class="container-fluid white_label p-0">
+  <app-header (tabSelectionEvents)="setActive($event,true)"></app-header>
+  <div class="overlay" *ngIf="loading">
+    <div class="loader"></div>
+  </div>
+
+  <div class="site_banner" [ngClass]="{ 'mmf active': isValidPage === true }">
+    <div class="site_capt container" *ngIf="!isValidPage">
+      <h1 class="deals_main_headtxt">
+        <span class="mmp_logo pt-2"><img ImageSrc src="./assets/images/ts+landing/Frame.svg" /></span>
+        Hello {{ userName }}
+      </h1>
+      <h3 class="deal_subtxt">Welcome to your one-stop travel shop</h3>
+    </div>
+
+    <div class="container">
+      <div class="search_section">
+        <div class="row" *ngIf="!isValidPage">
+          <div class="col-12">
+            <!-- Flights Button -->
+            <button *ngIf="activeButton !== 'flights'" class="btn default" (click)="setActive('flights')">
+              <img ImageSrc src="../../assets/images/ts+landing/flight_default.svg" alt="flight_default" />
+              Flights
+            </button>
+            <button *ngIf="activeButton == 'flights'" class="btn primary active" (click)="setActive('flights')">
+              <img ImageSrc src="../../assets/images/ts+landing/flight_active.svg" alt="flight_active" />
+              Flights
+            </button>
+
+            <!-- Hotels Button -->
+            <button *ngIf="activeButton !== 'hotels'" class="btn default" (click)="setActive('hotels')">
+              <img ImageSrc src="../../assets/images/ts+landing/hotel_default.svg" alt="hotel_default" />
+              Hotels
+            </button>
+            <button *ngIf="activeButton === 'hotels'" class="btn primary active" (click)="setActive('hotels')">
+              <img ImageSrc src="../../assets/images/ts+landing/hotel_active.svg" alt="hotel_active" />
+              Hotels
+            </button>
+
+            <!-- Cars Button -->
+            <button *ngIf="activeButton !== 'cars'" class="btn default" (click)="setActive('cars')">
+              <img ImageSrc src="../../assets/images/ts+landing/cars_default.svg" alt="cars_default" />
+              Cars
+            </button>
+            <button *ngIf="activeButton === 'cars'" class="btn primary active" (click)="setActive('cars')">
+              <img ImageSrc src="../../assets/images/ts+landing/cars_active.svg" alt="cars_active" />
+              Cars
+            </button>
+          </div>
+        </div>
+
+        <!-- Conditionally displayed Flights div -->
+        <div *ngIf="activeButton === 'flights'" class="flights">
+          <app-search></app-search>
+        </div>
+
+        <div *ngIf="activeButton === 'hotels'" class="hotels">
+          <app-hotels-widget></app-hotels-widget>
+        </div>
+
+        <div *ngIf="activeButton === 'cars'" class="cars" [ngClass]="!isValidPage ? 'mt-4' : ''">
+          <div class="passenger_select d-flex mb-4" *ngIf="!isValidPage">
+            <span class="mt-2 mr-3">First Select Driver</span>
+            <app-user-travellers
+              [userActiveTab]="activeButton"
+              (dataEmitter)="handleUserData($event)"
+            ></app-user-travellers>
+          </div>
+
+          <div *ngIf="paxSelectedList.length !== 0" class="">
+            <app-meili-embed (triggerRedemptionAPI)="triggerMomentumRedumptionAPI($event)"></app-meili-embed>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4 p-0" *ngIf="!isValidPage">
+    <div *ngIf="apiService?.isTS_PLUSUser()">
+      <app-home-benefits-tiles></app-home-benefits-tiles>
+    </div>
+    <div class="mt-4 pl-3 pr-3">
+      <app-home-page-banners></app-home-page-banners>
+    </div>
+  </div>
+</div>
+
+<div class="momentum_multiply mt-3 mb-5 text-center ">
+  <img ImageSrc class="" src="./assets/images/ts+landing/travelstart-powered.svg" />
+</div>

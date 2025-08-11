@@ -1,0 +1,117 @@
+<div class="itinerary_info" *ngIf="odoList">
+  <div class="route_details">
+
+    <div class="flight_info">
+      <div class="row mb-2" *ngFor="let segments of odoList.segments; let index = index; let last = last">
+        <div class="text-lg-center col-lg-3 col-sm-12 mb-2 mb-lg-0">
+          <span class="airl_logo">
+            <img class="carrier_logo airLineXs" ImageSrc
+              src="assets/img/carriers/retina48px/carrier-{{ segments.airlineCode }}.png"
+              alt="{{ segments.airlineCode }}" />
+          </span>
+          <span class="air_info clearfix">
+            <span class="airl_name">
+              {{ getAirlinename(flightsList.airlineNames[segments.airlineCode]) }}
+            </span>
+            <span class="airl_numb d-block"> ({{ segments.flightNumber }}) </span>
+
+            <div *ngIf="segments.opAirlineCode">
+              <div class="mweb opAirline">Operated by {{ flightsList.airlineNames[segments.opAirlineCode] }}</div>
+            </div>
+          </span>
+        </div>
+        <div class="col-md-12 col-lg-9 col-12">
+          <div class="row">
+            <div class="col-lg-4 col-4 pl-lg-0">
+              <div class="airp_name">{{ segments.departureDateTime | date: 'd MMM yy' }}</div>
+              <div class="time">
+                {{ segments.departureDateTime | date: 'HH:mm' }}
+              </div>
+              <div class="airp_name">
+                {{ getAirportName(segments.origCode) }}
+              </div>
+            </div>
+
+            <div class="text-center col-lg-4 col-4">
+              <div class="flight_data w-100">
+                <div class="dur">
+                  {{ getTimeInHours(segments.duration) }}
+                </div>
+                <div class="f_line">
+                  <div class="l_line"></div>
+                </div>
+                <div class="stops" translate>
+                  Non stop
+                  <span class="cabinClass d-none d-lg-inline">| {{ segments.cabinClass | lowercase }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4 col-4  ml-0 text-right text-lg-left">
+              <div class="airp_name">{{ segments.arrivalDateTime | date: 'd MMM yy' }}</div>
+              <div class="time">
+                {{ segments.arrivalDateTime | date: 'HH:mm' }}
+              </div>
+              <div class="airp_name">
+                {{ getAirportName(segments.destCode) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="extras mt-1 offset-0 offset-lg-3 pl-lg-0 col-12 col-lg-8">
+          <span class="baggage" *ngIf="segments?.baggageAllowance?.length > 0">
+            <span *ngFor="let bag of segments.baggageAllowance; let idx = index; let first = first" class="baggage_des" [ngClass]="bag === 'No baggage allowance'? 'noBaggage_Bg': ''">
+              <img *ngIf="hangBag(bag)" class="bag_icon handBag"
+                src="./../../../assets/icons/srp_Icons/new_hand_baggage.svg" alt="hand" width="10px" />
+              <img *ngIf="bag === 'No baggage allowance'" class="bag_icon ml-1"
+                src="./../../../assets/icons/srp_Icons/new_no_baggage.svg" alt="no bag" />
+              <img *ngIf="bagageDesc(bag) === 'Checked baggage'" class="bag_icon ml-1"
+                src="./../../../assets/icons/srp_Icons/new_checked_baggage.svg" alt="checked_baggage" />
+
+              <span *ngIf="bag === 'No baggage allowance'" class="handLaggage"><span translate class="baggage_val">No
+                  baggage</span>
+              </span>
+              <span *ngIf="bag !== 'No baggage allowance'" class="handLaggage"><span class="baggage_val">{{
+                  baggageDescription(bag) }}</span>
+              </span>
+            </span>
+          </span>
+          <div class="baggage" *ngIf="!segments?.baggageAllowance">
+            <span>
+              <span *ngIf="getBaggage(odoList.segments[0].ID, 'hand')">
+                <img class="bag_icon " src="./../../../../../assets/icons/srp_Icons/new_hand_baggage.svg"
+                  alt="new_hand_baggage" loading="lazy" />{{getBaggage(odoList.segments[0].ID, 'hand') }}
+              </span>
+              <span *ngIf="getBaggage(odoList.segments[0].ID, 'checked').length != 0">
+                <span *ngIf="getBaggage(odoList.segments[0].ID, 'checked') == 'No baggage allowance'" class="noBaggage_Bg">
+                  <img class="bag_icon ml-1" src="./../../../../../assets/icons/srp_Icons/new_no_baggage.svg"
+                    alt="no bag" loading="lazy" />
+
+                  <span translate class="no_baggage_txt">No Baggage</span>
+                </span>
+                <span class="hglt" *ngIf="getBaggage(odoList.segments[0].ID, 'checked') != 'No baggage allowance'">
+                  <img class="bag_icon" src="./../../../../../assets/icons/srp_Icons/new_checked_baggage.svg" alt="hand"
+                    loading="lazy" /><span>{{ getBaggage(odoList.segments[0].ID, 'checked') }}</span>
+                </span>
+              </span>
+
+            </span>
+          </div>
+
+          <div class="clearfix"></div>
+          <div class="offset-0 offset-lg-3 col-12 layover_section" *ngIf="odoList.segments.length > 1 && !last">
+            <div class="layover">
+              <span>
+                <img src="./../../../assets/icons/srp_Icons/flight_dt_layover.svg" alt="layover" />
+                <span class="lap_txt">{{ getLayoverTxt(odoList)[index] }}</span>
+                {{ getLayoverTime(odoList)[index] }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

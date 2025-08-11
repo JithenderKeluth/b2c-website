@@ -1,0 +1,74 @@
+<div class="container walletSection">
+  <div class="row mt-3">
+    <div class="col-sm-4 wallet" *ngIf="walletVouchers">
+      <div class="wallet-balance" translate="">
+        Total Balance
+        <img class="pull-right" src="../../../assets/icons/wallet-icons/wallet-icon-new.svg" alt="wallet" /><br />
+        <div class="p-0 m-0 walletAmount">
+          {{ currency | currencyCode
+          }}{{ walletAmount }}
+        </div>
+        <span class="ligh-txt">Applicable for all flight, hotels bookings</span>
+      </div>
+    </div>
+    <div class="col-sm-8 vouchers" *ngIf="vouchers">
+      <!-- Flight Vouchers List -->
+      <div translate class="voucherHeading">FLIGHT VOUCHERS</div>
+      <ul class="voucher-list" *ngIf="vouchers?.flightVouchers?.length > 0">
+        <li *ngFor="let voucher of vouchers.flightVouchers">
+          <div class="d-flex align-items-center">
+            <div>
+              <img ImageSrc class="mr-4" src="../../../assets/icons/wallet-icons/flightVoucher.svg" alt="flights" />
+            </div>
+            <div class=" d-lg-flex align-items-center">
+              <span class="mr-3 voucherAmount">{{ voucher.currency | currencyCode }}{{ voucher.amount }}</span>
+              <span class="txt-mute d-block d-lg-inline-block ml-">Applicable for {{ voucher.regionalityType | lowercase }} flights.</span>
+            </div>
+
+            <div class="ml-auto">
+              <div *ngIf="checkVoucherExpiry(voucher.validUntil) !== 'Expired'">
+                <span translate class="txt-mute">Expires on: </span><span class="date d-block d-lg-inline-block">{{ voucher.validUntil }}</span>
+              </div>
+              <div *ngIf="checkVoucherExpiry(voucher.validUntil) == 'Expired'">
+                <span class="expiredTxt">Expired</span>
+              </div>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div *ngIf="vouchers?.flightVouchers?.length == 0" class="noVouchersTxt"> 
+        Vouchers are not available
+      </div>
+
+      <!-- Hotel Vouchers List -->
+      <div translate class="voucherHeading">HOTEL VOUCHERS</div>
+      <ul class="voucher-list" *ngIf="vouchers?.hotelVouchers?.length > 0">
+        <li *ngFor="let voucher of vouchers.hotelVouchers">
+          <div class="d-flex align-items-center">
+            <div>
+              <img ImageSrc class="mr-4" src="../../../assets/icons/wallet-icons/hotelVoucher.svg" alt="hotel" />
+            </div>
+            <div class="d-lg-flex align-items-center">
+              <span class="mr-3 voucherAmount">
+                {{ voucher.currency | currencyCode }}{{ voucher.amount }}
+              </span>
+              <span translate class="txt-mute d-block d-lg-inline-block">Applicable for any hotel bookings.</span>
+             </div>
+            <div class="ml-auto">
+              <div *ngIf="checkVoucherExpiry(voucher.validUntil) !== 'Expired'">
+                <span translate class="txt-mute">Expires on: </span><span class="date d-block d-lg-inline-block">{{ voucher.validUntil }}</span>
+              </div>
+              <div *ngIf="checkVoucherExpiry(voucher.validUntil) == 'Expired'">
+                <span class="expiredTxt">Expired</span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div *ngIf="vouchers?.hotelVouchers?.length == 0" class="noVouchersTxt"> 
+        Vouchers are not available
+      </div>
+    </div>
+  </div>
+</div>

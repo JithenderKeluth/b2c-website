@@ -1,0 +1,69 @@
+<div class="meili-wideget-container">
+    <div class="widget-sec">
+        <app-meili-embed [B2B_Meili_Info]="B2B_meili_info"></app-meili-embed>
+    </div>
+</div>
+
+
+<div
+class="modal hide"
+id="meili-content_modal"
+data-backdrop="static"
+data-keyboard="false"
+tabindex="-1"
+role="dialog"
+aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" style="height: auto">
+        <form [formGroup]="meiliContentForm">
+            <div class="mb-3 heading_sec">
+                Update your details
+            </div>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="roseId">Rose Number</label>
+                    <input type="text" class="form-control" formControlName="roseId">
+                    <div class="validation_msg" *ngIf="submitted && meiliContentForm.get('roseId').errors">
+                        <div *ngIf="meiliContentForm.get('roseId').errors.required">
+                            Rose Number is required
+                        </div>
+                        <div *ngIf="meiliContentForm.get('roseId').errors.pattern">
+                            Invalid Rose Number 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="roseId">AAN Id</label>
+                    <input type="text" class="form-control" formControlName="AAN_Id">
+                    <div class="validation_msg" *ngIf="submitted && meiliContentForm.get('AAN_Id').errors">
+                        <div *ngIf="meiliContentForm.get('AAN_Id').errors.required">
+                            AAN Id is required
+                        </div>
+                        <div *ngIf="meiliContentForm.get('AAN_Id').errors.pattern">
+                            Invalid AAN Id 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="roseId">IATA Code</label>
+                    <input type="text" class="form-control" formControlName="iata">
+                    <div class="validation_msg" *ngIf="submitted && meiliContentForm.get('iata').errors">
+                        <div *ngIf="meiliContentForm.get('iata').errors.required">
+                            IATA Code is required
+                        </div>
+                        <div *ngIf="meiliContentForm.get('iata').errors.pattern">
+                            Invalid IATA Code
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-right">
+                    <button class="btn primary_btn" (click)="updateMeiliWidget()">Continue</button>
+                </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

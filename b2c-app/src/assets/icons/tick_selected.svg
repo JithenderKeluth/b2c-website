@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+  <g id="tick_selected" transform="translate(-8799 -1933)">
+    <g id="Ellipse_2273" data-name="Ellipse 2273" transform="translate(8799 1933)" fill="#26b7f0" stroke="#24b2f5" stroke-width="1">
+      <circle cx="11" cy="11" r="11" stroke="none"/>
+      <circle cx="11" cy="11" r="10.5" fill="none"/>
+    </g>
+    <path id="Path_47035" data-name="Path 47035" d="M210.579,167.241a1.058,1.058,0,0,1-.64-.215l-4.522-3.43,1.28-1.688,3.625,2.75,5.613-8.419,1.762,1.175-6.237,9.356a1.059,1.059,0,0,1-.881.472Z" transform="matrix(0.978, 0.208, -0.208, 0.978, 8636.843, 1741.467)" fill="#fff"/>
+  </g>
+</svg>

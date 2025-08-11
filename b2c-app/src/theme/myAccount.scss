@@ -1,0 +1,111 @@
+@import "./../theme/theme-variables.scss";
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .booking_Itinerary_page .travellers_details {
+    border-radius: 10px !important;
+  }
+  .fare_breakdown {
+    padding: 15px 15px !important;
+    .fare_info {
+      width: 100%;
+      font-size: 16px !important;
+      .total_amt {
+        padding: 15px 15px !important;
+      }
+      .tripType {
+        padding: 20px 15px 0px !important;
+        .sec_heading {
+          font-size: 16px !important;
+        }
+      }
+    }
+  }
+
+  .itinerary_info .route_details {
+    padding: 20px 3px;
+    .segments {
+      .bookRef {
+        .pnr {
+          font-size: 12px !important;
+        }
+      }
+      ul li {
+        padding: 2px 5px;
+        .list_data {
+          font-size: 11px;
+        }
+      }
+      .seg_legs {
+        .layover_section {
+          .layover {
+            display: block;
+            border-bottom: 1px dashed #e4e5ea;
+          }
+        }
+        .time_labl {
+          font-size: 11px;
+        }
+        .dept_city {
+          font-size: 13px;
+        }
+        .fly_icon {
+          font-size: 11px;
+          img {
+            width: 100%;
+          }
+        }
+        .air_name,
+        .flt_num {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+  .price_breakup {
+    .fares {
+      .table {
+        td {
+          padding: 10px 0px;
+        }
+      }
+    }
+  }
+
+  .manage_booking_section .booking_section .total_viewcontainer {
+    .view_Bookings {
+      .outer {
+        .nav-tabs .nav-item .nav-link {
+          padding: 5px 15px !important;
+        }
+      }
+      .cancel_booking_section .cancel_booking .cancel_proceed .proceed_body {
+        .proceed_des {
+          font-size: 12px !important;
+        }
+
+        .proceed_head {
+          padding: 10px 0px 10px 15px !important;
+          h5 {
+            font-size: 14px !important;
+            font-weight: 500 !important;
+          }
+        }
+      }
+      .cancel_reasons {
+        ul {
+          li {
+            label {
+              text-align: left !important;
+            }
+          }
+        }
+        .reason_head {
+          padding: 10px 0px 10px 15px !important;
+          h5 {
+            font-size: 14px !important;
+            font-weight: 500 !important;
+          }
+        }
+      }
+    }
+  }
+}

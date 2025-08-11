@@ -1,0 +1,27 @@
+.ticketBody {
+  padding: 0px;
+  .ticket_head_txt {
+    font-size: 16px;
+    font-weight: normal;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0px;
+  }
+  li {
+    font-size: 13px;
+    font-weight: normal;
+    padding: 5px;
+    line-height: 18px;
+    display: inline-flex;
+  }
+  li::before {
+    content: "•";
+    color: #abbac1;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+    padding-right: 21px;
+  }
+}

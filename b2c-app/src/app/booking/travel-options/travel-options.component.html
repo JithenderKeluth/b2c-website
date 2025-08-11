@@ -1,0 +1,146 @@
+<div
+  class="container travel_options pt-4 pb-2"
+  [ngClass]="showOptMessage && selectedCategory !== 'flexi' && !this.checkboxValue ? 'isTravelOptErr' : 'borderStyle'"
+  *ngIf="flexiProduct"
+>
+  <div class="row">
+    <div class="col-md-1 d-none d-md-block">
+      <img
+        ImageSrc
+        class="travel_icon"
+        src="../../../assets/icons/upgrade-offer-icn.svg"
+        alt="Flexibility"
+        width="46px"
+      />
+    </div>
+
+    <div class="col-md-7 pl-4">
+      <h3 class="header">
+        <img
+          ImageSrc
+          class="d-inline-block d-md-none"
+          src="../../../assets/icons/upgrade-offer-icn.svg"
+          alt="Flexibility"
+          width="20px"
+        />
+        Upgrade to <span class="text_high">Flexi Ticket</span>
+
+        <div class="clearfix mt-2 d-block d-md-none"></div>
+
+        <span
+          class="flexi_badge"
+          [ngClass]="{
+            'not-opted': selectedCategory !== 'flexi',
+            'on-opted': selectedCategory === 'flexi'
+          }"
+        >
+          <!-- <i class="fa fa-check" *ngIf="selectedCategory === 'flexi'" aria-hidden="true"></i> -->
+          <img
+            ImageSrc
+            *ngIf="selectedCategory === 'flexi'"
+            class="pr-1"
+            width="12px"
+            loading="lazy"
+            src="../../../assets/icons/white-tick.svg"
+            alt="Date change"
+          />
+          {{ selectedCategory === 'flexi' ? ' Upgraded' : 'Only available now' }}
+        </span>
+      </h3>
+      <ul class="list-unstyled mt-1">
+        <li></li>
+        <li>
+          <img
+            ImageSrc
+            class="tick"
+            loading="lazy"
+            src="../../../assets/icons/tick-icn.svg"
+            alt="Date change"
+            width="16px"
+          />
+          <span class="category pl-1"
+            >Flexibility
+            <span class="text-muted pl-4 pr-4">Change your travel plans up to 24 hours before departure</span></span
+          >
+        </li>
+        <li>
+          <img
+            ImageSrc
+            class="tick"
+            loading="lazy"
+            src="../../../assets/icons/tick-icn.svg"
+            alt="Date change"
+            width="16px"
+          />
+          <span class="category pl-1"
+            >Date Change
+            <span class="text-muted pl-4 pr-4"
+              >Each passenger gets a free date change with no airline penalties.</span
+            ></span
+          >
+        </li>
+        <li>
+          <span class="ml-4">
+            <a
+              rel="noopener"
+              target="_blank"
+              class="know_more_link"
+              href="https://www.travelstart.co.za/lp/products-services/flexi-travel-dates?=undefined"
+              >Know more</a
+            ></span
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-4 pr-4">
+      <span
+        class="text-danger float-right mt-1"
+        *ngIf="showOptMessage && selectedCategory !== 'flexi' && !this.checkboxValue"
+        >Please select an option.</span
+      >
+      <div class="clearfix"></div>
+
+      <div class="price_info">
+        <div>
+          <span class="price"
+            >{{ flexiProduct.currencyCode | currencyCode }}{{ flexiProduct.amount | number: '1.2-2' }}
+            <span class="text-muted d-block">all passengers</span>
+          </span>
+        </div>
+        <div>
+          <button
+            (click)="selectCategory()"
+            type="button"
+            class="btn"
+            [ngClass]="{
+              'outline-secondary': selectedCategory === 'flexi',
+              primary_btn: selectedCategory !== 'flexi'
+            }"
+          >
+            <img
+              ImageSrc
+              *ngIf="selectedCategory === 'flexi'"
+              ImageSrc
+              loading="lazy"
+              src="../../../assets/icons/blue-tick.svg"
+              alt="Date change"
+            />
+            {{ selectedCategory === 'flexi' ? 'Selected' : '+ Select' }}
+          </button>
+        </div>
+      </div>
+
+      <br /><br />
+      <label class="check float-right" *ngIf="isFromMetaSource">
+        I'll go without
+        <input
+          type="checkbox"
+          [checked]="checkboxValue"
+          class="custom-checkbox ml-2"
+          (change)="onCheckboxChange($event)"
+        />
+      </label>
+    </div>
+  </div>
+</div>

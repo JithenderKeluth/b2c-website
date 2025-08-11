@@ -1,0 +1,1023 @@
+@import "./../../../theme/theme-variables.scss";
+
+.payment_gateway {
+  .labl {
+    color: var(--text_primary_color);
+    font-size: 14px;
+
+    &.proceed {
+      font-size: 12px;
+
+      a {
+        color: var(--text_link_color);
+      }
+    }
+  }
+
+  #cvv {
+    -webkit-text-security: disc;
+  }
+
+  .form-group {
+    label {
+      color: var(--text_primary_color);
+      font-weight: 500;
+      margin: 4px 0;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+  }
+
+  .payment_options {
+    .nav-tabs {
+      border: none;
+      position: relative;
+      bottom: -5px;
+      align-items: center;
+
+      .nav-item {
+        padding: 0px;
+
+        &.active {
+          color: var(--text_link_color) !important;
+          font-weight: 500;
+          box-shadow: 10px -5px 8px -7px rgba(15, 34, 58, 0.12);
+          background-color: #fff;
+          border-radius: 6px 6px 0px 0px;
+        }
+        .nav-link {
+          border: none;
+          color: var(--text_primary_color) !important;
+          font-size: 14px;
+          font-weight: 500;
+          padding: 12px 18px 18px 18px;
+          border-radius: 6px 6px 0px 0px;
+
+          &.active {
+            color: var(--text_link_color) !important;
+            font-weight: 500;
+            box-shadow: 10px -5px 8px -7px rgba(15, 34, 58, 0.12);
+            .tabLabel {
+              border-bottom: 2px solid var(--text_link_color);
+              padding-bottom: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .supp_cards {
+    .cardlabl {
+      color: var(--text_primary_color);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .labl {
+      color: var(--text_primary_color);
+      font-size: 14px;
+    }
+
+    .user_cards {
+      display: inline-block;
+      margin: 10px 5px 0px;
+
+      input[type="checkbox"] {
+        display: none;
+      }
+
+      input[type="checkbox"]:checked + div {
+        color: var(--text_link_color);
+        border-radius: 8px;
+        border: 1px solid var(--border_active_color);
+      }
+
+      input[type="checkbox"] + div {
+        color: var(--text_info_color);
+        padding: 12px 15px;
+        margin-right: 8px;
+        border: 1px solid var(--border_default_color);
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 8px;
+      }
+
+      .unselectedCard {
+        filter: grayscale(100%);
+        opacity: 0.3;
+      }
+
+      .selectedCard {
+        filter: none;
+        opacity: 1;
+      }
+    }
+  }
+
+  .split_payment_sec {
+    background-color: var(--layover_bg_color);
+    padding: 10px 20px;
+    border-radius: 12px;
+
+    img {
+      position: relative;
+      top: -2px;
+    }
+
+    .heading {
+      color: #b54708;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .split_payment_txt {
+      color: var(--text_primary_color);
+      font-size: 12px;
+      line-height: 16px;
+
+      .price {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .pay_wrong {
+    font-size: 13px;
+    padding: 11px;
+    background: var(--dangerBgColor);
+    color: var(--text_danger_color);
+    position: relative;
+    top: 26px;
+    margin-top: 10px;
+
+    .payment_fail {
+      white-space: nowrap;
+      position: absolute;
+    }
+  }
+
+  .discount_applied {
+    font-size: 13px;
+    padding: 11px;
+    background: #DAF9EF;
+    color: #099250;
+    margin-top: 17px;
+
+    .payment_fail {
+      white-space: nowrap;
+      position: absolute;
+    }
+  }
+
+  .pay_redirect_error {
+    font-size: 13px;
+    padding: 11px;
+    background: var(--dangerBgColor);
+    color: var(--text_danger_color);
+    position: relative;
+
+    .payment_fail {
+      white-space: nowrap;
+      position: absolute;
+    }
+  }
+
+  .card-container {
+    display: block;
+    margin: 0 auto;
+    padding: 0 12px;
+    perspective: 900px;
+    text-align: center;
+    margin-top: 30px;
+    position: relative;
+    top: 5px;
+    z-index: 1000;
+
+    &.flip_card {
+      .card {
+        transform: rotateY(180deg);
+
+        .flip {
+          border-radius: 0px 10px;
+        }
+      }
+    }
+
+    .card {
+      position: relative;
+      width: 385px;
+      height: 200px;
+      transition: all 0.6s ease;
+      transform-style: preserve-3d;
+      -moz-transform-style: preserve-3d;
+      background: none;
+      border-left: 10px solid var(--payment_card_border);
+      border-radius: 10px;
+      border-top: 0;
+      border-bottom: 0;
+      margin: auto;
+
+      .flip {
+        position: absolute;
+        background-image: var(--payment_card);
+        top: 0;
+        left: 0;
+        width: 385px;
+        height: 200px;
+        border-radius: 0px 10px 10px 0px;
+        color: var(--label_color);
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.24;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9;
+
+        .quickteller_control {
+          border-radius: 2px;
+          letter-spacing: 0px !important;
+        }
+
+        .card_details {
+          position: relative;
+          width: 100%;
+
+          label {
+            color: #fff;
+            letter-spacing: 0.5px;
+          }
+
+          &.cvv_field {
+            top: 20px;
+          }
+
+          .fa {
+            cursor: pointer;
+          }
+
+          h5 {
+            color: $white;
+            font-size: 14px;
+            font-weight: 500;
+          }
+
+          .btn_cvv {
+            border-radius: 6px;
+            color: var(--text_link_color) !important;
+            background: none;
+            border: 1px solid var(--text_link_color);
+            font-size: 12px;
+            float: right;
+            position: relative;
+            top: 32px;
+            cursor: pointer;
+          }
+        }
+
+        .card_flip {
+          .fa {
+            position: relative;
+            top: 44px;
+            right: 0;
+            font-size: 16px;
+          }
+        }
+
+        &.back {
+          transform: rotateY(-180deg);
+          border-radius: 10px 0 0 10px;
+
+          img {
+            position: relative;
+            bottom: 100px;
+          }
+        }
+
+        .paymentMethodLogo {
+          position: absolute;
+          top: 16px;
+          right: 20px;
+        }
+
+        .redirectpaymentMethodLogo {
+          position: absolute;
+          top: 10px;
+          right: 30px;
+        }
+      }
+    }
+  }
+
+  .cvv_card {
+    padding: 12px 4px;
+    height: 43px;
+    border-radius: 3px;
+    background-color: $white;
+  }
+
+  .supp_cards {
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: inline-block;
+      float: right;
+
+      li {
+        display: inline-block;
+
+        img {
+          width: 40px;
+        }
+      }
+    }
+  }
+
+  #eft-payment {
+    .eft_cards {
+      .eft_Info {
+        width: 15px;
+        margin-right: 2px;
+      }
+
+      .selectbank_Info {
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .selectbank_desc {
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+        font-size: 14px;
+        display: block;
+
+        .card_active {
+          border: 1.5px solid var(--border_active_color);
+          background-color: var(--flight_selected_Bg);
+        }
+
+        li {
+          border: 1px solid var(--border_default_color);
+          border-radius: 6px;
+          padding: 5px 15px;
+          display: block;
+          margin: 0px 15px 15px 0px;
+
+          .bankLogo {
+            cursor: pointer;
+            padding: 10px 15px;
+            height: 50px;
+            margin: 1%;
+            border-radius: 3px;
+          }
+
+          .eftPaynowBtn {
+            font-size: 14px;
+            padding: 5px 15px;
+          }
+        }
+      }
+    }
+  }
+
+  #IPAY,
+  #MOBICRED,
+  #M-pesa,
+  #paystack,
+  #PAYFLEX {
+    font-size: 14px;
+    line-height: 2.2;
+    color: var(--text_primary_color);
+
+    .mobicredHead {
+      font-weight: 600;
+    }
+
+    a {
+      color: var(--text_link_color);
+      font-weight: normal;
+    }
+
+    .paystack_alert {
+      background-color: #fdcdd6;
+      color: #df394d;
+      padding: 10px 30px;
+      border-radius: 3px;
+      line-height: 18px;
+      margin: 15px 0px;
+    }
+  }
+
+  .ng_EFT_txt {
+    font-size: 14px;
+    display: inline-block;
+    color: var(--payment_card_strip);
+    span {
+      font-weight: 600;
+    }
+  }
+}
+
+.investecPay {
+  font-size: 14px;
+
+  .terms_head {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .rewardcontent_head {
+    font-weight: 600;
+
+    .reward_info {
+      font-size: 12px;
+      color: var(--text_link_color);
+      cursor: pointer;
+    }
+  }
+
+  .investecPayments {
+    color: #242b29;
+  }
+
+  .rewardContent {
+    background-color: #dbdad4;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+
+  .redeemPointsContent {
+    padding: 15px;
+    line-height: 30px;
+    border-bottom: 1px solid var(--success_btn_bg);
+
+    label {
+      display: inline;
+    }
+
+    input[type="radio"] {
+      /* remove standard background appearance */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      /* create custom radiobutton appearance */
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      padding: 2px;
+      /* background-color only for content */
+      background-clip: content-box;
+      border: 1.5px solid var(--border_input_color);
+      border-radius: 50%;
+      position: relative;
+      top: 2px;
+    }
+
+    /* appearance for checked radiobutton */
+    input[type="radio"]:checked {
+      background-color: var(--text_link_color);
+      border: 1.5px solid var(--text_link_color);
+    }
+  }
+
+  .travelRegulations {
+    a {
+      color: var(--text_link_color);
+      font-weight: normal;
+    }
+  }
+}
+
+::placeholder {
+  color: rgb(104 113 137 / 35%);
+  opacity: 1;
+  /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgb(104 113 137 / 35%);
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgb(104 113 137 / 35%);
+}
+
+.Process_fee {
+  font-size: 14px;
+  color: var(--payment_card_strip);
+}
+
+.Card-Enter {
+  .card {
+    border: none;
+
+    .form-control {
+      height: 40px;
+    }
+  }
+}
+
+.details {
+  font-size: 13px;
+  border-radius: 3px;
+  margin: auto;
+
+  .selectedCard {
+    position: relative;
+    top: -32px;
+    right: 5px;
+  }
+}
+
+.strip {
+  height: 40px;
+  background-color: var(--payment_card_strip);
+  position: relative;
+  bottom: 20px;
+}
+
+.selectExpiry {
+  padding: 8px 10px;
+  border-radius: 3px;
+  border-color: $gray-400;
+  margin: 0px 20px 0px 0px;
+  font-weight: 500 !important;
+}
+
+select:invalid {
+  color: #b4bdc0;
+}
+
+.proceesingFee_div {
+  font-size: 13px;
+  font-weight: 600;
+
+  .feeAmount {
+    color: $color-teal-600;
+  }
+}
+
+::ng-deep .cvv .form-control {
+  text-align: right;
+}
+
+::ng-deep {
+  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background: var(--primary_btn_bg) !important;
+  }
+
+  .mat-checkbox-frame {
+    border: 1px solid rgb(112 112 112 / 56%) !important;
+  }
+
+  .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+  .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+    background: var(--primary_btn_bg) !important;
+  }
+
+  .mat-checkbox-layout {
+    margin-bottom: 1px !important;
+  }
+
+  #payment_failed_Modal,
+  #investecrewards_modal,
+  #navigation_modal {
+    z-index: 9999 !important;
+    margin: revert !important;
+    padding: 0px;
+    border: none;
+  }
+  /*here we can remove All places EFT_failed class  once everything fine with payment-view page dialog box */
+  .investecrewards_modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    width: 50%;
+
+    .failed_modal_body {
+      padding: 40px 30px;
+    }
+
+    .dialog_content {
+      width: 450px;
+    }
+
+    .add_txt,
+    .investec_dialog_content {
+      width: 600px;
+    }
+
+    .ok-btn {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: capitalize;
+      height: 34px;
+      color: $white;
+      padding: 4px 29px;
+      margin-top: 14px;
+    }
+  }
+}
+
+.payment_failedtext {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text_primary_color);
+
+  a {
+    color: var(--text_link_color);
+  }
+
+  .paymnt_addlTxt {
+    width: 48%;
+    border: 1px solid $color-neutral-100;
+    margin: 0px 5px;
+    padding: 10px;
+
+    .payment_fail_content {
+      font-size: 12px !important;
+
+      span {
+        display: list-item;
+      }
+    }
+  }
+}
+
+.newLabel {
+  position: relative;
+
+  .newLabel_txt {
+    font-size: 8px;
+    background: #3cb75d;
+    padding: 2px 4px;
+    position: absolute;
+    color: $white;
+    top: -3px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    right: -0px;
+    line-height: 10px;
+    font-weight: 500;
+  }
+}
+
+.paymentCardBody {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 12px 12px 12px 12px;
+}
+.newLabelBNPL {
+  .newTagTxt {
+    background-color: #e20954;
+    color: $white;
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-weight: 500;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .paymentCardBody {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .card-container {
+    padding: 0 !important;
+
+    .card {
+      width: 100% !important;
+      height: 140px !important;
+      border-radius: 6px !important;
+      border-left: none !important;
+
+      .flip {
+        width: 100% !important;
+        box-shadow: none !important;
+        border-radius: 6px !important;
+        height: 140px !important;
+
+        .card_details {
+          top: 30px !important;
+        }
+      }
+    }
+  }
+
+  .investecPay {
+    font-size: 12px !important;
+    text-align: left !important;
+
+    .terms_head {
+      font-size: 12px !important;
+    }
+  }
+
+  .newLabel {
+    .newLabel_txt {
+      right: 0 !important;
+      top: -15px !important;
+      left: 0px;
+      width: 26px;
+      margin: auto;
+    }
+  }
+
+  .user_cards {
+    width: 100%;
+
+    input[type="checkbox"] + div {
+      padding: 10px !important;
+      margin: 0px !important;
+    }
+
+    .pay_btn {
+      background-color: #15c4a1;
+      color: #ffffff;
+      padding: 8px 34px;
+      border-radius: 3px;
+    }
+  }
+
+  .xs-hide {
+    display: block;
+  }
+
+  .pl-xs-15 {
+    padding-left: 15px !important;
+  }
+
+  .payment_options {
+    .nav-tabs {
+      border: none !important;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      align-items: stretch !important;
+      padding-top: 15px;
+      .nav-item {
+        flex-shrink: 0;
+        padding: 10px !important;
+        max-width: 24%;
+        min-width: 20%;
+        .nav-link {
+          padding: 0px 0px 5px 0px !important;
+          text-align: center;
+          font-size: 12px !important;
+          word-wrap: break-word;
+          &.active {
+            box-shadow: none !important;
+            border-bottom: 2px solid var(--text_link_color) !important;
+            .tabLabel {
+              border: none !important;
+              padding-bottom: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .pay_wrong {
+    top: 0px !important;
+    margin-top: 10px !important;
+    border-radius: 3px;
+    display: flex;
+
+    img {
+      width: 34px;
+      float: left;
+    }
+
+    span {
+      float: left;
+      margin-left: 7px !important;
+    }
+  }
+
+  .details {
+    font-size: 12px;
+    margin: 0 !important;
+    padding: 15px !important;
+    background-color: var(--bm_flight_review_bg);
+    border-radius: 4px !important;
+  }
+
+  .payment_gateway .supp_cards {
+    text-align: right;
+
+    .labl {
+      font-size: 12px !important;
+      text-align: left !important;
+    }
+
+    ul {
+      float: none;
+      font-size: 16px;
+
+      li {
+        padding: 2px !important;
+
+        img {
+          width: 22px !important;
+        }
+      }
+    }
+
+    .user_cards {
+      margin: 10px 0px 0px 0px !important;
+    }
+  }
+
+  .payment_gateway .labl {
+    font-size: 12px;
+  }
+
+  .pt-xs-10 {
+    padding-top: 10px !important;
+  }
+
+  .mt-xs-10 {
+    margin-top: 10px !important;
+  }
+
+  #eft-payment {
+    .eft_cards {
+      padding: 0px !important;
+
+      .eft_Info {
+        width: 10px !important;
+        margin-right: 0px !important;
+      }
+    }
+
+    ul {
+      li {
+        width: 100% !important;
+
+        .bankLogo {
+          width: 50% !important;
+        }
+      }
+    }
+  }
+
+  .investecrewards_modal,
+  .add_txt {
+    width: calc(100% - 20px) !important;
+
+    .paymnt_addlTxt,
+    .investec_dialog_content {
+      width: 100% !important;
+    }
+  }
+
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+
+    .nav-header {
+      .nav-link {
+        font-size: 16px !important;
+        border-bottom: 1px solid var(--border_default_color);
+        font-weight: 500 !important;
+        color: var(--text_primary_color) !important;
+        padding: 15px 0px;
+
+        .fa-angle-down {
+          font-size: 22px;
+          color: var(--label_color);
+        }
+      }
+
+      .collapsed {
+        border-bottom: 1px solid var(--border_default_color);
+      }
+    }
+
+    .nav-link[aria-expanded="true"] .fa-angle-down {
+      transform: rotate(180deg);
+    }
+  }
+
+  #MOBICRED,
+  #M-pesa,
+  #paystack,
+  #IPAY,
+  #PAYFLEX {
+    line-height: 1.6 !important;
+    font-size: 13px;
+
+    .eft_cards {
+      padding: 0px !important;
+    }
+
+    .gateway-list {
+      padding-left: 16px;
+    }
+
+    .paystack_alert {
+      padding: 10px 15px !important;
+    }
+  }
+  .newLabelBNPL {
+    position: relative;
+    .newTagTxt {
+      position: absolute;
+      top: -20px;
+      left: 0px;
+      right: 0;
+      width: 30px;
+      margin: auto;
+      font-size: 8px;
+    }
+  }
+}
+
+.form-group {
+  margin-bottom: 10px !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: $white;
+}
+
+#selectTermsConditions {
+  a {
+    color: var(--text_link_color);
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .payment_gateway .supp_cards {
+    text-align: initial !important;
+  }
+
+  .payment_gateway .supp_cards .user_cards {
+    margin: 20px 10px 0px;
+
+    .card_number {
+      padding-right: 7.5rem !important;
+    }
+  }
+
+  .wid40per-xs {
+    width: 40% !important;
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, lg)) and (max-width: map-get($grid-breakpoints, xl)) {
+  .ml-md-15 {
+    margin-left: 15px !important;
+  }
+}
+
+.nav-pills {
+  display: none;
+}
+
+@media (min-width: map-get($grid-breakpoints, lg)) {
+  .nav-header {
+    display: none;
+  }
+
+  .collapse {
+    display: block;
+  }
+}
+
+::ng-deep .mtSelection.mat-select-panel {
+  min-width: calc(100% - 32px) !important;
+}
+
+::ng-deep .mtSelection .mat-option {
+  height: 20px !important;
+}
+
+::ng-deep .mtSelection .mat-option .mat-option-text {
+  overflow: unset !important;
+}
+
+.mc_SavedCard{
+  display: block;
+  text-align: left;
+  margin: 0;
+}

@@ -1,0 +1,43 @@
+
+@import "./../theme/theme-variables.scss";
+
+::ng-deep .selectCountry.mat-select-panel{
+    margin-top: 35px;
+ }
+ ::ng-deep .selectCountry.mat-select-panel .mat-option{
+  border-bottom: 1px solid $color-neutral-100 !important;
+ }
+ ::ng-deep .selectCountry.mat-select-panel .mat-option:focus:not(.mat-option-disabled),
+ ::ng-deep .selectCountry.mat-select-panel .mat-option:hover:not(.mat-option-disabled),
+ ::ng-deep .selectCountry .mat-option.mat-selected:not(.mat-option-multiple){
+   background: var(--text_link_color) !important;
+   color: $white !important;
+ }
+ ::ng-deep .selectCountry .mat-select-panel
+ {
+  margin-top: 35px !important;
+}
+
+::ng-deep .selectMonth .mat-select-panel,::ng-deep .monthSelection.mat-select-panel{
+  margin-left: 15px;
+  min-width: calc(100% - 32px) !important;
+}
+::ng-deep .selectMonth .mat-option,
+::ng-deep .selectYear .mat-option,
+::ng-deep .monthSelection .mat-option{
+  height: 20px !important;
+  text-overflow: initial !important;
+}
+
+::ng-deep .selectYear.mat-select-panel {
+  margin-left: 10px;
+  min-width: calc(100% - 32px) !important;
+}
+
+::ng-deep .selectMonth .mat-option .mat-option-text,
+::ng-deep .selectYear .mat-option .mat-option-text,
+::ng-deep .monthSelection .mat-option .mat-option-text{
+  overflow: unset !important;
+}
+
+

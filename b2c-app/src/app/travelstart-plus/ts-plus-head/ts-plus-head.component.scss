@@ -1,0 +1,73 @@
+@import "./../../../theme/theme-variables.scss";
+.head_sec{
+    .head_btn{   
+        border: 1px solid #08B5F2;
+        border-radius: 6px;
+        color: $white;
+        background-color: #0E0626;
+        font-size: 13px;
+        padding: 8px 15px;   
+        line-height: unset;
+         z-index: 99999;
+    }
+}
+button:focus {
+    outline: none !important;
+}
+.mat-menu-panel {
+    min-width: 145px !important;  
+    padding: 15px !important;
+}
+#loginModal {
+    .modal-dialog {
+        .modal-content {
+            overflow: hidden;
+            border: none;
+            border-radius: 8px;
+
+            .modal-body {
+                padding: 0;
+            }
+        }
+    }
+}
+
+#account_activate{
+    .dialog_content{
+        border-radius: 14px !important;
+        background-color: #1E1238;
+        padding: 20px !important;
+        line-height: 20px;
+        .close_icn{
+            cursor: pointer;
+        }
+        .modal-body{
+            padding: 30px;
+        }
+    }
+  .account_activation{
+    h6{
+        font-size: 28px;
+        color: $white;
+    }
+    p{
+    font-size: 26px;   
+    color: #08B5F2;
+    }
+    .activation_txt{
+        font-size: 18px;
+        color: $white;
+    }
+  }  
+}
+@media (min-width: map-get($grid-breakpoints, sm)) {
+    #loginModal {
+        z-index: 999999;
+
+        .modal-dialog {
+            min-width: 840px !important;
+            width: calc(100% - 20px) !important;
+        }
+    }
+}
+

@@ -1,0 +1,162 @@
+@import "./../../../theme/theme-variables.scss";
+
+.chatWithUs {
+  a {
+    color: $color-blue-500;
+  }
+  .chat_only {
+    font-weight: 600;
+  }
+  .fa-check {
+    color: $color-blue-500;
+  }
+  h6 {
+    font-size: 22px;
+    font-weight: 500;
+    color: $text-primary-color;
+    margin-top: -4px;
+    position: relative;
+    span {
+      color: #ced2d9;
+      font-size: 40px;
+      font-weight: bold;
+      left: -40px;
+      top: -10px;
+    }
+    img {
+      height: 46px;
+      width: 46px;
+    }
+  }
+  .contact_sec{
+    font-size: 14px;
+    line-height: 26px;
+    .boldTxt{
+      font-weight: 600;
+    }
+  }
+
+  .phn_nums {
+    font-size: 14px;
+    line-height: 25px;
+  }
+  .visitUs_travel {
+    h2 {
+      color: $text-primary-color;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    h6 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 16px;
+      color: $text-primary-color;
+      font-weight: 600;
+    }
+    ul {
+      li {
+        list-style-type: none;
+        color: $text-primary-color;
+        font-weight: normal;
+      }
+    }
+    .opening_hrs {
+      padding-left: 10px !important;
+      li {
+        color: $text-primary-color;
+        font-weight: normal;
+        list-style-type: disc;
+      }
+    }
+  }
+  .sect_header {
+    width: 100%;
+    float: left;
+    line-height: 30px;
+    margin-bottom: 10px;
+    img {
+      height: 32px;
+      width: 32px;
+      float: left;
+      margin-right: 5px;
+    }
+  }
+  .addWhatsApp {
+    p {
+      font-size: 14px;
+      font-weight: normal;
+      color: $text-primary-color;
+    }
+  }
+  .timings {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-primary-color;
+  }
+  .chatService {
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-primary-color;
+    .chat_btn {
+      padding: 5px 20px;
+    }
+    .or_option {
+      margin-left: 35%;
+    }
+  }
+  ul {
+    padding-left: 0px;
+    li {
+      list-style-type: none;
+      font-size: 14px;
+      color: $text-primary-color;
+      line-height: 2.2;
+    }
+  }
+
+  .phnNumber {
+    color: $color-blue-500;
+  }
+
+  .emergency {
+    color: $text-primary-color;
+    margin-bottom: 0px !important;
+  }
+  .anyQueries {
+    span {
+      font-size: 14px !important;
+    }
+  }
+  .weekTimes {
+    line-height: 2.13;
+  }
+  .visit {
+    font-weight: 500;
+    color: $text-primary-color;
+    a {
+      color: $color-blue-500;
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .chatWithUs {
+    .emergency {
+      font-size: 14px !important;
+    }
+    .timings {
+      font-size: 14px !important;
+    }
+    .sect_header {
+      margin-bottom: 0;
+    }
+    .addWhatsApp {
+      margin-top: 12px;
+      p {
+        margin: 0;
+      }
+    }
+  }
+}

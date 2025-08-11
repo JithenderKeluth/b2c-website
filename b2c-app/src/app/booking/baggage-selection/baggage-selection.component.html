@@ -1,0 +1,82 @@
+<div *ngIf="enableCheckedBaggage">
+  <h4 translate class="add_baggage_heading d-none ">Add checked baggage</h4>
+  <section class="ts-card ts-card--product">
+    <div class="route_head_sec d-lg-flex">
+      <div class="d-flex">
+        <div>
+          <img class="airlineLogo " ImageSrc src="assets/img/carriers/retina48px/carrier-{{
+            baggageItinerary[0].odoList[0].segments[0].airlineCode
+          }}.png" alt="{{
+            baggageItinerary[0].odoList[0].segments[0].airlineCode
+          }}" width="20px" />
+        </div>
+        <div class="route_heading" *ngIf="baggageItinerary.length > 0">
+          <div *ngIf="baggageItinerary[0].odoList.length == 1">
+            {{getCityName(baggageItinerary[0].odoList[0].segments[0].origCode)}}
+            <span>-</span>
+            {{getCityName(baggageItinerary[baggageItinerary.length-1].odoList[baggageItinerary[baggageItinerary.length-1].odoList.length-1].segments[baggageItinerary[baggageItinerary.length-1].odoList[baggageItinerary[baggageItinerary.length-1].odoList.length-1].segments.length-1].destCode)}}
+
+          </div>
+          <div *ngIf="baggageItinerary[0].odoList.length > 1">
+            {{getCityName(baggageItinerary[0].odoList[0].segments[0].origCode)}}
+            <span>-</span>
+            {{getCityName(baggageItinerary[0].odoList[0].segments[baggageItinerary[0].odoList[0].segments.length-1].destCode)}}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="baggageItinerary[0].odoList[0].segments[0].baggageAllowance.length > 0"
+        class="ml-auto baggage_info mt-1 mt-lg-0">
+        <div *ngFor="let baggage of baggageItinerary[0].odoList[0].segments[0].baggageAllowance">
+          <span *ngIf="handBag(baggage)">
+            <span translate class="des_baggage"> <img ImageSrc class="mb-1"
+                src="../../../assets/icons/srp_Icons/new_hand_baggage.svg" alt="new_hand_baggage"> {{
+              bagageDesc(baggage) }}</span>
+            <span translate class="includedTag">Included</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="ts-card__body">
+      <p class="ts-product__subheading" translate>
+        Purchase checked baggage online now and save on higher airport rates. Kindly note your fare will be
+        repriced to include checked baggage for all passengers on your booking. The cost will be adjusted on the
+        total due.
+      </p>
+      <div class="d-flex align-items-center">
+        <div class="text-center bag_Icn d-none d-lg-block">
+          <img ImageSrc src="../../../assets/icons/travellerpage_Icons/checked_baggage.svg" alt="checked baggage" />
+        </div>
+        <div class="ts_product">
+          <div class="ts-product_desc" [ngClass]="isBaggageSelected ? 'bag_Selected' : ''">
+            <span class="card__heading d-inline-flex" *ngIf="baggageItinerary.length > 0">Add checked baggage for all
+              passengers and flights</span>
+            <span class="select_baggage ml-auto d-inline-flex">
+              <img
+                ImageSrc
+                *ngIf="isBaggageSelected"
+                class=""
+                src="./../../../assets/icons/travellerpage_Icons/tick_selected.svg"
+                alt="tick_selected"
+                (click)="selectCheckedBaggage(false)" />
+              <img
+                ImageSrc
+                *ngIf="!isBaggageSelected"
+                class=""
+                src="./../../../assets/icons/travellerpage_Icons/tick_default.svg"
+                alt="tick_default"
+                (click)="selectCheckedBaggage(true)" />
+            </span>
+          </div>
+          <div class="toastMsg" *ngIf="priceData && priceData.priceIncrease && isBaggageSelected">
+            <span class="toast_text">
+              <img ImageSrc src="../../../assets/icons/note-icn.svg" alt="note" />
+              Please note: Your flight
+              price has increased by {{ pricedResult_data.currencyCode | currencyCode
+              }}{{ priceData.priceIncrease | currency: '' + ' ':'symbol':'2.0' }}, to include <span
+                *ngIf="getCheckedbaggageData()">{{getCheckedbaggageData()}}</span> checked baggage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

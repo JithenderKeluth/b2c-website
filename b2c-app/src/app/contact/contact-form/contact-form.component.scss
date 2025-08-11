@@ -1,0 +1,300 @@
+@import "./../../../theme/theme-variables.scss";
+.contactFormSection{
+    .sendQuery {
+      .sect_header {
+        width: 100%;
+        float: left;
+        line-height: 30px;
+        margin-bottom: 10px;
+        img {
+          height: 32px;
+          width: 32px;
+          float: left;
+          margin-right: 5px;
+        }
+        .sect_title {
+          text-align: center;
+          font-size: 24px;
+          color: $text-primary-color;
+          font-weight: 500;
+          float: left;
+        }
+      }
+        h6 {
+          font-size: 22px;
+          font-weight: 500;
+          position: relative;
+          span {
+            color: #ced2d9;
+            font-size: 40px;
+            position: relative;
+            font-weight: bold;
+            right: 1px;
+            top: 7px;
+          }
+        }
+        p {
+          color: var(--label_color);
+          font-size: 13px;
+        }
+
+        .querySuccessTxt {
+          font-size: 12px;
+          padding: 4px;
+          background: $color-teal-100;
+          color: $color-teal-400;
+        }
+        form {
+          .control-label {
+            color: var(--payment_card_strip);
+            font-size: 13px;
+            font-weight: normal;
+          }
+          .cancelPax {
+            position: relative;
+            top: 37px;
+          }
+          .form-control {
+            font-size: 14px;
+            height: 40px;
+            border: 1px solid #cdd3d6;
+            border-radius: 3px !important;
+          }
+          .message-btn {
+            width: 157px;
+            height: 45px;
+            padding: 5px 32px 19px;
+            border-radius: 4px;
+            background-color: $color-blue-500;
+            color: $color-neutral-0;
+            font-weight: 500;
+            margin-left: 6%;
+          }
+          .txt_message {
+            height: auto;
+          }
+          .category_select {
+            padding: 8px 14px;
+          }
+          .airline_link{
+            font-size: 14px;
+          }
+        }
+        .new_req {
+          .nav-tabs {
+            border: none !important;
+            padding-left: 15px;
+            padding-right: 15px;
+            .nav-item {
+              border-radius: 3px;
+              .nav-link {
+                padding: 5px 10px !important;
+                border: none;
+                color: var(--text_primary_color) !important;
+                font-size: 14px;
+                border-radius: 3px;
+              }
+            }
+            .active {
+              color: var(--text_link_color);
+              font-weight: 500;
+              border: 1px solid var(--text_link_color) !important;
+              background-color: #dff5fd;
+            }
+          }
+        }
+      }
+}
+
+.send_us_query {
+    color: $text-primary-color;
+    font-weight: 500;
+    font-size: 16px;
+    padding-bottom: 1em;
+    .booking_covid_19 {
+      h2 {
+        color: $text-primary-color;
+        font-weight: 500;
+        font-size: 24px;
+      }
+      .covid_19_desc {
+        color: $text-primary-color;
+        font-weight: normal;
+        font-size: 16px;
+      }
+    }
+  }
+  .pick_date::ng-deep ngb-datepicker {
+    transform: translate(-20px, 60px) !important;
+    box-shadow: rgb(0 0 0 / 20%) 0px 6px 20px !important;
+  }
+  @media (max-width: map-get($grid-breakpoints, md)) {
+    .assistance {
+      padding: 16px 0;
+      h6 {
+        font-size: 26px;
+      }
+    }
+    .contact_us_tabs {
+      .nav-item {
+        padding: 0 !important;
+      }
+    }
+    .queryAndChat {
+      padding: 20px 0;
+      .pr-40 {
+        padding-right: 15px;
+      }
+      .btn_msg {
+        margin-left: 0 !important;
+        padding-left: 0;
+        margin-bottom: 30px;
+      }
+      .pr-60 {
+        padding-left: 15px;
+      }
+      .chatWithUs {
+        .emergency {
+          font-size: 14px !important;
+        }
+        .anyQueries {
+          span {
+            font-size: 14px !important;
+          }
+        }
+        .timings {
+          font-size: 14px !important;
+        }
+        .sect_header {
+          margin-bottom: 0;
+        }
+        .addWhatsApp {
+          margin-top: 12px;
+          p {
+            margin: 0;
+          }
+        }
+      }
+    }
+    .travelAlert {
+      padding: 6px 0;
+    }
+    .travelIssues {
+      margin-top: 10px !important;
+      li {
+        width: 100%;
+        margin-left: 0px !important;
+      }
+    }
+    .faq_wrapper {
+      padding: 20px 0;
+      .enquiry_sec_title {
+        left: 0;
+      }
+      .faqNav {
+        li a {
+          width: 100%;
+        }
+        li a:first-child {
+          margin-top: 10px !important;
+        }
+      }
+    }
+  }
+  @media (max-width: map-get($grid-breakpoints, sm)) {
+    .travelIssues {
+      li {
+        margin-left: 0px !important;
+        width: 100%;
+      }
+    }
+    form {
+      .form-group {
+        margin-bottom: 10px;
+      }
+    }
+    .enquiry_sec_title {
+      font-size: 20px !important;
+    }
+    .sect_header {
+      margin-bottom: 10px !important;
+    }
+    .sect_title {
+      font-size: 20px !important;
+    }
+  }
+  @media (max-width: map-get($grid-breakpoints, lg)) {
+    .pick_date::ng-deep ngb-datepicker {
+      left: 15% !important;
+      top: 10% !important;
+    }
+    ::ng-deep .pick_dob {
+      ngb-datepicker {
+        transform: translate(1px, 53px) !important;
+        box-shadow: 0 4px 8px 0 #b4bdc1 !important;
+      }
+    }
+    .paxLabel {
+      display: none;
+    }
+  }
+  .suggestion_msg {
+    font-size: 11px;
+    color: #052331;
+    padding: 6px 20px;
+    background-color: #fff7eb;
+    border-radius: 8px;
+  }
+  .dobDay {
+    padding: 0px !important;
+  }
+  .formColPad {
+    padding: 0px 15px;
+  }
+  .dateSelect {
+    border-radius: 3px;
+    padding: 5px;
+  }
+  
+  .dobDaySelect {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+  }
+  .dobYearSelect {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+  }
+  .bor-rad-0 {
+    border-radius: 0px !important;
+  }
+  ::ng-deep .pick_date ngb-datepicker-navigation-select > .custom-select {
+    display: block !important;
+  }
+  ::ng-deep .pick_date .ngb-dp-arrow-btn {
+    padding: 0 0.25rem;
+    margin: 0 0.5rem;
+    background-color: transparent;
+    z-index: 1;
+    display: none !important;
+  }
+  .query_success {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    width: 50%;
+    .dialog_content {
+      width: 380px;
+      padding: 25px 20px;
+    }
+    .ok-btn {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: capitalize;
+      height: 34px;
+      background-color: var(--text_link_color);
+      color: $color-neutral-0;
+      padding: 4px 29px;
+      margin-top: 14px;
+    }
+  }

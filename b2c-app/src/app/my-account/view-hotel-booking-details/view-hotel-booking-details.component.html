@@ -1,0 +1,213 @@
+<app-header></app-header>
+<div class="hotelDetailsSec" *ngIf="hotelInfo">
+  <div class="headerBgSec"></div>
+  <div class="pt-3 pt-lg-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 p-0">
+          <div class="mb-5">
+            <div class="headerSec mb-3 px-3 px-lg-0">
+              <div class="hotelName">
+                {{ hotelInfo.productName }}
+              </div>
+              <div class="hotelLocation">
+                {{ hotelInfo.hotelLocation }}
+              </div>
+            </div>
+            <div class="hotelDetails d-lg-flex hotelCard mt-2">
+              <div *ngIf="hotelInfo?.hotelImage?.length > 0" class="mb-2 hotelImgSec">
+                <img [src]="hotelInfo?.hotelImage[0].url" [alt]="hotelInfo?.hotelImage[0].url" class="hotelImg" />
+              </div>
+              <div class="hotelData">
+                <div class="hotelName">
+                  {{ hotelInfo.productName }}
+                </div>
+                <div class="hotelLocation d-flex">
+                  <span
+                    ><img ImageSrc src="../../../assets/images/ts+landing/location-symbol.svg" alt="location-symbol"
+                  /></span>
+                  <span class="ml-1">
+                    {{ hotelInfo.hotelLocation }}
+                  </span>
+                </div>
+                <div class="hotelRatings" *ngIf="hotelInfo.hotelRating">
+                  <img
+                    *ngFor="let stars of [].constructor(hotelInfo.hotelRating)"
+                    ImageSrc
+                    src="../../../assets/images/ts+landing/star-rating.svg"
+                    alt="star-rating"
+                  />
+                  Hotel
+                </div>
+                <div class="paxSec mt-1 mt-lg-3 d-flex" *ngIf="paxInfo">
+                  <div *ngIf="paxInfo.adults">
+                    <span *ngFor="let adult of [].constructor(paxInfo.adults)"
+                      ><img class="paxImg" ImageSrc src="../../../assets/images/ts+landing/adult.svg" alt="adult"
+                    /></span>
+                    <span class="ml-0 ml-lg-2"
+                      >{{ paxInfo.adults }} {{ paxInfo.adults > 1 ? 'Adults' : 'Adult' }}
+                    </span>
+                  </div>
+                  <div class="ml-1 ml-lg-3" *ngIf="paxInfo.child">
+                    <span
+                      ><img
+                        class="paxImg"
+                        ImageSrc
+                        src="../../../assets/images/ts+landing/adult+child.svg"
+                        alt="adult+child"
+                    /></span>
+                    <span class="ml-2">{{ paxInfo.child }} {{ paxInfo.child > 1 ? 'childrens' : 'child' }}</span>
+                  </div>
+                </div>
+                <div class="roomDescription mt-2" *ngIf="hotelInfo?.bookedRooms?.length > 0">
+                  <img ImageSrc src="../../../assets/images/ts+landing/bed.svg" alt="bed" />
+                  <span class="ml-2">{{ hotelInfo?.bookedRooms[0].roomTypeName }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="bookingInfoSec hotelCard">
+              <div class="sectionHeading">Booking Information</div>
+              <div class="bookingInfoSubTxt">Booking reference : {{ hotelInfo.bookingReference }}</div>
+              <div class="border_btm"></div>
+              <div class="bookingInfo">
+                <div class="d-flex align-items-center">
+                  <div class="labelTxt">Check in</div>
+                  <div class="labelValue">
+                    <span>{{ hotelInfo.checkin | date: 'EEE' }}</span
+                    >,
+                    <span class="">{{ hotelInfo.checkin | date: 'dd MMM yyyy, hh:mm a' }}</span>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="labelTxt">Check out</div>
+                  <div class="labelValue">
+                    <span>{{ hotelInfo.checkout | date: 'EEE' }}</span
+                    >,
+                    <span class="">{{ hotelInfo.checkout | date: 'dd MMM yyyy, hh:mm a' }}</span>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="labelTxt">Duration</div>
+                  <div class="labelValue">{{ getStayNightsCount(hotelInfo.checkin, hotelInfo.checkout) }} nights</div>
+                </div>
+                <div class="d-flex align-items-center" *ngIf="hotelInfo?.bookedRooms?.length > 0">
+                  <div class="labelTxt">Rooms & Room option</div>
+                  <div class="labelValue">
+                    {{ hotelInfo?.bookedRooms?.length }} x {{ hotelInfo?.bookedRooms[0]?.roomTypeName }}
+                  </div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="labelTxt">Guests</div>
+                  <div class="labelValue">
+                    <span *ngIf="paxInfo.adults"
+                      >{{ paxInfo.adults }} {{ paxInfo.adults > 1 ? 'Adults' : 'Adult' }}
+                    </span>
+                    <span class="ml-2" *ngIf="paxInfo.child"
+                      >{{ paxInfo.child }} {{ paxInfo.child > 1 ? 'childrens' : 'child' }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="paymentInfoSec hotelCard">
+              <div class="sectionHeading">Payment Information</div>
+              <div class="paymentInfo">
+                <div class="d-flex align-items-center" *ngIf="hotelInfo?.bookedRooms?.length > 0">
+                  <div class="labelTxt">
+                    {{ hotelInfo?.bookedRooms?.length }} {{ hotelInfo?.bookedRooms?.length > 1 ? 'Rooms' : 'Room' }} x
+                    {{ getStayNightsCount(hotelInfo.checkin, hotelInfo.checkout) }} nights
+                  </div>
+                  <div class="labelValue">
+                    {{ currencycode | currencyCode }}{{ hotelInfo.total | currency: '' + ' ':'symbol':'2.0' }}
+                  </div>
+                </div>
+                <div class="d-flex align-items-center" *ngIf="hotelInfo.voucherAmount > 0">
+                  <div class="voucherTxt labelTxt">Voucher</div>
+                  <div class="voucherAmount labelValue">
+                    -{{ currencycode | currencyCode }}{{ hotelInfo.voucherAmount | currency: '' + ' ':'symbol':'2.0' }}
+                  </div>
+                </div>
+                <div class="border_btm"></div>
+                <div class="d-flex align-items-center" *ngIf="hotelInfo?.bookedRooms?.length > 0">
+                  <div class="totalAmount labelTxt">Total amount</div>
+                  <div class="totalAmount labelValue">
+                    {{ currencycode | currencyCode }}{{ getTotalAmount() | currency: '' + ' ':'symbol':'2.0' }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="contactInfoSec hotelCard">
+              <div class="sectionHeading">Contact Information</div>
+              <div class="contactInfo">
+                <div class="d-flex align-items-center">
+                  <div class="labelTxt">Contact person</div>
+                  <div class="labelValue">{{ hotelInfo.customerName }}</div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="labelTxt">Email</div>
+                  <div class="labelValue">{{ hotelInfo.email }}</div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="labelTxt">Phone number</div>
+                  <div class="labelValue">{{ hotelInfo.mobileNumber }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="cancellationTermsSec hotelCard">
+              <div class="sectionHeading">Cancellation Terms</div>
+              <div class="cancellationTxt">
+                Cancel more than 30 days before check-in date to receive a 100% deposit refund.
+              </div>
+              <div class="cancellationTxt">
+                Cancel more than 7 days before check-in date to receive a 50% deposit refund.
+              </div>
+            </div>
+            <div class="px-3 px-lg-0" *ngIf="hotelInfo?.status !== 'Cancelled'">
+              <button class="btn primary_btn cancelBookingBtn" (click)="cancelBooking()">Cancel booking</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  tabindex="-1"
+  role="dialog"
+  class="modal fade pr-0"
+  aria-hidden="true"
+  id="cancelBooking_Modal"
+  data-keyboard="false"
+  data-backdrop="static"
+>
+<div class="modal-dialog payment_error_dialog cancelBooking_Modal" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body mdl_body">
+      <div class="confirmTxt mb-2">
+        Are you sure you want to cancel this booking?
+      </div>
+      <div class="confirmSubTxt mb-4">
+        Once cancelled,this space will no longer be reserved and will become available for other customers to book. 
+      </div>
+      <div class="text-center">
+        <div>
+          <button type="button" class="sub_btn primary_btn mb-3" aria-label="Close" (click)="confirmCancelBooking()">
+            <i class="fa fa-spinner fa-spin text-white" *ngIf="loading" aria-hidden="true"></i>
+            <span translate>Yes,Cancel booking</span>
+          </button>
+        </div>
+        <div>
+          <button type="button" class="cancel_btn default_btn mr-md-2 mb-3 mb-md-0" aria-label="Close" data-dismiss="modal">
+            <span translate>Not now</span>
+          </button>
+        </div>
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

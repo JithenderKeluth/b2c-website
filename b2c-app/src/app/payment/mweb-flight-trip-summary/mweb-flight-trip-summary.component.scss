@@ -1,0 +1,69 @@
+@import "./../../../theme/theme-variables.scss";
+.route_info {
+  h4 {
+    color: var(--text_primary_color);
+    font-size: 22px;
+    font-weight: normal;
+    padding: 0 10px;
+  }
+  .refernce {
+    color: var(--text_info_color);
+    font-size: 12px;
+    font-weight: normal;
+    strong {
+      font-size: 12px;
+      color: $text-primary-color;
+    }
+  }
+  .route {
+    .fa-angle-down {
+      font-size: 26px;
+    }
+    .back_arr {
+      display: inline-block;
+      width: 5%;
+      float: left;
+      position: relative;
+      right: 8px;
+      top: 3px;
+      img {
+        transform: rotate(180deg);
+      }
+    }
+    .jour_info {
+      display: inline-block;
+      width: 75%;
+    }
+    .modify_btn {
+      display: inline-block;
+      width: 20%;
+      float: right;
+    }
+    .labl {
+      color: var(--text_primary_color);
+      font-size: 16px;
+      font-weight: 600;
+    }
+    img {
+      margin-bottom: 6px;
+      width: 16px;
+    }
+    .dt_labl {
+      color: var(--text_info_color);
+      font-size: 14px;
+    }
+    .sptr {
+      color: #8a90a2; // not added color code
+      width: 2px;
+    }
+  }
+  .route[aria-expanded="true"] .fa-angle-down {
+    transform: rotate(180deg);
+  }
+}
+
+#flight-summary {
+  .toggle_section {
+    display: block !important;
+  }
+}

@@ -1,0 +1,85 @@
+<div class="datatable_div">
+  <div class="walletHistory" *ngIf="rows.length != 0">
+    <ngx-datatable
+      #myTable
+      class="material"
+      [rows]="rows"
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="40"
+      [scrollbarV]="false"
+      [limit]="limit"
+      (page)="onPage($event)"
+      [reorderable]="false"
+    >
+      <ngx-datatable-column [width]="250" name="DATE">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="rowValue">{{ row.timestamp | date: 'd MMM y hh:mm:ss' }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="250" name="TYPE">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="{{ row.transaction_type_status }} text-uppercase">{{ row.transaction_type_status }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column [width]="200" name="AMOUNT">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="rowValue">
+            {{ row.currency | currencyCode }}{{ row.amount | currency: '' + ' ':'symbol':'2.0' }}
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="200" name="TRANSACTION MODE">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="rowValue">{{ row.transaction_mode }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [width]="200" name="STATUS">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="rowValue">{{ row.tranction_status || 'N/A' }}</div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="rowValue" *ngIf="row.transaction_mode === 'Offline'">
+            <a class="previewClass" (click)="preview(row)">Preview</a>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="preview_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog view_dialog" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body mdl_body">
+        <div class="mdl_heading mb-2">
+          <span class="float-left">Preview Receipt</span>
+          <img
+            src="../../../../assets/icons/close_icn.svg"
+            alt="close"
+            class="pull-right close_img"
+            width="13px"
+            data-dismiss="modal"
+            aria-label="Close"
+          />
+        </div>
+
+        <div class="mdl_text" *ngIf="previewData && previewData.file_link">
+          <img [src]="previewData.file_link" alt="preview" width="100%" />
+        </div>
+      </div>
+    </div>
+  </div>
+  ​
+</div>

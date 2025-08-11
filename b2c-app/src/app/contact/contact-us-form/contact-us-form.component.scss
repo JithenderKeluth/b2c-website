@@ -1,0 +1,565 @@
+@import "./../../../theme/theme-variables.scss";
+
+.assistance {
+  background: url("https://cdn1.travelstart.com/assets/images/need_assistance.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--label_color);
+  box-shadow: 0 5px 15px 0 rgb(37 44 97 / 15%), 0 2px 4px 0 rgb(93 100 148 / 20%);
+  h6 {
+    font-size: 32px;
+    color: var(--text_primary_color);
+  }
+  p {
+    color: var(--text_primary_color);
+  }
+}
+
+.new_req {
+  .nav-tabs {
+    border: none !important;
+    padding-left: 15px;
+    padding-right: 15px;
+    .nav-item {
+      border-radius: 3px;
+      .nav-link {
+        padding: 5px 10px !important;
+        border: none;
+        color: var(--text_primary_color) !important;
+        font-size: 14px;
+        border-radius: 3px;
+      }
+    }
+    .active {
+      color: var(--text_link_color);
+      font-weight: 500;
+      border: 1px solid var(--text_link_color) !important;
+      background-color: #dff5fd;
+    }
+  }
+}
+
+.contact_us_tabs {
+  border-bottom: 1px solid #dadfe6;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background: $color-neutral-0;
+  .nav {
+    border: none;
+    .nav-item {
+      padding: 0 10px;
+      .nav-link {
+        border: none;
+        color: $color-neutral-600;
+        font-size: 14px;
+        padding: 8px 15px 18px 15px;
+        &.active {
+          border-bottom: 2px solid var(--text_link_color);
+          color: var(--text_link_color);
+          font-weight: 500;
+        }
+        .inActive {
+          color: $color-neutral-600;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+.queryAndChat {
+  .fa-check {
+    color: var(--text_link_color);
+  }
+  .closePaxName {
+    cursor: pointer;
+  }
+  .paxLabel,
+  .imgLabel {
+    visibility: hidden;
+  }
+
+  a {
+    color: $color-blue-500;
+  }
+  padding: 40px 0px;
+  .pr-40 {
+    padding-right: 40px;
+  }
+  .pr-60 {
+    padding-left: 60px;
+  }
+  .sendQuery {
+    h6 {
+      font-size: 22px;
+      font-weight: 500;
+      position: relative;
+      span {
+        color: #ced2d9;
+        font-size: 40px;
+        position: relative;
+        font-weight: bold;
+        right: 1px;
+        top: 7px;
+      }
+    }
+    p {
+      color: var(--label_color);
+      font-size: 13px;
+    }
+    .btn_msg {
+      margin-left: 63%;
+    }
+    .querySuccessTxt {
+      font-size: 12px;
+      padding: 4px;
+      background: $color-teal-100;
+      color: $color-teal-400;
+    }
+    form {
+      .control-label {
+        color: var(--payment_card_strip);
+        font-size: 13px;
+        font-weight: normal;
+      }
+      .cancelPax {
+        position: relative;
+        top: 37px;
+      }
+      .form-control {
+        font-size: 14px;
+        height: 40px;
+        border: 1px solid #cdd3d6;
+        border-radius: 3px !important;
+      }
+      .message-btn {
+        width: 157px;
+        height: 45px;
+        padding: 5px 32px 19px;
+        border-radius: 4px;
+        background-color: var(--primary_btn_bg);
+        color: $color-neutral-0;
+        font-weight: 500;
+        margin-left: 6%;
+      }
+      .txt_message {
+        height: auto;
+      }
+      .category_select {
+        padding: 8px 14px;
+      }
+      .airline_link {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.travelAlert {
+  padding: 60px 0px;
+  background-color: #f7f9fc;
+  .fa-check {
+    color: $color-blue-500;
+  }
+  a {
+    color: $color-blue-500;
+  }
+  li {
+    list-style: none;
+    display: inline;
+    font-size: 14px;
+  }
+  .travelIssues {
+    ul {
+      display: block;
+      padding: 0px;
+      line-height: 31px;
+    }
+    li {
+      list-style-type: none;
+      display: inline-block;
+      margin-left: 59px;
+      font-size: 14px;
+      span {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .restrictions {
+    font-size: 14px;
+    font-weight: normal;
+    margin-left: 36%;
+    position: relative;
+    top: 10px;
+  }
+  h6 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text_primary_color);
+    position: relative;
+    span {
+      color: #ced2d9;
+      font-size: 40px;
+      position: relative;
+      font-weight: bold;
+      right: 6px;
+      top: 8px;
+    }
+  }
+  .travelRequests {
+    font-size: 14px;
+    color: var(--text_primary_color);
+    font-weight: normal;
+  }
+
+  .updates {
+    text-align: center;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.56;
+    color: var(--text_primary_color);
+    a {
+      color: $color-blue-500;
+    }
+  }
+  .level_info {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.56;
+    color: var(--text_primary_color);
+  }
+  .manage_booking {
+    font-size: 13px;
+    text-align: center;
+    font-weight: normal;
+    color: var(--text_primary_color);
+  }
+  .domestic_airlines {
+    font-size: 16px;
+    text-align: center;
+    font-weight: 500;
+    color: var(--text_primary_color);
+  }
+  .note {
+    text-align: center;
+    color: #7f90b5;
+    line-height: 2;
+    font-size: 12px;
+  }
+  .issues {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.27;
+    text-align: center;
+    color: var(--text_primary_color);
+  }
+}
+.send_us_query {
+  color: var(--text_primary_color);
+  font-weight: 500;
+  font-size: 16px;
+  padding-bottom: 1em;
+  .booking_covid_19 {
+    h2 {
+      color: var(--text_primary_color);
+      font-weight: 500;
+      font-size: 24px;
+    }
+    .covid_19_desc {
+      color: var(--text_primary_color);
+      font-weight: normal;
+      font-size: 16px;
+    }
+  }
+}
+.feedback_share {
+  padding: 40px 0px;
+  line-height: 26px;
+  .share_feedback {
+    width: 100%;
+    display: inline-block;
+    background-color: $white;
+    color: var(--text_primary_color);
+    font-size: 14px;
+    font-weight: normal;
+    .submit_feedback {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+    a {
+      color: $color-link-blue;
+    }
+    h2 {
+      font-size: 24px;
+      color: var(--text_primary_color);
+      font-weight: 500;
+    }
+  }
+}
+
+.why_book {
+  h6 {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--text_primary_color);
+    position: relative;
+    span {
+      font-size: 40px;
+      position: relative;
+      font-weight: bold;
+      right: 4px;
+      top: 7px;
+      color: #ced2d9;
+    }
+  }
+  li {
+    list-style-type: none;
+    display: inline;
+  }
+  .book_Us {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text_primary_color);
+    font-weight: 500;
+    p {
+      padding: 20px 10px;
+    }
+  }
+}
+.what_does {
+  color: $color-header-primary;
+  .sec_title {
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+    }
+  }
+  .content {
+    p {
+      font-size: 13px;
+      font-weight: normal;
+    }
+  }
+}
+.faq_wrapper {
+  padding: 80px 0px;
+  width: 100%;
+  display: inline-block;
+  background-color: $white;
+}
+.query_failed,
+.query_success {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  width: 50%;
+  .dialog_content {
+    width: 380px;
+    padding: 25px 20px;
+  }
+  .ok-btn {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    height: 34px;
+    background-color: $color-link-blue;
+    color: $color-neutral-0;
+    padding: 4px 29px;
+    margin-top: 14px;
+  }
+}
+
+.sect_header {
+  width: 100%;
+  float: left;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
+.sect_title {
+  text-align: center;
+  font-size: 24px;
+  color: var(--text_primary_color);
+  font-weight: 500;
+  float: left;
+}
+.numBullet {
+  font-size: 40px;
+  float: left;
+  font-weight: bold;
+  left: 10;
+  color: #ced2d9;
+  margin-right: 10px;
+}
+
+.enquiry_sec_title {
+  text-align: center;
+  font-size: 24px;
+  color: var(--text_primary_color);
+  left: 35%;
+  position: relative;
+  font-weight: 500;
+  float: left;
+}
+.enquiry_sec_title_lastitem {
+  text-align: center;
+  font-size: 24px;
+  color: var(--text_primary_color);
+  font-weight: 500;
+}
+.pick_date::ng-deep ngb-datepicker {
+  transform: translate(-20px, 60px) !important;
+  box-shadow: rgb(0 0 0 / 20%) 0px 6px 20px !important;
+}
+
+.whatsApp_Widget{
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 999;
+}
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .assistance {
+    padding: 16px 0;
+    h6 {
+      font-size: 26px;
+    }
+  }
+  .contact_us_tabs {
+    .nav-item {
+      padding: 0 !important;
+    }
+  }
+  .queryAndChat {
+    padding: 20px 0;
+    color: var(--text_primary_color);
+    .pr-40 {
+      padding-right: 15px;
+    }
+    .btn_msg {
+      margin-left: 0 !important;
+      padding-left: 0;
+      margin-bottom: 30px;
+    }
+    .pr-60 {
+      padding-left: 15px;
+    }
+  }
+  .travelAlert {
+    padding: 6px 0;
+  }
+  .travelIssues {
+    margin-top: 10px !important;
+    li {
+      width: 100%;
+      margin-left: 0px !important;
+    }
+  }
+  .faq_wrapper {
+    padding: 20px 0;
+    .enquiry_sec_title {
+      left: 0;
+    }
+    .faqNav {
+      li a {
+        width: 100%;
+      }
+      li a:first-child {
+        margin-top: 10px !important;
+      }
+    }
+  }
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .travelIssues {
+    li {
+      margin-left: 0px !important;
+      width: 100%;
+    }
+  }
+  form {
+    .form-group {
+      margin-bottom: 10px;
+    }
+  }
+  .enquiry_sec_title {
+    font-size: 20px !important;
+  }
+  .sect_header {
+    margin-bottom: 10px !important;
+  }
+  .sect_title {
+    font-size: 20px !important;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .pick_date::ng-deep ngb-datepicker {
+    left: 15% !important;
+    top: 10% !important;
+  }
+  ::ng-deep .pick_dob {
+    ngb-datepicker {
+      transform: translate(1px, 53px) !important;
+      box-shadow: 0 4px 8px 0 #b4bdc1 !important;
+    }
+  }
+  .paxLabel {
+    display: none;
+  }
+  .opening_hrs {
+    padding-left: 10px !important;
+  }
+  .feedback_share {
+    padding: 20px 0px !important;
+  }
+  .whatsApp_Widget{
+    right: 20px !important;
+  }
+}
+.suggestion_msg {
+  font-size: 11px;
+  color: #052331;
+  padding: 6px 20px;
+  background-color: var(--travelAdvice_Bg);
+  border-radius: 8px;
+}
+.dobDay {
+  padding: 0px !important;
+}
+.formColPad {
+  padding: 0px 15px;
+}
+.dateSelect {
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.dobDaySelect {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.dobYearSelect {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+.bor-rad-0 {
+  border-radius: 0px !important;
+}
+::ng-deep .pick_date ngb-datepicker-navigation-select > .custom-select {
+  display: block !important;
+}
+::ng-deep .pick_date .ngb-dp-arrow-btn {
+  padding: 0 0.25rem;
+  margin: 0 0.5rem;
+  background-color: transparent;
+  z-index: 1;
+  display: none !important;
+}

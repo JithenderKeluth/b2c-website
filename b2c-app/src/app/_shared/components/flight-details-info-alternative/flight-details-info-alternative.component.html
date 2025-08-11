@@ -1,0 +1,129 @@
+<div *ngIf="itineraryData && itineraryData.itineraries.length > 0">
+  <div *ngFor="let itinerary of itineraryData.itineraries; let parentIndex = index">
+    <div *ngFor="let odo of itinerary.odoList; let index = index; let last = last" class="card-container">
+      <div class="flight-details-header-container d-flex">
+        <span class="flight-details-header">
+          <span class="city-label">{{ odo.segments[0].origCode }}</span>
+          <span><img ImageSrc class="flights-icon" src="./../../../assets/icons/flight_icn_devide.svg" alt="travelling"></span>
+          <span class="city-label">{{ odo.segments[0].destCode }}</span>
+        </span>
+        <span class="expand-controller" (click)="toggleIsExpandedCard(parentIndex, index)">
+          <span class="angleIcon" *ngIf="!getIsExpandedValue(parentIndex, index)">
+            <i aria-hidden="true" class="fa fa-angle-down"></i>
+          </span>
+          <span class="angleIcon" *ngIf="getIsExpandedValue(parentIndex, index)">
+            <i aria-hidden="true" class="fa fa-angle-up"></i>
+          </span>
+        </span>
+      </div>
+      <div class="sub-header">
+        <span>{{ odo.segments[0].departureDateTime | date: 'E, d MMM, yyyy' }} | </span>
+        <span>{{ getTimeInHours(odo.segments[0].duration) }} | </span>
+        <span class="text-capitalize">{{ odo.segments[0].cabinClass | lowercase }}</span>
+      </div>
+      <div class="flight-details-expanded-container" *ngIf="getIsExpandedValue(parentIndex, index)">
+        <div class="flight-details-time-container">
+          <div>{{ odo.segments[0].departureDateTime | date: 'HH:mm' }}</div>
+          <div>{{ odo.segments[0].arrivalDateTime | date: 'HH:mm' }}</div>
+        </div>
+        <div><img ImageSrc src="./../../../../assets/icons/absa_icons/flight-details-departure-to-arrival-icon.svg" alt="departure to arrival icon"></div>
+        <div class="flight-details-airport-container">
+          <div>{{ getAirportName(odo.segments[0].origCode) }}</div>
+          <div class="flight-details-airline-container">
+            <span>
+              <img
+                class="airline-logo"
+                ImageSrc
+                width="24px"
+                src="assets/img/carriers/retina48px/carrier-{{ odo.segments[0].airlineCode }}.png"
+                alt="{{ odo.segments[0].airlineCode }}"
+              />
+            </span>
+            <span class="">
+              <span class="">
+                {{
+                  flightsList?.airlineNames
+                    ? flightsList.airlineNames[odo.segments[0].airlineCode]
+                    : odo.segments[0].airlineCode
+                }}
+              </span>
+              <span class="airl_numb d-lg-block"> | {{ odo.segments[0].flightNumber }} </span>
+
+              <div *ngIf="odo.segments[0].opAirlineCode">
+                <div class="mweb opAirline">
+                  Operated by
+                  {{
+                    flightsList?.airlineNames
+                      ? flightsList.airlineNames[odo.segments[0].opAirlineCode]
+                      : odo.segments[0].opAirlineCode
+                  }}
+                </div>
+              </div>
+            </span>
+          </div>
+          <div class="destination-airport-name">{{ getAirportName(odo.segments[0].destCode) }}</div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <div>
+          <ng-container
+            *ngTemplateOutlet="baggage_InfoData; context: { $implicit: { segments: odo.segments[0] } }"
+          >
+          </ng-container>
+        </div>
+        <div
+          class="offset-0 offset-lg-3 col-12 layover_section text-center"
+          *ngIf="odo.segments[0].length > 1 && !last"
+        >
+          <div class="layover">
+            <span>
+              <img ImageSrc src="./../../../assets/icons/flight_dt_layover.svg" alt="layover" />
+              <span class="lap_txt">{{ getLayoverTxt(odo)[0] }}</span>
+              {{ getLayoverTime(odo)[0] }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #baggage_InfoData let-data>
+  <div class="baggage_Info">
+    <span class="baggage" *ngIf="data.segments.baggageAllowance.length > 0">
+      <span
+        class="baggage_des"
+        *ngFor="let bag of data.segments.baggageAllowance; let idx = index; let first = first"
+        [ngClass]="bag === 'No baggage allowance'? 'noBaggage_Bg': ''"
+      >
+        <img
+          ImageSrc
+          *ngIf="handBag(bag)"
+          class="bag_icon"
+          src="./../../../assets/icons/srp_Icons/new_hand_baggage.svg"
+          alt="hand"
+        />
+        <img
+          ImageSrc
+          *ngIf="bag === 'No baggage allowance'"
+          ImageSrc
+          class="bag_icon"
+          src="./../../../assets/icons/srp_Icons/new_no_baggage.svg"
+          alt="no bag"
+        />
+        <img
+          ImageSrc
+          *ngIf="baggageDesc(bag) === 'Checked baggage'"
+          class="bag_icon"
+          src="./../../../assets/icons/srp_Icons/new_checked_baggage.svg"
+          alt="checked_baggage"
+        />
+        <span *ngIf="bag === 'No baggage allowance'" class="handLaggage">
+          <span translate class="baggage-val">No baggage</span>
+        </span>
+        <span *ngIf="bag !== 'No baggage allowance'" class="handLaggage">
+          <span class="baggage-val">{{ baggageDes(bag) }}</span>
+        </span>
+      </span>
+    </span>
+  </div>
+</ng-template>

@@ -1,0 +1,130 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+        ]
+      }
+    },
+    {
+      "name": "s3-svg",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/svg/**",
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/svg/**/*"
+        ]
+      }
+    },
+    {
+      "name": "s3-icons",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/icons/**",
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/icons/**/*"
+        ]
+      }
+    },
+    {
+      "name": "s3-img",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/img/**",
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/img/**/*"
+        ]
+      }
+    },
+    {
+      "name": "s3-images",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/images/**",
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/images/**/*"
+        ]
+      }
+    },
+    {
+      "name": "s3-whitelabel",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/whitelabel/**",
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/whitelabel/**/*"
+        ]
+      }
+    },
+    {
+      "name": "s3-js",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/js/**",
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/js/**/*",
+          "/**/*.js"
+        ]
+      }
+    },
+    {
+      "name": "s3-css",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/css/**",
+          "https://s3.eu-west-2.amazonaws.com/fastpix.travelstart.com/assets/css/**/*",
+          "/src/app/**/*.css"
+        ]
+      }
+    }
+  ],
+  "urls": [
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  ],
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": [
+        "/api/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 100,
+        "maxAge": "3d",
+        "timeout": "10s"
+      }
+    }
+  ],
+  "navigationUrls": [
+    "/home",
+    "/"
+  ]
+}

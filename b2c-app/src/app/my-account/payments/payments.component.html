@@ -1,0 +1,359 @@
+<div class="payment_gateway payments_section">
+  <div class="saved_cards" [ngClass]="{'theme__section-container': country === 'ABSA'}" *ngIf="
+  credentials &&
+  credentials.data &&
+  credentials.data.paymentCardList &&
+  credentials.data.paymentCardList.length > 0
+">
+    <div class="savedCardheading">
+      Saved Cards
+    </div>
+    <ul
+
+      class="pl-3"
+    >
+      <li class="card" [ngClass]="{'theme__my-profile-list-item': country === 'ABSA'}" *ngFor="let cc_cards of credentials.data.paymentCardList; let i = index">
+        <div>
+          <!-- <input type="radio" /> -->
+          <span class="theme__card-number-filler" *ngIf="country === 'ABSA'" >XXXX&nbsp;</span>
+          <span class="pl-3 pr-3 p-xs-0 theme__card-last-digits"> {{ formatCardNumber(cc_cards.cardNumber) }}</span>
+          <span class="float-right">
+            <img ImageSrc class="mr-2" src="assets/svg/payment-icons/{{ cc_cards.cardCode }}-dark.svg" alt=""/>
+            <img
+              ImageSrc
+              class="show"
+              src="../../../assets/icons/delete_icn.svg"
+              width="13px"
+              alt=""
+              (click)="openDialog(cc_cards)"
+            />
+          </span>
+          <span> </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="add_payment_card" [ngClass]="{'theme__section-container py-2': country === 'ABSA'}">
+    <div *ngIf="errorMsg" class="add_error_cls">
+      <p class="mb-0">{{ errorMsg }}</p>
+    </div>
+    <div class="sec_heading pt-3 pl-4 ">
+      <div class="row d-none d-lg-flex">
+        <div class="col-sm-3">
+          <h3 translate class="selectcards mb-0">Credit/Debit</h3>
+          <label translate class="selct_lbl">Your bank may charge forex fees</label>
+        </div>
+        <div class="col-sm-6 pl-5">
+          <div class="">
+            <img ImageSrc class="pr-2" src="assets/svg/payment-icons/VC-dark.svg" alt="VC"/>
+            <img ImageSrc class="pr-2" src="assets/svg/payment-icons/MC-dark.svg" alt="MC"/>
+            <img ImageSrc src="assets/svg/payment-icons/DC-dark.svg" alt="DC"/>
+          </div>
+        </div>
+      </div>
+      <div class="row d-lg-none">
+        <div *ngIf="country === 'ABSA'" class="col-12 newcardTxt px-0">
+          Add new card
+        </div>
+      </div>
+    </div>
+    <div class="row d-none d-md-block">
+      <div class="col-sm-6">
+        <div class="card-container" [ngClass]="{ flip_card: flip_Card }">
+          <div class="card ml-0 ml-md-5">
+            <div class="card-body">
+              <div class="flip front">
+                <div class="paymentMethodLogo">
+                  <img
+                    ImageSrc
+                    class="float-right"
+                    src="assets/svg/payment-icons/{{ selectedCardMethod }}-dark.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="clearfix"></div>
+                <div class="row card_details">
+                  <div class="col-sm-12">
+                    <div class="row m-0">
+                      <div class="col-sm-9 text-left">
+                        <div class="form-group">
+                          <label translate>Card Number</label>
+                          <h5 *ngIf="card_detailsForm.value.cardNumber">
+                            {{ card_detailsForm.value.cardNumber | cardFormatter }}
+                          </h5>
+                          <h6 *ngIf="!card_detailsForm.value.cardNumber">#### #### #### ####</h6>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row m-0">
+                      <div class="col-8 col-md-8">
+                        <div class="form-group text-left">
+                          <label translate for="cc_name">Card Holder Name</label>
+
+                          <h6 *ngIf="!card_detailsForm.value.cardName"></h6>
+                          <h5 *ngIf="card_detailsForm.value.cardName">
+                            {{ card_detailsForm.value.cardName | uppercase }}
+                          </h5>
+                        </div>
+                      </div>
+                      <div class="col-4 col-md-4">
+                        <div class="form-group">
+                          <label translate>Expires</label>
+
+                          <h6
+                            *ngIf="!card_detailsForm.value.cardExpiry && !card_detailsForm.value.cardExpiryMonth"
+                          ></h6>
+                          <h5 *ngIf="card_detailsForm.value.cardExpiry && card_detailsForm.value.cardExpiryMonth">
+                            {{ card_detailsForm.value.cardExpiryMonth }}/{{ expiryYear }}
+                          </h5>
+                          <h5 *ngIf="card_detailsForm.value.cardExpiryMonth && !card_detailsForm.value.cardExpiry">
+                            {{ card_detailsForm.value.cardExpiryMonth }}/YY
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flip back">
+                <div class="clearfix"></div>
+
+                <!-- <div class="col-12 p-0">
+                  <div>
+                    <div class="strip"></div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-12 card_details cvv_field float-right">
+                      <div class="clearfix"></div>
+
+                      <p translate class="text-right mb-1">CVV</p>
+                      <span class="cvv">
+                        <input
+                          readonly
+                          type="password"
+                          class="form-control"
+                          autocomplete="off"
+                          value="{{ card_detailsForm.value.cvv }}"
+                          mask="000"
+                          title="Credit card number"
+                          required
+                        />
+                      </span>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row Card-Enter">
+      <div class="col-sm-12">
+        <div class="card mt-2">
+          <div class="details card-body">
+            <form [formGroup]="card_detailsForm">
+              <div class="form-group col-sm-12">
+                <label translate>Card Number</label>
+                <input type="tel" class="form-control" autocomplete="off" maxlength="19" appCreditCardInput
+                       title="Credit card number"
+                       formControlName="cardNumber" id="card_number"
+                       placeholder="{{ '1234 4567 8912 3456' | translate }}"
+                       (input)="onKeyEnterEvent($event)" (paste)="onKeyEnterEvent($event)" (keypress)="onlyNumbers($event)"
+                       (change)="onKeyEnterEvent($event)" required/>
+                <div translate class="validation_msg"
+                     *ngIf="submitted && paymentCardForm?.cardNumber?.errors?.required">
+                  Required Card Number
+                </div>
+                <div translate class="validation_msg" *ngIf="paymentCardForm?.cardNumber?.errors?.notAbsaCard">
+                  Please use your Absa card
+                </div>
+              </div>
+              <div class="form-group col-sm-12">
+                <label translate for="cc_name">Card Holder Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cc_name"
+                  formControlName="cardName"
+                  placeholder="{{ 'JOHN SMITH' | translate }}"
+                  (change)="onChangeEvent($event)"
+                  required
+                />
+                <div translate class="validation_msg" *ngIf="submitted && paymentCardForm?.cardName?.errors?.required">
+                  Please enter a Card Holder Name
+                </div>
+              </div>
+              <div class="row m-0">
+                <div class="form-group col-sm-7">
+                  <label translate for="cc_name">Expiration Date</label>
+                  <br/>
+                  <div class="row">
+                    <div class="col">
+                      <select
+                        name=""
+                        id="card_expiry"
+                        class="form-control selectExpiry col-sm-12"
+                        formControlName="cardExpiryMonth"
+                      >
+                        <option translate value="">month</option>
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                      </select>
+                      <div translate class="validation_msg"
+                           *ngIf="submitted && paymentCardForm?.cardExpiryMonth?.errors?.required">
+                        Please enter a valid Expiration Month
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <select
+                        matNativeControl
+                        required
+                        class="form-control selectExpiry col-sm-12"
+                        formControlName="cardExpiry"
+                        id="cardExpiryYear"
+                        (change)="getExpiryYear()"
+                      >
+                        <option translate value="">year</option>
+                        <option value="{{ val.year }}" *ngFor="let val of yearsArray">{{ val.year }}</option>
+                      </select>
+                      <div translate class="validation_msg"
+                           *ngIf="submitted && paymentCardForm?.cardExpiry?.errors?.required">
+                        Please enter a valid Expiration Year
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="country !== 'ABSA'" class="form-group col-sm-5 p-0">
+                  <div class="col-sm-10 float-right">
+                    <label translate for="cc_name">Postal Code</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="postalCode"
+                      placeholder="{{ 'Postal code' | translate }}"
+                      required
+                    />
+                    <div translate class="validation_msg"
+                         *ngIf="submitted && paymentCardForm?.postalCode?.errors?.required">
+                      Please enter a PostalCode
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="country !== 'ABSA'" class="row m-0">
+                <div class="form-group col-sm-12">
+                  <label translate for="cc_name">Address</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="address"
+                    placeholder="{{ 'Address' | translate }}"
+                    required
+                  />
+                  <div translate class="validation_msg" *ngIf="submitted && paymentCardForm?.address?.errors?.required">
+                    Please enter an address
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="country !== 'ABSA'" class="row m-0">
+                <div class="form-group col-sm-6">
+                  <label translate for="cc_name">City</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="city"
+                    placeholder="{{ 'City' | translate }}"
+                    required
+                  />
+                  <div translate class="validation_msg" *ngIf="submitted && paymentCardForm?.city?.errors?.required">
+                    Please enter a City
+                  </div>
+                </div>
+                <div class="form-group col-sm-6">
+                  <label translate for="cc_name">Country</label>
+                  <mat-select class="form-control" placeholder="{{ 'Country' | translate }}" formControlName="country"
+                              panelClass="selectCountry">
+                    <mat-option *ngIf="country === 'ZA'" value="South Africa">
+                      <span> <span class="fi fi-za"></span>&nbsp;<span>South Africa</span></span>
+                    </mat-option>
+                    <mat-option value="Nigeria"
+                                *ngIf="(country === 'NG' || country === 'GI')">
+                      <span class="fi fi-ng"></span>&nbsp;<span>Nigeria</span>
+                    </mat-option>
+                    <mat-option *ngFor="let countries of countriesList" [value]="countries.name">
+                      <div>
+                        <span
+                          class="fi fi-{{countries.isoCode.toLowerCase()}}"></span>&nbsp;<span>{{ countries['name'] }}</span>
+                      </div>
+                    </mat-option>
+                  </mat-select>
+                  <div translate class="validation_msg" *ngIf="submitted && paymentCardForm?.country?.errors?.required">
+                    Please select country
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="row mt-4">
+              <div class="col-sm-12 text-center text-md-right p-0 pr-md-4">
+                <button
+                  type="button"
+                  class="cancel_btn default_btn mr-4 mr-md-2"
+                  (click)="card_detailsForm.reset(); submitted = false"
+                >
+                  <span translate>Cancel</span>
+                </button>
+                <button type="button" class="sub_btn primary_btn" [disabled]="isLoading" (click)="onSubmit()">
+                  <span translate>Add Card</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="DeleteCard_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog mdl_dialog" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body consistent-modal-body">
+        <div translate class="consistent-header-txt">Delete Card</div>
+        <div translate class="consistent-body-text">Do you permanently want to remove this card from your saved card list?</div>
+        <div class="modal-btn-container">
+          <button type="button" class="cancel_btn default_btn" aria-label="Close"
+                  data-dismiss="modal">
+            <span translate>Cancel</span>
+          </button>
+          <button type="button" class="sub_btn primary_btn" aria-label="Close" (click)="deleteCard()">
+            <span translate>Delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"/>

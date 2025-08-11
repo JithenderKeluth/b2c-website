@@ -1,0 +1,32 @@
+<div class="saved-travellers-container">
+  <div class="d-flex flex-column theme__hide-overflow">
+    <div translate class="travellers-header">My Travellers</div>
+    <div class="theme__scroll-overflow">
+      <div class="traveller-container" *ngFor="let traveller of travellers; let i = index">
+        <div class="flex-column">
+          <div class="traveller-name">{{ traveller.personName.nameTitle }}. {{ traveller.personName.givenName }}</div>
+          <div class="traveller-passport-title" translate>Passport ID</div>
+          <div class="traveller-passport-number">{{ traveller.passport.passportNumber }}</div>
+        </div>
+        <div class="traveller-button-container">
+          <img
+            ImageSrc
+            class="traveller-button-img"
+            (click)="deleteTraveller(traveller.travellerId)"
+            src="../../../assets/icons/delete_icn.svg"
+            alt="delete"
+          />
+          <img
+            ImageSrc
+            class="traveller-button-img"
+            (click)="openTravellerDialog(traveller)"
+            src="../../../assets/icons/absa_icons/edit.svg"
+            alt="edit"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="theme__button-primary mt-2" (click)="openTravellerDialog(null)" translate>Add Traveller</button>
+</div>

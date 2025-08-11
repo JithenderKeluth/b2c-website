@@ -1,0 +1,40 @@
+<div class="what_does mt-5 mb-4 mt-xs-15">
+  <div class="container">
+    <div class="sec_title">
+      <h2 translate>What does Travelstart do?</h2>
+    </div>
+    <div class="content">
+        <span translate>Based in Sunny</span> <a translate target="_blank" rel="noopener"
+          href="{{ 'capetown_cheap_flights_link' | translate }}">Cape Town,</a>
+        <span translate>Travelstart is your one-stop online travel shop.</span>
+        <span translate>Forget trawling the web for the latest flight specials.</span>
+        <span translate>We bring you the best</span>
+        <a  translate target="_blank" rel="noopener" href="{{ 'international_flights_link' | translate }}">international</a>
+        <span translate *ngIf="tsCountry === 'ZA'">and</span>
+        <a translate target="_blank" rel="noopener" href="{{ 'domestic_flights_link' | translate }}">domestic</a>
+        <span translate>flights from all your favourite</span>
+        <a translate *ngIf="tsCountry === 'ZA'" target="_blank" rel="noopener" href="{{ 'airlines_link' | translate }}">airlines.</a>
+        <span translate>We bring you the best international and domestic flights from all your favourite airlines.</span>
+        <span translate>Book your</span>
+        <a translate href="{{ 'hotel_stay_link' | translate }}" target="_blank" rel="noopener">hotel stay</a>
+        <span translate>at properties on every continent.</span>
+        <span translate *ngIf="tsCountry !== 'ZA'">and select</span>
+        <a *ngIf="tsCountry !== 'ZA'" href="{{ 'car_hire_link' | translate }}" target="_blank" rel="noopener" translate>car
+          hire</a>
+        <span  translate>from top car rental companies.</span>
+        <span translate>We offer you travel</span>
+        <a translate href="{{ 'travel_insurance_link' | translate }}" rel="noopener" target="_blank">insurance</a>
+        <span translate>too,</span> <span translate>for peace of mind.</span>
+        <span *ngIf="tsCountry === 'ZA'" translate>Select</span>
+        <a *ngIf="tsCountry === 'ZA'" translate href="{{ 'car_hire_link' | translate }}" target="_blank" rel="noopener">car hire</a>
+        <span *ngIf="tsCountry === 'ZA'" translate>from top car rental companies,</span>
+        <span translate>book</span>
+        <a translate href="{{ 'bus_tickets_link' | translate }}" target="_blank" rel="noopener">bus tickets</a>
+        <span translate>to anywhere in southern Africa, and even book your next holiday activity.</span>
+        <span translate>For custom</span>
+        <a translate href="{{ 'holiday_package_link' | translate }}" target="_blank" rel="noopener">holiday packages</a>
+        <span translate>to anywhere in the world, contact our travel experts and let’s make it happen.</span>
+        <span translate>For all your travel needs, go with the best and we’ll take care of the rest.</span>
+    </div>
+  </div>
+</div>

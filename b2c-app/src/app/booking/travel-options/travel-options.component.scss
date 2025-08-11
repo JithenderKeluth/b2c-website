@@ -1,0 +1,165 @@
+@import "./../../../theme/theme-variables.scss";
+
+.travel_options {
+  border-width: 1px 1px 4px 1px !important;
+  border-radius: 12px;
+  &.borderStyle {
+    border: 1px solid #d6dce8;
+  }
+  &.isTravelOptErr {
+    border: 1px solid #f51b46;
+  }
+  .travel_icon {
+    margin: auto;
+    position: relative;
+    top: 31%;
+    left: 10px;
+  }
+  .header {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text_primary_color);
+    .text_high {
+      color: var(--text_link_color);
+    }
+    .flexi_badge {
+      color: white;
+
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 12px;
+      bottom: 4px;
+      position: relative;
+      font-weight: normal;
+      &.on-opted {
+        background-color: #2aa04a;
+      }
+      &.not-opted {
+        background-color: #7bafe0;
+      }
+    }
+  }
+
+  .price_info {
+    text-align: right;
+    position: relative;
+    display: inline-flex;
+    float: right;
+    .price {
+      line-height: 0.5em;
+      position: relative;
+      font-weight: 600;
+      right: 20px;
+      font-size: 20px;
+      top: 3px;
+    }
+    .text-muted {
+      font-size: 10px;
+      color: #909aae;
+    }
+    .outline-secondary {
+      border: 1px solid var(--border_active_color);
+      color: var(--text_link_color);
+      &:hover {
+        background-color: #ffffff;
+        border: 1px solid var(--border_active_color);
+        color: var(--text_link_color);
+      }
+      &:active {
+        box-shadow: none;
+      }
+    }
+    .btn {
+      width: 110px;
+      border-radius: 8px;
+      &:active {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .list-unstyled {
+    li {
+      margin: 12px 0;
+      line-height: 1em;
+      .tick {
+        position: relative;
+        top: 8px;
+      }
+      .category {
+        color: #101828;
+        font-size: 14px;
+        font-weight: 500;
+        .text-muted {
+          display: block;
+          color: #101828;
+          font-size: 12px;
+          position: relative;
+        }
+      }
+      .know_more_link {
+        color: var(--text_link_color);
+        text-decoration: none;
+        font-size: 14px;
+      }
+    }
+  }
+}
+.text-danger {
+  color: #f51b46 !important;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px;
+  position: relative;
+  background-color: #fee8ec;
+}
+@media screen and (max-width: 766px) {
+  .flexi_badge {
+    left: 24px;
+    display: inline-flex;
+  }
+  .text-danger {
+    bottom: 12px;
+  }
+}
+@media screen and (min-width: 767px) {
+  .check {
+    position: absolute;
+    bottom: 10px;
+    display: block;
+    right: 16px;
+  }
+  .text-danger {
+    bottom: 28px;
+  }
+}
+
+/* Hide the default checkbox */
+.custom-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #909aae;
+  background-color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
+.custom-checkbox:checked {
+  background-color: var(--text_link_color);
+  border-color: var(--text_link_color);
+}
+
+.custom-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}

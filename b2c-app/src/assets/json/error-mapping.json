@@ -1,0 +1,55 @@
+{
+  "paymentfailures": {
+    "errorcodes": [
+      "1",
+      "2",
+      "4",
+      "7",
+      "8",
+      "9",
+      "10",
+      "13",
+      "16",
+      "17",
+      "18",
+      "19",
+      "23",
+      "27",
+      "29",
+      "31",
+      "73",
+      "84",
+      "100",
+      "115",
+      "124",
+      "194",
+      "332",
+      "825",
+      "48419",
+      "2313",
+      "48418",
+      "1650"
+    ],
+    "action": "payment page",
+    "message": "We couldn’t process your payment. Please verify your card details or select a different payment method."
+  },
+  "supplierfailures": {
+    "errorcodes": [
+      "5",
+      "48404",
+      "48403",
+      "48401",
+      "48400",
+      "288"
+    ],
+    "action": "srp",
+    "message": "Sorry, your flight is no longer available. Please try another search."
+  },
+  "validationfailures": {
+    "errorcodes": [
+      "4005"
+    ],
+    "action": "payment/travellers",
+    "message": "Sorry your booking has failed, please try again!"
+  }
+}

@@ -1,0 +1,47 @@
+<div class="wallet-vouchers">
+  <header class="mb-2">Redeem your vouchers and funds</header>
+
+  <!-- Flight Vouchers List -->
+  <ul class="voucher-list">
+    <li *ngFor="let voucher of vouchers.flightVouchers">
+      <span>
+        <span class="d-block"
+          >Flight Voucher
+          <span class="pull-right mt-2"
+            >Applied
+            <input
+              type="radio"
+              name="flightVoucher"
+              [value]="voucher.voucherId"
+              [checked]="selectedVoucher?.voucherId === voucher.voucherId"
+              (change)="onVoucherSelected(voucher.voucherId)" /></span
+        ></span>
+        <span>Use Flight Voucher {{ voucher.currency }}{{ voucher.amount }}</span>
+      </span>
+    </li>
+  </ul>
+
+  <!-- Hotel Vouchers List -->
+  <!-- <ul class="voucher-list">
+    <li *ngFor="let voucher of vouchers.hotelVouchers">
+      <span>
+        <span class="d-block"
+          >Hotel Voucher
+          <span class="pull-right mt-2"
+            >Applied
+            <input
+              type="checkbox"
+              (change)="onVoucherSelected(voucher.voucherId, $event.target.checked, 'Hotel')" /></span
+        ></span>
+        <span>Use Hotel Voucher {{ voucher.currency }}{{ voucher.amount }}</span>
+      </span>
+    </li>
+  </ul> -->
+
+  <div class="text-center">* You saved {{ calculateSavings() }}</div>
+
+  <!-- Submit button to send selected vouchers -->
+  <!-- <div class="text-center">
+    <button (click)="submitVouchers()">Submit Vouchers</button>
+  </div> -->
+</div>

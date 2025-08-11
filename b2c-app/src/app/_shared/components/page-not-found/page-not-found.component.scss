@@ -1,0 +1,16 @@
+.err_page {
+  margin: auto;
+  padding: 30px;
+  height: 72vh;
+  .err_msg {
+    margin-top: 24px;
+  }
+  .home-btn {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    height: 46px;
+    padding: 4px 29px;
+    margin-top: 28px;
+  }
+}

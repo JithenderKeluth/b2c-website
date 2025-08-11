@@ -1,0 +1,62 @@
+.hotel_deals {
+  .sec_heading {
+    h3 {
+      color: #1e3945;
+      font-size: 24px;
+      font-weight: 500;
+      span {
+        color: #15c4a1;
+      }
+    }
+    .sec_caption {
+      color: #1b3a48;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    li {
+      width: 24.6%;
+      display: inline-block;
+      .card {
+        box-shadow: 0 2px 13px 0 rgba(0, 0, 0, 0.06);
+        border: solid 1px rgba(29, 58, 72, 0.1);
+        border-radius: 10px;
+        .card-body {
+          img {
+            border-radius: 10px;
+            width: 100%;
+          }
+          label {
+            display: block;
+          }
+          .rating {
+            font-size: 12px;
+            .fa-star {
+              color: #fab90f;
+            }
+          }
+          .review {
+            color: #8c8896;
+            font-size: 12px;
+          }
+          .hotelname {
+            color: #1b3a48;
+            font-size: 14px;
+          }
+          .price {
+            color: #292b2c;
+            font-size: 20px;
+            font-weight: 600;
+            span {
+              color: #8c8896;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

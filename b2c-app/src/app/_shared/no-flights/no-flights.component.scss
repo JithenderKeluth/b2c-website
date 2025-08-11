@@ -1,0 +1,27 @@
+@import "./../../../theme/theme-variables.scss";
+
+.err_page {
+  margin: auto;
+  padding: 30px;
+  height: 100vh;
+  .ok-btn {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    height: 34px;
+    margin-top: 2%;
+    padding: 4px 29px;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .err_page {
+    height: 72vh !important;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .err_page .ok-btn {
+    padding: 4px 13px !important;
+  }
+}

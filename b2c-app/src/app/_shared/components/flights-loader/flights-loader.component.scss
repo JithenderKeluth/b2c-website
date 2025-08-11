@@ -1,0 +1,40 @@
+@import "./../../../../theme/theme-variables.scss";
+
+.skeltonLoader {
+  .sort_holders {
+    background-color: #ffffff;
+    padding: 16px 10px 0px 10px;
+    margin: 0 0px;
+    border-radius: 12px;
+  }
+  .mainDiv {
+    margin: 0.5rem;
+    background: #ffffff;
+    border-radius: 12px;
+    .flight_sec{
+      padding: 15px;
+    }
+    .bor_top {
+      border-top: 1px solid #f0f2f7;
+    }
+    .flight_details {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      display: block;
+      width: 65%;
+    }
+    .price_sec_div {
+      background-color: #f0f2f7;
+      border: 3px solid #fff;
+      border-radius: 12px;
+
+    }
+  }
+}
+
+::ng-deep .loader {
+  @media (max-width: map-get($grid-breakpoints, lg)) {
+    height: 15px !important;
+  }
+}

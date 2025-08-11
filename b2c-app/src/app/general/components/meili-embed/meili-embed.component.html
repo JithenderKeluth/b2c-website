@@ -1,0 +1,13 @@
+<div
+  id="mli-root"
+  class="mli-loading"
+  [attr.data-ptid]="meiliData?.ptid"
+  [attr.data-locale]="meiliData?.locale"
+  [attr.data-currency]="meiliData?.currency"
+  [attr.data-query]="meiliData?.queryData"
+></div>
+
+<br/>
+<p *ngIf="domainCountry === 'MM'">
+  If you need to cancel your car booking or can’t make it, just a heads-up that this will still count towards your 40-day car hire limit. To get this limit credited back, please send a WhatsApp to <a href="https://wa.me/27861886600" target="_blank">+27 0861 88 66 00</a>.
+</p>

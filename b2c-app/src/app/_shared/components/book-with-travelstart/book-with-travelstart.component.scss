@@ -1,0 +1,29 @@
+@import "./../../../../theme/theme-variables.scss";
+
+.bookFlightsSection {
+  font-size: 14px;
+  color: var(--text_primary_color);
+  min-height: 400px;
+  .flights_txt {
+    box-shadow: var(--search_sec_boxshadow);
+    padding: 15px;
+    .payments_txt {
+      visibility: hidden;
+    }
+  }
+  .pad-20 {
+    padding-top: 20px;
+  }
+
+  h1 {
+    font-weight: 600;
+    font-size: 28px;
+    letter-spacing: 0.32px;
+    padding-top: 15px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .payments_txt {
+    display: none !important;
+  }
+}

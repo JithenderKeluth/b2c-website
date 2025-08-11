@@ -1,0 +1,112 @@
+<app-header></app-header>
+<app-loader [isLoading]="loading"></app-loader>
+
+<!-- Airlines List Page Details -->
+<div *ngIf="airlinesListPage" class="airlines-page">
+  <!-- Hero Banner -->
+  <section class="section-white" *ngIf="heroItems">
+    <lp-hero [items]="heroItems"></lp-hero>
+    <!-- hide dropdown for Desktop -->
+    <div class="search-dropdown pt-4">
+      <button class="btn dropdown-toggle" type="button" (click)="toggleSearch()">
+        <span translate>Search Flights</span>
+        <span class="accordian-icon" *ngIf="!searchExpanded">
+          <i class="fa fa-chevron-down"></i>
+        </span>
+        <span class="accordian-icon" *ngIf="searchExpanded">
+          <i class="fa fa-chevron-up"></i>
+        </span>
+      </button>
+      <div class="dropdown-content" [ngClass]="{ 'hide-search': !searchExpanded }">
+        <app-search></app-search>
+      </div>
+    </div>
+  </section>
+
+  <!-- Airlines List -->
+  <section class="pb-5 pt-md-5 mt-md-5 section-white">
+    <div class="container">
+      <div class="row pt-2 pb-4">
+        <div class="text-center">
+          <h2>Booking Your Trip</h2>
+          <p style="font-size: 1em">
+            Does your next travelling plan include a trip abroad? Get ready to visit countries like
+            <a href="https://www.travelstart.co.za/lp/cheap-flights-to-thailand">Thailand</a>,
+            <a href="https://www.travelstart.co.za/lp/brazil/flights">Brazil</a>, the
+            <a href="https://www.travelstart.co.za/lp/usa/flights">United States</a> and
+            <a href="https://www.travelstart.co.za/lp/cheap-flights-to-italy">Italy</a>!
+          </p>
+          <p style="font-size: 1em; line-height: 1.66">
+            Some of the most popular flight routes we offer include
+            <a href="https://www.travelstart.co.za/lp/cheap-flights-from-johannesburg-to-madagascar"
+              >Johannesburg to Madagascar</a
+            >,
+            <a href="https://www.travelstart.co.za/lp/cheap-flights-from-cape-town-to-bangkok">Cape Town to Thailand</a>
+            and
+            <a href="https://www.travelstart.co.za/lp/cheap-flights-from-durban-to-mauritius">Durban to Mauritius</a
+            >.<br />
+            Simply pick your preferred airline carrier from a list of international airlines, including
+            <a href="https://www.travelstart.co.za/lp/airlines/qatar-airways-flights">Qatar Airways</a>,
+            <a href="https://www.travelstart.co.za/lp/airlines/singapore-airlines">Singapore Airlines</a>,
+            <a href="https://www.travelstart.co.za/lp/airlines/emirates-airlines-flights">Emirates</a> and
+            <a href="https://www.travelstart.co.za/lp/airlines/virgin-atlantic">Virgin Atlantic</a>.<br />
+          </p>
+          <p style="font-size: 1em">
+            Then, check your availability dates, compare all the cheap airline tickets and book your flights all in one
+            go.
+          </p>
+          <p style="font-size: 1em">
+            Buying a cheap airline ticket and booking a flight is really as easy as that. Book your next flight today
+            with Travelstart!
+          </p>
+        </div>
+      </div>
+      <div class="row pt-2 pb-4">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <h2 class="text-center">Airlines</h2>
+        </div>
+      </div>
+      <div class="row pt-2 pb-4">
+        <div class="col-lg-12 col-md-12 col-sm-12 d-flex flex-column">
+          <input
+            class="list-search"
+            type="text"
+            id="myInput"
+            (keyup)="filterAirline()"
+            placeholder="Search for Airlines..."
+          />
+          <ul class="list-items" id="myUL">
+            <li class="list-item" *ngFor="let airline of airlinesListPage">
+              <img
+                *ngIf="airline.attributes.carrier.data"
+                src="https://cdn1.travelstart.com/assets/img/carriers/retina48px/carrier-{{
+                  airline.attributes.carrier.data.attributes.GENERAL_Code
+                }}.png"
+                alt="Travelstart - Airline"
+                loading="lazy"
+              />
+              <a *ngIf="airline?.attributes" href="/lp/airlines/{{ airline.attributes.GENERAL_slug }}">
+                {{ airline.attributes.carrier.data?.attributes?.GENERAL_Name || 'No name' }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- General USP -->
+  <section class="pt-5 pb-5 bg-light-grey">
+    <lp-general-usp></lp-general-usp>
+  </section>
+
+  <!-- Footer Outtro -->
+  <section class="section-white mt-5 pt-5">
+    <!-- Footer Links -->
+    <span *ngIf="footerItems" class="mt-5">
+      <lp-footer-links [items]="footerItems"></lp-footer-links>
+    </span>
+  </section>
+</div>
+
+<app-footer [hideFooterLinks]="true"></app-footer>

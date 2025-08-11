@@ -1,0 +1,56 @@
+@import "../../../../../theme/theme-variables.scss";
+
+.quote-page {
+  position: fixed;
+  z-index: -999;
+  width: 70%;
+  margin-top: 50%;
+}
+
+.quote-title {
+  color: white;
+  background-color: black;
+  padding: 10px;
+}
+
+.agencyInfo {
+  .agencylogo {
+    width: 120px;
+  }
+
+  .agencyName {
+    font-size: 24px;
+  }
+}
+
+.flight-details-section {
+  padding: 15px;
+  border-top: 2px solid $Platinum;
+}
+
+.filght-details {
+  .flight-details-top {
+    background-color: $Platinum;
+
+    span {
+      opacity: 0.8;
+      font-size: 14px;
+      color: var(--payment_card_strip);
+    }
+  }
+}
+
+.copyright-section {
+  padding: 10px 0px;
+  border-top: 2px solid $Platinum;
+
+  span {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  ::ng-deep .modal-dialog {
+    margin: 0px !important;
+  }
+}

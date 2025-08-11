@@ -1,0 +1,249 @@
+<div class="card-container" [ngClass]="{ flip_card: flip_Card }" (click)="cardFlipInit()">
+  <div class="card">
+    <div class="card-body">
+      <div class="flip front">
+        <div class="clearfix"></div>
+        <div class="row card_details">
+          <div class="col-sm-12">
+            <div class="row m-0">
+              <div class="col-12">
+                <div class="add_money">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon3">ZAR</span>
+                    </div>
+                    <input
+                      class="form-control"
+                      appNumbersonly
+                      type="text"
+                      [formControl]="addAmount"
+                      id="basic-url"
+                      aria-describedby="basic-addon3"
+                    />
+                  </div>
+                </div>
+                <div class="amount_list">
+                  <ul class="float-left p-0">
+                    <li (click)="addMoney(2000000)">ZAR 2000000</li>
+                    <li (click)="addMoney(500000)">ZAR 500000</li>
+                    <li (click)="addMoney(1000000)">ZAR 1000000</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-9 ml-3 text-left">
+                <div class="form-group">
+                  <label for="card number" translate>Card Number</label>
+                  <h5 *ngIf="card_detailsForm.value.cardNumber">
+                    {{ card_detailsForm.value.cardNumber | mask: '0000 0000 0000 0000' }}
+                  </h5>
+                  <h6 *ngIf="!card_detailsForm.value.cardNumber">#### #### #### ####</h6>
+                </div>
+              </div>
+            </div>
+            <div class="row m-0">
+              <div class="col-sm-8">
+                <div class="form-group text-left">
+                  <label translate for="cc_name">CardHolder Name</label>
+
+                  <h6 *ngIf="!card_detailsForm.value.cardName"></h6>
+                  <h5 *ngIf="card_detailsForm.value.cardName">
+                    {{ card_detailsForm.value.cardName | uppercase }}
+                  </h5>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="expiry" translate>EXPIRY</label>
+
+                  <h6 *ngIf="!card_detailsForm.value.cardExpiry && !card_detailsForm.value.cardExpiryMonth"></h6>
+                  <h5 *ngIf="card_detailsForm.value.cardExpiry && card_detailsForm.value.cardExpiryMonth">
+                    {{ card_detailsForm.value.cardExpiryMonth }}/{{ expiryYear }}
+                  </h5>
+                  <h5 *ngIf="card_detailsForm.value.cardExpiryMonth && !card_detailsForm.value.cardExpiry">
+                    {{ card_detailsForm.value.cardExpiryMonth }}/YY
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip back" [style.backface-visibility]="!flip_Card ? 'hidden' : 'inherit'">
+        <div class="clearfix"></div>
+
+        <div class="col-12 p-0">
+          <div>
+            <div class="strip"></div>
+            <div class="clearfix"></div>
+            <div class="form-group col-12 card_details cvv_field pull-right">
+              <div class="clearfix"></div>
+
+              <p translate class="text-right mb-1">CVV</p>
+              <span class="cvv">
+                <input
+                  readonly
+                  type="password"
+                  class="form-control"
+                  autocomplete="off"
+                  value="{{ card_detailsForm.value.cvv }}"
+                  mask="000"
+                  title="Credit card n"
+                  required
+                />
+              </span>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row Card-Enter">
+  <div class="col-2" (click)="cardFlipInit()"></div>
+  <div class="col-sm-6 p-0 ml-5">
+    <div class="card mt-4 ml-4">
+      <div class="details card-body text-left p-0 ml-5">
+        <form [formGroup]="card_detailsForm">
+          <div class="form-group col-sm-12 p-0" (click)="cardFlipInit()">
+            <label for="card number" translate>Card Number</label>
+            <input
+              type="text"
+              class="form-control"
+              autocomplete="off"
+              maxlength="19"
+              appCreditCardInput
+              title="Credit card number"
+              formControlName="cardNumber"
+              id="card_number"
+              appNumbersonly
+              placeholder="{{ '1234 4567 8912 3456' }}"
+              (input)="onKeyEnterEvent($event)"
+              (change)="onChangeEvent($event)"
+              required
+            />
+            <div *ngIf="submitted && paymentCardForm.cardNumber.errors">
+              <div translate class="validation_msg" *ngIf="paymentCardForm.cardNumber.errors.required">
+                Required Card Number
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-sm-12 p-0" (click)="cardFlipInit()">
+            <label translate for="cc_name">Card Holder Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="cc_name"
+              formControlName="cardName"
+              placeholder="{{ 'JOHN SMITH' | translate }}"
+              (input)="onKeyEnterEvent($event)"
+              (change)="onChangeEvent($event)"
+              required
+            />
+            <div *ngIf="submitted && paymentCardForm.cardName.errors">
+              <div translate class="validation_msg" *ngIf="paymentCardForm.cardName.errors.required">
+                Required Card Holder Name
+              </div>
+              <div
+                translate
+                class="validation_msg"
+                *ngIf="paymentCardForm.cardName.touched && paymentCardForm.cardName.errors.pattern"
+              >
+                Invalid Card Holder Name
+              </div>
+              <div translate class="validation_msg" *ngIf="submitted && paymentCardForm.cardName.errors.minlength">
+                Card Holder Name should have min 3 Characters
+              </div>
+              <div translate class="validation_msg" *ngIf="submitted && paymentCardForm.cardName.errors.maxlength">
+                Card Holder Name should have max 30 Characters
+              </div>
+            </div>
+          </div>
+          <div class="row m-0">
+            <div class="form-group col-sm-7 p-0">
+              <label translate for="cc_name">Expiration Date</label>
+              <br />
+              <div class="row" (click)="cardFlipInit()">
+                <div class="col">
+                  <select
+                    name=""
+                    id="card_expiry"
+                    (change)="onKeyEnterEvent($event)"
+                    class="form-control selectExpiry col-sm-12"
+                    formControlName="cardExpiryMonth"
+                  >
+                    <option translate value="">month</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                  <div *ngIf="submitted && paymentCardForm.cardExpiryMonth.errors">
+                    <div translate class="validation_msg" *ngIf="paymentCardForm.cardExpiryMonth.errors.required">
+                      Required Expiration Month
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <select
+                    matNativeControl
+                    required
+                    class="form-control selectExpiry col-sm-12"
+                    formControlName="cardExpiry"
+                    id="cardExpiryYear"
+                    (change)="onKeyEnterEvent($event)"
+                    (change)="getExpiryYear()"
+                  >
+                    <option translate value="">year</option>
+                    <option value="{{ val.year }}" *ngFor="let val of yearsArray">{{ val.year }}</option>
+                  </select>
+                  <div *ngIf="submitted && paymentCardForm.cardExpiry.errors">
+                    <div translate class="validation_msg" *ngIf="paymentCardForm.cardExpiry.errors.required">
+                      Required Expiration Year
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-sm-5 p-0">
+              <div class="col-sm-10 pull-right p-0">
+                <label translate for="cc_name">CVV</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  autocomplete="off"
+                  (input)="onKeyEnterEvent($event)"
+                  formControlName="cvv"
+                  id="cvv"
+                  required
+                  (click)="cardFlip()"
+                />
+                <div *ngIf="submitted && paymentCardForm.cvv.errors">
+                  <div translate class="validation_msg" *ngIf="paymentCardForm.cvv.errors.required">Required CVV</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-2" (click)="cardFlipInit()"></div>
+</div>
+<div class="row mt-3">
+  <div class="col-12 text-center">
+    <button class="btn btn-primary btn_addmoney" (click)="proceedAddMoney()">PROCEED TO ADD MONEY</button>
+  </div>
+</div>

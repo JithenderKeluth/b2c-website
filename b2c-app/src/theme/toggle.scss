@@ -1,0 +1,42 @@
+
+/**toggle switch*/
+.toggle-switch {
+    height: 22px;
+    width: 40px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    input {
+      display: none;
+      &:checked + .slider_switch {
+        background-color: #1da023;
+      }
+      &:checked + .slider_switch::after {
+        -webkit-transform: translateX(18px);
+        -ms-transform: translateX(18px);
+        transform: translateX(18px);
+      }
+    }
+    .slider_switch {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #e1e3ea;
+      border-radius: 20px;
+      cursor: pointer;
+  
+      &::after {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        background-color: white;
+        left: 2px;
+        bottom: 2px;
+        border-radius: 50%;
+        box-shadow: 0 0 1px 0 #1da023;
+      }
+    }
+  }

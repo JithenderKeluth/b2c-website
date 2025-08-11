@@ -1,0 +1,229 @@
+<app-header></app-header>
+<div  class="find-itinerary-page">
+  <div class="container p-0" *ngIf="priceLinkData && (!isB2BApp() || (isB2BApp && bookingInfo?.products?.length > 0)) ">
+    <div class="row">
+      <div class="col-lg-8">
+        <section class="travellersSection" *ngIf="!isB2BApp()">
+          <div class="row">
+            <div class="col-lg-6">
+              <label class="sec_title">Contact Number</label>
+            </div>
+            <div class="col-lg-6">
+              <ngx-intl-tel-input
+                #phone
+                [cssClass]="'custom-international form-control'"
+                [preferredCountries]="preferredCountries"
+                [enableAutoCountrySelect]="true"
+                [enablePlaceholder]="true"
+                [searchCountryFlag]="true"
+                [searchCountryField]="[ SearchCountryField.Iso2, SearchCountryField.Name]"
+                [selectFirstCountry]="false"
+                [selectedCountryISO]="selectedCountryCode"
+                [maxLength]="'15'"
+                [separateDialCode]="separateDialCode"
+                [numberFormat]="PhoneNumberFormat.National"
+                [formControl]="contactNumber"
+                (countryChange)="onCountryChange($event)"
+                [phoneValidation]="false"
+              >
+              </ngx-intl-tel-input>
+
+              <div translate class="validation_msg" *ngIf="submitted && !contactNumber.value">
+                Mobile number is required.
+              </div>
+            </div>
+          </div>
+          <div *ngIf="showPassportDetails()" class="mt-3">
+            <label class="sec_title" *ngIf="travellersListForm">Traveller Details</label>
+            <div class="passengerList">
+              <form [formGroup]="travellerForm">
+                <div
+                  formArrayName="travellersList"
+                  class="mb-3"
+                  *ngFor="let list of travellersListForm.controls; let i = index"
+                >
+                  <div [formGroupName]="i">
+                    <div class="pax_type">
+                      {{ travellersListForm.controls[i].get('title').value }}
+                      {{ travellersListForm.controls[i].get('firstName').value }}
+                      <span *ngIf="travellersListForm.controls[i].get('middleName').value">{{
+                        travellersListForm.controls[i].get('middleName').value
+                      }}</span>
+                      {{ travellersListForm.controls[i].get('lastName').value }}
+                      - ({{ travellersListForm.controls[i].get('type').value }})
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-4 pad-5 mb-xs-10">
+                        <label translate class="control-label">Passport Number</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="passportNumber"
+                          placeholder="{{ 'Passport Number' | translate }}"
+                          attr.id="passportNumber{{ i }}"
+                        />
+                        <div *ngIf="submitted && travellersListForm.controls[i].get('passportNumber').errors">
+                          <div
+                            translate
+                            class="validation_msg"
+                            *ngIf="submitted && travellersListForm.controls[i].get('passportNumber').errors.required"
+                          >
+                            Required Passport Number
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 pad-5 mb-xs-10">
+                        <label translate class="control-label">Expiry date</label>
+                        <div class="input-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            formControlName="passportExpiry"
+                            attr.id="passportExpiry{{ i }}"
+                            mask="d0/M0/0000"
+                            [leadZeroDateTime]="true"
+                            [dropSpecialCharacters]="false"
+                            placeholder="{{ 'DD/MM/YYYY' | translate }}"
+                          />
+                        </div>
+                        <div *ngIf="submitted && travellersListForm.controls[i].get('passportExpiry').errors">
+                          <div
+                            translate
+                            class="validation_msg"
+                            *ngIf="submitted && travellersListForm.controls[i].get('passportExpiry').errors.required"
+                          >
+                            Required Expiry date
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 pad-5 mb-xs-10">
+                        <label translate class="control-label">Date of birth</label>
+                        <div class="input-group">
+                          <input
+                            type="text"
+                            class="form-control"
+                            formControlName="dob"
+                            mask="d0/M0/0000"
+                            placeholder="{{ 'DD/MM/YYYY' | translate }}"
+                            [leadZeroDateTime]="true"
+                            [dropSpecialCharacters]="false"
+                            attr.id="dob{{ i }}"
+                          />
+                        </div>
+                        <div *ngIf="submitted && travellersListForm.controls[i].get('dob').errors">
+                          <div
+                            translate
+                            class="validation_msg"
+                            *ngIf="submitted && travellersListForm.controls[i].get('dob').errors.required"
+                          >
+                            Required Date of birth
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 pad-5 mb-xs-10">
+                        <label translate class="control-label">Nationality</label>
+                        <div class="input-group">
+                          <mat-select
+                            class="form-control"
+                            placeholder="{{ 'Nationality' | translate }}"
+                            formControlName="nationality"
+                          >
+                            <mat-option *ngFor="let countries of countriesArray" [value]="countries.name"
+                              >{{ countries.name }}
+                            </mat-option>
+                          </mat-select>
+                        </div>
+                        <div *ngIf="submitted && travellersListForm.controls[i].get('nationality').errors">
+                          <div
+                            translate
+                            class="validation_msg"
+                            *ngIf="submitted && travellersListForm.controls[i].get('nationality').errors.required"
+                          >
+                            Required Nationality
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 pad-5 mb-xs-10">
+                        <label translate class="control-label">Passport issuing country</label>
+                        <div class="input-group">
+                          <mat-select
+                            class="form-control"
+                            placeholder="{{ 'Country' | translate }}"
+                            formControlName="passPortCountry"
+                          >
+                            <mat-option *ngFor="let countries of countriesArray" [value]="countries.name"
+                              >{{ countries.name }}
+                            </mat-option>
+                          </mat-select>
+                        </div>
+                        <div *ngIf="submitted && travellersListForm.controls[i].get('passPortCountry').errors">
+                          <div
+                            translate
+                            class="validation_msg"
+                            *ngIf="submitted && travellersListForm.controls[i].get('passPortCountry').errors.required"
+                          >
+                            Required Country
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+        <section *ngIf="bookingInfo && bookingInfo.products" class="mt-3">
+          <app-add-ons></app-add-ons>
+        </section>
+        <div
+          *ngIf="responsivservice.screenWidth !== 'sm' && responsivservice.screenWidth !== 'md'"
+          class="proceed-btn mt-4 mb-4 float-right"
+        >
+          <button type="button" aria-label="Continue" (click)="viewPaymentOptions()" class="btn primary_btn btnProceed"
+          [disabled]="isLoading">
+                    <i translate
+                        class="fa fa-spinner fa-spin"
+                        style="font-size: 20px"
+                        [hidden]="!isLoading"
+                        aria-hidden="true"
+                      ></i> 
+                      Continue
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <section class="fares_display_section d-lg-block">
+          <app-booking-summary (paymentoptions)="viewPaymentOptions()"></app-booking-summary>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isB2BApp() && !isB2BError && (!bookingInfo || bookingInfo?.products?.length == 0)" class="container">
+    <div class="b2b_loader">
+      <label id="spinner" class="mb-3"></label>
+      <div class="loader_txt">
+        Please wait we are fetching booking details 
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="payment_error_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <app-payment-error-deeplink></app-payment-error-deeplink>
+</div>
+<div
+  class="modal fade"
+  id="view_itinerary_error_modal"
+  data-backdrop="static"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <app-view-itinerary-error></app-view-itinerary-error>
+</div>
+<div *ngIf="!isB2BApp()">
+  <app-payments-footer class="d-none d-lg-block"></app-payments-footer>
+</div>
+
+

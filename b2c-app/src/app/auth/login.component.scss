@@ -1,0 +1,633 @@
+@import "./../../theme/theme-variables.scss";
+@import "bootstrap/scss/mixins/_breakpoints";
+
+.modal-dialog {
+  min-width: 840px;
+
+  .modal-content {
+    overflow: hidden;
+    border: none;
+    border-radius: 8px;
+
+    .modal-body {
+      padding: 0;
+    }
+  }
+}
+
+.social_btns {
+  .btn {
+    background-color: #ffffff;
+    height: 40px;
+    border: 1px solid #bfc7d5;
+    border-radius: 8px;
+  }
+
+  .apple_btn {
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  }
+
+  .fb_btn {
+    color: $color-neutral-900;
+    font-weight: normal;
+    font-size: 14px;
+  }
+
+  .dont_share {
+    color: #ffffff;
+    font-size: 12px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+}
+
+.or_txt {
+  font-size: 13px;
+  color: #9aa2b5;
+}
+
+.signUp_validation_msg {
+  font-size: 12px;
+  padding: 4px;
+  background: #fee8ec;
+  color: #f51b46;
+  line-height: 1em;
+}
+
+.right_sec_bg_clr {
+  background-color: $color-header-primary;
+}
+
+.right_sec_bg_img {
+  background-color: #0e0626;
+  background-image: url("https://cdn1.travelstart.com/assets/images/ts-plus-images/sign-up-bg.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.login-box {
+  width: 100%;
+  min-height: 100%;
+
+  .pwdError {
+    font-size: 12px;
+    padding: 8px;
+    background: #fee8ec;
+    color: #f51b46;
+    line-height: 17px;
+  }
+
+  .pswdValidation {
+    padding-left: 10px;
+    margin-bottom: 0px;
+  }
+
+  .acknowledge {
+    font-size: 12px;
+    margin: 10px 0px 0px 0px;
+    color: var(--text_primary_color);
+    input[type="checkbox"] {
+      position: relative;
+      top: 3px;
+    }
+  }
+
+  .showEye {
+    float: right;
+    margin-top: -34px;
+    margin-right: 10px;
+    color: $color-neutral-200;
+  }
+
+  .card {
+    border: none;
+
+    .card-body {
+      padding: 0;
+
+      .left-section {
+        padding: 25px;
+
+        .nav-tabs {
+          border: none !important;
+
+          .nav-item {
+            .nav-link {
+              border: none;
+              color: $color-neutral-600;
+              font-size: 18px;
+              font-weight: 600;
+
+              &.active {
+                border-bottom: 2px solid $color-link-blue;
+                color: $color-link-blue;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+
+        .branding {
+          margin: 20px 0;
+
+          img {
+            width: 200px;
+            height: auto;
+          }
+        }
+
+        form {
+          .header {
+            color: var(--text_primary_color);
+            font-size: 28px;
+            font-weight: 600;
+            margin: 20px 0;
+          }
+
+          .form-group {
+            .form-field {
+              .control-label {
+                color: var(--label_color);
+                font-size: 13px;
+                font-weight: 500;
+              }
+
+              .form-control {
+                border-radius: 8px;
+                border: solid 1px #c0c5d1;
+                height: 40px;
+              }
+            }
+          }
+          input::placeholder {
+            font-size: 12px !important;
+          }
+          .otp_txt {
+            font-size: 11px;
+            color: Var(--text_primary_color);
+          }
+          .primary_btn {
+            border-radius: 8px !important;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+          }
+          .forgotPwdsec {
+            font-size: 14px;
+
+            .remember {
+              color: #333333;
+
+              a {
+                color: $color-link-blue;
+              }
+            }
+
+            .reset_btn {
+              color: $color-link-blue;
+            }
+
+            .agreeConditions {
+              color: #333333;
+              margin-top: 10px;
+              margin-bottom: 10px;
+
+              a {
+                color: $color-link-blue;
+              }
+            }
+          }
+
+          .btn-primary {
+            height: 48px;
+            font-size: 16px;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .right-section {
+        padding: 0 40px 50px 30px;
+        color: #ffffff;
+
+        .close_icon {
+          position: relative;
+          top: 22px;
+          cursor: pointer;
+        }
+
+        .socials {
+          position: relative;
+          top: 10%;
+
+          .caption {
+            label {
+              font-size: 30px;
+              font-weight: 500;
+              text-align: left;
+              line-height: 38px;
+
+              .high {
+                color: $color-link-blue;
+              }
+            }
+          }
+
+          .carousel {
+            .labels {
+              label {
+                font-size: 26px;
+              }
+            }
+          }
+
+          .ts_pls_txt {
+            font-size: 28px;
+            font-weight: 500;
+            line-height: 34px;
+
+            .high {
+              color: #00c2f0;
+            }
+          }
+        }
+
+        .ts_plus_content {
+          margin: 10px 0px 65px 0px;
+
+          .ts_plus_txt {
+            font-size: 14px;
+            color: $white;
+          }
+
+          label {
+            color: #08b5f2;
+            margin-bottom: 0px !important;
+            font-size: 16px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}
+
+.LeftDashAnim {
+  margin-top: 30px;
+  margin-left: 1px;
+  height: 6px;
+  width: 54px;
+  background: $color-link-blue;
+  animation: lls-login-width-animation 3s ease-in-out infinite;
+}
+
+.form-check-label {
+  color: #909aae;
+  font-size: 12px;
+  padding: 0px !important;
+  a {
+    color: var(--text_link_color);
+  }
+}
+
+.successMsg {
+  background-color: #d1fdf4;
+  padding: 5px;
+  color: #1bf5ca;
+  font-size: 12px;
+}
+
+@keyframes lls-login-width-animation {
+  0% {
+    width: 1px;
+  }
+
+  40% {
+    width: 44px;
+  }
+
+  60% {
+    width: 44px;
+  }
+
+  to {
+    width: 1px;
+  }
+}
+
+.ng-invalid.ng-touched:not(form) {
+  border-left: 4px solid theme-color("danger");
+}
+
+@include media-breakpoint-down(xs) {
+  .container {
+    width: 100%;
+  }
+}
+
+input[type="checkbox"] + label {
+  color: #ccc;
+  font-style: italic;
+}
+
+input[type="checkbox"]:checked + label {
+  color: #f00;
+  font-style: normal;
+}
+
+.forgot_box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+
+  .close_pwd {
+    cursor: pointer;
+  }
+
+  .forgot_head {
+    border: none;
+    background-color: $white;
+    padding: 20px 20px;
+
+    h6 {
+      font-size: 18px;
+      color: $color-neutral-900;
+    }
+  }
+
+  .forgot_body {
+    h6 {
+      font-size: 16px;
+      color: $color-neutral-900;
+    }
+
+    padding: 10px 25px;
+    width: 380px;
+
+    .form-field {
+      .control-label {
+        color: var(--label_color);
+        font-size: 14px;
+      }
+
+      .form-control {
+        border-radius: 6px;
+        border: solid 1px #c0c5d1;
+        height: 48px;
+      }
+    }
+
+    .btn-reset {
+      height: 52px;
+      background-color: $color-link-blue;
+      color: $white;
+      font-size: 16px;
+    }
+
+    .btn-cancel {
+      height: 52px;
+      background-color: $white;
+      color: $color-link-blue;
+      font-size: 16px;
+      border: 1px solid $color-link-blue;
+    }
+
+    .btn-cancel:hover {
+      background-color: $color-link-blue;
+      color: $white;
+    }
+
+    .btns-section {
+      margin-top: 1em;
+    }
+
+    .pwdSentSuccess {
+      padding: 30px;
+    }
+
+    .pwdSuccussMsg {
+      margin-left: 10px;
+      margin-right: 10px;
+      font-size: 16px;
+      color: $color-neutral-900;
+      width: 72%;
+      text-align: center;
+    }
+
+    .emailTroubles {
+      h6 {
+        font-size: 14px;
+        margin: auto;
+        color: $color-neutral-900;
+      }
+
+      p {
+        font-size: 13px;
+        color: $color-neutral-900;
+
+        a {
+          color: $color-link-blue;
+        }
+      }
+    }
+  }
+}
+
+.lls723LeftBottomText {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 32px;
+  margin-top: 15px;
+}
+
+@keyframes lls-fade-in-out {
+  0%,
+  45% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.disabled-button {
+  background-color: #cfd6e3 !important;
+  background-image: none !important;
+  border: none !important;
+  color: $white !important;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #e1e6ef;
+}
+
+.divider-text {
+  font-size: 11px;
+  color: #b0b0b0;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid #e1e6ef;
+  font-weight: 500;
+}
+
+.show_otp_section {
+  height: 400px;
+  .otp_sent_txt {
+    font-size: 16px;
+    color: #667085;
+  }
+  .otp-container {
+    gap: 10px;
+    padding: 40px 0px;
+    .otp-input {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      font-size: 24px;
+      border: 1px solid #d1d1d1;
+      border-radius: 5px;
+      outline: none;
+      margin: 0px 5px;
+      padding: 0px;
+    }
+  }
+  .resendBtn {
+    border: 1px solid var(--primary_btn_bg);
+    background-color: $white;
+    color: var(--primary_btn_bg);
+    font-size: 12px;
+  }
+  .otp_success_txt {
+    color: #fff;
+    background-color: var(--text_primary_color);
+    border-radius: 13px;
+    font-size: 10px;
+    margin: 0px auto;
+  }
+  .timer {
+    font-size: 14px;
+    color: $text-primary-color;
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, lg)) {
+  .crossIcon {
+    display: none;
+  }
+
+  .socialBtns {
+    display: none;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .right-section {
+    display: none;
+  }
+
+  .close_icon {
+    float: right;
+    position: relative;
+    right: 21px;
+    top: 0px;
+  }
+
+  .forgot_head {
+    padding: 20px 20px 10px 20px !important;
+  }
+
+  .card {
+    border: none;
+
+    .card-body {
+      padding: 24px !important;
+
+      .left-section {
+        padding: 0px 14px 0px 0px !important;
+      }
+    }
+  }
+
+  .socialBtns {
+    .login_social_btn {
+      box-shadow: 0 0 4px 0 rgb(0 0 0 / 20%);
+      height: 52px;
+
+      span {
+        font-size: 14px;
+        color: $text-primary-color;
+      }
+
+      .btnWrapper {
+        padding: 0px 20px 0px 20px !important;
+      }
+    }
+  }
+
+  .dont_share {
+    color: $text-primary-color;
+    font-size: 12px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .btn-primary {
+    border-radius: 3px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .mt-xs-20 {
+    margin-top: 20px !important;
+  }
+
+  .forgot_body {
+    width: 100% !important;
+
+    h6 {
+      font-size: 13px !important;
+    }
+
+    .btn-reset {
+      margin-bottom: 0px !important;
+    }
+  }
+
+  .forgot_box {
+    width: calc(100% - 20px) !important;
+  }
+  .show_otp_section .otp-input {
+    width: 35px !important;
+    height: 35px !important;
+  }
+}
+
+::ng-deep {
+  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background: var(--primary_btn_bg) !important;
+  }
+
+  .mat-checkbox-frame {
+    border: 1px solid rgb(112 112 112 / 56%) !important;
+  }
+
+  .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+  .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+    background: var(--primary_btn_bg) !important;
+  }
+
+  .mat-checkbox .mat-checkbox-ripple {
+    display: none !important;
+  }
+}

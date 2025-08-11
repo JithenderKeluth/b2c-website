@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="traveller_details mt-4 mb-3" *ngIf="region === 'MM'">
+    <div class="row align-items-center">
+      <div class="col-lg-1 col-3 text-center d-none d-lg-inline">
+        <img ImageSrc src="../../../assets/images/ts+landing/pax_details_hme.svg" alt="" />
+      </div>
+      <div class="col-lg-9 col-12">
+        <div class="travellerHeading mb-3 mb-lg-1 d-flex align-items-center">
+          <span class="d-lg-none mr-3">
+            <img ImageSrc src="../../../assets/images/ts+landing/pax_details_hme.svg" alt=""
+          /></span>
+          <span>Traveller Details</span>
+        </div>
+        <div>
+          <span translate
+            >Make sure that traveller details match your travel document exactly before making bookings.</span
+          >
+          <span translate>To change traveller details, send a</span>
+          <a href="{{ 'whtsappLink' | translate }}" rel="noopener" target="_blank" class="activeLink">WhatsApp</a> to
+          <span translate>27861886600</span>, use the webchat function on
+          <a href="{{ 'momentum_link' | translate }}" rel="noopener" target="_blank" class="activeLink">
+            <span translate>multiply.co.za</span></a
+          >
+          or send an email to
+          <a href="mailto:{{ 'multiply@momentum.co.za' | translate }}" class="activeLink" rel="noopener" target="_blank">multiply&#64;momentum.co.za</a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-12 mt-3 mt-lg-0">
+        <button
+          type="button"
+          class="btn view_details_btn default_btn"
+          (click)="navigateToMembersPage()"
+          rel="nofollow"
+          routerLinkActive="active"
+        >
+          View details
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showWalletInfo">
+    <div class="benfitsHeading mt-3" translate>Your benefits</div>
+    <div class="row m-0">
+      <!-- Wallet Section -->
+      <div [ngClass]="region === 'MM' ? 'col-lg-6' : 'col-sm-3 pr-2'">
+        <div class="row">
+          <div
+            *ngIf="walletVouchers"
+            class="px-0 pr-lg-3 mb-2 mb-lg-0"
+            [ngClass]="region === 'MM' ? 'col-lg-5' : 'col-sm-12 pr-0'"
+          >
+            <div class="wallet-balance">
+              <span class="headingSec">Wallet</span>
+              <img
+                ImageSrc
+                class="pull-right"
+                src="../../../assets/icons/wallet-icons/wallet-icon-new.svg"
+                alt="wallet"
+              />
+              <div class="p-0 m-0 walletAmt">{{ currency | currencyCode }}{{ walletAmount }}</div>
+              <span translate>Total Balance</span>
+              <button type="button" class="btn btn-info mt-3" rel="nofollow" (click)="navigeteToWallet()">
+                Click here
+              </button>
+            </div>
+          </div>
+
+          <!-- Remaining Bookings Section -->
+          <div
+            class="wallet-balance mmf"
+            *ngIf="region === 'MM'"
+            [ngClass]="walletVouchers?.loyaltyVoucherBalances?.length > 0 ? 'col-lg-7' : 'col-sm-12'"
+          >
+            <div class="m-0 pb-3 headingSec">Remaining discounted bookings</div>
+            <ul>
+              <ng-container *ngFor="let booking of remainingBookings">
+                <li>
+                  <span class="d-block">
+                    <img ImageSrc [src]="booking.icon" [alt]="booking.alt" />
+                  </span>
+                  <span class="d-block bld">{{ booking.quantity }}</span>
+                  <span class="ligh-txt">{{ booking.type }}</span>
+                </li>
+              </ng-container>
+            </ul>
+            <button type="button" class="btn btn-info mt-2 d-none">View info</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Benefits Section -->
+      <div
+        class="benefits px-0 px-lg-3"
+        [ngClass]="region === 'MM' ? 'col-lg-6 mt-2 mt-lg-0 ' : 'col-sm-9 mmf '"
+        *ngIf="isBenefitsAvailable"
+      >
+        <ul class="d-flex">
+          <ng-container *ngFor="let benefit of benefitsList">
+            <li class="list">
+              <a href="{{ benefit.url }}" rel="noopener" target="_blank">
+                <div class="mb-2"><img ImageSrc [src]="benefit.icon" [alt]="benefit.alt" /></div>
+                <div>{{ benefit.label }}</div>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

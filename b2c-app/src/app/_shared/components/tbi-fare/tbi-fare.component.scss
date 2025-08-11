@@ -1,0 +1,79 @@
+@import "./../../../../theme/theme-variables.scss";
+.modal-header {
+    border: none;
+    img {
+      position: relative;
+      bottom: 0;
+      cursor: pointer;
+    }
+  }
+  .carrier_logo {
+    position: unset !important;
+  }
+  .route{
+    font-size: 13px;
+    color: var(--text_primary_color);
+    font-weight: 550;
+  }
+  .flight_head_txt{
+    font-size: 20px;
+    color: var(--text_primary_color);  
+    margin-bottom: 10px !important;
+  }
+  .modelData {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  .fare_table {
+    font-weight: 500 !important;
+    padding: 8px 15px;
+    font-size: 11px;
+    border: 1px solid var(--border_default_color);
+    color: var(--text_primary_color);
+    thead {
+      background-color: var(--bm_flight_review_bg);
+      border: 1px solid var(--border_default_color); //not added color code
+      padding: 7px 44px 6px 15px;
+    }
+    th,
+    td {
+      border: 1px solid var(--border_default_color);
+      font-size: 11px;
+    }
+    .premium {
+      background-color: var(--text_primary_color);
+      color: #fff;
+    }
+    .cancel_dept {
+      font-size: 11px;
+      color: var(--text_primary_color);
+      font-weight: normal;
+      ul {
+        list-style: none;
+      }
+  
+      ul li::before {
+        content: "\2022";
+        color: var(--text_info_color); //not added color code
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+      }
+    }
+  }
+  .fare_head{
+    font-size: 14px;
+    color: var(--text_primary_color);  
+  }
+  .cancel_policies{
+    font-size: 14px;
+    color: var(--text_primary_color);  
+}
+
+  @media (max-width: map-get($grid-breakpoints, lg)) {
+    .dialog_content{
+      padding: 20px !important;
+    } 
+  }
+  

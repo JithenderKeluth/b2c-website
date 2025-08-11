@@ -1,0 +1,1429 @@
+<app-header></app-header>
+<div class="booking_confiramtion_page" *ngIf="bookingInformation">
+  <div class="container">
+    <div class="row">
+      <div
+        class=""
+        [ngClass]="
+          showAppBanner()
+            ? 'col-12 col-lg-9 pl-lg-0'
+            : 'col-12 p-lg-0'
+        "
+      >
+        <section *ngIf="region !== 'ABSA'" class="confirmation_Card mt-0 bookingStatusCard_expanded">
+          <div class="booking_status">
+            <div class="row m-0 align-items-center">
+              <div class="col-lg-2 col-12 icon_booking_wrapper">
+                <div class="text-center">
+                  <img
+                    ImageSrc
+                    *ngIf="!paymentError"
+                    class=""
+                    src="./../../../assets/icons/booking_success_icn.svg"
+                    alt="bookingConfirmed"
+                    loading="lazy"
+                  />
+                  <img
+                    ImageSrc
+                    *ngIf="paymentError"
+                    src="./../../../assets/icons/fail_booking_confirm.svg"
+                    alt="bookingConfirmed"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-8 col-12 booking_info">
+                <div class="status_title">
+                  <label class="ref_details">
+                    <span translate class="ref_txt">Booking Reference Number:</span>&nbsp;
+                    <span>{{ bookingInformation.bookingInformation.bookingReferenceNo }}</span>
+                  </label>
+                  <label *ngIf="!paymentError" class="desc"
+                    ><span translate>Ticketing is currently in progress</span>,
+                    <span translate>keep an eye on your emails for your e-ticket</span>
+                  </label>
+                  <label *ngIf="paymentError" class="desc_booking d-none">
+                    <span translate>Booking has been completed but payment was unsuccessful</span>,
+                    <span translate>contact us for assistance or make a new booking</span>
+                  </label>
+                </div>
+                <div class="route_defn">
+                  <label>
+                    <span class="city_labls">{{ bookingInformation.bookingInformation.origin }}</span>
+                    <span class="pr-2 pl-2" *ngIf="bookingInformation.bookingInformation.tripType == 'return'"
+                      ><img ImageSrc src="./../../../assets/icons/two_way_route.svg" alt="round-trip" loading="lazy"
+                    /></span>
+                    <span class="pr-2 pl-2" *ngIf="bookingInformation.bookingInformation.tripType == 'oneway'"
+                      ><img ImageSrc src="./../../../assets/icons/one-way-icn.svg" alt="one-way" loading="lazy"
+                    /></span>
+                    <span class="pr-2 pl-2" *ngIf="bookingInformation.bookingInformation.tripType == 'multi'"
+                      ><img
+                        ImageSrc
+                        src="./../../../assets/icons/multy_city_arrows_dark.svg"
+                        alt="multi-trip"
+                        loading="lazy"
+                    /></span>
+                    <span class="city_labls" *ngIf="bookingInformation.bookingInformation.tripType !== 'multi'">{{
+                      bookingInformation.bookingInformation.destination
+                    }}</span>
+                    <span class="city_labls" *ngIf="bookingInformation.bookingInformation.tripType == 'multi'">{{
+                      getCityName(
+                        bookingInformation.itineraries[0].odoList[
+                          this.bookingInformation.itineraries[0].odoList.length - 1
+                        ].segments[
+                          this.bookingInformation.itineraries[0].odoList[
+                            this.bookingInformation.itineraries[0].odoList.length - 1
+                          ].segments.length - 1
+                        ].destCode
+                      )
+                    }}</span>
+                  </label>
+                  <label class="book_ref">
+                    <span class="labls"
+                      ><span translate>Booking details sent to:</span>&nbsp;
+                      <strong class="booking_details_send">{{
+                        bookingInformation.bookingInformation.confirmationEmailAddress
+                      }}</strong></span
+                    >
+                  </label>
+                  <div
+                    *ngIf="
+                      ((bookingInformation?.bookingInformation?.selectedPaymentMethod?.paymentOptionName == 'IPAY' &&
+                        bookingInformation.transactionId) ||
+                        (bookingInformation?.bookingInformation?.selectedPaymentOption?.paymentOptionGroup == 'CC' &&
+                          apiService.extractCountryFromDomain() !== 'IB' &&
+                          apiService.extractCountryFromDomain() !== 'GI' &&
+                          apiService.extractCountryFromDomain() !== 'FS' &&
+                          apiService.extractCountryFromDomain() !== 'NG' &&
+                          apiService.extractCountryFromDomain() !== 'MM')) &&
+                      !iframeWidget.isB2BApp()
+                    "
+                    class="view_account_info text-center"
+                  >
+                    <label class="confirm_labls">
+                      <span translate>You can view all your trip info,</span>
+                      <span translate>as well as check the status of your bookings in </span>
+                      <a
+                        *ngIf="!credentialsService.isAuthenticated()"
+                        rel="nofollow"
+                        data-toggle="modal"
+                        data-target="#loginModal"
+                      >
+                        <span translate>My Account</span>
+                      </a>
+                      <a *ngIf="credentialsService.isAuthenticated()" rel="nofollow" (click)="goToMyAccount()">
+                        <span translate>My Account</span>
+                      </a>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="payment mt-3 pay-w-xs d-lg-flex align-items-center"
+                  *ngIf="
+                    bookingInformation?.bookingInformation?.selectedPaymentMethod?.paymentOptionName == 'EFT' &&
+                    (!iframeWidget.isB2BApp() || (iframeWidget.isB2BApp() && isClubHubOrg()))
+                  "
+                >
+                  <div class="price">
+                    <label translate class="labl">Pending payment</label>
+                    <label
+                      *ngIf="
+                        bookingInformation &&
+                        bookingInformation.fareBreakdown &&
+                        bookingInformation.fareBreakdown.currencyCode
+                      "
+                      class="price_labl"
+                      >{{ bookingInformation.fareBreakdown.currencyCode | currencyCode
+                      }}{{ bookingTotalAmount(bookingInformation.fareBreakdown.totalAmount) | currency: '' + ' ':'symbol':'2.0' }}</label
+                    >
+                    <label
+                      *ngIf="
+                        bookingInformation &&
+                        bookingInformation.invoiceFareBreakdown &&
+                        bookingInformation.invoiceFareBreakdown.currencyCode
+                      "
+                      class="price_labl"
+                      >{{ bookingInformation.invoiceFareBreakdown.currencyCode | currencyCode
+                      }}{{
+                        bookingTotalAmount(bookingInformation.invoiceFareBreakdown.totalAmount) | currency: '' + ' ':'symbol':'2.0'
+                      }}</label
+                    >
+                  </div>
+                  <div class="pay ml-lg-auto">
+                    <button
+                      type="button"
+                      class="btn primary_btn"
+                      aria-label="Log Into Your Bank"
+                      *ngIf="bookingInformation.bookingInformation.selectedPaymentMethod.site"
+                    >
+                      <a
+                        href="{{ bookingInformation.bookingInformation.selectedPaymentMethod.site }}"
+                        rel="noopener"
+                        target="_blank"
+                        ><span translate>Log Into Your Bank</span></a
+                      >
+                    </button>
+                  </div>
+                </div>
+                <div *ngIf="paymentError">
+                  <div class="paymentFailed w-100">
+                    <label for="">
+                      <span translate
+                        >Your payment was not successful and the funds were not debited from your bank account.</span
+                      >
+                      <span translate>please</span>
+                      <a target="_blank" rel="nofollow" (click)="goToContactpage()">
+                        <span translate>contact us</span>
+                      </a>
+                      <span translate
+                        >immediately to make payment, a booking confirmation has been sent to your email.
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  *ngIf="
+                    !paymentError &&
+                    iframeWidget.isB2BApp() &&
+                    bookingInformation.bookingInformation.selectedPaymentMethod.paymentOptionName &&
+                    bookingInformation.bookingInformation.selectedPaymentMethod.paymentOptionName == 'EFT'
+                  "
+                >
+                  <div class="b2B_EFT_Msg w-100">
+                    <label for="" class="mb-1" translate *ngIf="isClubHubOrg()">
+                      This booking is currently on hold. Please be aware that the airline reserves the right to change
+                      the pricing and other details at their discretion.
+                    </label>
+                    <label for="" translate>
+                      You can view all your trip info,as well as check the status of your bookings in
+                      <span (click)="navigateToReservedList()"> Bookings on hold</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="seatError">
+              <div class="col-lg-10 offset-lg-2">
+                <div class="seat_error">
+                  <label class="seat_err_labl">
+                    <span class="imgTrAdvice mr-1">
+                      <img
+                        ImageSrc
+                        src="./../../assets/icons/info_hme_yellow.svg"
+                        width="16px"
+                        alt="info"
+                        loading="lazy"
+                      />
+                    </span>
+                    <span translate>{{ seat_error_msg.description }}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div translate *ngIf="region === 'ABSA'" class="theme__booking-info-header">Booking Confirmation</div>
+        <section *ngIf="region === 'ABSA'" class="confirmation_Card mt-0 bookingStatusCard_expanded">
+          <div class="booking_status">
+            <div class="row m-0 align-items-center">
+              <div class="col-lg-2 col-12 icon_booking_wrapper">
+                <div class="text-center">
+                  <img
+                    ImageSrc
+                    *ngIf="!paymentError"
+                    class=""
+                    src="./../../../assets/icons/booking_success_icn.svg"
+                    alt="bookingConfirmed"
+                    loading="lazy"
+                  />
+                  <img
+                    ImageSrc
+                    *ngIf="paymentError"
+                    src="./../../../assets/icons/fail_booking_confirm.svg"
+                    alt="bookingConfirmed"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-8 col-12 booking_info">
+                <div class="status_title">
+                  <label class="ref_details">
+                    <span translate>Thank you for booking</span><br />
+                    <span>{{ nameAndTitle }}</span>
+                  </label>
+                  <label *ngIf="!paymentError">
+                    <span translate class="theme__light-label">Your booking has been successfully completed.</span>
+                  </label>
+                  <label *ngIf="paymentError" class="desc_booking d-none">
+                    <span translate>Booking has been completed but payment was unsuccessful</span>,
+                    <span translate>contact us for assistance or make a new booking</span>
+                  </label>
+                  <label class="mt-5">
+                    <span class="theme__light-label">Booking details sent to:</span>
+                    <strong class="booking_details_send">{{ bookingInformation.bookingInformation.confirmationEmailAddress }}</strong>
+                  </label>
+                  <label class="ref_details mt-2">
+                    <span translate class="theme__light-label">Booking Reference Number:</span><br>
+                    <span>{{ bookingInformation.bookingInformation.bookingReferenceNo }}</span>
+                  </label>
+                </div>
+                <div *ngIf="paymentError">
+                  <div class="paymentFailed w-100">
+                    <label for="">
+                      <span translate
+                        >Your payment was not successful and the funds were not debited from your bank account.</span
+                      >
+                      <span translate>please</span>
+                      <a target="_blank" rel="nofollow" (click)="goToContactpage()">
+                        <span translate>contact us</span>
+                      </a>
+                      <span translate
+                        >immediately to make payment, a booking confirmation has been sent to your email.
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="seatError">
+              <div class="col-lg-10 offset-lg-2">
+                <div class="seat_error">
+                  <label class="seat_err_labl">
+                    <span class="imgTrAdvice mr-1">
+                      <img
+                        ImageSrc
+                        src="./../../assets/icons/info_hme_yellow.svg"
+                        width="16px"
+                        alt="info"
+                        loading="lazy"
+                      />
+                    </span>
+                    <span translate>{{ seat_error_msg.description }}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="confirmation_Card flightDetailsCard_expanded"
+          [ngClass]="{
+            'notvalid-visa': showNGNotValidVisa()
+          }"
+          *ngIf="region !== 'ABSA' && bookingInformation?.itineraries"
+        >
+          <div class="sec_head">
+            <div translate class="sec_title theme__booking-confirmation-section-title">Flight Details</div>
+            <div *ngIf="region !== 'ABSA'" class="float-right ml-auto" (click)="expandCard('flightDetailsCard_expanded')">
+              <span class="angleIcon" *ngIf="!collapsedCardList.flightDetailsCard_expanded">
+                <i aria-hidden="true" class="fa fa-angle-down"></i>
+              </span>
+              <span class="angleIcon" *ngIf="collapsedCardList.flightDetailsCard_expanded">
+                <i aria-hidden="true" class="fa fa-angle-up"></i>
+              </span>
+            </div>
+          </div>
+          <div class="flight_details" [hidden]="!collapsedCardList.flightDetailsCard_expanded">
+            <app-flight-details-info [itinerary_Data_Info]="bookingInformation"></app-flight-details-info>
+          </div>
+        </section>
+        <section *ngIf="region === 'ABSA' && bookingInformation?.itineraries">
+          <app-flight-details-info-alternative [itineraryData]="bookingInformation"></app-flight-details-info-alternative>
+        </section>
+        <section
+          class="confirmation_Card paymentDetailsCard_expanded"
+          [ngClass]="{
+            'notvalid-visa': showNGNotValidVisa()
+          }"
+          *ngIf="
+            region !== 'ABSA' &&
+            (
+              !iframeWidget.isB2BApp() ||
+              (iframeWidget.isB2BApp() &&
+                isClubHubOrg() &&
+                bookingInformation?.bookingInformation?.selectedPaymentOption?.paymentOptionGroup == 'EFT'
+              )
+            )
+          "
+        >
+          <div class="sec_head">
+            <div translate class="sec_title">Payment details</div>
+            <div class="float-right ml-auto" (click)="expandCard('paymentDetailsCard_expanded')">
+              <span class="angleIcon" *ngIf="!collapsedCardList.paymentDetailsCard_expanded">
+                <i aria-hidden="true" class="fa fa-angle-down"></i>
+              </span>
+              <span class="angleIcon" *ngIf="collapsedCardList.paymentDetailsCard_expanded">
+                <i aria-hidden="true" class="fa fa-angle-up"></i>
+              </span>
+            </div>
+          </div>
+          <div [hidden]="!collapsedCardList.paymentDetailsCard_expanded" class="mt-3">
+            <div
+              class="eft_details_sec"
+              *ngIf="bookingInformation.bookingInformation.selectedPaymentOption.paymentOptionGroup == 'EFT'"
+            >
+              <div class="payment_desc mt-3" *ngIf="!iframeWidget.isB2BApp()">
+                <p>
+                  <span translate
+                    >The quoted flight / price is not guaranteed until payment has been confirmed by Travelstart.</span
+                  ><br />
+                  <span translate>Please remember to use your Travelstart booking reference</span>
+                  <span translate>as the transaction remark or depositor’s name when you pay.</span>
+                  <span
+                    >Then, allow for up to
+                    <span *ngIf="apiService.extractCountryFromDomain() === 'ZA'">four (4) working hours</span>
+                    <span *ngIf="apiService.extractCountryFromDomain() === 'NG'">one (1) working hour</span>
+                    to receive your e-ticket.</span
+                  >
+                  <span>If you still haven’t received your ticket after this time, please</span>
+                  <span
+                    *ngIf="
+                      apiService.extractCountryFromDomain() !== 'NG' && apiService.extractCountryFromDomain() !== 'GI'
+                    "
+                    (click)="goToContactpage()"
+                    translate
+                    class="helpLink"
+                    >contact us</span
+                  >
+                  <span
+                    *ngIf="
+                      apiService.extractCountryFromDomain() === 'NG' || apiService.extractCountryFromDomain() === 'GI'
+                    "
+                  >
+                    <span>email us at</span>
+                    <span class="helpLink">help&#64;{{ hostName }}</span>
+                  </span>
+                  <span translate>or call</span>
+                  <span translate>+27 (0) 21 468 4300.</span>
+                </p>
+              </div>
+              <div class="payment_desc mt-3" *ngIf="isClubHubOrg()">
+                <p>
+                  All Proof of Payments need to be sent to
+                  <span class="helpLink">ticketpayments&#64;clubtravel.co.za. </span>Please include your CT reference number and Agency name on your Proof of Payment.
+                </p>
+              </div>
+              <div class="row">
+                <div class="col-12 col-lg-7">
+                  <div class="payment_Details">
+                    <div class="bank_details">
+                      <div translate class="heading">Bank Details</div>
+                      <table class="table" aria-describedby="">
+                        <tr>
+                          <td id="bank" class="txt_align">
+                            <span translate>Bank</span>
+                          </td>
+                          <td id="bank" class="txt_des">
+                            {{ bookingInformation.bookingInformation.selectedPaymentMethod.name }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td id="Account holder" class="txt_align">
+                            <span translate>Account holder</span>
+                          </td>
+                          <td id="Account holder" class="txt_des">
+                            {{ bookingInformation.bookingInformation.selectedPaymentMethod.holder }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td id="Account number" class="txt_align">
+                            <span translate>Account number</span>
+                          </td>
+                          <td id="Account number" class="txt_des">
+                            {{ bookingInformation.bookingInformation.selectedPaymentMethod.accountNo }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td id="Branch code" class="txt_align">
+                            <span translate>Branch code</span>
+                          </td>
+                          <td id="Branch code" class="txt_des">
+                            <span *ngIf="!bookingInformation?.bookingInformation?.selectedPaymentMethod?.branchNo"
+                              >N/A</span
+                            >
+                            <span *ngIf="bookingInformation?.bookingInformation?.selectedPaymentMethod?.branchNo">{{
+                              bookingInformation.bookingInformation.selectedPaymentMethod.branchNo
+                            }}</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td id="Reference number" class="txt_align">
+                            <span translate>Reference number</span>
+                          </td>
+                          <td id="Reference number" class="txt_des">
+                            {{ bookingInformation.bookingInformation.bookingReferenceNo }}
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="payment payment_CTA_sec mt-2 w-100 col-12 text-md-left d-lg-flex align-center">
+                      <ng-container
+                        *ngTemplateOutlet="pending_amount; context: { $implicit: { bookInfo: bookingInformation } }"
+                      >
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="mpesa_details_sec"
+              *ngIf="bookingInformation.bookingInformation.selectedPaymentOption.paymentOptionGroup == 'MPESA'"
+            >
+              <ul class="mpesa-list">
+                <li translate>Selecting this option will reserve your booking until 23h59 today.</li>
+                <li translate>
+                  Go to the M-Pesa menu on your phone, select the Paybill option and enter the following business
+                  number: 921600.
+                </li>
+                <li translate>
+                  For the payment description use your booking reference number (Example : KE01232456), and insert the
+                  total amount.
+                  <span translate
+                    >(M-Pesa transaction limits are Ksh 150,000. For payments over Ksh 150,000 up to Ksh 300,000 two
+                    transactions should be made).</span
+                  >
+                </li>
+                <li translate>Enter your M-Pesa PIN after reconfirming the business and account number.</li>
+                <li translate>You will receive a confirmation SMS from M-Pesa with a confirmation code.</li>
+                <li translate>
+                  Once we receive payment confirmation, we will issue the ticket and you will receive your e-ticket in
+                  your e-mail.
+                </li>
+                <li translate>
+                  Should you require urgent assistance, send an email with the word URGENT in the subject line to
+                  <span class="helpLink">help&#64;{{ hostName }}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="card_details_sec" *ngIf="bookingInformation.bookingInformation.isCardBooking">
+              <div class="cardCharge">
+                <label
+                  >Your card XXXX XXXX XXXX
+                  <span>{{ bookingInformation.bookingInformation.cardNumberDigits }}</span> charged with
+                  <span
+                    *ngIf="
+                      bookingInformation &&
+                      bookingInformation.fareBreakdown &&
+                      bookingInformation.fareBreakdown.currencyCode
+                    "
+                    class="price_labl"
+                    >{{ bookingInformation.fareBreakdown.currencyCode | currencyCode
+                    }}{{ bookingTotalAmount(bookingInformation.fareBreakdown.totalAmount) | currency: '' + ' ':'symbol':'2.0' }}</span
+                  >
+                </label>
+              </div>
+              <div class="afterPay_txt">
+                <span translate>We're working with the airline in processing your E-ticket</span>,
+                <span translate>you will receive your E-ticket email with your flight</span>
+                <span translate>itinerary within 24 hours, for same-day departures</span>,
+                <span translate>you will receive your e-ticket within 1 hour.</span>
+                <span translate>Kindly contact us should you not receive your E-ticket within 24 hours.</span>
+              </div>
+              <div class="card_details">
+                <div class="row">
+                  <div class="col-lg-7 col-12">
+                    <div class="mt-2 payment_Details">
+                      <table class="table" aria-describedby="">
+                        <tr>
+                          <td id="Payment type" class="txt_align">
+                            <span translate>Payment type</span>
+                          </td>
+                          <td id="Payment type" class="txt_des">
+                            <span
+                              translate
+                              class="val"
+                              *ngIf="
+                                bookingInformation.bookingInformation.selectedPaymentMethod.paymentOptionName == 'CC' ||
+                                bookingInformation.bookingInformation.selectedPaymentMethod.paymentOptionName ==
+                                  'CC_3D' ||
+                                bookingInformation.bookingInformation.selectedPaymentMethod.paymentOptionName == 'DC_3D'
+                              "
+                              >Credit Card/Debit Card</span
+                            >
+                            <span
+                              class="val"
+                              *ngIf="
+                                bookingInformation.bookingInformation.selectedPaymentMethod.paymentOptionName ==
+                                  'CC_3D_INS' ||
+                                bookingInformation.bookingInformation.selectedPaymentMethod.paymentOptionName ==
+                                  'CC_INS'
+                              "
+                              >Budget Credit Card</span
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td id="Card type" class="txt_align">
+                            <span translate>Card type</span>
+                          </td>
+                          <td id="Card type" class="txt_des">
+                            {{ bookingInformation.bookingInformation.selectedPaymentMethod.display }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td id="Card holder" class="txt_align">
+                            <span translate>Card holder</span>
+                          </td>
+                          <td id="Card holder" class="txt_des">
+                            {{ bookingInformation.bookingInformation.cardHolder }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td id="Card no" class="txt_align">
+                            <span translate>Card number</span>
+                          </td>
+                          <td id="Card no" class="txt_des">
+                            XXXX XXXX XXXX {{ bookingInformation.bookingInformation.cardNumberDigits }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td id="Reference number" class="txt_align">
+                            <span translate>Reference number</span>
+                          </td>
+                          <td id="Reference number" class="txt_des">
+                            {{ bookingInformation.bookingInformation.bookingReferenceNo }}
+                          </td>
+                        </tr>
+                        <tr
+                          *ngIf="
+                            bookingInformation &&
+                            bookingInformation.fareBreakdown &&
+                            bookingInformation.fareBreakdown.currencyCode
+                          "
+                        >
+                          <td id="Payment amount" class="txt_align">
+                            <span translate>Payment amount</span>
+                          </td>
+                          <td id="Payment amount" class="txt_des">
+                            {{ bookingInformation.fareBreakdown.currencyCode | currencyCode
+                            }}{{ bookingTotalAmount(bookingInformation.fareBreakdown.totalAmount) | currency: '' + ' ':'symbol':'2.0' }}
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="charges_txt_CC"
+                *ngIf="
+                  supplierCashOverride == false &&
+                  bookingInformation?.bookingInformation?.selectedPaymentOption?.paymentOptionGroup == 'CC'
+                "
+              >
+                <span translate>Please note that you will find separate charges on your credit card.</span>
+                <span translate>The ticket prices are charged by the airline directly.</span>
+                <span translate>Our service fees (and Travel Extras, if selected) are charged by Travelstart.</span>
+                <span translate>These amounts add up to the total amount you confirmed upon booking.</span>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                bookingInformation.bookingInformation.selectedPaymentOption.paymentOptionGroup == 'MOBICRED' ||
+                bookingInformation.bookingInformation.selectedPaymentOption.paymentOptionGroup == 'PAYSTACK' ||
+                bookingInformation.bookingInformation.selectedPaymentOption.paymentOptionGroup == 'IPAY' ||
+                bookingInformation.bookingInformation.selectedPaymentOption.paymentOptionGroup == 'PAYFLEX'
+              "
+              class="ipay_details_sec"
+            >
+              <div
+                class="cardCharge"
+                *ngIf="
+                  bookingInformation.bookingInformation.selectedPaymentOption.paymentOptionGroup == 'MOBICRED' &&
+                  bookingInformation.transactionId
+                "
+              >
+                <label translate>Your Mobicred payment was successful </label>
+              </div>
+              <div
+                class="cardCharge"
+                *ngIf="
+                  bookingInformation.bookingInformation.selectedPaymentOption.paymentOptionGroup == 'PAYFLEX' &&
+                  bookingInformation.transactionId
+                "
+              >
+                <label translate>Your PAYFLEX payment was successful </label>
+              </div>
+              <div
+                class="cardCharge"
+                *ngIf="
+                  bookingInformation.bookingInformation.selectedPaymentOption.paymentOptionGroup == 'PAYSTACK' &&
+                  bookingInformation.transactionId
+                "
+              >
+                <label translate
+                  >Your account has been successfully debited. Once confirmed, you will receive your e-ticket shortly.
+                </label>
+              </div>
+              <div class="card_details" *ngIf="bookingInformation.transactionId">
+                <div class="mt-3">
+                  <label class="w-100">
+                    <span translate class="key">Transaction reference</span>
+                    <span class="val">{{ bookingInformation.transactionId }}</span>
+                  </label>
+                  <label
+                    class="w-100"
+                    *ngIf="
+                      bookingInformation &&
+                      bookingInformation.fareBreakdown &&
+                      bookingInformation.fareBreakdown.currencyCode
+                    "
+                  >
+                    <span translate class="key">Payment amount</span>
+                    <span class="val amt"
+                      >{{ bookingInformation.fareBreakdown.currencyCode | currencyCode
+                      }}{{ bookingTotalAmount(bookingInformation.fareBreakdown.totalAmount) | currency: '' + ' ':'symbol':'2.0' }}</span
+                    >
+                  </label>
+                </div>
+              </div>
+              <div *ngIf="paymentError">
+                <label class="paymentFailed">
+                  <span translate>Payment Redirect Unsuccessful. Please contact us to complete your payment. </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="travellers_details confirmation_Card travellerDetailsCard_expanded">
+          <div class="sec_head">
+            <div translate class="sec_title theme__booking-confirmation-section-title">{{ region === 'ABSA' ? 'Traveller Information' : 'Traveller(s)' }}</div>
+            <div class="float-right ml-auto d-none">
+              <span class="angleIcon" *ngIf="!collapsedCardList.travellerDetailsCard_expanded">
+                <i aria-hidden="true" class="fa fa-angle-down"></i>
+              </span>
+              <span class="angleIcon" *ngIf="collapsedCardList.travellerDetailsCard_expanded">
+                <i aria-hidden="true" class="fa fa-angle-up"></i>
+              </span>
+            </div>
+          </div>
+          <div class="travellersData">
+            <ul class="list" *ngIf="bookingInformation.passengers.adults">
+              <li *ngFor="let adult of bookingInformation.passengers.adults">
+                <div class="d-block d-lg-inline-flex pax_info">
+                  <span class="pax_icn">
+                    <img ImageSrc src="../../../assets/icons/pax-icn.svg" loading="lazy" alt="pax" />
+                  </span>
+                  <span *ngIf="adult.title">{{ adult.title }}. {{ adult.firstName }}</span
+                  >&nbsp;<span *ngIf="adult.middleName">{{ adult.middleName }}</span
+                  >&nbsp;{{ adult.lastName }}
+                </div>
+                <div
+                  class="ml-lg-4 d-block d-lg-inline-flex seats_Data"
+                  *ngIf="
+                    adult.specialRequests &&
+                    adult.specialRequests.seatDetails &&
+                    adult.specialRequests.seatDetails.length > 0 &&
+                    seatsInfo(adult.specialRequests.seatDetails) &&
+                    !seatError
+                  "
+                >
+                  <span>
+                    <span class="d-none d-lg-inline-block"> Selected seats :</span>
+                    <span class="d-inline-block d-lg-none">
+                      <img ImageSrc src="../../../assets/icons/seat-list-icn.svg" alt="seat_icn" loading="lazy" />
+                    </span>
+                  </span>
+                  <span *ngFor="let seat of adult.specialRequests.seatDetails; let idx = index">
+                    <span *ngIf="seat.seatNumber && seat.seatNumber != ''">
+                      <div class="seat_info">
+                        <div class="mb-0">{{ flight_route.get(seat.flightNumber) }}</div>
+                        <div class="mb-0">{{ seat.seatNumber }}</div>
+                      </div>
+                    </span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+            <ul class="list" *ngIf="bookingInformation.passengers.youngAdults">
+              <li *ngFor="let youngadult of bookingInformation.passengers.youngAdults">
+                <div class="d-block d-lg-inline-flex pax_info">
+                  <span class="pax_icn">
+                    <img ImageSrc src="../../../assets/icons/pax-icn.svg" alt="pax" />
+                  </span>
+                  <span *ngIf="youngadult.title">{{ youngadult.title }}. {{ youngadult.firstName }}</span
+                  >&nbsp;<span *ngIf="youngadult.middleName">{{ youngadult.middleName }}</span
+                  >&nbsp;{{ youngadult.lastName }}
+                </div>
+                <div
+                  class="ml-lg-4 d-block d-lg-inline-flex seats_Data"
+                  *ngIf="
+                    youngadult.specialRequests &&
+                    youngadult.specialRequests.seatDetails &&
+                    youngadult.specialRequests.seatDetails.length > 0 &&
+                    seatsInfo(youngadult.specialRequests.seatDetails) &&
+                    !seatError
+                  "
+                >
+                  <span>
+                    <span class="d-none d-lg-inline-block"> Selected seats :</span>
+                    <span class="d-inline-block d-lg-none">
+                      <img ImageSrc src="../../../assets/icons/seat-list-icn.svg" alt="seat_icn" />
+                    </span>
+                  </span>
+                  <span *ngFor="let seat of youngadult.specialRequests.seatDetails; let idx = index">
+                    <span *ngIf="seat.seatNumber && seat.seatNumber != ''">
+                      <div class="seat_info">
+                        <div class="mb-0">{{ flight_route.get(seat.flightNumber) }}</div>
+                        <div class="mb-0">{{ seat.seatNumber }}</div>
+                      </div>
+                    </span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+            <ul class="list ul_top_border" *ngIf="bookingInformation.passengers.children">
+              <li *ngFor="let children of bookingInformation.passengers.children">
+                <div class="d-block d-lg-inline-flex pax_info">
+                  <span class="pax_icn">
+                    <img ImageSrc src="../../../assets/icons/pax-icn.svg" alt="pax" loading="lazy" />
+                  </span>
+                  <span>{{ children.title }}. {{ children.firstName }} </span>&nbsp;
+                  <span *ngIf="children.middleName">{{ children.middleName }}</span
+                  >&nbsp;{{ children.lastName }}
+                </div>
+                <div
+                  class="ml-lg-4 d-block d-lg-inline-flex seats_Data"
+                  *ngIf="
+                    children.specialRequests &&
+                    children.specialRequests.seatDetails &&
+                    children.specialRequests.seatDetails.length > 0 &&
+                    seatsInfo(children.specialRequests.seatDetails) &&
+                    !seatError
+                  "
+                >
+                  <span>
+                    <span class="d-none d-lg-inline-block"> Selected seats :</span>
+                    <span class="d-inline-block d-lg-none">
+                      <img
+                        ImageSrc
+                        src="../../../assets/icons/seat-list-icn.svg"
+                        alt="seat_icn"
+                        width="14px"
+                        loading="lazy"
+                      />
+                    </span>
+                  </span>
+                  <span *ngFor="let seat of children.specialRequests.seatDetails; let i = index">
+                    <span *ngIf="seat.seatNumber && seat.seatNumber != ''">
+                      <div class="seat_info">
+                        <div class="mb-0">{{ flight_route.get(seat.flightNumber) }}</div>
+                        <div class="mb-0">{{ seat.seatNumber }}</div>
+                      </div>
+                    </span>
+                  </span>
+                </div>
+              </li>
+            </ul>
+            <ul class="list ul_top_border" *ngIf="bookingInformation.passengers.infants">
+              <li *ngFor="let infant of bookingInformation.passengers.infants">
+                <div class="pax_info">
+                  <span class="pax_icn">
+                    <img ImageSrc src="../../../assets/icons/pax-icn.svg" alt="pax" loading="lazy" />
+                  </span>
+                  <span *ngIf="infant.title">{{ infant.title }}. {{ infant.firstName }}</span>
+                  <span *ngIf="infant.middleName">{{ infant.middleName }}</span
+                  >&nbsp; {{ infant.lastName }}
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="region === 'ABSA'" class="theme__contact-information-section">
+            <div>
+              <div translate class="theme__light-label">Email Address</div>
+              <div class="theme__dark-label">{{ bookingInfo.contactDetails.email }}</div>
+            </div>
+            <div>
+              <div translate class="theme__light-label">Contact number</div>
+              <div class="theme__dark-label">+{{ bookingInfo.contactDetails.dialCode }} {{ bookingInfo.contactDetails.phone }}</div>
+            </div>
+          </div>
+        </section>
+        <section *ngIf="region === 'ABSA'" class="confirmation_Card theme__payment-method">
+          <div translate class="theme__booking-confirmation-section-title">Payment method</div>
+          <div class="theme__payment-method-row">
+            <span translate class="theme__light-label">Payment type</span>
+            <span translate class="theme__dark-label">Credit/Debit Card</span>
+          </div>
+          <div class="theme__top-divider theme__payment-method-row">
+            <span translate class="theme__light-label">Card type</span>
+            <span class="theme__dark-label">{{ bookingInformation.bookingInformation.selectedPaymentMethod.display }}</span>
+          </div>
+        </section>
+        <!--Invoice Details-->
+        <section class="confirmation_Card invoiceDetailsCard_expanded">
+          <div class="sec_head">
+            <div translate class="sec_title theme__booking-confirmation-section-title">Invoice details</div>
+            <div *ngIf="region !== 'ABSA'" class="float-right ml-auto" (click)="expandCard('invoiceDetailsCard_expanded')">
+              <span class="angleIcon" *ngIf="!collapsedCardList.invoiceDetailsCard_expanded">
+                <i aria-hidden="true" class="fa fa-angle-down"></i>
+              </span>
+              <span class="angleIcon" *ngIf="collapsedCardList.invoiceDetailsCard_expanded">
+                <i aria-hidden="true" class="fa fa-angle-up"></i>
+              </span>
+            </div>
+          </div>
+          <div
+            [ngClass]="{'mt-3': region !== 'ABSA'}"
+            class="fare_info"
+            *ngIf="bookingInformation"
+            [hidden]="region !== 'ABSA' && !collapsedCardList.invoiceDetailsCard_expanded"
+          >
+            <div class="price_breakup">
+              <div class="fares">
+                <table
+                  *ngIf="bookingInformation.fareBreakdown && !isFlightSiteOrg()"
+                  class="table"
+                  aria-describedby="fares"
+                >
+                  <tr class="theme__table-row" *ngIf="bookingInformation.itineraries[0].fareBreakdown.adults">
+                    <td id="AD" class="txt_align">
+                      <span translate>Adult</span> x {{ bookingInformation.itineraries[0].fareBreakdown.adults.qty }}
+                    </td>
+                    <td id="AD" class="txt_des">
+                      {{ bookingInformation.itineraries[0].currencyCode | currencyCode
+                      }}{{ getPassengerFares(bookingInformation.itineraries, 'adults') | number: '1.2-2' }}
+                    </td>
+                  </tr>
+                  <tr class="theme__table-row" *ngIf="bookingInformation.itineraries[0].fareBreakdown.youngAdults">
+                    <td id="YTH" class="txt_align">
+                      <span translate>Young Adult</span> x
+                      {{ bookingInformation.itineraries[0].fareBreakdown.youngAdults.qty }}
+                    </td>
+                    <td id="YTH" class="txt_des">
+                      {{ bookingInformation.itineraries[0].currencyCode | currencyCode
+                      }}{{ getPassengerFares(bookingInformation.itineraries, 'youngAdults') | number: '1.2-2' }}
+                    </td>
+                  </tr>
+                  <tr class="theme__table-row" *ngIf="bookingInformation.itineraries[0].fareBreakdown.children">
+                    <td id="CH" class="txt_align">
+                      <span translate>Children</span> x
+                      {{ bookingInformation.itineraries[0].fareBreakdown.children.qty }}
+                    </td>
+                    <td class="txt_des">
+                      {{ bookingInformation.itineraries[0].currencyCode | currencyCode
+                      }}{{ getPassengerFares(bookingInformation.itineraries, 'children') | number: '1.2-2' }}
+                    </td>
+                  </tr>
+                  <tr class="theme__table-row" *ngIf="bookingInformation.itineraries[0].fareBreakdown.infants">
+                    <td id="INF" class="txt_align">
+                      <span translate>Infants</span> x {{ bookingInformation.itineraries[0].fareBreakdown.infants.qty }}
+                    </td>
+                    <td class="txt_des">
+                      {{ bookingInformation.itineraries[0].currencyCode | currencyCode
+                      }}{{ getPassengerFares(bookingInformation.itineraries, 'infants') | number: '1.2-2' }}
+                    </td>
+                  </tr>
+                  <tr class="theme__table-row" *ngIf="bookingInformation.fareBreakdown">
+                    <td translate id="tax" class="txt_align">Taxes & fees</td>
+                    <td class="txt_des">
+                      {{ bookingInformation.fareBreakdown.currencyCode | currencyCode
+                      }}{{ bookingInformation.fareBreakdown.taxesAndFees | number: '1.2-2' }}
+                    </td>
+                  </tr>
+                  <tr class="theme__table-row" *ngIf="bookingInformation.fareBreakdown && bookingInformation.fareBreakdown.totalBaggagePrice">
+                    <td translate id="tax" class="txt_align">Baggage Price</td>
+                    <td class="txt_des">
+                      {{ bookingInformation.fareBreakdown.currencyCode | currencyCode
+                      }}{{ bookingInformation.fareBreakdown.totalBaggagePrice | number: '1.2-2' }}
+                    </td>
+                  </tr>
+                  <tr class="theme__table-row" *ngIf="bookingInformation.fareBreakdown && bookingInformation.fareBreakdown.totalPaidSeatsAmount">
+                    <td translate id="tax" class="txt_align">Seat Selected</td>
+                    <td class="txt_des">
+                      {{ bookingInformation.fareBreakdown.currencyCode | currencyCode
+                      }}{{ bookingInformation.fareBreakdown.totalPaidSeatsAmount | number: '1.2-2' }}
+                    </td>
+                  </tr>
+                </table>
+                <table
+                  *ngIf="bookingInformation.invoiceFareBreakdown && !isFlightSiteOrg()"
+                  class="table"
+                  aria-describedby="fares"
+                >
+                  <tr class="theme__table-row" *ngFor="let invoice of bookingInformation.invoiceFareBreakdown.invoiceLines">
+                    <td *ngIf="invoice.amount !== 0" id="tax" class="txt_align">
+                      {{ modifyDescription(invoice.description) }}
+                    </td>
+                    <td *ngIf="invoice.amount > 0" class="txt_des">
+                      {{ bookingInformation.invoiceFareBreakdown.currencyCode | currencyCode
+                      }}<span>{{ invoice.amount | number: '1.2-2' }} </span>
+                    </td>
+                    <td *ngIf="invoice.amount < 0" class="txt_des">
+                      -{{ bookingInformation.invoiceFareBreakdown.currencyCode | currencyCode
+                      }}<span>{{ getMinusAmt(invoice.amount) | number: '1.2-2' }} </span>
+                    </td>
+                  </tr>
+                </table>
+                <div class="products_selected" *ngIf="!isFlightSiteOrg()">
+                  <table
+                    class="table"
+                    aria-describedby="fares"
+                    *ngIf="bookingInformation.products.length > 0 && !bookingInformation.invoiceFareBreakdown"
+                  >
+                    <tr class="theme__table-row" *ngFor="let product of bookingInformation.products; let idx = index">
+                      <td *ngIf="product.id !== 'TS_PLUS'" id="{{ product.id }}" class="txt_align">
+                        {{ modifyDescription(product.name) }}
+                      </td>
+
+                      <td *ngIf="product.id === 'TS_PLUS'" id="{{ product.id }}" class="txt_align">
+                        Travelstart+ Membership
+                      </td>
+
+                      <td class="txt_des">
+                        <span *ngIf="product.id !== 'TS_PLUS'">
+                          <span *ngIf="product.amount >= 0 ">
+                            {{ product.currencyCode | currencyCode }}{{ product.amount | number: '1.2-2' }}
+                          </span>
+                          <span *ngIf="product.amount < 0 ">
+                            -{{ product.currencyCode | currencyCode }}{{getMinusAmt(product.amount) | number: '1.2-2' }}
+                          </span>
+                        </span>
+                        <span *ngIf="product.id === 'TS_PLUS'">
+                          <span *ngIf="product.preDiscountAmount">
+                            {{ product.preDiscountAmount | number: '1.2-2' }}
+                          </span>
+                          <span *ngIf="!product.preDiscountAmount">
+                            {{ product.amount | number: '1.2-2' }}
+                          </span>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr class="theme__table-row" *ngFor="let product of bookingInformation.products; let idx = index">
+                      <td
+                        class="disc_text txt_align"
+                        *ngIf="product.id === 'TS_PLUS' && product.preDiscountAmount"
+                        id="{{ product.id }}"
+                      >
+                        Travelstart+ Voucher
+                      </td>
+                      <td *ngIf="product.id === 'TS_PLUS' && product.preDiscountAmount" class="txt_des">
+                        <span class="disc_text"
+                          >-{{ product.currencyCode | currencyCode
+                          }}{{ product.preDiscountAmount - product.amount | number: '1.2-2' }}</span
+                        >
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="total_amt" [ngClass]="!isFlightSiteOrg() ? 'border_top' : ''">
+                <div class="theme__fare-breakdown-container" *ngIf="bookingInformation.fareBreakdown">
+                  <label translate class="labl">Total</label>
+                  <label [ngClass]="region === 'ABSA' ? 'theme__amount' : 'amt'">
+                    <span
+                      >{{ bookingInformation.fareBreakdown.currencyCode | currencyCode
+                      }}{{ bookingTotalAmount(bookingInformation.fareBreakdown.totalAmount) | currency: '' + ' ':'symbol':'2.0' }}</span
+                    >
+                  </label>
+                </div>
+                <div *ngIf="bookingInformation.invoiceFareBreakdown">
+                  <label translate class="labl">Total</label>
+                  <label class="amt">
+                    <span
+                      >{{ bookingInformation.invoiceFareBreakdown.currencyCode | currencyCode
+                      }}{{
+                        bookingTotalAmount(bookingInformation.invoiceFareBreakdown.totalAmount) | currency: '' + ' ':'symbol':'2.0'
+                      }}</span
+                    >
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section *ngIf="region === 'ABSA' && (shouldIncludeSMSService || shouldIncludeWhatsAppService)" class="confirmation_Card">
+          <div translate class="theme__booking-confirmation-section-title">Services included</div>
+          <div class="theme__service-container" *ngIf="shouldIncludeWhatsAppService">
+            <img ImageSrc src="./../../../assets/icons/absa_icons/whatsapp-icon.svg" alt="whatsapp icon">
+            <div>
+              <div translate class="theme__dark-label">Booking details via WhatsApp</div>
+              <div translate class="theme__light-label">Get your ticket via WhatsApp</div>
+            </div>
+          </div>
+          <div class="theme__service-container" *ngIf="shouldIncludeSMSService">
+            <img ImageSrc src="./../../../assets/icons/absa_icons/sms-icon.svg" alt="sms icon">
+            <div>
+              <div translate class="theme__dark-label">Booking details via SMS</div>
+              <div translate class="theme__light-label">Get your ticket via SMS</div>
+            </div>
+          </div>
+        </section>
+        <div class="insurance_sec confirmation_Card" *ngIf="apiService.extractCountryFromDomain() == 'IB'">
+          <div class="row">
+            <div class="col-lg-8 col-6 mb-3 pr-0 cars_need" *ngIf="apiService.extractCountryFromDomain() == 'IB'">
+              <div class="find_cars">
+                <div class="cars_insurance_txt">
+                  <div class="desc_sec">
+                    <span translate class="find_htl">Need a car at your destination?</span>
+                    <div translate class="sec_labl mt-3">Compare our highly competitive rates</div>
+                  </div>
+                  <a
+                    href="https://car.travelbyinvestec.co.za/?loginKey=eb825abc2ea52266f196429b0b1b4a91&points="
+                    rel="noopener"
+                    target="_blank"
+                  >
+                    <button type="submit" aria-label="Book a car" class="bookBtn primary_btn book_car_tr_insurance">
+                      <span translate>Book a car</span>
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-lg-4 col-6 mb-3 pl-0 car_img"
+              *ngIf="apiService.extractCountryFromDomain() == 'IB' && bookingInformation.promotionals.staticLinks.CARS"
+            >
+              <img
+                ImageSrc
+                class="cars_link w-100"
+                src="../../../assets/images/car-insurance-img-2x.jpg"
+                alt="insurance"
+                loading="lazy"
+              />
+            </div>
+            <div class="col-lg-8 col-6 mb-3 pr-0 insurance_need" *ngIf="apiService.extractCountryFromDomain() == 'IB'">
+              <div class="insurance">
+                <div class="cars_insurance_txt">
+                  <div class="desc_sec insurance_desc">
+                    <span class="find_htl"
+                      >Travel with greater piece of mind and ensure you are covered for specified unforeseen
+                      events</span
+                    >
+                  </div>
+                  <a href="https://travelbyinvestec.co.za/insurance" rel="noopener" target="_blank">
+                    <button
+                      type="submit"
+                      aria-label="Travel insurance"
+                      class="bookBtn primary_btn book_car_tr_insurance"
+                    >
+                      <span translate>Travel insurance</span>
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-lg-4 col-6 mb-3 pl-0 insurance_img"
+              *ngIf="apiService.extractCountryFromDomain() == 'IB' && bookingInformation.promotionals.staticLinks.CARS"
+            >
+              <img
+                ImageSrc
+                src="../../../assets/images/travel-insurance-img-1x.jpg"
+                alt="insurance"
+                class="insurance_link w-100"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- </section> -->
+        <!------------------------------ // -----  Added for ClickInc - NG Affiliate Tracking ---- // ------------------------------->
+        <div *ngIf="bookingInformation && bookingInformation.bookingInformation">
+          <input
+            type="hidden"
+            name="_productId_productId"
+            id="_productId_productId"
+            value="{{ bookingInformation.bookingInformation.bookingReferenceNo }}"
+          />
+          <div *ngIf="bookingInformation.fareBreakdown && bookingInformation.fareBreakdown.totalAmount">
+            <input
+              type="hidden"
+              name="_price_price"
+              id="_price_price"
+              value="{{ bookingInformation.fareBreakdown.totalAmount }}"
+            />
+          </div>
+          <div *ngIf="bookingInformation.invoiceFareBreakdown && !bookingInformation.fareBreakdown">
+            <input
+              type="hidden"
+              name="_price_price"
+              id="_price_price"
+              value="{{ bookingInformation.invoiceFareBreakdown.totalAmount }}"
+            />
+          </div>
+          <input
+            type="hidden"
+            name="_ipq_ipq"
+            id="_ipq_ipq"
+            value="{{ bookingInformation.bookingInformation.bookingReferenceNo }}:0:{{
+              bookingInformation.bookingInformation.confirmationEmailAddress
+            }}:en-ng:booked"
+          />
+        </div>
+        <div class="mb-2">
+          <!-- we can enable we need to display only banner for hotels -->
+          <div class="row hotels_Banner m-0" *ngIf="showHotels()">
+            <div class="col-12 mb-xs-10">
+              <div class="hotels_link">
+                <div class="hotels_txt">
+                  <span translate class="find_htl">Find hotels in</span>
+                  <div class="hotel_labl pb-4" *ngIf="bookingInformation.bookingInformation.tripType !== 'multi'">
+                    {{ bookingInformation.bookingInformation.destination }}
+                  </div>
+                  <div class="hotel_labl pb-4" *ngIf="bookingInformation.bookingInformation.tripType == 'multi'">
+                    {{
+                      getCityName(
+                        bookingInformation.itineraries[0].odoList[
+                          this.bookingInformation.itineraries[0].odoList.length - 1
+                        ].segments[
+                          this.bookingInformation.itineraries[0].odoList[
+                            this.bookingInformation.itineraries[0].odoList.length - 1
+                          ].segments.length - 1
+                        ].destCode
+                      )
+                    }}
+                  </div>
+                  <a [href]="bookingInformation?.promotionals?.staticLinks?.HOTELS" rel="noopener" target="_blank">
+                    <button type="submit" aria-label="Book Now" class="bookBtn primary_btn">
+                      <span translate>Book Now</span>
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="apiService.extractCountryFromDomain() == 'ZA' && hotelWidgetUrl && !iframeWidget.isB2BApp()"
+            class="hotels_widgetCard"
+          >
+            <iframe
+              [src]="hotelWidgetUrl"
+              width="100%"
+              title="hotelWidget"
+              id="hotelWidget"
+              onload="this.style.height=(this.contentDocument?.body?.scrollHeight+120) +'px';"
+              style="width: 100%; min-height: 400px; border: none; overflow-y: hidden; overflow-x: hidden"
+            ></iframe>
+          </div>
+        </div>
+        <section class="cars_section confirmation_Card mb-3" *ngIf="showCarsIframe()">
+          <div class="sec_head">
+            <div translate class="sec_title">Get awesome deals on rental cars for your upcoming trip</div>
+          </div>
+          <div class="container mt-3 p-0" id="car_trawler">
+            <iframe
+              [src]="iFrameReqUrl"
+              width="100%"
+              title="car trawler"
+              [style.min-height]="apiService.extractCountryFromDomain() == 'ZA' ? '310px' : '400px'"
+              style="border: none"
+            ></iframe>
+          </div>
+        </section>
+        <div class="mb-3 confirmation_Card" *ngIf="showCarsWidget()">
+          <div class="sec_head mb-3">
+            <div translate class="sec_title">Get awesome deals on rental cars for your upcoming trip</div>
+          </div>
+          <app-car-widget [itinDetails]="bookingInformation.itineraries"></app-car-widget>
+        </div>
+
+        <div *ngIf="region === 'ABSA'" class="mb-2">
+          <button type="button" class="btn w-100 theme__booking-btn theme__secondary-btn" aria-label="Book another flight" (click)="bookAnotherFlight()">
+            <span translate>Book another flight</span>
+          </button>
+        </div>
+        <!-- For Absa: Temporarily disabling until Absa team is able to enable downloading the .ics file from the WebView -->
+        <!-- <div *ngIf="region === 'ABSA'" class="mb-2">
+          <button type="button" class="btn w-100 theme__booking-btn theme__secondary-btn" aria-label="Add to calendar" (click)="addFlightToCalendar()">
+            <span translate>Add to calendar</span>
+          </button> 
+        </div> -->
+        <div *ngIf="region === 'ABSA'">
+          <a
+            mat-button
+            class="btn primary_btn onHover w-100 theme__booking-btn d-flex align-items-center justify-content-center"
+            aria-label="Done"
+            href="/absa-complete-journey"
+          >
+            Done
+          </a>
+        </div>
+
+      </div>
+      <div class="col-12 col-lg-3 mb-3 p-lg-0" *ngIf="showAppBanner()">
+        <div class="travel_app_banner">
+          <div class="heading">Manage your booking on the go!</div>
+          <div class="download_txt">Download the Travelstart App</div>
+          <div class="content">
+            <label class="title d-none">Download the Travelstart App</label>
+            <label class="title d-none"
+              >It's always <span class="title_link_clr">better, cheaper,</span> <br class="d-none" /><span
+                class="title_link_clr"
+                >faster and simpler </span
+              >on the app
+            </label>
+            <div>
+              <ul class="p-lg-0">
+                <li>
+                  <span> <img ImageSrc src="../../../../assets/icons/app-tick.svg" alt="app-tick.svg" /></span>
+                  <span>Get your ticket in the app</span>
+                </li>
+                <li>
+                  <span> <img ImageSrc src="../../../../assets/icons/app-tick.svg" alt="app-tick.svg" /></span>
+                  <span>Make changes to your booking</span>
+                </li>
+                <li>
+                  <span> <img ImageSrc src="../../../../assets/icons/app-tick.svg" alt="app-tick.svg" /></span>
+                  <span>Manage your trip on the go</span>
+                </li>
+                <li>
+                  <span> <img ImageSrc src="../../../../assets/icons/app-tick.svg" alt="app-tick.svg" /></span>
+                  <span>Keep up-to-date with travel alerts</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="down_link mt-4 mb-3">
+            <div class="d-none d-lg-block mb-3 text-center">
+              <img
+                ImageSrc
+                class="qrcode_img"
+                src="./../../../../assets/images/scan-new-img.png"
+                alt="scan-new-img"
+                loading="lazy"
+                width="120px"
+              />
+            </div>
+            <div class="text-center mx-3 d-none d-lg-block">
+              <span translate class="ordiv">OR</span>
+            </div>
+            <div class="social_btns">
+              <ul class="p-0">
+                <li>
+                  <a href="https://flapp.app.link/MyTrips" target="_blank" rel="noopener">
+                    <img
+                      ImageSrc
+                      class="store_img"
+                      src="./../../../../assets/icons/mweb_app_store.svg"
+                      alt="mweb_app_store"
+                      loading="lazy"
+                    />
+                  </a>
+                </li>
+                <li class="float-md-right float-lg-none">
+                  <a href="https://flapp.app.link/MyTrips" target="_blank" rel="noopener">
+                    <img
+                      ImageSrc
+                      class="store_img"
+                      src="./../../../../assets/icons/mweb_play_store.svg"
+                      alt="mweb_play_store"
+                      loading="lazy"
+                    />
+                  </a>
+                </li>
+                <li *ngIf="apiService.extractCountryFromDomain() === 'ZA'">
+                  <a href="{{ 'huawei_appgallery' | translate }}" target="_blank" rel="noopener">
+                    <img
+                      class="store_img"
+                      src="../../../../assets/icons/mweb_huawei.svg"
+                      alt="mweb_huawei"
+                      loading="lazy"
+                    />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="app_img">
+            <img ImageSrc src="../../../../assets/images/app_sell.png" alt="app_sell" loading="lazy" />
+          </div>
+        </div>
+        <div class="BannerSec mt-3">
+          <div
+            class="mb-xs-10"
+            *ngIf="bookingInformation.promotionals.staticLinks.HOTELS && apiService.extractCountryFromDomain() !== 'IB'"
+          >
+            <div class="hotels_bg">
+              <div class="banner_txt">
+                <span translate class="find_banner">Find hotels in</span>
+                <div class="banner_labl pb-4" *ngIf="bookingInformation.bookingInformation.tripType !== 'multi'">
+                  {{ bookingInformation.bookingInformation.destination }}
+                </div>
+                <div class="banner_labl pb-4" *ngIf="bookingInformation.bookingInformation.tripType == 'multi'">
+                  {{
+                    getCityName(
+                      bookingInformation.itineraries[0].odoList[
+                        this.bookingInformation.itineraries[0].odoList.length - 1
+                      ].segments[
+                        this.bookingInformation.itineraries[0].odoList[
+                          this.bookingInformation.itineraries[0].odoList.length - 1
+                        ].segments.length - 1
+                      ].destCode
+                    )
+                  }}
+                </div>
+                <a [href]="bookingInformation.promotionals.staticLinks.HOTELS" rel="noopener" target="_blank">
+                  <button type="submit" aria-label="Book Now" class="bannersbookBtn primary_btn">
+                    <span translate>Book Now</span>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="BannerSec mt-3">
+          <div
+            class="mb-xs-10"
+            *ngIf="bookingInformation.promotionals.staticLinks.CARS && apiService.extractCountryFromDomain() !== 'IB'"
+          >
+            <div class="car_bg">
+              <div class="banner_txt">
+                <span translate class="find_banner">Find cars in</span>
+                <div class="banner_labl pb-4" *ngIf="bookingInformation.bookingInformation.tripType !== 'multi'">
+                  {{ bookingInformation.bookingInformation.destination }}
+                </div>
+                <div class="banner_labl pb-4" *ngIf="bookingInformation.bookingInformation.tripType == 'multi'">
+                  {{
+                    getCityName(
+                      bookingInformation.itineraries[0].odoList[
+                        this.bookingInformation.itineraries[0].odoList.length - 1
+                      ].segments[
+                        this.bookingInformation.itineraries[0].odoList[
+                          this.bookingInformation.itineraries[0].odoList.length - 1
+                        ].segments.length - 1
+                      ].destCode
+                    )
+                  }}
+                </div>
+                <a [href]="bookingInformation.promotionals.staticLinks.CARS" rel="noopener" target="_blank">
+                  <button type="submit" aria-label="Book Now" class="bannersbookBtn primary_btn">
+                    <span translate>Book Now</span>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #pending_amount let-value>
+  <div class="price">
+    <label translate class="labl">Pending payment</label>
+    <label class="price_labl" *ngIf="value.bookInfo.bookingInformation && value?.bookInfo?.fareBreakdown?.currencyCode"
+      >{{ value.bookInfo.fareBreakdown.currencyCode | currencyCode
+      }}{{ bookingTotalAmount(value.bookInfo.fareBreakdown.totalAmount) | currency: '' + ' ':'symbol':'2.0' }}</label
+    >
+    <label
+      class="price_labl"
+      *ngIf="value.bookInfo.bookingInformation && value.bookInfo?.invoiceFareBreakdown?.currencyCode"
+      >{{ value.bookInfo.invoiceFareBreakdown.currencyCode | currencyCode
+      }}{{ bookingTotalAmount(value.bookInfo.invoiceFareBreakdown.totalAmount) | currency: '' + ' ':'symbol':'2.0' }}</label
+    >
+  </div>
+  <div class="pay ml-lg-auto">
+    <button
+      type="button"
+      class="btn primary_btn"
+      aria-label="Log Into Your Bank"
+      *ngIf="value.bookInfo?.bookingInformation?.selectedPaymentMethod?.name !== 'Travelstart Office (Lagos)'"
+    >
+      <a href="{{ value.bookInfo.bookingInformation.selectedPaymentMethod.site }}" rel="noopener" target="_blank"
+        ><span translate>Log Into Your Bank</span></a
+      >
+    </button>
+  </div>
+</ng-template>

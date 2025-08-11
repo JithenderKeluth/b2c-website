@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="26" viewBox="0 0 24 26">
+  <g id="seat-blocked" transform="translate(-117 -435.985)">
+    <path id="Path_32495" d="M6,0H16a4,4,0,0,1,4,4l2,18a4,4,0,0,1-4,4H4a4,4,0,0,1-4-4L2,4A4,4,0,0,1,6,0Z" transform="translate(118 435.985)" fill="#eecb3d"/>
+    <rect id="Rectangle_10516" width="2" height="12" rx="1" transform="translate(139 445.985)" fill="#e68d32"/>
+    <rect id="Rectangle_10517" width="2" height="12" rx="1" transform="translate(117 445.985)" fill="#e68d32"/>
+  </g>
+</svg>

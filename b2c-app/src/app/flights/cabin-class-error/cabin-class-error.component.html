@@ -1,0 +1,27 @@
+<div class="modal-dialog payment_error_dialog" role="document">
+  <div class="modal-content dialog_content">
+    <div class="consistent-modal-body modal-body">
+      <div class="text-center">
+        <img ImageSrc [ngClass]="country !== 'ABSA' ? 'wid40per-xs' : 'consistent-modal-icon'"
+          [src]="'./../../../../assets/icons/Icon/Negative-scenarios/something_was_not_right.svg'"
+          alt="Flight not available" loading="lazy" />
+        <div class="consistent-body-text">
+          <div class="different_flight mt-2">
+            <span translate>One or more of your flights is in a different class.</span>
+            <span translate>Please confirm flight details before continuing.</span>
+          </div>
+        </div>
+        <div class="text-center modal-btn-container">
+          <button type="button" aria-label="Cancel" class="btn ok-btn text-center cancelBtn default_btn"
+            data-dismiss="modal">
+            <span translate>Cancel</span>
+          </button>
+          <button type="button" aria-label="Continue" class="btn ok-btn text-center primary_btn"
+            (click)="continueCabinClass()">
+            <span translate>Continue</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

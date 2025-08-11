@@ -1,0 +1,323 @@
+@import "./../theme/theme-variables.scss";
+//baggage selection
+.baggage_selection {
+  font-size: 15px;
+  color: var(--text_primary_color);
+  align-items: center;
+  .Adds {
+    font-size: 13px;
+    color: var(--text_success_color);
+    margin-bottom: 10px;
+  }
+  label {
+    margin: 0;
+  }
+  .radio_group {
+    .btn {
+      border-radius: 0;
+      input[type="radio"] {
+        display: none;
+      }
+      input[type="radio"]:checked + span {
+        background-color: var(--text_link_color);
+        color: $white;
+      }
+      input[type="radio"] + span {
+        color: var(--text_link_color);
+        border: solid 2px var(--text_link_color);
+        padding: 6px 20px;
+      }
+    }
+  }
+  .bags_list {
+    .hand_luggage {
+      label {
+        color: var(--text_primary_color);
+        font-weight: 300;
+        font-size: 12px;
+        margin-top: 20px;
+      }
+    }
+    .bags {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+    }
+  }
+}
+.paxAge {
+  font-size: 14px;
+  color: var(--text_info_color);
+}
+.calendar-icon {
+  position: absolute;
+  top: 40px;
+  right: 18px;
+  z-index: 3;
+  color: #999999;
+  pointer-events: none;
+}
+.name_Sug {
+  position: relative;
+  padding: 5px;
+  z-index: 9;
+  background: var(--filter_strip_bg);
+  color: var(--text_link_color);
+  font-size: 10px;
+  border-radius: 2px;
+  line-height: 12px;
+}
+.name_Sug:before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 0px;
+  left: 30px;
+  top: 3px;
+  border: 10px solid transparent;
+  border-top: 0;
+  border-bottom: 10px solid var(--filter_strip_bg);
+  transform: translate(-50%, calc(-100% - 0px));
+}
+::ng-deep .special_Requests .mat-tab-labels > .mat-tab-label:first-child {
+  display: none;
+}
+::ng-deep .flight_details_section .mat-tab-labels > .mat-tab-label:first-child {
+  display: inline-flex;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+}
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background: var(--primary_btn_bg) !important;
+}
+::ng-deep .mat-checkbox-layout {
+  margin-bottom: 1px !important;
+}
+.mat-checkbox-frame {
+  border: 1px solid rgb(112 112 112 / 56%) !important;
+}
+.mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+.mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+  background: var(--text_link_color) !important;
+}
+.options {
+  line-height: 49px !important;
+  height: auto !important;
+}
+
+.mat-option {
+  font-weight: 500 !important;
+  font-size: 14px !important ;
+}
+.mat_option_names {
+  border-bottom: 1px solid #e4e5ea;
+}
+.user_travellers {
+  display: initial;
+  position: relative;
+  input[type="radio"] {
+    display: none;
+  }
+  input[type="radio"]:checked + span {
+    background-color: var(--text_link_color);
+    color: $white;
+  }
+  input[type="radio"] + span {
+    color: var(--text_link_color);
+    border: solid 1px var(--text_link_color);
+    padding: 6px 20px;
+  }
+}
+.gender {
+  display: inline-block;
+  padding-right: 20px;
+}
+.slider:before {
+  box-shadow: none;
+}
+::ng-deep .pick_date ngb-datepicker-navigation-select > .custom-select {
+  display: block !important;
+}
+input::placeholder {
+  font-size: 12px !important;
+}
+::ng-deep .pick_date .ngb-dp-arrow-btn {
+  padding: 0 0.25rem;
+  margin: 0 0.5rem;
+  background-color: transparent;
+  z-index: 1;
+  display: none !important;
+}
+.pick_date::ng-deep ngb-datepicker {
+  position: absolute;
+  left: 75% !important;
+  top: 2% !important;
+  transform: translate(-270px, -170px) !important;
+}
+.special_services {
+  .fqFlyerBtn {
+    color: var(--text_link_color);
+    font-size: 14px;
+    font-weight: 500;
+    background-color: $white;
+    padding: 6px 0px;
+    height: 34px;
+    border: none;
+    border-radius: var(--border_radius);
+  }
+  .fa {
+    font-size: 16px !important;
+  }
+
+  .mealSelection {
+    .mat-autocomplete-panel {
+      padding: 20px;
+    }
+    .mat-option {
+      line-height: unset !important;
+    }
+    i {
+      position: absolute;
+      float: right;
+      bottom: 10px;
+      right: 15px;
+    }
+    .form-control {
+      font-size: 12px !important;
+      cursor: pointer !important;
+    }
+    ::placeholder {
+      color: var(--text_primary_color) !important;
+      font-weight: 500;
+    }
+    .form-control[readonly]{
+      pointer-events: auto !important;
+      background-color: #fff !important;
+    }
+    .meals_txt {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text_primary_color) !important;
+      img {
+        margin-top: -5px;
+      }
+    }
+
+    .mealSelect {
+      color: var(--text_primary_color) !important;
+      font-weight: 500;
+      height: 34px;
+      border-radius: var(--border_radius) !important;
+      padding-left: 15px;
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .bags_list {
+    width: 100% !important;
+  }
+  .slideBg {
+    width: 47.4% !important;
+  }
+  .pick_date ::ng-deep ngb-datepicker {
+    left: 15% !important;
+    top: 10% !important;
+    transform: translate(-20px, 50px) !important;
+  }
+  ::ng-deep .pick_dob {
+    ngb-datepicker {
+      transform: translate(1px, 53px) !important;
+      box-shadow: 0 4px 8px 0 #b4bdc1 !important;
+    }
+  }
+  .traveller_section {
+    .travellers_details {
+      margin: 0px !important;
+      padding: 0px !important;
+      .nam_req {
+        margin: 0px !important;
+      }
+      .padd-bt-xs-15 {
+        padding: 15px 0px !important;
+      }
+      h4 {
+        font-size: 18px !important;
+        font-weight: 400;
+      }
+
+      .requirementsImg {
+        width: 40px;
+      }
+    }
+    .close_icon {
+      bottom: 0px !important;
+    }
+    .countryNames {
+      font-weight: 500;
+      color: var(--text_primary_color);
+      font-size: 14px;
+    }
+    .baggage_class {
+      padding: 15px !important;
+      .baggageInfo {
+        width: 100% !important;
+      }
+      ul {
+        li.card {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+  .flyer {
+    width: 95% !important;
+  }
+  .baggage_selection {
+    .Adds {
+      font-size: 13px !important;
+    }
+    .pad-xs-0 {
+      padding: 0px !important;
+    }
+  }
+  .isWhatsApp_alerts {
+    color: var(--text_primary_color);
+    font-size: 12px;
+    background-color: #f4f7fc;
+    padding: 15px;
+    height: 54px;
+    border-radius: 3px;
+    .wtsupIcon {
+      margin-top: 5px;
+    }
+    .mt-xs-7 {
+      margin-top: 7px;
+    }
+    div {
+      float: left;
+    }
+  }
+  .name_Sug {
+    font-size: 11px !important;
+  }
+
+  ::ng-deep.carousel-inner {
+    overflow-x: scroll !important;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, sm)) {
+  .unselect_wtsup {
+    margin-top: 7px;
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, lg)) and (max-width: map-get($grid-breakpoints, xl)) {
+  .fqFlyerSec {
+    flex: 0 0 40.3333333333% !important;
+    max-width: 40.333333% !important;
+  }
+}

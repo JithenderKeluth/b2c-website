@@ -1,0 +1,265 @@
+<div class="ts-plus-bg">
+  <div class="wave-bg">
+
+    <div class="container">
+      <app-ts-plus-head></app-ts-plus-head>
+      <div class="upgrade_benefits text-center">
+          <div class="col-md-12 travel_world">
+            <div class="logo-row">
+              <img
+                ImageSrc
+                src="../../../assets/images/mastercards/travelstart-plus-logo-no-flare.svg"
+                class="mr-4"
+                alt="ts_logo"
+              />
+              <span class="vertical-separator"></span>
+              <img
+                ImageSrc
+                src="./../../../assets/icons/master-card-logo-lp.svg"
+                alt="mc_logo"
+                width="200px"
+              />
+            </div>
+    
+            <h4><span class="link_styl">Upgrade</span> to a world of benefits</h4>
+            <p>
+              24/7 concierge service, R5,000 in travel vouchers, exclusive travel deals and more with your annual subscription.
+            </p>
+          </div>
+          <div class="sub_amt">
+            <div class="bill"> Amount to pay </div>
+            <h6>R0</h6>
+            <div class="bill">(Usually R2,340) </div>
+          </div>
+          <button type="button" aria-label="Upgrade Now" (click)="upgradeNow()">Upgrade Now</button>
+    
+
+          <div class="bill my-3"> Only  <span class="link_styl"> 60 Subscriptions </span> Available Per Month-Don't Miss Out! </div>
+          
+          <!-- OEM 
+          <div *ngIf="!isLoggedIn" class="bill"> Already a Travelstart_ member? <span class="link_styl"> Sign in </span> </div> -->
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="mastercard-container">
+  <app-how-it-works></app-how-it-works>
+
+  <div class="member_benefits">
+    <div class="container">
+      <div class="ts_benefits text-center">
+        <h4 class="pt-3 mb-2"><span class="link_styl">Member-only</span> deals</h4>
+        <app-member-deals-benefits></app-member-deals-benefits>
+        <h4><span class="link_styl">More</span> Benefits</h4>
+        <div class="rt-container mar_top">
+          <div class="benefits-container">
+            <div class="subscription_benefits concierge_support">
+              <div class="front">
+                <img ImageSrc src="../../../assets/images/ts-plus-images/support-cs.svg" alt="support" />
+                <div class="link_styl">24/7</div>
+                <div>Concierge</div>
+                <div>Support</div>
+              </div>
+              <div class="back">
+                Enjoy hassle-free travel and get in touch at any hour for assistance with your bookings
+              </div>
+            </div>
+          </div>
+
+          <div class="benefits-container">
+            <div class="subscription_benefits travel_vouchers">
+              <div class="front">
+                <img ImageSrc src="../../../assets/images/ts-plus-images/voucher-ts-icn.svg" alt="travel voucher" />
+                <div class="benefits_content">
+                  <div class="link_styl">R5,000</div>
+                  <div>A sum of travel</div>
+                  <div>vouchers</div>
+                </div>
+              </div>
+              <div class="back flight_vouchers">
+                <div>2 x R1,000 international flight vouchers</div>
+                <div>2 x R500 domestic flight vouchers</div>
+                <div>4 x R500 hotel vouchers</div>
+                Start spending vouchers immediately T&Cs apply.
+              </div>
+            </div>
+          </div>
+          <div class="benefits-container">
+            <div class="subscription_benefits ai_assist">
+              <div class="front">
+                <img ImageSrc src="../../../assets/images/ts-plus-images/ai-travel.svg" alt="travel ai" />
+                <div class="benefits_content">
+                  <div class="link_styl">AI Travel</div>
+                  <div>Assistant</div>
+                </div>
+              </div>
+              <div class="back">
+                Ask our AI travel assistant anything. Get itineraries or learn more about your destination.
+              </div>
+            </div>
+          </div>
+          <div class="benefits-container">
+            <div class="subscription_benefits free_pk_list">
+              <div class="front">
+                <img ImageSrc src="../../../assets/images/ts-plus-images/pks-list.png" alt="pk list" />
+                <div class="benefits_content">
+                  <div class="link_styl">Free PK's list</div>
+                  <div>Membership</div>
+                </div>
+              </div>
+              <div class="back">
+                PK's List members enjoy guaranteed VIP status and privileges at virtually every luxury hotel brand
+                across the globe.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" aria-label="Upgrade Now" class="mar_top text-center mar_btn" (click)="upgradeNow()">
+              Upgrade Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-more-benefits></app-more-benefits>
+
+  <app-curated-stays></app-curated-stays>
+
+  <app-concierge-support></app-concierge-support>
+
+  <div class="container mar_top">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="faq_section accordion text-center" id="faqAccordion">
+          <h6>Frequently Asked Questions</h6>
+          <div class="accordion-item pt-3" *ngFor="let faq of faqGroup; let i = index">
+            <div
+              data-toggle="collapse"
+              [attr.data-target]="'#collapse' + i"
+              aria-expanded="false"
+              class="faqExpand expand"
+            >
+              <span class="terms">{{ faq.question }}</span>
+              <span class="float-right">
+                <span
+                  data-toggle="collapse"
+                  [attr.data-target]="'#collapse' + i"
+                  aria-expanded="false"
+                  class="expand plus_icn"
+                  >+</span
+                >
+              </span>
+            </div>
+            <div [id]="'collapse' + i" class="collapse collapseSection" data-parent="#faqAccordion">
+              <div class="accordion-body" [innerHTML]="faq.answer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mar_top">
+    <div class="question_sec text-center">
+      <h6>Have a question?</h6>
+      <div class="row mar_questn">
+        <div class="col-md-6 mb-3">
+          <div class="questions_txt">
+            <img ImageSrc src="../../../assets/images/ts-plus-images/callus-tsplus-icn.svg" alt="support" />
+            <p class="mt-2">Connect with us:</p>
+            <div translate class="questn_content d-inline">
+              Connect with one of our agents for assistance by calling +27 21 468 4300
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="questions_txt">
+            <img
+              ImageSrc
+              src="../../../assets/images/ts-plus-images/hours-tsplus-icn.svg"
+              width="28"
+              height="28"
+              alt="hours"
+            />
+            <p class="mt-2">Our operating hours are as follows:</p>
+            <div class="questn_content">
+              <img
+                ImageSrc
+                src="../../../assets/images/ts-plus-images/tick-tsplus-icn.svg"
+                alt="tick"
+                class="mr-2"
+              />Monday to Friday: 07:00 - 19:00
+            </div>
+            <div class="questn_content">
+              <img
+                ImageSrc
+                src="../../../assets/images/ts-plus-images/tick-tsplus-icn.svg"
+                alt="tick"
+                class="mr-2"
+              />Weekends and Public holidays: 08:00 - 14:00
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    <div class="terms_conditions mt-5 row">
+      <a href="/mastercard/terms" target="_blank" rel="noopener"
+        >Terms and Conditions</a
+      >
+    </div>
+  </div>
+
+
+</div>
+
+
+<div
+  class="modal"
+  id="subscribed_modal"
+  data-backdrop="static"
+  aria-labelledby="subscribed_modal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <app-ts-plus-subscribe></app-ts-plus-subscribe>
+</div>

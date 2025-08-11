@@ -1,0 +1,95 @@
+{
+  "default": {
+    "id": 1,
+    "name": "Travelstart ",
+    "userName": "Travelstart",
+    "externalCSS": "default.css",
+    "icon": "https://www.travelstart.co.za/assets/images/TS-logo.svg",
+    "assetsPath": "https://cdn1.travelstart.com/b2c/",
+    "isWhiteLabelInstance": false,
+    "blogUrl": "travelstart",
+    "banner": "Travelstart",
+    "content": "Travelstart by default",
+    "tenant": {
+      "tenantId": 1,
+      "tenantName": "Company1"
+    }
+  },
+  "investec": {
+    "id": 2,
+    "name": "Investec ",
+    "userName": "Investec",
+    "externalCSS": "investec.css",
+    "icon": "https://www.travelstart.co.za/assets/images/TS-logo.svg",
+    "assetsPath": "https://cdn1.investecpath.com/b2c/",
+    "isWhiteLabelInstance": true,
+    "blogUrl": "travelstart",
+    "banner": "Travelstart",
+    "content": "Travelstart by default",
+    "tenant": {
+      "tenantId": 2,
+      "tenantName": "Investec"
+    }
+  },
+  "gigm": {
+    "id": 3,
+    "name": "gigm",
+    "userName": "gigm",
+    "externalCSS": "gigm.css",
+    "icon": "https://www.travelstart.co.za/assets/images/TS-logo.svg",
+    "assetsPath": "https://cdn1.investecpath.com/b2c/",
+    "isWhiteLabelInstance": true,
+    "blogUrl": "travelstart",
+    "banner": "Travelstart",
+    "content": "Travelstart by default",
+    "tenant": {
+      "tenantId": 3,
+      "tenantName": "gigm"
+    }
+  },
+  "clubhub": {
+    "id": 4,
+    "name": "clubhub",
+    "userName": "clubhub",
+    "externalCSS": "clubhub.css",
+    "icon": "https://www.travelstart.co.za/assets/images/TS-logo.svg",
+    "assetsPath": "https://cdn1.clubhub.com/b2c/",
+    "isWhiteLabelInstance": true,
+    "blogUrl": "travelstart",
+    "banner": "Travelstart",
+    "content": "Travelstart by default",
+    "tenant": {
+      "tenantId": 4,
+      "tenantName": "clubhub"
+    }
+  },
+  "momentum": {
+    "id": 5,
+    "name": "momentum",
+    "userName": "momentum",
+    "externalCSS": "momentum.css",
+    "icon": "https://www.travelstart.co.za/assets/images/TS-logo.svg",
+    "assetsPath": "https://cdn1.momentum.com/b2c/",
+    "isWhiteLabelInstance": true,
+    "blogUrl": "travelstart",
+    "banner": "Travelstart",
+    "content": "Travelstart by default",
+    "tenant": {
+      "tenantId": 5,
+      "tenantName": "momentum"
+    }
+  },
+  "absa": {
+    "id": 6,
+    "name": "absa",
+    "userName": "absa",
+    "externalCSS": "absa.css",
+    "icon": "https://www.travelstart.co.za/assets/images/TS-logo.svg",
+    "assetsPath": "https://cdn1.absa.com/b2c/",
+    "isWhiteLabelInstance": true,
+    "tenant": {
+      "tenantId": 6,
+      "tenantName": "absa"
+    }
+  }
+}

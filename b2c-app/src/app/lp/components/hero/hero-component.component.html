@@ -1,0 +1,21 @@
+<div class="hero-banner" style="background:url('{{ items.imageURL }}') no-repeat center 65%">
+  <div class="breadcrumbs">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="breadcrumbs-text">
+            <a (click)="followLink('/')">Home</a>
+            <span class="separator">&nbsp;&nbsp;>&nbsp;&nbsp;</span>
+            <a (click)="followLink('/lp/airlines')" *ngIf="items.type === 'airline'">Airlines</a>
+            <span *ngIf="items.carrier" class="separator">&nbsp;&nbsp;>&nbsp;&nbsp;</span>
+            <span *ngIf="items.carrier">{{ items.carrier }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Banner Text -->
+  <span class="hero-banner-dimmer"></span>
+  <h1>{{ items.header }}</h1>
+  <app-search class="search-desktop"></app-search>
+</div>

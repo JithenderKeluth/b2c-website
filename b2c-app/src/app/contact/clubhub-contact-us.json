@@ -1,0 +1,76 @@
+{
+    "contact_reason": [
+       {
+        "category" : "Cancellation & Refund",    
+        "subCategories" : [
+          {
+            "category": "Cancellation request - please advice which passengers",
+            "isbookingreferncemandatory": true,
+            "type": "Cancellation",
+            "categoryKey": "CANCELLATION_REFUND_QUOTE",
+            "isSubCategory" : true
+          },
+          {
+          "category": "Urgent cancellation to a booking made today except Flysafair bookings",
+          "isbookingreferncemandatory": true,
+          "type": "Void",
+          "categoryKey": "CANCELLATION",
+          "isSubCategory" : true
+        }
+        ]
+       },
+       {
+        "category" : "Changes on Existing booking",
+        "subCategories" : [
+          {
+            "category": "Urgent change/change to a booking made today except Flysafair / Lift bookings",
+            "isbookingreferncemandatory": true,
+            "type": "Refund",
+            "categoryKey": "CANCELLATION",
+            "isSubCategory" : true
+          },
+          {
+            "category": "Date change request",
+            "isbookingreferncemandatory": true,
+            "type": "Amendment",
+            "categoryKey": "CHANGES",
+            "isSubCategory" : true
+          },
+          {
+            "category": "Name change Request",
+            "isbookingreferncemandatory": true,
+            "type": "Amendment",
+            "categoryKey": "NAME_CHANGE_REQUEST",
+            "isSubCategory" : true
+          }, {
+            "category": "Confirmation of Date change request",
+            "isbookingreferncemandatory": true,
+            "type": "Amendment",
+            "categoryKey": "CONFIRMATION_DATE_CHANGE",
+            "isSubCategory" : true
+          }
+        ]
+       },
+        {
+          "category" : "Payment",
+          "subCategories" : [
+            {
+              "category": "Retry my payment",
+              "isbookingreferncemandatory": true,
+              "type": "Payment",
+              "categoryKey": "RETRY_PAYMENT_REQUEST",
+              "isSubCategory" : true
+            },
+            {
+              "category": "Payment related queries",
+              "isbookingreferncemandatory": false,
+              "email" : "bankpayments@travelstart.com",
+              "type": "Payment",
+              "categoryKey": "Web contact form Payment enquiry and tcc reference",
+              "isSubCategory" : true
+            }
+          ]
+        }
+    ]
+  }
+  

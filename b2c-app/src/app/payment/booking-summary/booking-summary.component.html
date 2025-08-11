@@ -1,0 +1,508 @@
+<div class="booking_summary" *ngIf="bookingInfo">
+  <div class="toggle_section">
+    <div
+      class="sec_title"
+      *ngIf="
+        bookingInfo.itineraryData.itineraries.length > 0 &&
+        responsiveservice.screenWidth !== 'sm' &&
+        responsiveservice.screenWidth !== 'md'
+      "
+    >
+      <h4 translate>Booking summary</h4>
+      <div class="refernce">
+        <span translate *ngIf="bookingRef">Booking Reference Number:</span>
+        <strong>{{ bookingRef }}</strong>
+      </div>
+    </div>
+    <hr
+      class="hr-custom"
+      *ngIf="
+        bookingInfo.itineraryData.itineraries.length > 0 &&
+        responsiveservice.screenWidth !== 'sm' &&
+        responsiveservice.screenWidth !== 'md'
+      "
+    />
+    <div class="Summary">
+      <div class="sec-labls" *ngIf="bookingInfo.itineraryData.itineraries.length > 0">
+        <span translate class="labl">Flight Details</span>
+      </div>
+
+      <div class="itin" *ngFor="let itineraries of bookingInfo.itineraryData.itineraries; let itin = index">
+        <div class="itin-info segments" *ngFor="let odoList of itineraries.odoList; let idx = index">
+          <div class="seg_legs">
+            <div class="air-info">
+              <div class="row">
+                <div class="col-2 p-2">
+                  <img
+                    ImageSrc
+                    src="assets/img/carriers/retina48px/carrier-{{ odoList.segments[0].airlineCode }}.png"
+                    alt="{{ odoList.segments[0].airlineCode }}"
+                    width="36px"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="col-10 pt-2">
+                  <label class="air_labl"
+                    >{{ airlinesList[odoList.segments[0].airlineCode] }} ({{ odoList.segments[0].flightNumber }})</label
+                  >
+                  <div class="clearfix"></div>
+                  <label class="class_labl">{{ odoList.segments[0].cabinClass }}</label>
+                  <label *ngIf="odoList.segments[0].opAirlineCode" class="op_airlines">
+                    <span translate class="operate_airline">Operated by </span>
+                    <span class="operate_airline">{{ airlinesList[odoList.segments[0].opAirlineCode] }}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="route-info">
+              <div class="row">
+                <div class="col-4">
+                  <label class="dt_labl">{{ odoList.segments[0].departureDateTime | date: 'd MMM yy' }}</label>
+                  <label class="time_labl">{{ odoList.segments[0].departureDateTime | date: 'HH:mm' }}</label>
+                  <label class="city_labl">{{ odoList.segments[0].origCode }}</label>
+                </div>
+                <div class="col-4 text-center time_dur_labls">
+                  <label class="dur_labl">{{ getTimeInHours(odoList.duration) }}</label>
+                  <label class="dir">
+                    <hr />
+                  </label>
+                  <label translate class="stop_labl">{{ getStops(odoList.segments) }}</label>
+                </div>
+                <div class="col-4 text-right">
+                  <label class="dt_labl">
+                    {{
+                      odoList.segments[odoList.segments.length - 1].arrivalDateTime
+                        | date: 'd MMM yy'
+                    }}
+                  </label>
+                  <label class="time_labl">{{
+                    odoList.segments[odoList.segments.length - 1].arrivalDateTime | date: 'HH:mm'
+                  }}</label>
+                  <label class="city_labl">{{ odoList.segments[odoList.segments.length - 1].destCode }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr
+      *ngIf="
+        bookingInfo.itineraryData.itineraries.length > 0 &&
+        bookingInfo.itineraryData.passengers &&
+        bookingInfo.itineraryData.passengers.adults
+      "
+    />
+
+    <div class="travellers-info">
+      <hr *ngIf="!paymentLinkItineraryData" />
+      <div class="sec-title" *ngIf="getTravellers()">
+        <span translate>Traveller(s)</span>
+        <span *ngIf="!paymentLinkItineraryData" class="float-right d-none">
+          <button (click)="updatePax()" class="btn btn default_btn" type="button">Edit my details</button>
+        </span>
+      </div>
+      <div class="pax-list" *ngIf="!isPriceDeeplink">
+        <ul *ngFor="let pax of bookingInfo.travellerDetails.travellersList">
+          <li>
+            {{ pax.gender }} {{ pax.firstName }} <span *ngIf="pax.middleName">{{ pax.middleName }}</span>
+            <span *ngIf="pax.lastName">{{ pax.lastName }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="pax-list passenger-dplk" *ngIf="isPriceDeeplink">
+        <ul class="list" *ngIf="bookingInfo.itineraryData.passengers.adults">
+          <li *ngFor="let adult of bookingInfo.itineraryData.passengers.adults">
+            <span *ngIf="adult.title">{{ adult.title }}.</span>{{ adult.firstName }} {{ adult.lastName }}
+          </li>
+        </ul>
+        <ul class="list" *ngIf="bookingInfo.itineraryData.passengers.youngAdults">
+          <li *ngFor="let youngadult of bookingInfo.itineraryData.passengers.youngAdults">
+            <span *ngIf="youngadult.title">{{ youngadult.title }}.</span>{{ youngadult.firstName }}
+            {{ youngadult.lastName }}
+          </li>
+        </ul>
+        <ul class="list" *ngIf="bookingInfo.itineraryData.passengers.children">
+          <li *ngFor="let children of bookingInfo.itineraryData.passengers.children">
+            <span *ngIf="children.title">{{ children.title }}.</span>{{ children.firstName }} {{ children.lastName }}
+          </li>
+        </ul>
+        <ul class="list" *ngIf="bookingInfo.itineraryData.passengers.infants">
+          <li *ngFor="let infant of bookingInfo.itineraryData.passengers.infants">
+            <span *ngIf="infant.title">{{ infant.title }}.</span>{{ infant.firstName }} {{ infant.lastName }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isPriceDeeplink">
+    <div class="d-none d-lg-block">
+      <app-fare-breakdown></app-fare-breakdown>
+    </div>
+    <div class="d-block d-lg-none">
+      <app-m-web-payment-deeplink-booking-summary
+        (continuePay)="paymentOptions()"
+        (proceedPayNow)="payndBook()"
+        [isLoading]="isLoading"
+      >
+      </app-m-web-payment-deeplink-booking-summary>
+    </div>
+  </div>
+
+  <div class="fares_info_section" *ngIf="!isPriceDeeplink">
+    <div
+      appCloseCollapseStrip
+      id="fareBreakdown"
+      class="collapse"
+      [ngClass]="[responsiveservice.screenWidth === 'lg' && bookingInfo.productDetails ? 'show' : '']"
+    >
+      <div *ngIf="country === 'ABSA'" class="theme__greyed-out-background"></div>
+      <hr *ngIf="responsiveservice.screenWidth === 'lg'" />
+      <div class="fare_info" *ngIf="bookingInfo.itineraryData">
+        <span translate class="sec_heading pt-2">Price details</span>
+        <span class="float-right d-lg-none d-block">
+          <img
+            ImageSrc
+            [src]="
+              country === 'ABSA'
+                ? '../../../../assets/icons/srp_Icons/close-icn-new-all.svg'
+                : '../../assets/icons/close_cross_icn.svg'
+            "
+            width="12px"
+            alt="close"
+            data-toggle="collapse"
+            data-target="#fareBreakdown"
+            loading="lazy"
+            class="theme__close-button-container"
+            (click)="expandFare()"
+          />
+        </span>
+
+        <div class="price_breakup">
+          <div class="fares">
+            <table class="table" aria-describedby="fares">
+              <tr *ngIf="bookingInfo.itineraryData.fareBreakdown.adults">
+                <th id="AD" class="tableData">
+                  <span translate>Adult</span> x {{ bookingInfo.itineraryData.fareBreakdown.adults.qty }}
+                </th>
+                <td class="tableData">
+                  {{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{ bookingInfo.itineraryData.fareBreakdown.adults.baseFare | number: '1.2-2' }}
+                </td>
+              </tr>
+              <tr *ngIf="bookingInfo.itineraryData.fareBreakdown.youngAdults">
+                <th id="AD" class="tableData">
+                  <span translate>Young Adult</span> x {{ bookingInfo.itineraryData.fareBreakdown.youngAdults.qty }}
+                </th>
+                <td class="tableData">
+                  {{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{ bookingInfo.itineraryData.fareBreakdown.youngAdults.baseFare | number: '1.2-2' }}
+                </td>
+              </tr>
+              <tr *ngIf="bookingInfo.itineraryData.fareBreakdown.children">
+                <th id="CH" class="tableData">
+                  <span translate>Children</span> x {{ bookingInfo.itineraryData.fareBreakdown.children.qty }}
+                </th>
+                <td class="tableData">
+                  {{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{ bookingInfo.itineraryData.fareBreakdown.children.baseFare | number: '1.2-2' }}
+                </td>
+              </tr>
+              <tr *ngIf="bookingInfo.itineraryData.fareBreakdown.infants">
+                <th id="INF" class="tableData">
+                  <span translate>Infants</span> x {{ bookingInfo.itineraryData.fareBreakdown.infants.qty }}
+                </th>
+                <td class="tableData">
+                  {{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{ bookingInfo.itineraryData.fareBreakdown.infants.baseFare | number: '1.2-2' }}
+                </td>
+              </tr>
+              <tr>
+                <th translate id="tax" class="tableData">Taxes & Fees</th>
+                <td *ngIf="!iframeWidgetService.isB2BApp()" class="tableData">
+                  {{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{
+                    getTaxFees(
+                      bookingInfo.itineraryData.fareBreakdown,
+                      bookingInfo.itineraryData.fareBreakdown.taxAmount
+                    ) | number: '1.2-2'
+                  }}
+                </td>
+                <td *ngIf="iframeWidgetService.isB2BApp()" class="tableData">
+                  {{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{ bookingInfo.itineraryData.fareBreakdown.taxAmount + cC_processFee | number: '1.2-2' }}
+                </td>
+              </tr>
+              <tr *ngIf="addFees() > 0">
+                <th translate id="tax" class="tableData">Fees</th>
+                <td class="tableData" *ngIf="bookingInfo.itineraryData.fareBreakdown.taxAmount">
+                  {{ bookingInfo.itineraryData.currencyCode | currencyCode }}{{ addFees() }}
+                </td>
+              </tr>
+              <tr *ngIf="bookingInfo?.itineraryData?.fareBreakdown?.discountAmount < 0">
+                <th translate class="savingAmountTxt" id="Saving Amount">Saving Amount</th>
+                <td class="tableData">
+                  -{{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{ getMinusAmt(bookingInfo?.itineraryData?.fareBreakdown?.discountAmount) }}
+                </td>
+              </tr>
+              <tr *ngIf="voucherAmount">
+                <th class="voucher" translate id="voucherAmount">Voucher Amount</th>
+                <td class="voucherAmount tableData">
+                  -{{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{ getMinusAmt(voucherAmount) | number: '1.2-2' }}
+                </td>
+              </tr>
+              <tr *ngIf="cC_processFee && paymentProductsData.length == 0 && !iframeWidgetService.isB2BApp()">
+                <th translate id="fees" class="tableData">Booking Fee</th>
+                <td class="tableData">
+                  {{ bookingInfo.itineraryData.currencyCode | currencyCode }}{{ cC_processFee | number: '1.2-2' }}
+                </td>
+              </tr>
+              <tr *ngIf="discAmount && paymentProductsData.length == 0">
+                <th translate id="discount">Discount applied</th>
+                <td>
+                  -{{ bookingInfo.itineraryData.currencyCode | currencyCode
+                  }}{{ getMinusAmt(discAmount) | number: '1.2-2' }}
+                </td>
+              </tr>
+            </table>
+
+            <div class="add_ons" *ngIf="isShowAdd_ons()">
+              <hr class="mt-2 mb-3 m-0 d-none d-lg-block" />
+              <div translate class="adon_title pb-1">Add-ons</div>
+              <table
+                class="table"
+                aria-describedby="fares"
+                [style.margin-bottom]="paymentProductsData.length > 0 ? '0px' : '15px'"
+              >
+                <tr *ngFor="let product of bookingInfo.productDetails; let idx = index">
+                  <th class="tableData" *ngIf="product.initSelected && product.id !== 'TS_PLUS'" id="{{ product.id }}">
+                    {{ product.name }}
+                  </th>
+                  <th class="tableData" *ngIf="product.initSelected && product.id === 'TS_PLUS'" id="{{ product.id }}">
+                    Travelstart+ Membership
+                  </th>
+                  <td class="tableData" *ngIf="product.initSelected">
+                    <span *ngIf="product.id !== 'TS_PLUS'"
+                      >{{ product.currencyCode | currencyCode }}{{ product.amount | number: '1.2-2' }}</span
+                    >
+                    <span *ngIf="product.id === 'TS_PLUS'">
+                      <span *ngIf="product.preDiscountAmount">
+                        {{ product.preDiscountAmount | number: '1.2-2' }}
+                      </span>
+                      <span *ngIf="!product.preDiscountAmount">
+                        {{ product.amount | number: '1.2-2' }}
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+                <tr *ngFor="let product of bookingInfo.productDetails; let idx = index">
+                  <th
+                    class="disc_text"
+                    *ngIf="product.initSelected && product.id === 'TS_PLUS' && product.preDiscountAmount"
+                    id="{{ product.id }}"
+                  >
+                    Travelstart+ Voucher
+                  </th>
+                  <td *ngIf="product.initSelected && product.id === 'TS_PLUS' && product.preDiscountAmount">
+                    <span class="disc_text"
+                      >-{{ product.currencyCode | currencyCode
+                      }}{{ product.preDiscountAmount - product.amount | number: '1.2-2' }}</span
+                    >
+                  </td>
+                </tr>
+              </table>
+              <table
+                class="table"
+                aria-describedby="proceesFee"
+                *ngIf="cC_processFee && paymentProductsData.length > 0"
+              >
+                <tr *ngFor="let product of paymentProductsData; let idx = index">
+                  <th id="{{ product.id }}" class="tableData">{{ product.name }}</th>
+                  <td class="tableData">
+                    {{ product.currencyCode | currencyCode }}{{ product.amount | number: '1.2-2' }}
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="add_ons" *ngIf="showOtherServices()">
+              <hr class="mt-2 mb-3 m-0" />
+              <div translate class="adon_title pb-1">Other services</div>
+              <table class="table" aria-describedby="fares">
+                <tr *ngIf="baggageAmount">
+                  <th translate id="fees" class="tableData">Baggage</th>
+                  <td class="tableData">
+                    {{ bookingInfo.itineraryData.currencyCode | currencyCode }}{{ baggageAmount | number: '1.2-2' }}
+                  </td>
+                </tr>
+                <tr *ngIf="seatTotalCost">
+                  <th translate id="seatTotalCost" class="tableData">Seats</th>
+                  <td class="tableData">
+                    {{ bookingInfo.itineraryData.currencyCode | currencyCode }}{{ seatTotalCost | number: '1.2-2' }}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div
+          class="d-block d-lg-none"
+          *ngIf="apiService.extractCountryFromDomain() === 'MM' && totalMomentumSavings() > 0"
+        >
+          <ng-container *ngTemplateOutlet="momentumSavings"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="mt-0 d-none d-lg-block" *ngIf="!isPriceDeeplink" />
+  <div class="fare-info theme__raise-priority" *ngIf="!isPriceDeeplink">
+    <div class="row">
+      <div class="col col-xl-12 col-lg-12" (click)="expandFare()">
+        <div
+          class="total_amt"
+          data-toggle="collapse"
+          [attr.data-target]="
+            responsiveservice.screenWidth === 'sm' || responsiveservice.screenWidth === 'md' ? '#fareBreakdown' : ''
+          "
+          (click)="showPriceIcon()"
+        >
+          <span translate class="labl">TOTAL PRICE</span>
+          <span class="amt float-right">
+            <span class="total">
+              {{ bookingInfo.itineraryData.currencyCode | currencyCode
+              }}{{
+                getTotalPrice(
+                  bookingInfo.itineraryData.totalAmount + this.voucherAmount,
+                  bookingInfo.productDetails,
+                  cC_processFee + discAmount,
+                  baggageAmount
+                ) | currency: '' + ' ':'symbol':'2.0'
+              }}
+            </span>
+
+            <span class="d-block d-lg-none priceLink">
+              <span *ngIf="country !== 'ABSA'" class="angleIcon">
+                <i
+                  *ngIf="viewpriceDownIcon"
+                  aria-hidden="true"
+                  class="fa fa-angle-down"
+                  data-toggle="collapse"
+                  data-target="#fareBreakdown"
+                >
+                </i>
+              </span>
+              <span *ngIf="country !== 'ABSA'" class="angleIcon">
+                <i
+                  *ngIf="viewpriceUpIcon"
+                  aria-hidden="true"
+                  class="fa fa-angle-up"
+                  data-toggle="collapse"
+                  data-target="#fareBreakdown"
+                >
+                </i>
+              </span>
+              <span *ngIf="country === 'ABSA'">
+                <img
+                  ImageSrc
+                  class="theme__info-icon"
+                  data-toggle="collapse"
+                  data-target="#fareBreakdown"
+                  src="../../../assets/icons/srp_Icons/fare-breakdown-info.svg"
+                  alt="fare-breakdown-info"
+                />
+              </span>
+            </span>
+          </span>
+        </div>
+
+        <!-- Web GFS data tracking -->
+        <table
+          id="paymentSummaryTotalPrice"
+          aria-describedby="total price"
+          style="visibility: hidden; height: 0px; line-height: 0"
+        >
+          <tr>
+            <th id="total_price"></th>
+            <td class="booking-summary__price--total">
+              <span class="total">
+                {{ bookingInfo.itineraryData.currencyCode | currencyCode
+                }}{{
+                  getTotalPrice(
+                    bookingInfo.itineraryData.totalAmount + this.voucherAmount,
+                    bookingInfo.productDetails,
+                    cC_processFee + discAmount,
+                    baggageAmount
+                  ) | currency: '' + ' ':'symbol':'2.0'
+                }}
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-6 offset-lg-6 text-lg-right">
+        <button
+          *ngIf="!showIframe"
+          [ngClass]="
+            iframeWidgetService.isB2BApp() &&
+            (responsiveservice.screenWidth == 'sm' || responsiveservice.screenWidth == 'md')
+              ? 'd-none'
+              : 'd-block d-lg-none'
+          "
+          type="button"
+          class="btn primary_btn book_btn float-right"
+          [disabled]="isLoading"
+          (click)="payndBook()"
+        >
+          <i class="fa fa-spinner fa-spin" style="font-size: 24px" [hidden]="!isLoading" aria-hidden="true"></i>
+          <span translate>Pay Now</span>
+        </button>
+        <div class="clearfix"></div>
+        <a
+          *ngIf="isShowpricebreakdown"
+          translate
+          class="link d-none d-lg-block"
+          (click)="pricebreakdownsec()"
+          data-toggle="collapse"
+          data-target="#fareBreakdown"
+        >
+          Hide price breakdown
+        </a>
+        <a
+          *ngIf="!isShowpricebreakdown"
+          translate
+          class="link d-none d-lg-block"
+          (click)="pricebreakdownsec()"
+          data-toggle="collapse"
+          data-target="#fareBreakdown"
+        >
+          View price breakdown
+        </a>
+      </div>
+    </div>
+    <div *ngIf="apiService.extractCountryFromDomain() == 'IB'" class="row" (click)="expandFare()">
+      <div class="col">
+        <p class="charges_txt">
+          Price includes <span *ngIf="flightResultsList.isIntl">an International</span>
+          <span *ngIf="!flightResultsList.isIntl">a domestic</span> booking fee of
+          {{ bookingInfo.itineraryData.currencyCode | currencyCode }}<span *ngIf="!flightResultsList.isIntl">95</span
+          ><span *ngIf="flightResultsList.isIntl">200</span> per person.
+        </p>
+      </div>
+    </div>
+    <div class="d-none d-lg-block" *ngIf="apiService.extractCountryFromDomain() === 'MM' && totalMomentumSavings() > 0">
+      <ng-container *ngTemplateOutlet="momentumSavings"></ng-container>
+    </div>
+  </div>
+</div>
+<ng-template #momentumSavings>
+  <div class="mm_SavingsTxt text-center pt-3">
+    <img ImageSrc class="mr-1" src="../../../assets/icons/wallet-icons/cheers-icn.svg" alt="cheers" /> You saved
+    {{ bookingInfo.itineraryData.currencyCode | currencyCode
+    }}{{ totalMomentumSavings() | currency: '' + ' ':'symbol':'2.0' }} with Multiply
+  </div>
+</ng-template>

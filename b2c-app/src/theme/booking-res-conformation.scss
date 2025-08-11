@@ -1,0 +1,151 @@
+@import "./theme-variables.scss";
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+ 
+  .mb-xs-10 {
+    margin-bottom: 10px !important;
+  }
+
+  .booking_confiramtion_page {
+    .icon_booking_wrapper {
+      margin: 0px !important;
+      padding-top: 0px;
+      img{
+        width: 48px !important;
+      }
+      
+    }
+    .view_account_info {
+      width: 90% !important;
+      margin: auto !important;
+      .confirm_labls {
+        margin-bottom: 10px !important;
+      }
+    }
+    .payment {
+      border: 1px solid #e2e4e8;
+      .pay {
+        float: none !important;
+      }
+    }
+    .pay-w-xs {
+      width: 90% !important;
+    }
+    .paymentFailed {
+      width: 90% !important;
+      margin: auto !important;
+    }
+    .booking_status {
+      margin-bottom: 5px !important;
+      .fail_payment {
+        padding-top: 10px !important;
+      }
+      .status_title {
+        margin-bottom: 10px !important;
+        .title {
+          font-size: 22px !important;
+        }
+      }
+      .desc {
+        padding: 0px 30px !important;
+      }
+    }
+    .paymentDetailsCard_expanded {
+      .card_details {
+        label {
+          width: 100% !important;
+        }
+      }
+    }
+    .payment {
+      width: 100%;
+      padding: 15px;
+      margin: auto;
+      text-align: center;
+      .pay {
+        width: 100%;
+      }
+    }
+    .payment_details {
+      .sec_title {
+        label {
+          font-size: 20px !important;
+          font-weight: 500 !important;
+        }
+      }
+      .bank_details {
+        max-width: 100% !important;
+        .heading {
+          font-weight: 500 !important;
+        }
+        label {
+          width: 100% !important;
+          .key {
+            width: 28% !important;
+          }
+        }
+      }
+    }
+    .container {
+      padding: 0 !important;
+    }
+    .booking_status {
+      text-align: center;
+      .city_labls {
+        font-size: 18px !important;
+      }
+    }
+    .fly_icon {
+      margin: 0 !important;
+    }
+  }
+  .invoiceDetailsCard_expanded {
+    .fare_info {
+      width: 100%;
+    }
+  }
+  .cars_insurance_txt {
+    padding: 20px;
+  }
+  .hotels_links{
+    padding : 0 !important ;
+  }
+  .find_cars,
+  .insurance {
+    height: 285px !important;
+  }
+  .cars_need,
+  .insurance_need {
+    padding-left: 0px !important;
+  }
+
+  .cars_link,
+  .insurance_link {
+    height: 285px;
+  }
+  .insurance_img,
+  .car_img {
+    padding-right: 0px !important;
+  }
+  .cars_insurance_txt .insurance_desc {
+    font-size: 16px;
+  }
+  .payment_desc {
+    p {
+      font-size: 12px !important;
+      font-weight: 500 !important;
+    }
+  }
+  .confirmation_Card{
+    padding: 15px !important;
+    .sec_head{
+      font-size: 18px !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .book_car_tr_insurance {
+    margin-top: 0px !important;
+  }
+}

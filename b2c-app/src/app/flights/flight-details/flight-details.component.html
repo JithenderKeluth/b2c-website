@@ -1,0 +1,641 @@
+<div
+  *ngIf="
+    flightslist &&
+    selectedFlightDetails &&
+    selectedFlightDetails.outboundItineraries &&
+    selectedFlightDetails.inboundItineraries
+  "
+>
+  <div class="d-none d-lg-block">
+    <div class="flight_details_head bg_card">
+      <div class="details_head">
+        <h6 class="text-center" translate>Flight Details</h6>
+      </div>
+
+      <div class="fare_details text-center">
+        <div translate>Total Price</div>
+        <div class="fare">
+          <span [ngClass]="{ strikeOut: region === 'MM' && displayItnPrice(selectedFlightDetails)?.savingAmt > 0 }">
+            <span *ngIf="region !== 'MM'">
+              {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
+              flightTotalAmount | currencyCode | currency: '' + '
+            ':'symbol':'2.0'
+            }}</span>
+
+            <span *ngIf="region === 'MM'">
+              {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
+              displayItnPrice(selectedFlightDetails)?.strikeAmt | currency: '' + ' ' + ' ':'symbol':'2.0'
+            }}</span>
+          </span>
+
+          <span
+            *ngIf="region === 'MM' && displayItnPrice(selectedFlightDetails).savingAmt > 0"
+            class="strikeoutOrginalAmount"
+          >
+            <span class="d-block">
+              {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode
+              }}{{ displayItnPrice(selectedFlightDetails).finalAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+            </span>
+          </span>
+
+          <!-- B2B discount icon for display next to price starts here -->
+          <span
+            style="cursor: pointer"
+            (click)="openDomesticEditPriceModel(selectedFlightDetails)"
+            class="mr-2"
+            *ngIf="hasPermissionToEditFlightPrice()"
+            data-toggle="modal"
+            data-target="#editprice_modal"
+          >
+            <img ImageSrc src="../../../assets/icons/b2b_icons/edit-black.svg" alt="edit-icon" />
+          </span>
+        </div>
+        <div>for {{ getTravellerCount() }} Traveller(s)</div>
+
+        <div *ngIf="isEnableBNPL(flightTotalAmount)">
+          <app-bnpl-message
+            [currency]="selectedFlightDetails.inboundItineraries.currencyCode"
+            [amount]="flightTotalAmount"
+            [isBundled]="false"
+          ></app-bnpl-message>
+        </div>
+
+        <button
+          class="btn book_flight_btn primary_btn mt-3 onHover"
+          aria-label="Book this flight"
+          (click)="bookFlight(selectedFlightDetails)"
+          translate
+        >
+          Book this flight
+        </button>
+
+        <span
+          *ngIf="
+            region === 'MM' &&
+            displayItnPrice(selectedFlightDetails).savingAmt &&
+            displayItnPrice(selectedFlightDetails).savingAmt > 0
+          "
+          class="d-block mt-2 savingTxt"
+        >
+          Your Multiply savings <span *ngIf="displayItnPrice(selectedFlightDetails)?.isPPS">per person</span>
+          <br /><span
+            >{{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode
+            }}{{ displayItnPrice(selectedFlightDetails).savingAmt | currency: '' + ' ' + ' ':'symbol':'2.0' }}</span
+          >
+        </span>
+      </div>
+      <div class="tabs_list">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              data-toggle="tab"
+              rel="nofollow"
+              data-target="#flightDetails"
+              role="tab"
+              aria-controls="details-tab"
+              aria-selected="true"
+              translate
+              >Flight</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              rel="nofollow"
+              data-toggle="tab"
+              data-target="#priceBreakdown"
+              role="tab"
+              aria-controls="pricebreak-tab"
+              aria-selected="false"
+              translate
+              >Price breakdown</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane show active" id="flightDetails" role="tabpanel" aria-labelledby="details-tab">
+        <div class="flight_details">
+          <div *ngFor="let odoList of itinOdoList; let idx = index">
+            <div class="routes bg_card">
+              <div>
+                {{ getCityName(odoList.segments[0].origCode) }} to
+                {{ getCityName(odoList.segments[odoList.segments.length - 1].destCode) }}
+              </div>
+              <div *ngFor="let segments of odoList.segments; let index = index; let last = last">
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <span>
+                      <span>
+                        <img
+                          ImageSrc
+                          class="carrier_logo"
+                          src="assets/img/carriers/retina48px/carrier-{{ segments.airlineCode }}.png"
+                          width="26px"
+                          alt="{{ segments.airlineCode }}"
+                          loading="lazy"
+                        />
+                      </span>
+                      <span class="airlineName">{{ flightslist.airlineNames[segments.airlineCode] }}</span>
+                      <span class="airlineName">({{ segments.flightNumber }})</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="journey_info row">
+                  <div class="col-4 text-center">
+                    <div class="date">{{ segments.departureDateTime | date: 'd MMM yy' }}</div>
+                    <div class="time">{{ segments.departureDateTime | date: 'HH:mm' }}</div>
+                    <label class="airport">{{ getAirportName(segments.origCode) }} ({{ segments.origCode }})</label>
+                  </div>
+                  <div class="col-4 duration text-center">
+                    <label *ngIf="getTimeInHours(segments.duration) !== '0hrs 0min'" class="dur mb-0">{{
+                      getTimeInHours(segments.duration)
+                    }}</label>
+                    <div class="route_logo">
+                      <img
+                        ImageSrc
+                        src="../../../assets/icons/v1-icons/flight_route.svg"
+                        alt="flight_route"
+                        width="100%"
+                      />
+                    </div>
+                    <label translate class="stop"
+                      >Non stop <span class="cabinClass">({{ segments.cabinClass | lowercase }})</span></label
+                    >
+                  </div>
+                  <div class="col-4 text-center">
+                    <div class="date">{{ segments.arrivalDateTime | date: 'd MMM yy' }}</div>
+                    <div class="time">{{ segments.arrivalDateTime | date: 'HH:mm' }}</div>
+                    <label class="airport">{{ getAirportName(segments.destCode) }} ({{ segments.destCode }})</label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <span
+                      class="baggage"
+                      *ngIf="
+                        getBaggage(odoList.segments[0].ID, 'checked').length != 0 ||
+                        getBaggage(odoList.segments[0].ID, 'hand').length != 0
+                      "
+                    >
+                      <span class="baggage hglt" *ngIf="getBaggage(odoList.segments[0].ID, 'hand')">
+                        <img
+                          ImageSrc
+                          class="bag_icon"
+                          src="./../../../assets/icons/srp_Icons/new_hand_baggage.svg"
+                          alt="hand"
+                          loading="lazy"
+                        />{{ getBaggage(odoList.segments[0].ID, 'hand') }}
+                      </span>
+                      <span *ngIf="getBaggage(odoList.segments[0].ID, 'checked').length != 0">
+                        <span
+                          *ngIf="getBaggage(odoList.segments[0].ID, 'checked') == 'No baggage allowance'"
+                          class="noBaggage_Bg"
+                        >
+                          <img
+                            ImageSrc
+                            class="bag_icon ml-1"
+                            src="./../../../assets/icons/srp_Icons/new_no_baggage.svg"
+                            alt="no bag"
+                            loading="lazy"
+                          />
+
+                          <span translate class="no_baggage_txt">No Baggage</span>
+                        </span>
+                        <span
+                          class="hglt"
+                          *ngIf="getBaggage(odoList.segments[0].ID, 'checked') != 'No baggage allowance'"
+                        >
+                          <img
+                            ImageSrc
+                            class="bag_icon"
+                            src="./../../../assets/icons/srp_Icons/new_checked_baggage.svg"
+                            alt="hand"
+                            loading="lazy"
+                          /><span>{{ getBaggage(odoList.segments[0].ID, 'checked') }}</span>
+                        </span>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="odoList.segments.length > 1 && !last">
+                  <div class="col-12 layover_section">
+                    <div class="layover">
+                      <span>
+                        <img
+                          ImageSrc
+                          src="./../../../assets/icons/flight_dt_layover.svg"
+                          alt="layover"
+                          loading="lazy"
+                        />
+                        <span class="lap_txt">{{ getLayoverTxt(odoList) }}</span>
+                        {{ getLayoverTime(odoList) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="tab-pane price_breakdown bg_card"
+        id="priceBreakdown"
+        role="tabpanel"
+        aria-labelledby="pricebreak-tab"
+      >
+        <h6 translate>Price Breakdown</h6>
+
+        <div class="priceBreak">
+          <figure class="fare_breakdown">
+            <div class="fares">
+              <table class="table" aria-describedby="fares">
+                <tr *ngIf="selectedFlightDetails.outboundItineraries.fareBreakdown.adults">
+                  <th id="AD">
+                    <span translate>Adult</span> x
+                    {{ selectedFlightDetails.outboundItineraries.fareBreakdown.adults.qty }}
+                  </th>
+                  <td>
+                    <span>{{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}</span
+                    >{{
+                      selectedFlightDetails.inboundItineraries.fareBreakdown.adults.baseFare +
+                        selectedFlightDetails.outboundItineraries.fareBreakdown.adults.baseFare
+                        | currency: '' + '
+                    ':'symbol':'2.0'
+                    }}
+                  </td>
+                </tr>
+                <tr *ngIf="selectedFlightDetails.outboundItineraries.fareBreakdown.youngAdults">
+                  <th id="AD">
+                    <span translate>Young Adult</span> x
+                    {{ selectedFlightDetails.outboundItineraries.fareBreakdown.youngAdults.qty }}
+                  </th>
+                  <td>
+                    <span>{{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}</span
+                    >{{
+                      selectedFlightDetails.inboundItineraries.fareBreakdown.youngAdults.baseFare +
+                        selectedFlightDetails.outboundItineraries.fareBreakdown.youngAdults.baseFare
+                        | currency: '' + '
+                    ':'symbol':'2.0'
+                    }}
+                  </td>
+                </tr>
+                <tr *ngIf="selectedFlightDetails.outboundItineraries.fareBreakdown.children">
+                  <th id="CH">
+                    <span translate>Children</span> x
+                    {{ selectedFlightDetails.inboundItineraries.fareBreakdown.children.qty }}
+                  </th>
+                  <td>
+                    <span>{{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}</span
+                    >{{
+                      selectedFlightDetails.inboundItineraries.fareBreakdown.children.baseFare +
+                        selectedFlightDetails.outboundItineraries.fareBreakdown.children.baseFare
+                        | currency: '' + '
+                    ':'symbol':'2.0'
+                    }}
+                  </td>
+                </tr>
+                <tr *ngIf="selectedFlightDetails.outboundItineraries.fareBreakdown.infants">
+                  <th id="INF">
+                    <span translate>Infants</span> x
+                    {{ selectedFlightDetails.inboundItineraries.fareBreakdown.infants.qty }}
+                  </th>
+                  <td>
+                    <span>{{ selectedFlightDetails.outboundItineraries.currencyCode | currencyCode }}</span
+                    >{{
+                      selectedFlightDetails.inboundItineraries.fareBreakdown.infants.baseFare +
+                        selectedFlightDetails.outboundItineraries.fareBreakdown.infants.baseFare
+                        | currency: '' + '
+                    ':'symbol':'2.0'
+                    }}
+                  </td>
+                </tr>
+                <tr>
+                  <th translate id="tax">Taxes & fees</th>
+                  <td class="taxes">
+                    <span>{{ selectedFlightDetails.outboundItineraries.currencyCode | currencyCode }}</span
+                    >{{
+                      selectedFlightDetails.inboundItineraries.fareBreakdown.taxAmount +
+                        selectedFlightDetails.outboundItineraries.fareBreakdown.taxAmount
+                        | currency: '' + '
+                    ':'symbol':'2.0'
+                    }}
+                  </td>
+                </tr>
+                <tr
+                  *ngIf="
+                    region === 'MM' &&
+                    displayItnPrice(selectedFlightDetails).savingAmt &&
+                    displayItnPrice(selectedFlightDetails).savingAmt > 0
+                  "
+                >
+                  <th translate id="savingAmount" class="savingAmountTxt">Saving Amount</th>
+                  <td class="">
+                    -{{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode
+                    }}{{ displayItnPrice(selectedFlightDetails).savingAmt | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+                  </td>
+                </tr>
+                <tr class="total_price mt-4">
+                  <th translate id="total">Total Price</th>
+                  <td class="total_price">
+                    <span>{{ selectedFlightDetails.outboundItineraries.currencyCode | currencyCode }}</span
+                    >{{ displayItnPrice(selectedFlightDetails).finalAmount | currency: '' + ' ':'symbol':'2.0' }}
+                  </td>
+                </tr>
+              </table>
+
+              <p *ngIf="apiService.extractCountryFromDomain() != 'IB'" class="total_ticket_txt mb-0" translate>
+                Total ticket price includes taxes and fees.
+              </p>
+              <p *ngIf="apiService.extractCountryFromDomain() == 'IB'" class="total_ticket_txt mb-0">
+                Price includes a domestic booking fee of
+                {{ selectedFlightDetails.outboundItineraries.currencyCode | currencyCode }}<span>95</span> per person.
+              </p>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+    <div class="book_flight_sec bg_card">
+      <div class="text-center">
+        <button
+          class="btn book_flight_btn primary_btn mt-3 onHover"
+          aria-label="Book this flight"
+          (click)="bookFlight(selectedFlightDetails)"
+          translate
+        >
+          Book this flight
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="d-block d-lg-none">
+    <!--responsive sticky footer-->
+    <div class="sticky_price">
+      <div class="price_info">
+        <span class="total_labl" translate> Total Price</span>
+        <span class="ml-auto text-right">
+          <span class="fare_breakdown_labl mr-1" translate>
+            <span *ngIf="region === 'ABSA'">Fare Breakdown</span>
+            <img
+              ImageSrc
+              class="infoImg"
+              src="../../../assets/icons/srp_Icons/fare-breakdown-info.svg"
+              alt="info"
+              loading="lazy"
+              data-toggle="collapse"
+              aria-hidden="true"
+              data-target="#priceInfo"
+            />
+          </span>
+          <span
+            class="total_Amt"
+            [ngClass]="{ strikeOut: region === 'MM' && displayItnPrice(selectedFlightDetails)?.savingAmt > 0 }"
+          >
+            <span *ngIf="region !== 'MM'">
+              {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
+              selectedFlightDetails.inboundItineraries.amount + selectedFlightDetails.outboundItineraries.amount
+                | currencyCode
+                | currency: '' + '
+        ':'symbol':'2.0'
+            }}</span>
+
+            <span *ngIf="region === 'MM'">
+              {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode }}{{
+              displayItnPrice(selectedFlightDetails)?.strikeAmt | currency: '' + ' ' + ' ':'symbol':'2.0'
+            }}</span>
+          </span>
+
+          <span
+            *ngIf="region === 'MM' && displayItnPrice(selectedFlightDetails).savingAmt > 0"
+            class="strikeoutOrginalAmount"
+          >
+            <span>
+              {{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode
+              }}{{ displayItnPrice(selectedFlightDetails).finalAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+            </span>
+          </span>
+
+          <div class="clearfix"></div>
+          <span
+            *ngIf="
+              region === 'MM' &&
+              displayItnPrice(selectedFlightDetails).savingAmt &&
+              displayItnPrice(selectedFlightDetails).savingAmt > 0
+            "
+            class="d-block savingTxt"
+          >
+            Your Multiply savings <span *ngIf="displayItnPrice(selectedFlightDetails)?.isPPS">per person</span>
+            <span
+              >{{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode
+              }}{{ displayItnPrice(selectedFlightDetails).savingAmt | currency: '' + ' ' + ' ':'symbol':'2.0' }}</span
+            >
+          </span>
+
+          <div *ngIf="isEnableBNPL(flightTotalAmount)">
+            <app-bnpl-message
+              [currency]="selectedFlightDetails.inboundItineraries.currencyCode"
+              [amount]="flightTotalAmount"
+              [isBundled]="false"
+            ></app-bnpl-message>
+          </div>
+        </span>
+      </div>
+      <div class="sticky_priceFooter">
+        <div class="price_footer">
+          <ul>
+            <li class="w-37" *ngFor="let odoList of selectedFlightDetails.outboundItineraries.odoList | slice: 0:1">
+              <div class="flight_Info">
+                <div>
+                  <img
+                    ImageSrc
+                    class="carrier_logo"
+                    width="20px"
+                    src="assets/img/carriers/retina48px/carrier-{{ odoList.segments[0].airlineCode }}.png"
+                    alt="{{ odoList.segments[0].airlineCode }}"
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <div class="info">
+                    <span *ngIf="region !== 'ABSA'" class="date_labl">
+                      {{ selectedFlightDetails.outboundItineraries.odoList[0].segments[0].departureDateTime | date: 'HH:mm' }}
+                    </span>
+                    <span *ngIf="region === 'ABSA'" class="city_labl">
+                      {{ selectedFlightDetails.outboundItineraries.odoList[0].segments[0].origCode }}
+                    </span>
+                    <span>
+                      <img
+                        ImageSrc
+                        src="../../../assets/icons/srp_Icons/flight_icn.svg"
+                        alt="flight_icn"
+                        width="16px"
+                        loading="lazy"
+                      />
+                    </span>
+                    <span *ngIf="region !== 'ABSA'" class="date_labl">{{
+                      selectedFlightDetails.outboundItineraries.odoList[0].segments[
+                        selectedFlightDetails.outboundItineraries.odoList[0].segments.length - 1
+                      ].arrivalDateTime | date: 'HH:mm'
+                    }}</span>
+                    <span *ngIf="region === 'ABSA'" class="pl-1 city_labl float-right">
+                      {{
+                        selectedFlightDetails.outboundItineraries.odoList[0].segments[
+                          selectedFlightDetails.outboundItineraries.odoList[0].segments.length - 1
+                        ].destCode
+                      }}
+                    </span>
+                  </div>
+                  <div class="theme__time-info-label-container">
+                    <span *ngIf="region !== 'ABSA'" class="city_labl">
+                      {{ selectedFlightDetails.outboundItineraries.odoList[0].segments[0].origCode }}
+                    </span>
+                    <span *ngIf="region === 'ABSA'" class="date_labl">
+                      {{ selectedFlightDetails.outboundItineraries.odoList[0].segments[0].departureDateTime | date: 'HH:mm' }}
+                    </span>
+                    <span *ngIf="region !== 'ABSA'" class="pl-1 city_labl float-right">
+                      {{
+                        selectedFlightDetails.outboundItineraries.odoList[0].segments[
+                          selectedFlightDetails.outboundItineraries.odoList[0].segments.length - 1
+                        ].destCode
+                      }}
+                    </span>
+                    <span *ngIf="region === 'ABSA'" class="date_labl">{{
+                      selectedFlightDetails.outboundItineraries.odoList[0].segments[
+                        selectedFlightDetails.outboundItineraries.odoList[0].segments.length - 1
+                      ].arrivalDateTime | date: 'HH:mm'
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="w-37" *ngFor="let odoList of selectedFlightDetails.inboundItineraries.odoList | slice: 0:1">
+              <div class="flight_Info">
+                <div>
+                  <img
+                    ImageSrc
+                    class="carrier_logo"
+                    width="20px"
+                    src="assets/img/carriers/retina48px/carrier-{{ odoList.segments[0].airlineCode }}.png"
+                    alt="{{ odoList.segments[0].airlineCode }}"
+                    loading="lazy"
+                  />
+                </div>
+                <div>
+                  <div class="info">
+                    <span *ngIf="region !== 'ABSA'" class="date_labl">
+                      {{ selectedFlightDetails.inboundItineraries.odoList[0].segments[0].departureDateTime | date: 'HH:mm' }}
+                    </span>
+                    <span *ngIf="region === 'ABSA'" class="pr-1 city_labl">
+                      {{ selectedFlightDetails.inboundItineraries.odoList[0].segments[0].origCode }}
+                    </span>
+                    <span>
+                      <img
+                        ImageSrc
+                        src="../../../assets/icons/srp_Icons/flight_icn.svg"
+                        alt="flight_icn"
+                        width="16px"
+                        loading="lazy"
+                      />
+                    </span>
+                    <span *ngIf="region !== 'ABSA'" class="date_labl">{{
+                      selectedFlightDetails.inboundItineraries.odoList[0].segments[
+                        selectedFlightDetails.inboundItineraries.odoList[0].segments.length - 1
+                      ].arrivalDateTime | date: 'HH:mm'
+                    }}</span>
+                    <span *ngIf="region === 'ABSA'" class="pl-1 city_labl float-right">{{
+                      selectedFlightDetails.inboundItineraries.odoList[0].segments[
+                        selectedFlightDetails.inboundItineraries.odoList[0].segments.length - 1
+                      ].destCode
+                    }}</span>
+                  </div>
+                  <div class="theme__time-info-label-container">
+                    <span *ngIf="region !== 'ABSA'" class="pr-1 city_labl">
+                      {{ selectedFlightDetails.inboundItineraries.odoList[0].segments[0].origCode }}
+                    </span>
+                    <span *ngIf="region === 'ABSA'" class="date_labl">
+                      {{ selectedFlightDetails.inboundItineraries.odoList[0].segments[0].departureDateTime | date: 'HH:mm' }}
+                    </span>
+                    <span *ngIf="region !== 'ABSA'" class="pl-1 city_labl float-right">{{
+                      selectedFlightDetails.inboundItineraries.odoList[0].segments[
+                        selectedFlightDetails.inboundItineraries.odoList[0].segments.length - 1
+                      ].destCode
+                    }}</span>
+                    <span *ngIf="region === 'ABSA'" class="date_labl">{{
+                      selectedFlightDetails.inboundItineraries.odoList[0].segments[
+                        selectedFlightDetails.inboundItineraries.odoList[0].segments.length - 1
+                      ].arrivalDateTime | date: 'HH:mm'
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="btnControls btnContinue">
+              <button
+                type="button"
+                aria-label="Book"
+                *ngIf="selectedFlightDetails.outboundItineraries && selectedFlightDetails.inboundItineraries"
+                class="btn primary_btn select bookNow_btn"
+                (click)="bookFlight(selectedFlightDetails)"
+              >
+                <span translate>Book</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="price_info_sec">
+  <div
+    appCloseCollapseStrip
+    id="priceInfo"
+    #priceInfo
+    [ngClass]="
+      responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md' ? 'collapse' : 'web d-lg-none'
+    "
+  >
+    <div class="theme__fare-breakdown-container">
+      <img
+        ImageSrc
+        [src]="region === 'ABSA' ? '../../../assets/icons/srp_Icons/close-icn-new-all.svg' : '../../../assets/icons/close-new-icn.svg'"
+        alt="close"
+        loading="lazy"
+        class="mr-2 theme__close-button"
+        data-toggle="collapse"
+        aria-hidden="true"
+        data-target="#priceInfo"
+      />
+      <span class="head_lbl" translate>Ticket Price Details</span>
+    </div>
+    <ul class="pl-0 mb-0" *ngIf="itinOdoList.length > 0">
+      <li>
+        <span
+          >Departure to {{ getCityName(itinOdoList[0].segments[itinOdoList[0].segments.length - 1].destCode) }}</span
+        >
+        <span class="float-right"
+          >{{ selectedFlightDetails.outboundItineraries.currencyCode | currencyCode
+          }}{{ selectedFlightDetails.outboundItineraries.amount | currency: '' + ' ':'symbol':'2.0' }}</span
+        >
+      </li>
+      <li>
+        <span>Return to {{ getCityName(itinOdoList[0].segments[0].origCode) }}</span>
+        <span class="float-right"
+          >{{ selectedFlightDetails.inboundItineraries.currencyCode | currencyCode
+          }}{{ selectedFlightDetails.inboundItineraries.amount | currency: '' + ' ':'symbol':'2.0' }}</span
+        >
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+<div #dateWidget style="height: 100vh">
+  <span class="tripTypeData">{{ getControlData(widgetData) }}</span>
+  <div class="text-center fare_subject_txt">*Fares subject to availability</div>
+  <div class="row">
+    <div class="col-12 widget_calender p-0">
+      <ngb-datepicker
+        #dp
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        (dateSelect)="onDateSelection($event)"
+        [displayMonths]="12"
+        [dayTemplate]="t"
+        [navigation]="'none'"
+        outsideDays="hidden"
+      >
+      </ngb-datepicker>
+    </div>
+  </div>
+  <div class="date_info d-none" #info>
+    <div class="row">
+      <div class="col-12">
+        <div>
+          <div class="float-left">
+            <label for="onward" class="labl">Onward</label>
+            <div *ngIf="fromDate" class="labl_data">{{ extractDate(fromDate) }}</div>
+          </div>
+          <div class="float-right text-right" *ngIf="widgetData.trip == 'return'">
+            <label for="return" class="labl">Return</label>
+            <div *ngIf="toDate" class="labl_data">{{ extractDate(toDate) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-12">
+        <button
+          class="btn w-100 done_btn btn-primary"
+          aria-label="Done"
+          Cancel
+          [disabled]="
+            (widgetData.trip == 'return' && (!fromDate || !toDate)) || (widgetData.trip !== 'return' && !fromDate)
+          "
+          (click)="dateSelected()"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #t let-date let-focused="focused">
+  <span
+    class="custom-day"
+    [class.focused]="focused"
+    [class.range]="isRanged(date)"
+    [class.faded]="isHover(date) || isInsideDate(date)"
+    (mouseenter)="hoveredDate = date"
+    (mouseleave)="hoveredDate = null"
+  >
+    {{ date.day }}
+    <div class="dot-typing" *ngIf="price_loading"></div>
+    <div class="date_fare_price" *ngIf="!price_loading && getDatepriceData(date)">
+      {{ getDatepriceData(date).currency | currencyCode
+      }}{{ getDatepriceData(date).amount | currency: '' + '
+        ':'symbol':'2.0' }}
+    </div>
+  </span>
+</ng-template>

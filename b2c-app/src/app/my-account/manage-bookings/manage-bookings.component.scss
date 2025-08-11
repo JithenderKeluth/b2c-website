@@ -1,0 +1,308 @@
+@import "./../../../theme/theme-variables.scss";
+.manage_booking_section {
+  background-color: #f2f4f4;
+  padding: 0px 0px 30px;
+  min-height: 700px;
+  .manage_bookings_page {
+    .mybkng_bg {
+      background-image: var(--myAccount_header_Bg);
+      width: 100%;
+      height: 125px;
+      position: absolute;
+    }
+    .sec_header {
+      width: 100%;
+      display: inline-block;
+      margin-top: 32px;
+      h1 {
+        font-size: 22px;
+
+        .back_page {
+          cursor: pointer;
+        }
+      }
+    }
+    .dashboard {
+      background-color: #fafcfc;
+      .main-tab-section {
+        color: $white;
+        .qry_record {
+          position: relative;
+          top: 10px;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+  .booking_section {
+    padding-top: 22px;
+    .total_viewcontainer {
+      position: relative;
+      top: -10px;
+
+      .view_Bookings {
+        border: none;
+        border-radius: 11px;
+        .outer {
+          padding: 20px 10px 12px 10px;
+          // box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.14);
+          border-bottom: 1px solid var(--border_default_color);
+          border-radius: 15px 15px 0 0;
+          background-color: $white !important;
+          .nav-tabs {
+            padding-left: 15px;
+            .nav-item {
+              font-size: 14px;
+              text-transform: capitalize;
+              .nav-link {
+                color: var(--text_primary_color);
+                font-weight: 400;
+                border: none;
+                &.active {
+                  border: none;
+                  border-bottom: 2px solid var(--text_link_color);
+                  color: var(--text_link_color);
+                }
+                .active {
+                  display: inline-block;
+                }
+                .in-active {
+                  display: none;
+                }
+              }
+              &.active {
+                border: none;
+                border-bottom: 2px solid var(--text_link_color);
+                color: var(--text_link_color);
+              }
+            }
+          }
+        }
+        .cancel_booking_section {
+          background-color: #f2f4f4;
+          .cancel_booking {
+            background-color: $white;
+            border-radius: 0px 0px 12px 12px;
+            .route_traveller {
+              padding: 16px;
+              .route_info {
+                font-size: 15px;
+                margin: 0px 5px;
+                font-weight: bold;
+                .ticketCreated {
+                  font-size: 13px;
+                  background-color: #fedcdd;
+                  padding: 5px 10px;
+                  font-weight: 500;
+                }
+              }
+            }
+            .cancel_reasons {
+              .reason_head {
+                background-color: #f4fbff;
+                padding: 20px 10px;
+                h5 {
+                  font-size: 18px;
+                  font-weight: 500;
+                  margin-bottom: 0px;
+                }
+              }
+              ul {
+                list-style-type: none;
+                padding-left: 10px;
+                padding-top: 15px;
+                li {
+                  padding: 2px 5px;
+
+                  label {
+                    font-size: 13px;
+                  }
+                  input[type="radio"] {
+                    display: none;
+                  }
+                  input[type="radio"] + *::before {
+                    content: "";
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 1rem;
+                    height: 1rem;
+                    margin-right: 0.6rem;
+                    border-radius: 50%;
+                    border-style: solid;
+                    border-width: 0.1rem;
+                    border-color: gray;
+                  }
+                  input[type="radio"]:checked + *::before {
+                    background: radial-gradient(var(--text_link_color) 0%, var(--text_link_color) 40%, transparent 50%, transparent);
+                    border-color: var(--text_link_color);
+                  }
+                }
+              }
+            }
+            .cancel_proceed {
+              .proceed_head {
+                background-color: #f4fbff;
+                padding: 20px 10px;
+                h5 {
+                  font-size: 18px;
+                  font-weight: 500;
+                  margin-bottom: 0px;
+                }
+              }
+              .proceed_body {
+                padding: 10px 5px;
+                .select_refund {
+                  ul {
+                    display: block;
+                    padding-left: 10px;
+
+                    li {
+                      list-style-type: none;
+                      display: inline-block;
+
+                      &.card {
+                        border: 1px solid var(--border_default_color);
+                        background-color: $white;
+                        border-radius: 5px;
+
+                        .card-body {
+                          padding: 10px 20px;
+                          width: 180px;
+                          margin: 0px;
+                          text-align: left;
+                        }
+                        &.active {
+                          border: solid 1.2px var(--border_active_color) !important;
+                          .labl {
+                            color: var(--label_color);
+                          }
+
+                          .active {
+                            display: inline-block;
+                          }
+                          .in-active {
+                            display: none;
+                          }
+                        }
+                        .in-active {
+                          display: inline-block;
+                        }
+                        .active {
+                          display: none;
+                        }
+                        .bld_labl {
+                          font-size: 14px;
+                          /* font-weight: bold; */
+                          cursor: pointer;
+                          color: var(--text_primary_color);
+                          font-weight: 400;
+                          .fa {
+                            font-weight: normal;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                .proceed_des {
+                  font-size: 13px;
+                  ul {
+                    padding-left: 10px;
+                    list-style-type: none;
+                    li {
+                      padding: 5px 5px;
+                    }
+                  }
+                }
+
+                .terms_cndns {
+                  font-size: 14px;
+                  padding-left: 10px;
+                  .terms {
+                    color: var(--text_link_color);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .sub_btn {
+    padding: 10px 50px;
+    border: none;
+  }
+}
+.cancel_mdl_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  min-width: 660px;
+  text-align: center;
+  background-color: $white;
+  border-radius: 3px;
+
+  .mdl_heading {
+    font-size: 23px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  .mdl_body {
+    padding: 50px 26px;
+  }
+  .mdl_subheading {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 25px;
+  }
+  p {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .refamount {
+    font-weight: 600;
+    font-size: 20px;
+  }
+  .cancel_btn {
+    border: 1px solid var(--text_link_color);
+    border-radius: 3px;
+    padding: 10.5px 35.5px 10.5px;
+    background-color: $white;
+    color: var(--text_link_color);
+  }
+  .sub_btn {
+    border: 1px solid var(--text_link_color);
+    border-radius: 3px;
+    padding: 10.5px 35.5px 10.5px;
+  }
+}
+
+.q_recordLink {
+  color: var(--text_link_color);
+  border: 1px solid var(--text_link_color);
+  padding: 5px 8px;
+  border-radius: 3px;
+}
+::ng-deep {
+  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background: var(--text_link_color) !important;
+    top: 3px !important;
+    height: 14px !important;
+    width: 14px !important;
+  }
+
+  .mat-checkbox-frame {
+    border: 1px solid var(--text_link_color) !important ;
+    top: 3px !important;
+    height: 14px !important;
+    width: 14px !important;
+    //   border-color: var(--text_link_color) !important;
+  }
+
+  .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+  .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+    background: var(--text_link_color) !important;
+  }
+}

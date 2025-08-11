@@ -1,0 +1,51 @@
+<app-header *ngIf="deepLinkType !== 'SEARCH' && deepLinkType !== 'PAYMENT_LINK'"></app-header>
+
+<div *ngIf="deepLinkType !== 'SEARCH' && deepLinkType !== 'PAYMENT_LINK'" class="Travel_starts">
+  <h4 class="text-center">Travel starts with searching for flights</h4>
+  <div *ngIf="flightSearchInfo" class="routes_deepLinks">
+    <div class="row">
+      <div class="col-4 p-rxs-0">
+        <span *ngIf="flightSearchInfo && flightSearchInfo.itineraries" class="route_cities"
+          >{{ flightSearchInfo.itineraries[0].dept_city.code }}
+        </span>
+        <div class="routes_date">
+          {{ getDeptDate(flightSearchInfo.itineraries[0].dept_date) }}
+        </div>
+      </div>
+      <div class="col-4 text-center">
+        <img ImageSrc src="./../../assets/icons/flight_icon_deep-link.svg" width="100px" alt="icon" loading="lazy" />
+        <div class="cabinClass">
+          {{ flightSearchInfo.cabinClass.display }}
+        </div>
+      </div>
+      <div class="col-4 text-right p-lxs-0">
+        <span *ngIf="flightSearchInfo.itineraries.length == 2" class="route_cities">{{
+          flightSearchInfo.itineraries[flightSearchInfo.itineraries.length - 1].dept_city.code
+        }}</span>
+        <span *ngIf="flightSearchInfo.itineraries.length > 2" class="route_cities">{{
+          flightSearchInfo.itineraries[flightSearchInfo.itineraries.length - 1].arr_city.code
+        }}</span>
+        <span *ngIf="flightSearchInfo.itineraries.length == 1" class="route_cities">{{
+          flightSearchInfo.itineraries[0].arr_city.code
+        }}</span>
+        <div *ngIf="flightSearchInfo.tripType !== 'return'" class="routes_date">
+          {{ getDeptDate(flightSearchInfo.itineraries[0].dept_date) }}
+        </div>
+        <div *ngIf="flightSearchInfo.tripType == 'return'" class="routes_date">
+          {{ flightSearchInfo.itineraries[flightSearchInfo.itineraries.length - 1].arr_date | date: 'd MMM yyyy' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 traveller_info_deepLinks">
+        <div class="pax_icn">
+          <img ImageSrc src="./../../assets/icons/traveller-icon-loader.svg" alt="traveller" />
+        </div>
+        <div class="pax_icn_num">
+          {{ travellerCount }} <span>{{ getPaxCount(travellerCount) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,163 @@
+<app-header></app-header>
+<div
+  *ngIf="bookingInfo && (responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md')"
+  class="d-block d-lg-none bg-white rounded px-3 pt-3"
+>
+  <app-mweb-flight-trip-summary></app-mweb-flight-trip-summary>
+  <section class="coupon_info_section mt-3 d-none">
+    <app-coupons-info></app-coupons-info>
+  </section>
+</div>
+
+<div class="payment_view_page">
+  <div class="p-0 container">
+    <div class="row mx-0">
+      <div class="col-12 col-lg-8">
+        <section class="payment_cards_section" *ngIf="!showIframe">
+          <ul class="nav nav-tabs card-header-tabs m-0" id="myTab" role="tablist">
+            <li class="nav-item" *ngIf="isMethodAvailable('CC')">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: selectedOptionActive('CC') }"
+                id="credit-tab"
+                data-toggle="tab"
+                href="#creditCard-tab"
+                role="tab"
+                aria-controls="creditCard-tab"
+                aria-selected="true"
+                (click)="getSelectedPaymentOption('CC')"
+                ><span class="option_name">Credit/Debit Card</span></a
+              >
+            </li>
+            <li class="nav-item" *ngIf="isMethodAvailable('CASH') || isMethodAvailable('REFT')">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: selectedOptionActive('Wallet') }"
+                id="wallet-Tab"
+                data-toggle="tab"
+                href="#wallet-tab"
+                role="tab"
+                aria-controls="wallet-tab"
+                aria-selected="false"
+                (click)="getSelectedPaymentOption('Wallet')"
+                ><span class="option_name">Wallet</span></a
+              >
+            </li>
+            <li class="nav-item" *ngIf="isMethodAvailable('EFT') &&  b2bApiService.hasPermissionForReservedBookings() ">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: selectedOptionActive('EFT') }"
+                id="eft-Tab"
+                data-toggle="tab"
+                href="#eft-tab"
+                role="tab"
+                aria-controls="eft-tab"
+                aria-selected="false"
+                (click)="getSelectedPaymentOption('EFT')"
+                ><span class="option_name">EFT</span></a
+              >
+            </li>
+          </ul>
+          <div class="paymentCardBody">
+            <div class="tab-content" id="myTabContent">
+              <div
+                class="tab-pane fade"
+                [ngClass]="{ active: selectedOptionActive('CC'), show: selectedOptionActive('CC') }"
+                id="creditCard-tab"
+                role="tabpanel"
+                aria-labelledby="creditCard-tab"
+              >
+                <app-card-payments></app-card-payments>
+              </div>
+              <div
+                class="tab-pane wallet_selected fade"
+                [ngClass]="{ active: selectedOptionActive('Wallet'), show: selectedOptionActive('Wallet') }"
+                id="wallet-tab"
+                role="tabpanel"
+                aria-labelledby="wallet-tab"
+              >
+                <app-wallet
+                  #paymentCard
+                  (moneyAddedtoWallet)="moneyAddedtoWallet($event)"
+                  (showWalletHistory)="showWalletHistory($event)"
+                ></app-wallet>
+              </div>
+
+              <div
+                class="tab-pane fade eft_selected"
+                [ngClass]="{ active: selectedOptionActive('EFT'), show: selectedOptionActive('EFT') }"
+                id="eft-tab"
+                role="tabpanel"
+                aria-labelledby="eft-tab"
+              >
+                <app-wallet
+                  #paymentCard
+                  (moneyAddedtoWallet)="moneyAddedtoWallet($event)"
+                  (showWalletHistory)="showWalletHistory($event)"
+                ></app-wallet>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="shouldShowWalletHistoryDetails" class="d-none d-lg-block">
+            <div *ngIf="walletHistory.length != 0">
+              <div>
+                <app-wallet-history [walletData]="walletHistory"></app-wallet-history>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="payment_cards_section d-none" *ngIf="!showIframe">
+          <span class="no-gateway">There are no payment options available for the selected region at present.</span>
+        </section>
+
+        <section class="iframe_payment_gateway" *ngIf="showIframe">
+          <div class="sec_header pb-4">
+            <h3 translate>Select method of payment</h3>
+          </div>
+
+          <div class="iframe_section bg-white">
+            <div>
+              <h6 translate>Redirect Gateway</h6>
+            </div>
+            <!--{{iframeUrl}}-->
+            <div class="clearfix"></div>
+            <hr />
+            <iframe
+              class="e2e-iframe-untrusted-src"
+              style="display: block; height: 900px"
+              height="900"
+              width="100%"
+              [src]="iframeUrl"
+              id="redirectGatewayIFrame"
+              title="Instant EFT"
+            >
+              <div class="modal__text--message" class="modal__text--message">
+                <span translate>Your browser does not support iFrames.</span>
+              </div>
+            </iframe>
+          </div>
+        </section>
+      </div>
+      <div class="col-sm-4 pr-0" *ngIf="bookingInfo || paymentDeeplinkData">
+        <section class="coupon_info_section d-none">
+          <app-coupons-info></app-coupons-info>
+        </section>
+        <section
+          [ngClass]="
+            responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'
+              ? 'fares_display_section'
+              : ''
+          "
+        >
+          <app-booking-summary
+            #bookingSummary
+            (parentFun)="processPayment()"
+            [isLoading]="isLoading"
+            [cc_processFee]="cc_ProcessingFee"
+          ></app-booking-summary>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

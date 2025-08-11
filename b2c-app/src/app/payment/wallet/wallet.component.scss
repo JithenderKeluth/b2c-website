@@ -1,0 +1,551 @@
+@import "./../../../theme/theme-variables.scss";
+@import "./../../../theme/custom-overlay.scss";
+
+::placeholder {
+  color: rgb(104 113 137 / 35%);
+  opacity: 1;
+  /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgb(104 113 137 / 35%);
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgb(104 113 137 / 35%);
+}
+
+.payment_failedtext {
+  font-size: 13px;
+  font-weight: 500;
+  color: $color-neutral-400;
+
+  a {
+    color: $color-link-blue;
+  }
+}
+
+#success_modal {
+  @media (min-width: 456px) {
+    .modal-dialog {
+      width: 80%;
+      max-width: 456px;
+    }
+  }
+}
+
+.main-section {
+  margin: 35px;
+
+  .img_section {
+    width: 80% !important;
+  }
+
+  .success_text {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 7px 2px 0;
+    color: $color-teal-600;
+  }
+
+  .payment_section {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: $pewterBlue;
+  }
+
+  .click_btn {
+    border: none;
+    color: $white;
+    margin: 19.5px 0 0;
+    border-radius: 2px;
+    width: 100% !important;
+    padding: 6.5px 97px 7.5px 95.5px;
+    background-color: $color-blue-500;
+  }
+}
+
+.proceed_txt {
+  font-size: 12px;
+
+  a {
+    color: var(--text_link_color);
+  }
+}
+
+.modal-dialog {
+  @media (max-width: map-get($grid-breakpoints, sm)) {
+    margin: 0px !important;
+  }
+
+  .modal-content {
+    @media (max-width: map-get($grid-breakpoints, sm)) {
+      max-width: 350px !important;
+
+      .modal-body {
+        .main-section {
+          margin: 5px;
+        }
+      }
+    }
+
+    @media (max-width: map-get($grid-breakpoints, md)) {
+      max-width: 400px;
+      margin: auto !important;
+    }
+  }
+}
+
+/**updated New-UI section styles*/
+
+.payments_sec {
+  background-color: $white;
+  padding: 20px;
+  border-radius: 12px;
+
+  .payment_sec_head {
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0px 0px 20px 0px;
+  }
+
+  .payment_sec_body {
+    .is_sufficient_mny {
+      color: red;
+      font-size: 14px;
+
+      .fa {
+        color: red;
+      }
+    }
+
+    .wallet_balance_card {
+      border-radius: 8px;
+      background-image: linear-gradient(150deg, #464589 29%, #0f0f44 82%);
+      padding: 20px;
+      color: #fff;
+      min-height: 230px;
+      max-width: 400px;
+
+      .wallet_text {
+        font-size: 14px;
+        text-transform: uppercase;
+      }
+
+      .total_balance {
+        font-size: 24px;
+        margin: 5px 0px;
+
+        .infoImg {
+          width: 16px;
+          position: relative;
+          top: -2px;
+        }
+      }
+
+      .add_money_btn {
+        color: var(--text_link_color);
+        text-transform: uppercase;
+        font-size: 10px;
+        border-radius: 8px;
+        padding: 10px 20px;
+        border: 1px solid var(--border_active_color);
+        width: 120px;
+
+        img {
+          position: relative;
+          top: -1px;
+        }
+      }
+
+      .pay_btn {
+        background-color: #27a861;
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 12px;
+        border-radius: 8px;
+        padding: 8px 30px;
+        width: 120px;
+      }
+
+      .walletLoad {
+        position: absolute;
+        bottom: 30px;
+      }
+    }
+
+    .bank_details_sec {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+
+      .bank_details_head {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 5px 0px;
+      }
+
+      .bank_details_desc {
+        font-size: 14px;
+        color: #3e4662;
+      }
+
+      .bank_details_subhead {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 3px 0px;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+
+        .banksList {
+          display: inline-block;
+          margin: 10px 15px 0 0;
+          padding: 15px;
+          border-radius: 10px;
+          border: solid 1px #c0c4d8;
+          background-color: #f5f7fa;
+          min-width: 300px;
+
+          .bankName {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+          }
+
+          .bank_desc {
+            margin: 5px 0px;
+
+            .desc_labl {
+              color: #99a0bf;
+              font-size: 10px;
+              text-transform: uppercase;
+            }
+
+            .desc_val {
+              font-size: 14px;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .reserveSec {
+    margin: 15px 0px;
+
+    .reserveNowCTA {
+      width: 100%;
+      max-width: 400px;
+
+      img {
+        position: relative;
+        top: -2px;
+      }
+    }
+  }
+}
+
+/*css for nav tabs*/
+.nav-tabs {
+  border-bottom: 1px solid $gray-300;
+
+  .nav-item {
+    padding: 0 10px;
+
+    @media (max-width: map-get($grid-breakpoints, md)) {
+      padding: 0 5px;
+    }
+
+    .nav-link {
+      border: none;
+      color: $color-neutral-600;
+      font-size: 14px;
+
+      @media (max-width: map-get($grid-breakpoints, sm)) {
+        padding: 0.5rem 2.2rem;
+        text-transform: capitalize;
+        font-weight: 500;
+
+        @media (max-width: map-get($grid-breakpoints, md)) {
+          padding: 0.5rem 1rem;
+        }
+      }
+
+      &.active {
+        border-bottom: 2px solid $color-link-blue;
+        color: $color-link-blue;
+        font-weight: 500;
+
+        @media (max-width: map-get($grid-breakpoints, sm)) {
+          border-bottom: 3px solid $color-link-blue;
+        }
+      }
+    }
+  }
+}
+
+/**D-commits*/
+.addMoneyToWallet_Modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  min-width: 600px;
+  max-height: 600px;
+
+  .addMoneyToWallet_sec {
+    background-color: #fff;
+    border-radius: 10px;
+    min-height: 400px;
+
+    .addMoneyToWallet_heading {
+      font-size: 16px;
+      border-bottom: 2px solid #e7e9f2;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 15px 25px;
+    }
+
+    .addMoneyToWallet_container {
+      padding: 15px 25px;
+    }
+  }
+
+  .close_img {
+    cursor: pointer;
+  }
+}
+
+.selected_EFT_DetailsSec {
+  .headingSec {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 20px;
+
+    .desc_sec {
+      font-size: 13px;
+      font-weight: 500;
+      margin-top: 10px;
+
+      .helpLink {
+        color: var(--text_link_color);
+      }
+    }
+  }
+
+  .EFT_payment_Details {
+    box-shadow: 0 1px 3px 0 rgba(35, 64, 99, 0.29);
+    border-radius: 8px;
+
+    .bank_details {
+      .heading {
+        color: var(--text_primary_color);
+        font-size: 20px;
+        font-weight: 500;
+        padding: 10px 15px;
+      }
+    }
+
+    .banksList {
+      list-style-type: none;
+      padding: 0;
+
+      .banksListItem {
+        .table {
+          tr:nth-child(2n+1) {
+            background-color: #f7f8fa;
+          }
+
+          th,
+          td {
+            font-size: 13px;
+            color: var(--text_primary_color);
+            padding: 10px 15px;
+            border-top: none !important;
+
+          }
+
+        }
+
+        .paymentAmountSec {
+          padding: 10px;
+          border: none !important;
+          border-top: 2px solid var(--border_default_color) !important;
+          border-radius: 0 !important;
+
+          .price {
+            display: inline-block;
+            line-height: 1.4;
+
+            .labl {
+              color: var(--text_info_color);
+              font-size: 12px;
+              margin: 0;
+            }
+
+            .price_labl {
+              color: var(--text_primary_color);
+              font-size: 20px;
+              font-weight: 600;
+              margin: 0;
+            }
+          }
+
+          .pay {
+            float: right;
+
+            .btn {
+              border-radius: 3px;
+              padding: 8px 15px;
+
+              a {
+                font-size: 14px;
+                font-weight: 500;
+                text-decoration: none;
+                color: $white;
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .payment_sec_head {
+    font-size: 16px !important;
+    padding: 15px !important;
+  }
+
+  .wallet_balance_card {
+    width: 100% !important;
+    min-height: 210px !important;
+
+    .add_money_btn,
+    .pay_btn {
+      width: 100% !important;
+    }
+  }
+
+  .bank_details_head {
+    font-size: 14px !important;
+  }
+
+  .banksList {
+    width: 100% !important;
+  }
+
+  .addMoneyToWallet_Modal {
+    width: calc(100% - 20px) !important;
+    margin: auto !important;
+  }
+
+  .EFT_failed {
+    width: calc(100% - 20px) !important;
+
+    .paymnt_addlTxt {
+      width: 100% !important;
+    }
+  }
+
+  .eft_cards {
+    .bankLogo {
+      height: 20px !important;
+    }
+
+    .eftPaynowBtn {
+      padding: 5px 10px !important;
+    }
+  }
+
+}
+
+.EFT_failed {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  width: 50%;
+
+  .failed_modal_body {
+    padding: 40px 30px;
+  }
+
+  .dialog_content {
+    width: 450px;
+  }
+
+  .ok-btn {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    height: 34px;
+    color: $white;
+    padding: 4px 29px;
+    margin-top: 14px;
+  }
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background: var(--primary_btn_bg) !important;
+}
+
+.eft_methods {
+  .eft_cards {
+    .eft_Info {
+      width: 15px;
+      margin-right: 2px;
+    }
+
+    .selectbank_Info {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .selectbank_desc {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      font-size: 14px;
+      display: block;
+
+      .card_active {
+        border: 1.5px solid var(--border_active_color);
+        background-color: var(--flight_selected_Bg);
+      }
+
+      li {
+        border: 1px solid var(--border_default_color);
+        border-radius: 6px;
+        padding: 5px 15px;
+        display: block;
+
+        .bankLogo {
+          cursor: pointer;
+          height: 40px;
+          margin: 10px;
+          border-radius: 3px;
+        }
+
+        .eftPaynowBtn {
+          font-size: 14px;
+          padding: 5px 15px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,105 @@
+<div class="container pl-0" *ngIf="searchesArray && searchesArray.length > 0">
+  <div class="recent_searches">
+    <div class="sec_title">
+      <h1 translate>Recent searches</h1>
+    </div>
+    <div class="past_search_list">
+      <ul class="lists">
+        <li class="mt-1" *ngFor="let searches of searchesArray; let i = index">
+          <div>
+            <div class="jour" (click)="searchRoute(searches)">
+              <div class="search_val" *ngIf="searches.tripType !== 'multi'">
+                <div class="recent_search">
+                  <span class="air white_clr" placement="top" [ngbTooltip]="searches.itineraries[0].dept_city.city">{{
+                    searches.itineraries[0].dept_city.iata
+                  }}</span>
+                  <div class="clearfix"></div>
+                </div>
+
+                <div class="recent_search p-0 text-center">
+                  <span class="dur mx-3">
+                    <img
+                      *ngIf="searches.tripType == 'return'"
+                      ImageSrc
+                      src="./../../../../assets/images/round_trip_arw.svg"
+                      alt="path"
+                      width="12px"
+                      height="12px"
+                    />
+                    <img
+                      *ngIf="searches.tripType == 'oneway'"
+                      ImageSrc
+                      src="./../../../../assets/icons/one_way_arw.svg"
+                      alt="path"
+                      width="12px"
+                      height="12px"
+                      loading="lazy"
+                    />
+                  </span>
+                </div>
+                <div class="recent_search">
+                  <span
+                    *ngIf="searches.tripType !== 'multi' && searches.itineraries.length != 2"
+                    class="air white_clr"
+                    placement="top"
+                    [ngbTooltip]="searches.itineraries[searches.itineraries.length - 1].arr_city.city"
+                    >{{ searches.itineraries[searches.itineraries.length - 1].arr_city.iata }}</span
+                  >
+                  <span
+                    *ngIf="searches.tripType === 'return' && searches.itineraries.length == 2"
+                    class="air white_clr"
+                    placement="top"
+                    [ngbTooltip]="searches.itineraries[0].arr_city.iata"
+                  >
+                    {{ searches.itineraries[0].arr_city.iata }}
+                  </span>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+              <div class="search_val">
+                <div class="multiSearch" *ngIf="searches.tripType == 'multi'">
+                  <span class="test" *ngFor="let itinerary of searches.itineraries">
+                    <span class="air white_clr" placement="top" [ngbTooltip]="itinerary.dept_city.city">{{
+                      itinerary.dept_city.iata
+                    }}</span>
+                    <span class="recent_search">
+                      <span class="dur mx-1">
+                        <img
+                          *ngIf="searches.tripType == 'multi'"
+                          ImageSrc
+                          src="./../../../../assets/icons/one_way_arw.svg"
+                          alt="path"
+                          width="12px"
+                          height="12px"
+                          loading="lazy"
+                        />
+                      </span>
+                    </span>
+                    <span
+                      *ngIf="itinerary.arr_city"
+                      class="air white_clr"
+                      placement="top"
+                      [ngbTooltip]="itinerary.arr_city.city"
+                    >
+                      {{ itinerary.arr_city.iata }}
+                    </span>
+                    <div class="labl">
+                      {{ getDepartureDate(itinerary.dept_date) }}
+                    </div>
+                  </span>
+                </div>
+              </div>
+
+              <div *ngIf="searches.tripType !== 'multi'" class="">
+                <span class="labl p-0 text-center">{{ getDepartureDate(searches.itineraries[0].dept_date) }}</span>
+                <span *ngIf="searches.tripType == 'return'" class="labl p-0 text-center">
+                  <span class="mx-2">-</span> {{ searches.itineraries[0].arr_date | date: 'MMM d' }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

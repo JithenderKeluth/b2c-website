@@ -1,0 +1,468 @@
+<div *ngIf="countryValue !== 'MM'">
+  <mat-sidenav #sidenav mode="push">
+    <a class="float-right mt-2 pr-3 pl-3 close_nav" (click)="sidenav.toggle()"
+      ><span>
+        <img ImageSrc src="../../assets/icons/close_cross_icn.svg" height="16px" width="16px" alt="close" /> </span
+    ></a>
+    <div class="clearfix"></div>
+    <div *ngIf="!username() && countryValue !== 'FS'" class="auth_sect">
+      <a data-toggle="modal" rel="nofollow" (click)="loginSignupClick()" data-target="#loginModal">
+        <span>
+          <img ImageSrc src="../../../../assets/icons/srp_Icons/menu-user-icn-new.svg" alt="menu-user-icn-new"
+        /></span>
+        <ul>
+          <li>Hello there!</li>
+          <li class="login">Login / Signup</li>
+        </ul>
+      </a>
+    </div>
+
+    <mat-nav-list>
+      <a *ngIf="!iframeWidgetService.isWhiteLabelSite()"
+        mat-list-item
+        class="tp-section"
+        rel="nofollow"
+        routerLinkActive="active"
+        (click)="sidenav.close(); hideLoader();captureLink('flights')"
+        ><span class="iconW"
+          ><img ImageSrc src="../../assets/icons/flijght_sidemenu.svg" width="22px" height="20px" alt="flight" /></span
+        ><span translate>Flights</span>
+      </a>
+
+      <span *ngIf="showBusesBtn && !iframeWidgetService.isWhiteLabelSite()">
+        <ng-container *ngTemplateOutlet="buses_link_mweb"> </ng-container>
+      </span>
+
+      <a *ngIf="!iframeWidgetService.isWhiteLabelSite()"
+        mat-list-item
+        class="tp-section"
+        [routerLink]="[]"
+        rel="nofollow"
+        routerLinkActive="active"
+        (click)="captureLink('Hotels')"
+        ><span class="iconW"
+          ><img ImageSrc src="../../assets/icons/hotel_sidemenu.svg" width="16px" height="25px" alt="stays" /></span
+        ><span translate>Stays</span>
+      </a>
+      <a 
+        mat-list-item
+        class="tp-section"
+        [routerLink]="[]"
+        rel="nofollow"
+        routerLinkActive="active"
+        (click)="captureLink('Cars')"
+        *ngIf="!iframeWidgetService.isWhiteLabelSite() && countryValue !== 'FS'"
+        ><span class="iconW"
+          ><img ImageSrc src="../../assets/icons/car_sidemenu.svg" width="22px" height="18px" alt="cars" /></span
+        ><span translate>Cars</span>
+      </a>
+
+      <span *ngIf="countryValue === 'ZA' && !iframeWidgetService.isWhiteLabelSite()">
+        <ng-container *ngTemplateOutlet="buses_link_mweb"> </ng-container>
+      </span>
+
+      <a
+        *ngIf="username() && countryValue !== 'FS'"
+        mat-list-item
+        class="tp-section"
+        rel="nofollow"
+        routerLinkActive="active"
+        (click)="navigateToBookings()"
+      >
+        <span class="iconW"
+          ><img ImageSrc src="./assets/icons/v1-icons/mytrips_icon.svg" width="16px" height="28px" alt="img" /></span
+        ><span translate>My Trips</span>
+      </a>
+
+      <a translate mat-list-item class="tp-section" rel="nofollow" routerLinkActive="active" (click)="goToContactUs()"
+        ><span class="iconW"
+          ><img ImageSrc src="../../assets/icons/help-header.svg" width="20px" height="20px" alt="Contact us" /></span
+        ><span translate>Help</span>
+      </a>
+
+      <a
+        rel="nofollow"
+        *ngIf="hideForWhitelabels()"
+        mat-list-item
+        class="tp-section"
+        routerLinkActive="active"
+        (click)="captureLink('packages')"
+      >
+        <span class="iconW"
+          ><img ImageSrc src="../../assets/icons/packages-icn.svg" width="25px" height="21px" alt="packages" /></span
+        ><span translate>Packages</span>
+      </a>
+
+      <a
+        rel="nofollow"
+        *ngIf="countryValue === 'ZA' && !iframeWidgetService.isWhiteLabelSite()"
+        mat-list-item
+        class="tp-section"
+        routerLinkActive="active"
+        (click)="captureLink('corporateTravel')"
+      >
+        <span class="iconW"
+          ><img
+            ImageSrc
+            src="../../assets/icons/corporate_travel.svg"
+            width="25px"
+            height="21px"
+            alt="corporateTravel" /></span
+        ><span translate>Corporate Travel</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <div *ngIf="countryValue !== 'ABSA'" class="wrapper">
+    <div class="toolbar" *ngIf="iframeWidgetService.isShowComponent()">
+      <mat-toolbar>
+        <div class="container p-0">
+          <button *ngIf="isShowHeaderLinks()" mat-icon-button class="d-lg-none" (click)="sidenav.toggle()">
+            <span class="mat-button-wrapper"><i class="fa fa-bars" aria-hidden="true"></i></span>
+          </button>
+
+          <span *ngIf="!iframeWidgetService.isWhiteLabelSite() && countryValue !== 'FS'">
+            <a class="branding spacer d-inline d-sm-none" (click)="hideLoader()">
+              <img
+                ImageSrc
+                class="logoTS branding_img"
+                src="../../../../assets/images/travelstart-new-brand-logo.svg"
+                alt="travelstart"
+            /></a>
+            <a class="branding center d-none d-sm-inline d-md-none" (click)="hideLoader()"
+              ><img
+                ImageSrc
+                class="logoTS branding_img"
+                src="../../../../assets/images/travelstart-new-brand-logo.svg"
+                alt="travelstart"
+            /></a>
+            <a class="branding d-none d-md-inline" (click)="hideLoader()">
+              <img
+                ImageSrc
+                class="logoTS branding_img"
+                src="../../../../assets/images/travelstart-new-brand-logo.svg"
+                alt="travelstart"
+            /></a>
+          </span>
+
+          <!--MasterCard whitelabel-->
+          <span *ngIf="this.iframeWidgetService.isWhiteLabelSite()">
+            <span class="mc_logo">
+                <img
+                  ImageSrc
+                  class="logoTS mr-1"
+                  src="../../../../assets/images/travelstart-new-brand-logo.svg"
+                  alt="Mastercard"
+                  (click)="hideLoader()"
+                />
+             <img
+              ImageSrc
+              src="./../../../../assets/icons/v1-icons/master-card-logo-lp.svg"
+              alt="mc_logo"
+              width="140px"
+            />
+            </span>
+
+          </span>
+
+          <span *ngIf="countryValue == 'FS'">
+            <a class="branding spacer" (click)="hideLoader()" target="_self" rel="noopener">
+              <img
+                class="logoFS"
+                [style.padding-left]="isShowHeaderLinks() ? '0' : '15px'"
+                src="https://cdn1.travelstart.com/assets/flight-site-assets/flight_site_logo.png"
+                alt="flight site"
+            /></a>
+          </span>
+
+          <div class="branding spacer d-none d-lg-inline nav_buttons ml-xl-4" *ngIf="isShowHeaderLinks()">
+            <ul [style.top]="countryValue !== 'FS' ? '6px' : '3px'">
+              <li routerLinkActive="active" *ngIf="!iframeWidgetService.isWhiteLabelSite()">
+                <button class="nav-button btn" name="flights" aria-label="Book Flights" (click)="hideLoader()">
+                  <span class="c-val" translate>Flights</span>
+                </button>
+              </li>
+              <li *ngIf="showBusesLabel()">
+                <ng-container *ngTemplateOutlet="buses_link_web"></ng-container>
+              </li>
+              <li *ngIf="!iframeWidgetService.isWhiteLabelSite()">
+                <button class="nav-button btn" name="hotels" aria-label="Find Hotels" (click)="captureLink('Hotels')">
+                  <span class="c-val" translate>Stays</span>
+                </button>
+              </li>
+              <li *ngIf="!this.iframeWidgetService.isWhiteLabelSite() && countryValue !== 'FS'">
+                <button
+                  class="nav-button btn"
+                  name="cars"
+                  aria-label="Rent Cars"
+                  routerLinkActive="active"
+                  (click)="captureLink('Cars')"
+                >
+                  <span class="c-val" translate>Cars</span>
+                </button>
+              </li>
+              <li *ngIf="hideForWhitelabels()">
+                <ng-container *ngTemplateOutlet="buses_link_web"></ng-container>
+              </li>
+              <li *ngIf="hideForWhitelabels()">
+                <button
+                  class="nav-button btn"
+                  name="packages"
+                  aria-label="Book Packages"
+                  routerLinkActive="active"
+                  (click)="captureLink('packages')"
+                >
+                  <span class="c-val" translate>Packages</span>
+                </button>
+              </li>
+              <li *ngIf="countryValue == 'ZA' && !iframeWidgetService.isWhiteLabelSite()">
+                <button
+                  class="nav-button btn"
+                  name="corporateTravel"
+                  aria-label="Corporate Travel"
+                  routerLinkActive="active"
+                  (click)="captureLink('corporateTravel')"
+                >
+                  <span class="c-val" translate>Corporate Travel</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="d-inline pl-lg-5 pr-0">
+            <ul class="navbar-nav pl-lg-5 float-right">
+              <li *ngIf="showTsPlus()" (click)="upgradeTsPlus()" class="nav-item upgrade">
+                <div class="px-1 px-lg-3">
+                  <img
+                    ImageSrc
+                    src="../../../../assets/images/ts-plus-images/ts_plus_icn.svg"
+                    alt="upgrade"
+                    width="28px"
+                  />
+                  <a class="intro-banner-vdo-play-btn pinkBg" target="_blank" [style.left]="username()">
+                    <span class="ripple pinkBg"></span>
+                    <span class="ripple pinkBg"></span>
+                    <span class="ripple pinkBg"></span>
+                  </a>
+                </div>
+              </li>
+
+              <li class="nav-item dropdown div px-1" data-toggle="dropdown">
+                <a class="nav-link text-light captalize" rel="nofollow" (click)="goToContactUs()">
+                  <span
+                    ><img
+                      ImageSrc
+                      src="../../assets/icons/v1-icons/help-header.svg"
+                      width="22px"
+                      height="100%"
+                      alt="Contact us"
+                  /></span>
+                  <span
+                    translate
+                    class="captalize helpTxt d-none d-lg-inline"
+                    [style.border-right]="countryValue !== 'FS' ? '1px solid #d9d9d9' : 'none'"
+                    >Help</span
+                  ></a
+                >
+              </li>
+
+              <li class="nav-item px-1 d-none d-lg-inline-block" *ngIf="username() && countryValue !== 'FS'">
+                <a
+                  class="nav-link text-light px-2"
+                  rel="nofollow"
+                  (click)="navigateToBookings()"
+                >
+                  <div class="">
+                    <span class="mng_img">
+                      <img
+                        ImageSrc
+                        src="./assets/icons/v1-icons/mytrips_icon.svg"
+                        alt="Bookings"
+                        height="100%"
+                        width="22px"
+                      />
+                    </span>
+                    <span class="manage_lbl">
+                      <span translate class="mng_lnl helpTxt">Manage Bookings</span>
+                    </span>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item username">
+                <ng-container *ngTemplateOutlet="userNameSection"> </ng-container>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-toolbar>
+    </div>
+  </div>
+</div>
+
+<div class="momentumHeaderSec" *ngIf="countryValue == 'MM'">
+  <div class="container p-0 d-flex align-items-center">
+    <div class="backToDashboardSec" *ngIf="!isHomePage() || isValidCarWidgetPage">
+      <span class="backtoDashboard" (click)="goToBackPage()">
+        <img ImageSrc src="./assets/images/ts+landing/back-arrow.svg" alt="back-arrow" class="backIcn" />
+      </span>
+      <span class="mmp_logo"
+        ><img ImageSrc src="./assets/images/ts+landing/momentum_logo.svg" loading="lazy" alt="momentum_logo"
+      /></span>
+    </div>
+    <div class="tabSection" *ngIf="!isHomePage() || isValidCarWidgetPage">
+      <button *ngIf="activeButton !== 'flights'" class="btn defaultBtn" (click)="setActiveTab('flights')">
+        <span class="imgSec">
+          <img ImageSrc src="../../assets/images/ts+landing/flight_default.svg" alt="flight_default" />
+        </span>
+        <span class="d-none d-lg-inline">Flights</span>
+      </button>
+      <button *ngIf="activeButton == 'flights'" class="btn primary activeBtn" (click)="setActiveTab('flights')">
+        <span class="imgSec">
+          <img ImageSrc src="../../assets/images/ts+landing/active-color-flight.svg" alt="active-color-flight" />
+        </span>
+        <span class="d-none d-lg-inline">Flights</span>
+      </button>
+
+      <!-- Hotels Button -->
+      <button *ngIf="activeButton !== 'hotels'" class="btn defaultBtn" (click)="setActiveTab('hotels')">
+        <span class="imgSec">
+          <img ImageSrc src="../../assets/images/ts+landing/hotel_default.svg" alt="hotel_default" />
+        </span>
+        <span class="d-none d-lg-inline">Hotels</span>
+      </button>
+      <button *ngIf="activeButton === 'hotels'" class="btn primary activeBtn" (click)="setActiveTab('hotels')">
+        <span class="imgSec">
+          <img ImageSrc src="../../assets/images/ts+landing/active-color-hotel.svg" alt="active-color-hotel" />
+        </span>
+        <span class="d-none d-lg-inline">Hotels</span>
+      </button>
+
+      <!-- Cars Button -->
+      <button *ngIf="activeButton !== 'cars'" class="btn defaultBtn" (click)="setActiveTab('cars')">
+        <span class="imgSec">
+          <img ImageSrc src="../../assets/images/ts+landing/cars_default.svg" alt="cars_default" />
+        </span>
+        <span class="d-none d-lg-inline">Cars</span>
+      </button>
+      <button *ngIf="activeButton === 'cars'" class="btn primary activeBtn" (click)="setActiveTab('cars')">
+        <span class="imgSec">
+          <img ImageSrc src="../../assets/images/ts+landing/active-color-car.svg" alt="active-color-car" />
+        </span>
+        <span class="d-none d-lg-inline">Cars</span>
+      </button>
+    </div>
+
+    <div class="momentumUserSec ml-auto">
+      <div class="momentum_InpirePlusSec mr-2 d-none d-lg-inline" *ngIf="getUserCredentials()?.data?.planDescription">
+        <img ImageSrc src="../../../../assets/images/ts+landing/momentumInpirePlus.svg" alt="momentumInpirePlus" />
+        <span>{{ getUserCredentials()?.data?.planDescription }} </span>
+      </div>
+      <div>
+        <ng-container *ngTemplateOutlet="userNameSection"> </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <app-booking-flowcoundown></app-booking-flowcoundown>
+</div>
+
+<!-- Modal -->
+
+<div
+  class="modal fade"
+  id="loginModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="loginModal"
+  data-keyboard="false"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" [ngClass]="[showLoader == true ? 'spinLoader' : '']">
+      <div>
+        <app-login (showLoader)="showSpinningLoader($event)" (loginUser)="loginSignupClick()"></app-login>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #buses_link_web>
+  <button
+    class="nav-button btn"
+    name="buses"
+    aria-label="Buses"
+    routerLinkActive="active"
+    (click)="captureLink('Buses')"
+  >
+    <span class="c-val" translate>Buses</span>
+    <span *ngIf="showBusesLabel()" class="bus_labl">NEW</span>
+  </button>
+</ng-template>
+
+<ng-template #buses_link_mweb>
+  <a translate mat-list-item class="tp-section" rel="nofollow" routerLinkActive="active" (click)="captureLink('Buses')"
+    ><span class="iconW"
+      ><img ImageSrc src="../../assets/icons/bus-icn.svg" width="20px" height="21px" alt="Buses" /></span
+    ><span translate>Buses</span>
+    <span *ngIf="showBusesLabel()" class="bus_labl">NEW</span>
+  </a>
+</ng-template>
+<!--user name related template-->
+<ng-template #userNameSection>
+  <div class="d-flex align-items-center userNameSec">
+    <div *ngIf="!username() && countryValue !== 'FS' && countryValue !== 'MM'">
+      <a class="userLink text-light" rel="nofollow" data-toggle="modal" (click)="loginSignupClick()"
+        ><img
+          ImageSrc
+          src="./../../../../assets/icons/v1-icons/user_icn.svg"
+          alt="my account"
+          class="mr-1"
+          width="22px"
+        />&nbsp;<span translate class="d-none d-lg-inline">My Account</span></a
+      >
+    </div>
+    <div *ngIf="username() && countryValue == 'MM'">
+      <button class="user_btn" (click)="goToManageBookings()">
+        <img ImageSrc src="./assets/icons/v1-icons/user_icn.svg" width="22px" alt="user" />&nbsp;
+        <span class="d-none d-lg-inline">{{ username() }}</span>
+      </button>
+    </div>
+    <div *ngIf="username() && countryValue !== 'FS' && countryValue !== 'MM'">
+      <button
+        [matMenuTriggerFor]="menu"
+        class="user_btn"
+        #trigger2="matMenuTrigger"
+        (mouseenter)="buttonEnter(trigger2)"
+        (mouseleave)="buttonLeave(trigger2)"
+      >
+        <img ImageSrc src="./assets/icons/v1-icons/user_icn.svg" width="22px" alt="user" />&nbsp;
+        <span class="d-none d-lg-inline">{{ username() }}</span>
+      </button>
+      <mat-menu #menu="matMenu" hasBackdrop="false">
+        <span (mouseenter)="menuenter()" (mouseleave)="menuLeave(trigger2)">
+          <button
+            (click)="goToMyAccount()"
+            name="profile"
+            aria-label="My Profile"
+            [disableRipple]="true"
+            mat-menu-item
+            routerLinkActive="active"
+          >
+            <span translate>My Profile</span>
+          </button>
+          <button
+            translate
+            mat-menu-item
+            [disableRipple]="true"
+            aria-label="Logout"
+            (click)="logout()"
+            *ngIf="countryValue !== 'MM'"
+          >
+            <span translate>Logout</span>
+          </button>
+        </span>
+      </mat-menu>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,38 @@
+@import "./../../../../theme/theme-variables.scss";
+
+.skeltonLoader {
+  .traveller_sec {
+    margin: 0.5rem;
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 3px 0 rgba(185, 194, 213, 0.76);
+    padding: 20px 10px;
+    .bor_top {
+      border-top: 1px solid #f0f2f7;
+    }
+    .flight_details {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      display: block;
+      width: 65%;
+    }
+    .price_sec_div {
+      background-color: #f0f2f7;
+    }
+  }
+  .fare_sec {
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 3px 0 rgba(185, 194, 213, 0.76);
+    height: max-content;
+    padding: 30px 15px;
+    width: 200px;
+  }
+}
+
+::ng-deep .loader {
+  @media (max-width: map-get($grid-breakpoints, lg)) {
+    height: 15px !important;
+  }
+}

@@ -1,0 +1,118 @@
+@import "./../../../../theme/theme-variables.scss";
+.wallet-balance {
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #edf1f9;
+  color: #101828;
+  font-size: 14px;
+  height: 164px;
+  .headingSec {
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .walletAmt {
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+
+  ul {
+    text-align: center;
+  }
+  h2 {
+    color: #101828;
+  }
+  .ligh-txt {
+    color: #667085;
+    font-size: 12px;
+  }
+  .btn-info {
+    border-radius: 50px;
+    background: #fff;
+    color: var(--text_link_color);
+    border-color: var(--border_active_color);
+    font-size: 12px;
+    display: block;
+    padding: 4px 10px;
+  }
+  .bld {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+.traveller_details {
+  background-color: #edf1f9;
+  padding: 15px;
+  font-size: 13px;
+  border-radius: 12px;
+  .travellerHeading {
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .activeLink {
+    color: var(--text_link_color);
+  }
+  .view_details_btn {
+    font-size: 14px;
+    padding: 5px 30px;
+  }
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  li {
+    display: inline-block;
+    margin: 0 10px;
+    width: auto;
+  }
+}
+.benfitsHeading {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.benefits {
+  ul {
+    li {
+      width: 31.1%;
+      border: 1px solid #ccc;
+      padding: 40px 15px;
+      margin: 0 6px;
+      height: 164px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+      a {
+        color: var(--text_primary_color);
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.mmf {
+  ul {
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .benefits {
+    li {
+      width: 30% !important;
+      margin: 0px 5px !important;
+      height: 140px !important;
+      padding: 30px 15px !important;
+    }
+  }
+  .benfitsHeading {
+    font-size: 20px !important;
+  }
+  .traveller_details .travellerHeading {
+    img {
+      height: 24px !important;
+    }
+  }
+}

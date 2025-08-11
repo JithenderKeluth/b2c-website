@@ -1,0 +1,47 @@
+@import "./../../../theme/theme-variables.scss";
+.cancel_mdl_dialog {
+  min-width: 660px;
+  text-align: center;
+  background-color: $white;
+  border-radius: 12px;
+
+  .mdl_heading {
+    font-size: 23px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  .mdl_body {
+    padding: 50px 26px;
+  }
+  .mdl_subheading {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 25px;
+  }
+  p {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .refamount {
+    font-weight: 600;
+    font-size: 20px;
+  }
+  .cancel_btn {
+    border: 1px solid $color-link-blue;
+    border-radius: 3px;
+    background-color: $white;
+    color: $color-link-blue;
+    text-transform: none;
+  }
+  .sub_btn {
+    border: 1px solid $color-link-blue;
+    border-radius: 3px;
+    background-color: $color-link-blue;
+    color: $white;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .cancel_mdl_dialog {
+    min-width: auto;
+  }
+}

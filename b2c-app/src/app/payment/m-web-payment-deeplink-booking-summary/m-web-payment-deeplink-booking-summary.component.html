@@ -1,0 +1,93 @@
+<div class="fare-info pb-3">
+  <div class="row">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="fares collapse" id="products">
+        <label class="selcted_adons pr-9 pt-2" translate>Price details</label>
+        <hr class="p-0 mt-2 mb-2" />
+        <div class="products_selected">
+          <table *ngIf="itineraryData?.fareBreakdown?.invoiceLines.length > 0" class="table" aria-describedby="fares">
+            <tr *ngFor="let product of itineraryData.fareBreakdown.invoiceLines; let idx = index">
+              <th class="tableData" id="{{ product.id }}" *ngIf="product.description">{{ product.description }}</th>
+              <td class="tableData" *ngIf="product.description" class="text-right">
+                {{ product.currencyCode | currencyCode }}{{ product.amount | number: '1.2-2' }}
+              </td>
+            </tr>
+          </table>
+          <hr class="p-0 mt-2 mb-2" />
+          <div *ngIf="showSelectedAddOns()" class="selctedAddOn">
+            <label class="pr-9">Add-ons</label>
+            <table class="table" aria-describedby="fares">
+              <tr *ngFor="let prod of addOnsSelected; let idx = index">
+                <th class="tableData" id="{{ prod.id }}" *ngIf="prod.initSelected">{{ prod.name }}</th>
+                <td class="prod_amt text-right tableData" *ngIf="prod.initSelected">
+                  {{ prod.currencyCode | currencyCode }}{{ prod.amount | number: '1.2-2' }}
+                </td>
+              </tr>
+              <tr *ngIf="processingFee">
+                <th  class="tableData" translate id="fees">Booking Fee</th>
+                <td class="prod_amt text-right tableData">
+                  {{ itineraryData.currencyCode | currencyCode }}{{ processingFee | number: '1.2-2' }}
+                </td>
+              </tr>
+              <tr *ngIf="discAmount">
+                <th class="tableData" translate id="discount">Discount applied</th>
+                <td class="prod_amt text-right tableData">
+                  -{{ itineraryData.currencyCode | currencyCode }}{{ getMinusAmt(discAmount) | number: '1.2-2' }}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="total_amt">
+    <div class="row">
+      <div
+        class="col-6"
+        (click)="showPriceIcon()"
+        data-toggle="collapse"
+        [attr.data-target]="responsiveservice.screenWidth === 'sm' ? '#products' : ''"
+      >
+        <span translate class="labl">TOTAL PRICE</span>
+
+        <span class="amt">
+          <span class="total">
+            {{ itineraryData.currencyCode | currencyCode
+            }}{{
+              getTotalAmount(itineraryData.totalAmount, itineraryData.fareBreakdown.totalOutstanding)
+                | currency: '' + ' ':'symbol':'2.0'
+            }}
+          </span>
+          <span class="d-inline d-lg-none">
+            <span class="angleIcon">
+              <i *ngIf="viewpriceDownIcon" aria-hidden="true" class="fa fa-angle-down"> </i>
+            </span>
+            <span class="angleIcon">
+              <i *ngIf="viewpriceUpIcon" aria-hidden="true" class="fa fa-angle-up"> </i>
+            </span>
+          </span>
+        </span>
+      </div>
+      <div class="col-6 text-right text-lg-center mt-3">
+        <span *ngIf="locationName !== '/payments'">
+          <button type="button" aria-label="Continue" (click)="continuePayment()" class="btn btn-primary continueBTn">
+            Continue
+          </button>
+        </span>
+        <span *ngIf="paymentMethods && locationName == '/payments'">
+          <button
+            type="button"
+            aria-label="Pay now"
+            (click)="payNow()"
+            [disabled]="isLoading"
+            class="btn primary_btn continueBTn"
+          >
+            <i class="fa fa-spinner fa-spin" style="font-size: 24px" [hidden]="!isLoading" aria-hidden="true"></i>
+            Pay now
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

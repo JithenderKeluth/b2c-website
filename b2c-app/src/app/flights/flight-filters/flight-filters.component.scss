@@ -1,0 +1,822 @@
+@import "./../../../theme/theme-variables.scss";
+
+.tabs_list {
+  .nav-tabs {
+    display: flex !important;
+
+    .nav-item {
+      padding: 0 5px;
+
+      .nav-link {
+        border: none;
+        color: $color-neutral-600;
+        font-size: 14px;
+
+        &.active {
+          border-bottom: 2px solid var(--border_active_color);
+          color: var(--text_link_color);
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+.tab-content {
+  animation: fadeInAnimation ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+.apply,.reset {
+  font-size: 14px;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.mat-tab-body {
+  padding: 20px;
+}
+
+.mat-tab-body.mat-tab-body-active {
+  animation: fade 1s;
+}
+
+.pt-filters {
+  padding-top: 10px !important;
+}
+.mar_baggage {
+  margin-bottom: 20px;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.filters {
+  .filters_lists {
+    padding: 4px 0px;
+    margin-bottom: 1.2em;
+
+    ul {
+      display: block;
+      background-color: var(--filter_strip_bg);
+
+      li {
+        display: inline-block;
+
+        &.active {
+          background-color: transparent;
+
+          .labl {
+            color: var(--text_link_color) !important;
+          }
+        }
+
+        .filters_labl {
+          color: var(--text_primary_color);
+          font-size: 14px;
+          font-weight: 500;
+
+          .fa-filter {
+            color: #000000;
+            opacity: 0.42;
+          }
+        }
+
+        .labl {
+          color: var(--text_primary_color);
+          font-size: 14px;
+          font-weight: normal;
+        }
+
+        .more_labl {
+          color: var(--text_link_color);
+          font-size: 14px;
+          font-weight: normal;
+        }
+
+        button {
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+
+    .stops_lists {
+      .custom-radios {
+        display: inline-block;
+
+        label {
+          input[type="checkbox"] {
+            display: none;
+
+            &:checked + span {
+              background-color: var(--text_link_color);
+              color: $white;
+            }
+          }
+
+          span {
+            padding: 2px 6px;
+            background-color: $white;
+            border: 1px solid var(--border_default_color);
+            border-radius: 2px;
+            font-size: 12px;
+            margin: 0 4px;
+          }
+        }
+      }
+    }
+  }
+}
+.airline_tabs {
+  .show_airline_btns {
+    background-color: #e6e9ea;
+    padding: 6px;
+    border-radius: 3px;
+    display: inline-flex;
+    width: 100%;
+
+    .route_btns {
+      font-size: 12px;
+      border: none !important;
+      flex: auto;
+    }
+    .activeBtn {
+      background-color: $white;
+      border: none !important;
+    }
+    button {
+      &:focus {
+        outline: none;
+        box-shadow: none !important;
+      }
+    }
+  }
+}
+
+#filters {
+  background-color: #fff;
+  z-index: 999;
+  width: 100%;
+  min-height: 100px;
+  padding-bottom: 20px;
+  top: 0;
+  font-size: 12px;
+
+  label {
+    margin: 0 !important;
+    padding: 4px 0;
+  }
+
+  .cabin_labl {
+    display: block;
+  }
+
+  .stops_num {
+    font-size: 13px !important;
+    color: var(--text_primary_color);
+    display: block !important;
+  }
+
+  .class_labl {
+    font-size: 12px !important;
+    cursor: pointer;
+    position: relative;
+    bottom: 2px;
+  }
+
+  .pad-5 {
+    padding: 5px 0px;
+  }
+
+  .num_stops {
+    cursor: pointer;
+  }
+
+  mat-checkbox[type="checkbox"] + label {
+    position: relative;
+    bottom: 2px;
+  }
+
+  .time_slap_icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .flightsCount {
+    font-size: 14px;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .actionBtns {
+    position: relative;
+    bottom: 0px;
+  }
+
+  .controls {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dee4ee;
+
+    .actionBtns {
+      img {
+        cursor: pointer;
+        width: 14px;
+      }
+    }
+
+    .filter_head {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .cancel_txt {
+      color: var(--text_link_color);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      text-transform: uppercase;
+      margin-right: 10px;
+    }
+  }
+
+  .dept_times_head {
+    label,
+    img {
+      cursor: pointer;
+    }
+  }
+
+  .stop-panel {
+    width: 22%;
+    margin: 2px 3px !important;
+    font-weight: normal !important;
+    font-size: 11px !important;
+  }
+
+  .white_col {
+    background-color: $white;
+    margin-top: 2px;
+    border-radius: 3px;
+
+    .filScroll {
+      .scrollLabel {
+        display: inline;
+        position: relative;
+        top: 0px;
+        width: 52%;
+        white-space: nowrap;
+        cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        .air_line {
+          font-size: 13px;
+        }
+      }
+
+      a {
+        color: var(--text_link_color);
+        font-size: 14px;
+      }
+    }
+  }
+
+  .filter {
+    display: inline-table;
+    border-bottom: 1px solid #dee4ee;
+    .f-count {
+      border: 1px solid $color-neutral-50;
+      border-radius: 100%;
+      margin-left: 10px;
+      padding: 3px 3px;
+      font-size: 8px;
+      font-weight: 600;
+      height: 21px;
+      width: 21px;
+      background-color: $white;
+      color: var(--label_color);
+    }
+
+    &.active {
+      background-color: var(--filter_strip_bg);
+
+      .white_col {
+        background-color: $white;
+        border-radius: 5px;
+
+        .form-control {
+          background: none;
+        }
+      }
+    }
+
+    .price_filter {
+      display: block;
+
+      border-top: 1px solid #dee4ee;
+
+      .w-100 {
+        .float-right {
+          color: var(--text_primary_color);
+        }
+      }
+
+      &.active {
+        background: #f2f4f4;
+        border-radius: 3px;
+
+        .white_col {
+          background: none !important;
+        }
+      }
+    }
+
+    label:first-child {
+      color: var(--text_primary_color);
+      font-size: 16px;
+    }
+
+    .labl_amt {
+      color: var(--label_color);
+      font-size: 13px;
+    }
+
+    .fills {
+      padding-bottom: 10px;
+
+      input {
+        border: none;
+
+        &.form-control {
+          border-bottom: 1px solid var(--border_default_color);
+          border-radius: 0;
+          padding-left: 30px;
+          font-size: 12px;
+        }
+      }
+
+      .fa-search {
+        position: absolute;
+        left: 25px;
+        top: 55px;
+        color: var(--text_info_color);
+      }
+    }
+
+    ul {
+      display: block;
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        font-size: 12px;
+      }
+    }
+
+    .time_filters {
+      width: 46%;
+      margin: 2px 3px !important;
+      padding-top: 0px;
+      font-weight: normal !important;
+      font-size: 12px !important;
+
+      input[type="checkbox"] {
+        display: none;
+
+        &:not(:checked) + .time_slab {
+          img.in-active {
+            display: inline-block;
+          }
+
+          img.active {
+            display: none;
+          }
+        }
+
+        &:checked + .time_slab {
+          background-color: var(--flight_selected_Bg);
+          border: 1px solid var(--border_active_color);
+          color: $white;
+
+          img.in-active {
+            display: none;
+          }
+
+          img.active {
+            display: inline-block;
+          }
+
+          .time_slab_txt,
+          .time_slab_dur {
+            color: var(--label_color);
+          }
+        }
+      }
+
+      .time_slab {
+        padding: 8px;
+        border: 1px solid #c0c5d1;
+        background-color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .icon {
+        position: relative;
+        width: 100%;
+        display: inline;
+
+        top: 0px;
+      }
+
+      .time_slab_val {
+        line-height: 1.2;
+        font-size: 10px;
+        margin-top: 6px;
+
+        .time_slab_txt {
+          color: var(--label_color);
+          text-transform: uppercase;
+        }
+
+        .time_slab_dur {
+          color: var(--text_primary_color);
+          font-size: 13px;
+        }
+      }
+
+      &.active {
+        background-color: var(--text_link_color);
+        color: $white;
+      }
+    }
+
+    &.airline_filter {
+      width: 100%;
+      display: inline-block;
+      position: relative;
+      .carrier_logo {
+        padding: 0px 10px;
+      }
+      .airline_filter_sec {
+        padding-bottom: 10px;
+        .airline_tabs {
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+
+  .stops_filter {
+    width: 100%;
+    background-color: $white;
+
+    .head_label {
+      font-size: 16px;
+      color: var(--text_primary_color);
+    }
+
+    .jrny_labl {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--label_color);
+    }
+    .stops {
+      padding-bottom: 10px;
+    }
+
+    .stop_panel {
+      width: auto !important;
+      padding-top: 5px !important;
+
+      input[type="checkbox"] {
+        &:checked + .stops_slab {
+          background-color: var(--flight_selected_Bg);
+          border: 1px solid var(--border_active_color);
+          color: var(--text_primary_color);
+        }
+      }
+      .stops_slab {
+        padding: 6px 10px;
+        border: 1px solid #c0c5d1;
+        background-color: #fff;
+        border-radius: 3px;
+        cursor: pointer;
+        text-align: center;
+        min-width: 84px;
+      }
+    }
+  }
+
+  .baggage_filters {
+    border-top: 1px solid #dee4ee;
+    .hd_labl {
+      font-size: 16px;
+      color: var(--text_primary_color);
+      padding-bottom: 0px !important;
+    }
+    .onward_filter {
+      padding-bottom: 10px;
+    }
+
+    input[type="checkbox"] {
+      display: none;
+
+      &:not(:checked) + .bg_labl {
+        border: 1px solid #c0c5d1;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      &:checked + .bg_labl {
+        background-color: #d7eef8;
+        border: 1px solid var(--border_active_color);
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+    }
+
+    .jrny_txt {
+      font-size: 14px;
+      color: var(--text_primary_color);
+    }
+
+    .bg_filters {
+      width: 100% !important;
+      border-radius: 4px;
+    }
+  }
+
+  .bg_labl {
+    font-size: 12px;
+    color: var(--text_primary_color);
+  }
+
+  .time_filters_section {
+    width: 100%;
+    border: none;
+    border-top: 1px solid #dee4ee;
+    .dpt_times {
+      .cities {
+        font-weight: 500;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+      padding-bottom: 10px;
+    }
+    .head_label {
+      padding: 0px !important;
+    }
+    .dept_times .angleIcon {
+      cursor: pointer;
+    }
+  }
+
+  .class_filters_section {
+    width: 100%;
+    margin-right: 1%;
+  }
+}
+
+// We need to use ::ng-deep to overcome view encapsulation
+::ng-deep {
+  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background: var(--primary_btn_bg);
+  }
+
+  .mat-checkbox-layout {
+    margin-bottom: 0px !important;
+  }
+
+  .mat-checkbox-frame {
+    border: 1px solid rgb(112 112 112 / 56%) !important;
+  }
+
+  .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
+  .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
+    background: var(--primary_btn_bg) !important;
+  }
+
+  .mat-checkbox .mat-checkbox-ripple {
+    display: none !important;
+  }
+
+  .overlay {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: #000;
+    opacity: 0.33;
+    z-index: 10;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .mat-button-focus-overlay {
+    background: var(--text_link_color) !important;
+  }
+
+  button:not(:disabled) .mat-ripple-element {
+    background: var(--text_link_color) !important;
+  }
+}
+
+.cabin_class {
+  max-width: 60%;
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  #filters {
+    overflow: scroll;
+    top: 0;
+    height: 100%;
+
+    .filter_heading {
+      font-size: 20px !important;
+    }
+
+    .filters_Data {
+      margin-bottom: 50px;
+      max-height: 75vh;
+      overflow-y: scroll;
+    }
+
+    .close {
+      opacity: 1 !important;
+    }
+
+    .closeImg {
+      position: relative;
+      top: 20px;
+      right: 10px;
+    }
+
+    .filter {
+      width: 100% !important;
+
+      .time_filters {
+        width: 48%;
+        margin: 3px 2px !important;
+        padding: 0px !important;
+      }
+
+      .fills {
+        padding-bottom: 10px;
+
+        input {
+          border: none;
+
+          &.form-control {
+            border-bottom: 1px solid var(--border_default_color);
+            border-radius: 0;
+            padding-left: 0px;
+            font-size: 13px;
+          }
+        }
+
+        .fa-search {
+          position: absolute;
+          right: 35px !important;
+          left: inherit;
+          top: 54px;
+          color: #cccccc;
+        }
+      }
+    }
+
+    .margin-0-xs {
+      margin: 0px !important;
+    }
+    .mar_baggage {
+      margin-bottom: 40px !important;
+    }
+
+    .time_filters_section {
+      .dpt_times {
+        height: auto !important;
+        max-height: none !important;
+      }
+    }
+
+    .controls {
+      padding: 15px 0 !important;
+      background-color: #fff !important;
+      box-shadow: 0 1px 2px rgb(45 35 66 / 25%), 0 3px 6px -4px rgb(45 35 66 / 15%);
+      margin-bottom: 0px !important;
+
+      .actionBtns {
+        float: right !important;
+        margin-right: 15px !important;
+
+        .btn {
+          padding: 0 16px;
+        }
+      }
+
+      .flightsCount {
+        font-size: 12px !important;
+        color: $color-neutral-400;
+        font-weight: 500 !important;
+      }
+    }
+  }
+
+  .pb-xs-10 {
+    padding-bottom: 10px !important;
+  }
+
+  .pt-xs-10 {
+    padding-top: 10px !important;
+  }
+
+  .controls {
+    .btn {
+      &.cancel {
+        display: none !important;
+      }
+    }
+  }
+
+  .stops_filter {
+    .pb-xs-15 {
+      padding-bottom: 15px !important;
+    }
+  }
+
+  .btnApplyFilter {
+    font-size: 13px !important;
+    color: #fff !important;
+    width: 200px !important;
+    margin: 0px auto;
+    border-radius: 2px;
+  }
+
+  .eventBtns {
+    position: fixed;
+    background-color: $white;
+    bottom: 0;
+    width: 100%;
+    z-index: 99999;
+    padding: 15px 20px !important;
+
+    .btn {
+      min-width: 150px;
+      padding: 2px 40px;
+      font-size: 13px;
+      font-family: 500;
+    }
+
+    .reset {
+      border: 1px solid var(--border_active_color);
+      color: var(--text_link_color);
+      border-radius: 3px;
+    }
+
+    .apply {
+      float: right;
+    }
+
+    .cancel {
+      display: none !important;
+    }
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+  #filters {
+    height: auto;
+    max-height: 100% !important;
+    overflow: unset !important;
+    padding: 10px !important;
+    .filter {
+      border-bottom: none !important;
+    }
+  }
+  .close_icn {
+    display: none;
+  }
+
+  .eventBtns {
+    display: none !important;
+  }
+}

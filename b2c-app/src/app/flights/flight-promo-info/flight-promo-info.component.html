@@ -1,0 +1,22 @@
+<div class="row m-0" *ngIf="itinarary_data">
+    <div class="col-sm-12 col-lg-12 content px-0" [ngClass]="itinarary_data?.flightType == 'outBound' || itinarary_data?.flightType == 'inBound' ? 'domFlight' : ''">
+      <ng-template #tipContent><span>{{ itinarary_data.promoInfo }}</span></ng-template>
+      <span *ngIf="itinarary_data.promoInfo" class="d-flex align-items-center">
+        <div class="promo_content">
+          <span class="mr-1 mr-lg-0">
+            <img ImageSrc *ngIf="!itinarary_data.promoInfo.includes('Mastercard Discount')"
+              src="../../../assets/icons/v1-icons/promo-info-new-icn.svg" alt="promo-info-new-icn" width="12px" loading="lazy" class="info"
+              [ngbTooltip]="tipContent" />
+            <img ImageSrc *ngIf="itinarary_data.promoInfo.includes('Mastercard Discount')" src="../../../assets/icons/card_dis_applied.svg" loading="lazy"
+              width="18px" alt="master_card" />
+          </span>
+
+          <span [ngClass]="itinarary_data.promoInfo.includes('Mastercard Discount') ? 'master_card_disc_txt' : ''">{{
+            getPromoText(itinarary_data.promoInfo)
+            }}</span>
+        </div>
+
+      </span>
+      <ng-template *ngIf="itinarary_data.promoInfo" #tipContent><span>{{ itinarary_data.promoInfo }}</span></ng-template>
+    </div>
+  </div>

@@ -1,0 +1,238 @@
+@import "./../../../theme/theme-variables.scss";
+
+.result_page_view {
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  width: 100%;
+  padding-bottom: 30px;
+
+  .search_section {
+    background: #e9eef6;
+    // background: linear-gradient(0deg, rgba(204,222,250,1) 0%, rgba(239,245,255,1) 40%, rgba(239,245,255,1) 60%, rgba(204,222,250,1) 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    .flight_Icn {
+      height: 0px;
+
+      img {
+        position: relative;
+        top: 30px;
+        left: -150px;
+      }
+    }
+
+    .multiCityflight {
+      img {
+        top: 0px !important;
+      }
+    }
+  }
+}
+
+.showDomesticDetails {
+  .container {
+    margin-right: 0px !important;
+  }
+}
+
+.autosetWidth {
+  background-color: var(--body_bg_clr);
+}
+
+.flightsViewSection {
+  padding: 15px 5px;
+  min-height: 75vh;
+
+  .sortSection {
+    .showFilter {
+      align-items: center;
+
+      .showFiltersBtn {
+        padding: 5px 15px;
+        font-size: 14px;
+        border-radius: 6px;
+        color: var(--new_UI_active_text_color);
+        border: 1px solid var(--new_UI_active_text_color);
+      }
+    }
+
+    .noOf_flights {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text_primary_color);
+    }
+  }
+}
+
+.displayFilters {
+  display: inline-block;
+  width: 79% !important;
+  margin: 0 !important;
+}
+
+.hideFilters {
+  display: block;
+  width: 100% !important;
+}
+
+.viewFilter_section {
+  display: inline-block;
+  width: 250px;
+  background-color: #fff;
+  box-shadow: 0 1px 4px 0 rgba(185, 194, 213, 0.76);
+  transition: all 0.4s;
+  transform: translateX(0) !important;
+  margin-right: 5px;
+}
+
+.hideFilters_section {
+  width: 300px;
+  position: absolute;
+  transform: translateX(-100%);
+}
+
+.showFilters {
+  transform: translateX(0) !important;
+}
+
+.filtersection {
+  left: 5px;
+  width: 300px;
+  // transition: all 0.5s;
+  z-index: 9999;
+  transform: translateX(-100%);
+}
+
+.flight_details_section {
+  display: inline-block;
+  width: 400px;
+  background-color: #fff;
+
+  .flight_details {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    overflow-y: scroll;
+    min-width: 320px;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .autosetWidth {
+    display: grid;
+  }
+
+  #res_Modify {
+    //box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    position: absolute;
+    z-index: 999 !important;
+    width: 100%;
+  }
+
+
+  .filtersection,
+  .result_page_view,
+  .flightsViewSection {
+    transform: none !important;
+  }
+
+  .flightsViewSection {
+    padding: 0px;
+
+    .pad-xs-lr-10 {
+      padding: 0px 10px !important;
+    }
+  }
+
+  .flight_details_section {
+    position: fixed;
+    height: auto;
+    bottom: 0;
+    top: unset !important;
+    width: 100%;
+    z-index: 9;
+
+    .flight_details {
+      bottom: 0px;
+      top: unset;
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
+
+  .result_page_view .collapse.show + div {
+    opacity: 0.1;
+    height: 0;
+    pointer-events: none;
+  }
+}
+
+@media only screen and (min-width: map-get($grid-breakpoints, lg)) and (max-width: map-get($grid-breakpoints, xl)) {
+  .displayFilters {
+    display: inline-block;
+    width: 74% !important;
+  }
+
+  .viewFilter_section {
+    display: inline-block;
+    width: auto;
+  }
+
+  .flight_details {
+    min-width: 290px !important;
+  }
+}
+.autosetWidth {
+  display: flex;
+}
+
+@media only screen and (min-width: 1600px) {
+  .maxWidth_Container {
+    max-width: 60% !important;
+  }
+
+  .autosetWidth {
+    display: inline !important;
+  }
+
+  .displayFilters {
+    display: revert !important;
+    margin: auto !important;
+  }
+
+  .hideFilters_section {
+    background-color: #fff;
+    box-shadow: 0 1px 4px 0 rgba(185, 194, 213, 0.76);
+    transition: all 0.4s;
+    transform: translateX(0) !important;
+    margin-right: 5px;
+  }
+
+  .filtersection {
+    transform: translateX(0) !important;
+  }
+
+  .showDomesticDetails .container {
+    margin: auto !important;
+  }
+
+  .showFiltersBtn {
+    display: none !important;
+  }
+
+  .flight_details_section {
+    width: 320px !important;
+    float: right;
+
+    .flight_details {
+      min-width: 320px !important;
+    }
+  }
+}
+
+.absaCorrelationIdSec{
+  font-size: 14px;
+  text-align: center;
+  padding: 5px;
+}

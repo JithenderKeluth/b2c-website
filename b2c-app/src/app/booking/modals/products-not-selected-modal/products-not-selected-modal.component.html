@@ -1,0 +1,28 @@
+<div>
+  <div class="modal-dialog fare_increased" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body">
+        <div class="text-center">
+          <img ImageSrc src="../../../../assets/icons/flighticn-pop.svg" alt="flightIcn" />
+          <div class="fare text-center mb-3">
+            <span translate class="product_msg_txt">It seems you haven’t opted for trip protection add-ons!</span>
+          </div>
+          <div class="mt-4">
+            <button
+              type="button"
+              mat-button
+              class="btn fare-btn mr-3 pl-4 pr-4 default_btn"
+              data-dismiss="modal"
+              (click)="continue()"
+            >
+              <span translate>No, I’ll risk it</span>
+            </button>
+            <button type="button" mat-button class="btn proceedBtn primary_btn onHover" data-dismiss="modal">
+              <span translate>Add now</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

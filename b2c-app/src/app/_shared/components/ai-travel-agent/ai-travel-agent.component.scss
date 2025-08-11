@@ -1,0 +1,22 @@
+@import "./../../../../theme/theme-variables.scss";
+.ai_Travel_AgentSec{
+    height: 0px;
+    img{
+      position: fixed;
+      width: 100px;
+      z-index: 99999;
+      right: 30px;
+      bottom: 40px;
+      cursor: pointer;
+    }
+  }
+
+  @media (max-width: map-get($grid-breakpoints, lg)) {
+    .ai_Travel_AgentSec{
+        height: 0px !important;
+        img{
+          right: 10px !important;
+          width: 80px !important;
+        }
+      }
+  }

@@ -1,0 +1,14 @@
+{
+    "locationInfo": [
+        {
+            "locationWarnings": {
+                    "PRY": "There are currently no flights to/from Pretoria. We recommend choosing a nearby airport such as O.R. Tambo International or Lanseria instead.",
+                    "AME": "There are currently no flights to/from Alto Molocue. We recommend choosing a nearby airport such as Nampula Instead.",
+                    "TSF":  "There are currently no flights to/from  Venice Treviso (TSF). We recommend choosing a nearby airport such as Venice Marco Polo (VCE) instead.",
+                    "BWK":  "There are currently no flights to/from Brac Airport. We recommend choosing a nearby airport such as Split or Zagreb instead.",
+                    "BOB": "Flights to Boro Boro Motu Mute can be difficult to find as there are many airport changes needed. Contact us for further assistance 021 020 0559"
+                    
+                }
+                    }
+    ]
+}

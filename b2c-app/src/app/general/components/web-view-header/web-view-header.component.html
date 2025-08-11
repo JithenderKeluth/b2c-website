@@ -1,0 +1,41 @@
+<header class="header d-none">
+  <span>
+    <a
+      ><img class="mr-2" imagesrc src="https://cdn1.travelstart.com/assets/icons/back-arrow-resp.svg" alt="back" /> Back
+      to dashboard</a
+    >
+  </span>
+
+  <span class="pull-right">
+    <span class="nav-item username" *ngIf="userName">
+      <button
+        mat-button
+        [matMenuTriggerFor]="menu"
+        class="user_btn"
+        #trigger2="matMenuTrigger"
+        (mouseenter)="buttonEnter(trigger2)"
+        (mouseleave)="buttonLeave(trigger2)"
+      >
+        <img ImageSrc src="./assets/icons/v1-icons/user_icn.svg" width="22px" alt="user" />&nbsp;
+        {{ userName }}
+      </button>
+      <mat-menu #menu="matMenu" hasBackdrop="false">
+        <span (mouseenter)="menuenter()" (mouseleave)="menuLeave(trigger2)">
+          <button
+            (click)="goToMyAccount()"
+            name="profile"
+            aria-label="My Profile"
+            [disableRipple]="true"
+            mat-menu-item
+            routerLinkActive="active"
+          >
+            <span translate>My Profile</span>
+          </button>
+          <button translate mat-menu-item [disableRipple]="true" aria-label="Logout">
+            <span translate>Logout</span>
+          </button>
+        </span>
+      </mat-menu>
+    </span>
+  </span>
+</header>

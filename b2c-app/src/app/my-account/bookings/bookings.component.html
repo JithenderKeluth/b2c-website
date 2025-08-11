@@ -1,0 +1,76 @@
+<div class="bookings_tab_section">
+  <div class="inner_tabs bookings_tab">
+    <div class="row">
+      <div class="col-12 p-0">
+        <div class="mt-0 tab-card" [ngClass]="tsCountry !== 'ABSA' ? 'mt-md-3' : ''">
+          <div class="card">
+            <div class="card-header tab-card-header outer">
+              <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <!-- <li class="nav-item" (click)="selectSort('All')">
+                  <a
+                    class="nav-link active"
+                    id="one-tab-mb"
+                    data-toggle="tab"
+                    href="#one-mb"
+                    role="tab"
+                    aria-controls="One-mb"
+                    aria-selected="true"
+                    >All</a
+                  >
+                </li> -->
+                <li class="nav-item active" (click)="selectTab('Flights')">
+                  <a
+                    translate
+                    class="nav-link active theme__bookings-tab"
+                    id="one-tab-mb"
+                    data-toggle="tab"
+                    href="#one-mb"
+                    role="tab"
+                    aria-controls="one-mb"
+                    aria-selected="true"
+                    >Flights</a
+                  >
+                </li>
+                <li *ngIf="tsCountry !== 'ABSA' && tsCountry != 'mastercardtravel'" class="nav-item" (click)="selectTab('Hotels')">
+                  <a
+                    class="nav-link"
+                    id="three-tab-mb"
+                    data-toggle="tab"
+                    href="#three-mb"
+                    role="tab"
+                    aria-controls="Three-mb"
+                    aria-selected="false"
+                    >Hotels</a
+                  >
+                </li>
+                <li *ngIf="tsCountry !== 'ABSA' && tsCountry != 'mastercardtravel'" class="nav-item" (click)="selectTab('Cars')">
+                  <a translate
+                    class="nav-link"
+                    id="four-tab-mb"
+                    data-toggle="tab"
+                    href="#four-mb"
+                    role="tab"
+                    aria-controls="four-mb"
+                    aria-selected="false"
+                    >Cars</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tab-content" id="">
+            <div class="tab-pane active" id="one-mb" role="tabpanel" aria-labelledby="one-tab-mb" >
+              <app-flight-booking-list></app-flight-booking-list>
+            </div>
+            <div class="tab-pane fade" id="three-mb" role="tabpanel" aria-labelledby="three-tab-mb" *ngIf="selectedTab == 'Hotels'">
+              <app-hotel-bookings-list></app-hotel-bookings-list>
+            </div>
+            <div class="tab-pane fade p-3" id="four-mb" role="tabpanel" aria-labelledby="four-tab-mb" *ngIf="selectedTab == 'Cars'">
+              <div id="mli-root" data-ptid="124.40"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

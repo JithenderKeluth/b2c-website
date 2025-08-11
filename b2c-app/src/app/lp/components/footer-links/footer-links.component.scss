@@ -1,0 +1,22 @@
+@import "../../../../../src/theme/theme-variables.scss";
+.footer-links {
+  .link-header {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .link-items {
+    padding-left: 0;
+    li {
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      list-style: none;
+      a {
+        color: #8d8d8d;
+      }
+    }
+  }
+  @media screen and (max-width: $screen-lg-min-width) {
+    text-align: center;
+  }
+}

@@ -1,0 +1,854 @@
+<!--Filters flexbox-->
+<div id="filters">
+  <span class="close p-2 d-block d-lg-none" data-toggle="modal" data-target="#res_filters">
+    <img
+      ImageSrc
+      [src]="country === 'ABSA' ? '../../../assets/icons/srp_Icons/close-icn-new-all.svg' : '../../../assets/icons/cross-filter-icn.svg'"
+      alt="close"
+      class="pull-right closeImg"
+      width="16px"
+      data-dismiss="modal"
+      aria-label="Close"
+    />
+  </span>
+
+  <div id="filter-controls" class="controls">
+    <div class="container p-lg-0">
+      <h6 class="d-lg-none mb-0 filter_heading">Filters</h6>
+      <span class="flightsCount">
+        <span class="d-lg-none d-inline-block" *ngIf="flightsearchResponse?.itineraries?.length > 0">
+          {{ noOfRes }} <span translate>of</span> {{ flightsfilterResults.length }}
+          <span translate>Flights</span>
+        </span>
+
+        <span *ngIf="flightsearchResponse?.outboundItineraries?.length > 0 && responsiveService.screenWidth !== 'lg'">
+          <span class="pr-2">
+            {{ onwardItinLength }} <span translate>of</span> {{ flightsearchResponse.outboundItineraries.length }}
+            <span translate>Departure Flights</span></span
+          >
+          |
+          <span class="pl-2">
+            {{ returnItinLength }} <span translate>of</span> {{ flightsearchResponse.inboundItineraries.length }}
+            <span translate>Return Flights</span></span
+          >
+        </span>
+
+        <span class="d-none d-lg-inline-block filter_head" translate>Filters</span>
+        <span class="actionBtns pull-right d-none d-lg-block">
+          <span class="reset d-none d-lg-inline" (click)="resetAllFilters()">
+            <span class="cancel_txt" translate>Reset</span>
+          </span>
+          <span class="close_icn" (click)="toggleDisplayDiv('closeFilters')" data-dismiss="modal">
+            <img ImageSrc src="./../../../assets/icons/srp_Icons/close-icn-new-all.svg" alt="close" />
+          </span>
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <div class="container filters_Data p-lg-0">
+    <div *ngIf="country === 'ABSA'" class="theme__filters-sidebar">
+      <div [ngClass]="selectedFilterOption === 'airline' ? 'active' : ''" class="theme__filters-sidebar-option" (click)="selectedFilterOption = 'airline'">
+        Airline
+      </div>
+      <div [ngClass]="selectedFilterOption === 'stops' ? 'active' : ''" class="theme__filters-sidebar-option" (click)="selectedFilterOption = 'stops'">
+        Stops
+      </div>
+      <div [ngClass]="selectedFilterOption === 'times' ? 'active' : ''" class="theme__filters-sidebar-option" (click)="selectedFilterOption = 'times'">
+        Times
+      </div>
+      <div [ngClass]="selectedFilterOption === 'baggage' ? 'active' : ''" class="theme__filters-sidebar-option" (click)="selectedFilterOption = 'baggage'">
+        Baggage
+      </div>
+    </div>
+    <div class="theme__filters-selections-container">
+    <!--Stops Filter-->
+      <div [hidden]="country === 'ABSA' && selectedFilterOption !== 'stops'" class="filter stops_filter margin-0-xs">
+        <div class="stops" [ngClass]="{ active: isActive('stops') }">
+          <label *ngIf="country !== 'ABSA'" translate class="head_label pt-filters">Stops</label>
+
+          <div *ngIf="!isDomesticFlights">
+            <label *ngFor="let num of stopModelList" class="time_filters" [ngClass]="country !== 'ABSA' ? 'stop_panel' : ''">
+              <span class="theme__filters-stops-option-container">
+                <input
+                  *ngIf="country !== 'ABSA'"
+                  type="checkbox"
+                  class="form-switch radio_1set"
+                  id="{{ num.stops }}"
+                  name="stop"
+                  value="{{ num.stops }}"
+                  [(ngModel)]="UserVal.stop[num.stops]"
+                  (change)="startPushFilter(this, 'bndFlights')"
+                />
+                <div [ngClass]="country !== 'ABSA' ? 'stops_slab' : ''">
+                  <span>
+                    <span *ngIf="num.stops > 0">{{ num.stops }}</span>
+                    <span translate class="num_stops">{{ getStop(num.stops) }}</span>
+                  </span>
+                </div>
+                <mat-checkbox
+                  *ngIf="country === 'ABSA'"
+                  [(ngModel)]="UserVal.stop[num.stops]"
+                  type="checkbox"
+                  name="stop"
+                  value="{{ num.stops }}"
+                  (change)="startPushFilter(this, 'bndFlights')"
+              ></mat-checkbox>
+            </span>
+            </label>
+          </div>
+
+          <div *ngIf="isDomesticFlights" class="jrny_labl pt-filters">{{ country === 'ABSA' ? 'Departure' : 'Departure Journey' }}</div>
+          <span *ngIf="isDomesticFlights">
+            <label *ngFor="let num of stopModelList" class="time_filters" [ngClass]="country !== 'ABSA' ? 'stop_panel' : ''">
+              <span class="theme__filters-stops-option-container">
+                <input
+                  *ngIf="country !== 'ABSA'"
+                  type="checkbox"
+                  class="form-switch radio_1set"
+                  [(ngModel)]="outBoundUserVal.stop[num.stops]"
+                  name="stop"
+                  value="{{ num.stops }}"
+                  (change)="startPushFilter(this, 'outBound')"
+                />
+                <div [ngClass]="country !== 'ABSA' ? 'stops_slab' : ''">
+                  <span>
+                    <span *ngIf="num.stops > 0">{{ num.stops }}</span>
+                    <span translate class="num_stops">{{ getStop(num.stops) }}</span>
+                  </span>
+                </div>
+                <mat-checkbox
+                  *ngIf="country === 'ABSA'"
+                  [(ngModel)]="outBoundUserVal.stop[num.stops]"
+                  type="checkbox"
+                  name="stop"
+                  value="{{ num.stops }}"
+                  (change)="startPushFilter(this, 'outBound')"
+              ></mat-checkbox>
+              </span>
+            </label>
+          </span>
+
+          <div *ngIf="isDomesticFlights" class="jrny_labl pt-filters">{{ country === 'ABSA' ? 'Return' : 'Return Journey' }}</div>
+          <span *ngIf="isDomesticFlights">
+            <label *ngFor="let num of stopModelList" class="time_filters" [ngClass]="country !== 'ABSA' ? 'stop_panel' : ''">
+              <span class="theme__filters-stops-option-container">
+                <input
+                  *ngIf="country !== 'ABSA'"
+                  type="checkbox"
+                  class="form-switch radio_1set"
+                  [(ngModel)]="inBoundUserVal.stop[num.stops]"
+                  name="stop"
+                  value="{{ num.stops }}"
+                  (change)="startPushFilter(this, 'inBound')"
+                />
+                <div [ngClass]="country !== 'ABSA' ? 'stops_slab' : ''">
+                  <span>
+                    <span *ngIf="num.stops > 0">{{ num.stops }}</span>
+                    <span translate class="num_stops">{{ getStop(num.stops) }}</span>
+                  </span>
+                </div>
+                <mat-checkbox
+                  *ngIf="country === 'ABSA'"
+                  [(ngModel)]="inBoundUserVal.stop[num.stops]"
+                  type="checkbox"
+                  name="stop"
+                  value="{{ num.stops }}"
+                  (change)="startPushFilter(this, 'inBound')"
+              ></mat-checkbox>
+              </span>
+            </label>
+          </span>
+        </div>
+      </div>
+
+      <!--Cabin Class Filter-->
+      <!-- <div class="filter class_filters_section px-15 margin-0-xs" [ngClass]="{ active: isActive('class') }">
+          <label translate>Cabin Class</label>
+          <div class="cabinClass white_col">
+            <div class="airlines-panel">
+              <label *ngFor="let cabinClass of _cabinClass" class="white_col1 cabin_labl">
+                <mat-checkbox *ngIf="!isDomesticFlights"
+                  [(ngModel)]="UserVal.cabinClass[cabinClass]"
+                  id="{{ cabinClass }}"
+                  type="checkbox"
+                  name="air-line"
+                  value="{{ cabinClass }}"
+                  (change)="startPushFilter(this, 'bndFlights')"
+                ></mat-checkbox>
+                <span class="class_labl" translate>&nbsp;{{ cabinClass }}</span>
+
+                <span *ngIf="isDomesticFlights" class="pull-right">
+                  <div class="row">
+                    <div class="col">
+                      <mat-checkbox
+                        [(ngModel)]="outBoundUserVal.cabinClass[cabinClass]"
+                        type="checkbox"
+                        name="air-line"
+                        value="{{ cabinClass }}"
+                        (change)="startPushFilter(this, 'outBound')"
+                      ></mat-checkbox>
+                    </div>
+                    <div class="col">
+                      <mat-checkbox
+                        [(ngModel)]="inBoundUserVal.cabinClass[cabinClass]"
+                        type="checkbox"
+                        name="air-line"
+                        value="{{ cabinClass }}"
+                        (change)="startPushFilter(this, 'inBound')"
+                      ></mat-checkbox>
+                    </div>
+                  </div>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div> -->
+
+      <!--Airline, Times, and Baggage Filters Section-->
+      <div *ngIf="flightsearchResponse" class="filter airline_filter">
+        <label *ngIf="country !== 'ABSA'" class="pt-filters" translate>Airline</label>
+        <!-- Airline Filters Section -->
+        <div [hidden]="country === 'ABSA' && selectedFilterOption !== 'airline'" class="airline_filter_sec">
+          <div class="airline_tabs pt-filters" *ngIf="isDomesticFlights">
+            <div class="show_airline_btns theme__show-airline-button mb-3">
+              <button
+                type="button"
+                class="btn route_btns"
+                [ngClass]="showJourneyAirline == 'onWard' ? 'activeBtn theme__active-button' : ''"
+                (click)="showAirlines('onWard')"
+                translate
+              >
+                Depart
+              </button>
+              <button
+                type="button"
+                class="btn route_btns"
+                [ngClass]="showJourneyAirline == 'return' ? 'activeBtn theme__active-button' : ''"
+                (click)="showAirlines('return')"
+                translate
+              >
+                Return
+              </button>
+            </div>
+          </div>
+          <label
+            *ngFor="
+              let airlines of this.flightsearchResponse?.airlineModelList
+                | slice: 0:maxAirlines
+                | AirlineSearchPipe: searchText
+            "
+            class="white_col1 stops_num pad-5"
+          >
+            <div
+              *ngIf="
+                isDomesticFlights &&
+                showJourneyAirline == 'onWard' &&
+                isValidAirline(showJourneyAirline, airlines.airlineCode)
+              "
+              class="theme__filters-airline-option-container"
+              [ngClass]="{ 'tab-content': showTabContent }"
+            >
+              <mat-checkbox
+                [(ngModel)]="outBoundUserVal.airLine[airlines.airlineCode]"
+                list="airlines"
+                type="checkbox"
+                name="air-line"
+                value="{{ airlines.airlineCode }}"
+                (change)="startPushFilter(this, 'outBound')"
+              ></mat-checkbox>
+              <span>
+                <span>
+                  <img
+                    class="carrier_logo airLineXs"
+                    ImageSrc
+                    src="assets/img/carriers/retina48px/carrier-{{ airlines.airlineCode }}.png"
+                    height="26px"
+                    alt="{{ airlines.airlineCode }}"
+                /></span>
+                <span class="scrollLabel">
+                  <span class="air_line">&nbsp;{{ airlines.airlineName }}</span>
+                </span>
+                <span *ngIf="country !== 'ABSA'" class="labl_amt float-right">
+                  {{ airlines.currencycode | currencyCode }}{{ airlines.amount | currency: '' + ' ':'symbol':'2.0' }}
+                </span>
+              </span>
+            </div>
+            <div
+              *ngIf="
+                isDomesticFlights &&
+                showJourneyAirline == 'return' &&
+                isValidAirline(showJourneyAirline, airlines.airlineCode)
+              "
+              class="theme__filters-airline-option-container"
+              [ngClass]="{ 'tab-content': showTabContent }"
+            >
+              <mat-checkbox
+                [(ngModel)]="inBoundUserVal.airLine[airlines.airlineCode]"
+                list="airlines"
+                type="checkbox"
+                name="air-line"
+                value="{{ airlines.airlineCode }}"
+                (change)="startPushFilter(this, 'inBound')"
+              ></mat-checkbox>
+              <span>
+                <span>
+                  <img
+                    class="carrier_logo airLineXs"
+                    ImageSrc
+                    src="assets/img/carriers/retina48px/carrier-{{ airlines.airlineCode }}.png"
+                    height="26px"
+                    alt="{{ airlines.airlineCode }}"
+                /></span>
+                <span class="scrollLabel">
+                  <span class="air_line">&nbsp;{{ airlines.airlineName }}</span>
+                </span>
+                <span *ngIf="country !== 'ABSA'" class="labl_amt float-right">
+                  {{ airlines.currencycode | currencyCode }}{{ airlines.amount | currency: '' + ' ':'symbol':'2.0' }}
+                </span>
+              </span>
+            </div>
+            <div class="theme__filters-airline-option-container" *ngIf="!isDomesticFlights">
+              <mat-checkbox
+                *ngIf="!isDomesticFlights"
+                [(ngModel)]="UserVal.airLine[airlines.airlineCode]"
+                list="airlines"
+                type="checkbox"
+                name="air-line"
+                value="{{ airlines.airlineCode }}"
+                (change)="startPushFilter(this, 'bndFlights')"
+              >
+              </mat-checkbox>
+              <span>
+                <span>
+                  <img
+                    class="carrier_logo airLineXs"
+                    ImageSrc
+                    src="assets/img/carriers/retina48px/carrier-{{ airlines.airlineCode }}.png"
+                    height="26px"
+                    alt="{{ airlines.airlineCode }}"
+                /></span>
+                <span class="scrollLabel">
+                  <span class="air_line">&nbsp;{{ airlines.airlineName }}</span>
+                  <span *ngIf="country !== 'ABSA'" class="labl_amt float-right"
+                    >{{ airlines.currencycode | currencyCode
+                    }}{{ airlines.amount | currency: '' + ' ':'symbol':'2.0' }}</span
+                  >
+                </span>
+              </span>
+            </div>
+          </label>
+        </div>
+
+        <!-- International Times Filters Section -->
+        <div
+          *ngIf="flightsearchResponse && flightsearchResponse.itineraries && flightsearchResponse.itineraries.length > 0"
+          class="filter margin-0-xs time_filters_section"
+          [ngClass]="{ active: isActive('times') }"
+          [hidden]="country === 'ABSA' && selectedFilterOption !== 'times' && selectedFilterOption !== 'baggage'"
+        >
+          <span *ngIf="country !== 'ABSA'" class="dept_times_head" data-target="#dept_times">
+            <label class="dept_times head_label pt-filters" translate>Departure Times</label>
+          </span>
+          <!-- Time Filters -->
+          <div class="dpt_times collapse show" id="dept_times" [hidden]="country === 'ABSA' && selectedFilterOption !== 'times'">
+            <div
+              class="depart_times pt-filters"
+              *ngFor="let odoList of flightsearchResponse.itineraries[0].odoList; let i = index"
+            >
+              <span translate class="cities"
+                ><span translate>Departure from</span> &nbsp;{{ getCityName(odoList.segments[0].origCode) }}
+              </span>
+              <div class="pt-filters">
+                <label class="time_filters">
+                  <input
+                    type="checkbox"
+                    class="form-switch radio_1set"
+                    [(ngModel)]="UserVal.dptSelects[i].d_earlyMorning"
+                    value="d_em"
+                    (change)="parseDptTime('d_em', '00:00', '06:00', i, 'bndFlights')"
+                  />
+                  <div class="time_slab">
+                    <div [ngClass]="country === 'ABSA' ? 'icon' : ''" class="text-center">
+                      <img
+                        ImageSrc
+                        class="time_slap_icon"
+                        src="./../../../assets/icons/srp_Icons/early_mrng_time_icn.svg"
+                        alt="am"
+                      />
+                      <div class="time_slab_val">
+                        <div translate class="time_slab_txt">Early Morning</div>
+                        <div class="time_slab_dur">00:00 - 06:00</div>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+                <label class="time_filters">
+                  <input
+                    type="checkbox"
+                    class="form-switch radio_1set"
+                    [(ngModel)]="UserVal.dptSelects[i].d_morning"
+                    value="d_m"
+                    (change)="parseDptTime('d_m', '06:00', '12:00', i, 'bndFlights')"
+                  />
+
+                  <div class="time_slab">
+                    <div [ngClass]="country === 'ABSA' ? 'icon' : ''" class="text-center">
+                      <img
+                        ImageSrc
+                        class="time_slap_icon"
+                        src="./../../../assets/icons/srp_Icons/mrng_time_icn.svg"
+                        alt="m"
+                      />
+                      <div class="time_slab_val">
+                        <div translate class="time_slab_txt">Morning</div>
+                        <div class="time_slab_dur">06:00 - 12:00</div>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+                <label class="time_filters">
+                  <input
+                    type="checkbox"
+                    class="form-switch radio_1set"
+                    [(ngModel)]="UserVal.dptSelects[i].d_afternoon"
+                    value="d_a"
+                    (change)="parseDptTime('d_a', '12:00', '18:00', i, 'bndFlights')"
+                  />
+                  <div class="time_slab">
+                    <div [ngClass]="country === 'ABSA' ? 'icon' : ''" class="text-center">
+                      <img
+                        ImageSrc
+                        class="time_slap_icon"
+                        src="./../../../assets/icons/srp_Icons/aftern_time_icn.svg"
+                        alt="pm"
+                      />
+                      <div class="time_slab_val">
+                        <div translate class="time_slab_txt">Afternoon</div>
+                        <div class="time_slab_dur">12:00 - 18:00</div>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+                <label class="time_filters">
+                  <input
+                    type="checkbox"
+                    class="form-switch radio_1set"
+                    [(ngModel)]="UserVal.dptSelects[i].d_evening"
+                    value="d_e"
+                    (change)="parseDptTime('d_e', '18:00', '24:00', i, 'bndFlights')"
+                    gl1="3"
+                    data-id="c"
+                  />
+                  <div class="time_slab">
+                    <div [ngClass]="country === 'ABSA' ? 'icon' : ''" class="text-center">
+                      <img
+                        ImageSrc
+                        class="time_slap_icon evening"
+                        src="./../../../assets/icons/srp_Icons/evening_icn.svg"
+                        alt="pm"
+                      />
+                      <div class="time_slab_val">
+                        <div translate class="time_slab_txt">Evening</div>
+                        <div class="time_slab_dur">18:00 - 00:00</div>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!--Baggage Filters-->
+          <div class="baggage_filters mar_baggage" [hidden]="country === 'ABSA' && selectedFilterOption !== 'baggage'">
+            <label *ngIf="country !== 'ABSA'" class="hd_labl pt-filters">Baggage</label>
+            <div class="bg_filters pt-filters">
+              <label class="baggageFilters">
+                <div class="checked_bg theme__filters-baggage-option-container">
+                  <input
+                    *ngIf="country !== 'ABSA'"
+                    type="checkbox"
+                    class="form-switch radio_1set"
+                    [(ngModel)]="UserVal.checkedBaggage"
+                    (change)="updateAnotherBaggage('checkedBaggage', UserVal); startPushFilter(this, 'bndFlights')"
+                  />
+                  <div class="bg_labl baggage_labl">Checked baggage</div>
+                  <mat-checkbox
+                    *ngIf="country === 'ABSA'"
+                    [(ngModel)]="UserVal.checkedBaggage"
+                    type="checkbox"
+                    name="checkedBaggage"
+                    (change)="updateAnotherBaggage('checkedBaggage', UserVal); startPushFilter(this, 'bndFlights')"
+                  ></mat-checkbox>
+                </div>
+              </label>
+
+              <label class="baggageFilters">
+                <div class="No_checked_bg theme__filters-baggage-option-container">
+                  <input
+                    *ngIf="country !== 'ABSA'"
+                    type="checkbox"
+                    class="form-switch radio_1set"
+                    [(ngModel)]="UserVal.noCheckedBaggage"
+                    (change)="updateAnotherBaggage('nocheckedBaggage', UserVal); startPushFilter(this, 'bndFlights')"
+                  />
+                  <div class="bg_labl baggage_labl">No Checked baggage</div>
+                  <mat-checkbox
+                    *ngIf="country === 'ABSA'"
+                    [(ngModel)]="outBoundUserVal.checkedBaggage"
+                    type="checkbox"
+                    name="noCheckedBaggage"
+                    (change)="updateAnotherBaggage('nocheckedBaggage', UserVal); startPushFilter(this, 'bndFlights')"
+                  ></mat-checkbox>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Domestic Time Filters section -->
+        <div
+          *ngIf="
+            flightsearchResponse &&
+            flightsearchResponse.outboundItineraries &&
+            flightsearchResponse.outboundItineraries.length > 0
+          "
+          class="filter time_filters_section pt-filters pb-xs-10"
+          [ngClass]="{ active: isActive('times') }"
+          [hidden]="country === 'ABSA' && selectedFilterOption !== 'times' && selectedFilterOption !== 'baggage'"
+        >
+        <!-- Time Filters -->
+          <div class="dpt_times" [hidden]="country === 'ABSA' && selectedFilterOption !== 'times'">
+            <span class="dept_times_head" data-target="#dept_time">
+              <label *ngIf="country !== 'ABSA'" translate class="head_label">Departure Times</label>
+              <span class="float-right d-none">
+                <img ImageSrc src="./../../../assets/icons/srp_Icons/angle_down.svg" alt="dept_times" />
+              </span>
+            </span>
+
+            <div id="dept_time" class="collapse show">
+              <div
+                class="depart_times pt-filters"
+                *ngFor="let odoList of flightsearchResponse.outboundItineraries[0].odoList; let i = index"
+              >
+                <span translate class="cities"
+                  ><span translate>Departure from</span> &nbsp;{{ getCityName(odoList.segments[0].origCode) }}
+                </span>
+                <div class="pt-filters">
+                  <label class="time_filters">
+                    <input
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="outBoundUserVal.dptSelects[i].d_earlyMorning"
+                      (change)="parseDptTime('d_em', '00:00', '06:00', i, 'outBound')"
+                    />
+                    <div class="time_slab">
+                      <div class="icon">
+                        <img
+                          ImageSrc
+                          class="time_slap_icon"
+                          src="./../../../assets/icons/srp_Icons/early_mrng_time_icn.svg"
+                          alt="am"
+                        />
+                        <span class="time_slab_val">
+                          <div translate class="time_slab_txt">Early Morning</div>
+                          <div class="time_slab_dur">00:00 - 06:00</div>
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="time_filters">
+                    <input
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="outBoundUserVal.dptSelects[i].d_morning"
+                      (change)="parseDptTime('d_m', '06:00', '12:00', i, 'outBound')"
+                    />
+                    <div class="time_slab">
+                      <div class="icon">
+                        <img
+                          ImageSrc
+                          class="time_slap_icon"
+                          src="./../../../assets/icons/srp_Icons/mrng_time_icn.svg"
+                          alt="mrng_time_icn"
+                        />
+                        <span class="time_slab_val">
+                          <div translate class="time_slab_txt">Morning</div>
+                          <div class="time_slab_dur">06:00 - 12:00</div>
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="time_filters">
+                    <input
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="outBoundUserVal.dptSelects[i].d_afternoon"
+                      (change)="parseDptTime('d_a', '12:00', '18:00', i, 'outBound')"
+                    />
+                    <div class="time_slab">
+                      <div class="icon">
+                        <img
+                          ImageSrc
+                          class="time_slap_icon"
+                          src="./../../../assets/icons/srp_Icons/aftern_time_icn.svg"
+                          alt="aftern_time_icn"
+                        />
+                        <span class="time_slab_val">
+                          <div translate class="time_slab_txt">Afternoon</div>
+                          <div class="time_slab_dur">12:00 - 18:00</div>
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="time_filters">
+                    <input
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="outBoundUserVal.dptSelects[i].d_evening"
+                      (change)="parseDptTime('d_e', '18:00', '24:00', i, 'outBound')"
+                      gl1="3"
+                      data-id="c"
+                    />
+                    <div class="time_slab">
+                      <div class="icon">
+                        <img
+                          ImageSrc
+                          class="time_slap_icon evening"
+                          src="./../../../assets/icons/srp_Icons/evening_icn.svg"
+                          alt="evening_icn"
+                        />
+                        <span class="time_slab_val">
+                          <div translate class="time_slab_txt">Evening</div>
+                          <div class="time_slab_dur">18:00 - 00:00</div>
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div
+                class="depart_times pt-filters"
+                *ngFor="let odoList of flightsearchResponse.inboundItineraries[0].odoList; let i = index"
+              >
+                <span class="pr-1 cities"
+                  ><span translate>Departure from</span> &nbsp;{{ getCityName(odoList.segments[0].origCode) }}
+                </span>
+                <div class="pt-filters">
+                  <label class="time_filters">
+                    <input
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="inBoundUserVal.dptSelects[i].d_earlyMorning"
+                      (change)="parseDptTime('d_em', '00:00', '06:00', i, 'inBound')"
+                    />
+                    <div class="time_slab">
+                      <div class="icon">
+                        <img
+                          ImageSrc
+                          class="time_slap_icon"
+                          src="./../../../assets/icons/srp_Icons/early_mrng_time_icn.svg"
+                          alt="am"
+                        />
+                        <span class="time_slab_val">
+                          <div translate class="time_slab_txt">Early Morning</div>
+                          <div class="time_slab_dur">00:00 - 06:00</div>
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="time_filters">
+                    <input
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="inBoundUserVal.dptSelects[i].d_morning"
+                      (change)="parseDptTime('d_m', '06:00', '12:00', i, 'inBound')"
+                    />
+                    <div class="time_slab">
+                      <div class="icon">
+                        <img
+                          ImageSrc
+                          class="time_slap_icon"
+                          src="./../../../assets/icons/srp_Icons/mrng_time_icn.svg"
+                          alt="mrng_time_icn"
+                        />
+                        <span class="time_slab_val">
+                          <div translate class="time_slab_txt">Morning</div>
+                          <div class="time_slab_dur">06:00 - 12:00</div>
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="time_filters">
+                    <input
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="inBoundUserVal.dptSelects[i].d_afternoon"
+                      (change)="parseDptTime('d_a', '12:00', '18:00', i, 'inBound')"
+                    />
+                    <div class="time_slab">
+                      <div class="icon">
+                        <img
+                          ImageSrc
+                          class="time_slap_icon"
+                          src="./../../../assets/icons/srp_Icons/aftern_time_icn.svg"
+                          alt="aftern_time_icn"
+                        />
+                        <span class="time_slab_val">
+                          <div translate class="time_slab_txt">Afternoon</div>
+                          <div class="time_slab_dur">12:00 - 18:00</div>
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                  <label class="time_filters">
+                    <input
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="inBoundUserVal.dptSelects[i].d_evening"
+                      (change)="parseDptTime('d_e', '18:00', '24:00', i, 'inBound')"
+                      gl1="3"
+                      data-id="c"
+                    />
+                    <div class="time_slab">
+                      <div class="icon">
+                        <img
+                          ImageSrc
+                          class="time_slap_icon evening"
+                          src="./../../../assets/icons/srp_Icons/evening_icn.svg"
+                          alt="evening_icn"
+                        />
+                        <span class="time_slab_val">
+                          <div translate class="time_slab_txt">Evening</div>
+                          <div class="time_slab_dur">18:00 - 00:00</div>
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Baggage Filters-->
+          <div class="mar_baggage" [hidden]="country === 'ABSA' && selectedFilterOption !== 'baggage'">
+            <div class="baggage_filters">
+              <label *ngIf="country !== 'ABSA'" class="hd_labl pt-filters">Baggage</label>
+              <div class="jrny_txt pt-filters">Depart</div>
+              <div class="bg_filters onward_filter pt-filters">
+                <label class="baggageFilters">
+                  <div class="No_checked_bg theme__filters-baggage-option-container">
+                    <input
+                      *ngIf="country !== 'ABSA'"
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="outBoundUserVal.noCheckedBaggage"
+                      (change)="
+                        updateAnotherBaggage('nocheckedBaggage', outBoundUserVal); startPushFilter(this, 'outBound')
+                      "
+                    />
+                    <div class="bg_labl baggage_labl">Checked baggage</div>
+                    <mat-checkbox
+                      *ngIf="country === 'ABSA'"
+                      [(ngModel)]="outBoundUserVal.noCheckedBaggage"
+                      type="checkbox"
+                      name="noCheckedBaggage"
+                      (change)="updateAnotherBaggage('nocheckedBaggage', outBoundUserVal); startPushFilter(this, 'outBound')"
+                    ></mat-checkbox>
+                  </div>
+                </label>
+                <label class="baggageFilters">
+                  <div class="checked_bg theme__filters-baggage-option-container">
+                    <input
+                      *ngIf="country !== 'ABSA'"
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="outBoundUserVal.checkedBaggage"
+                      (change)="
+                        updateAnotherBaggage('checkedBaggage', outBoundUserVal); startPushFilter(this, 'outBound')
+                      "
+                    />
+                    <div class="bg_labl baggage_labl">No Checked baggage</div>
+                    <mat-checkbox
+                      *ngIf="country === 'ABSA'"
+                      [(ngModel)]="outBoundUserVal.checkedBaggage"
+                      type="checkbox"
+                      name="checkedBaggage"
+                      (change)="updateAnotherBaggage('checkedBaggage', outBoundUserVal); startPushFilter(this, 'outBound')"
+                    ></mat-checkbox>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="baggage_filters">
+              <div class="jrny_txt pt-filters">Return</div>
+              <div class="bg_filters pt-filters">
+                <label class="baggageFilters">
+                  <div class="No_checked_bg theme__filters-baggage-option-container">
+                    <input
+                      *ngIf="country !== 'ABSA'"
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="inBoundUserVal.noCheckedBaggage"
+                      (change)="
+                        updateAnotherBaggage('nocheckedBaggage', inBoundUserVal); startPushFilter(this, 'inBound')
+                      "
+                    />
+                    <div class="bg_labl baggage_labl">Checked baggage</div>
+                    <mat-checkbox
+                      *ngIf="country === 'ABSA'"
+                      [(ngModel)]="inBoundUserVal.noCheckedBaggage"
+                      type="checkbox"
+                      name="noCheckedBaggage"
+                      (change)="updateAnotherBaggage('nocheckedBaggage', inBoundUserVal); startPushFilter(this, 'inBound')"
+                    ></mat-checkbox>
+                  </div>
+                </label>
+                <label class="baggageFilters">
+                  <div class="checked_bg theme__filters-baggage-option-container">
+                    <input
+                      *ngIf="country !== 'ABSA'"
+                      type="checkbox"
+                      class="form-switch radio_1set"
+                      [(ngModel)]="inBoundUserVal.checkedBaggage"
+                      (change)="updateAnotherBaggage('checkedBaggage', inBoundUserVal); startPushFilter(this, 'inBound')"
+                    />
+                    <div class="bg_labl baggage_labl">No Checked baggage</div>
+                    <mat-checkbox
+                      *ngIf="country === 'ABSA'"
+                      [(ngModel)]="inBoundUserVal.checkedBaggage"
+                      type="checkbox"
+                      name="checkedBaggage"
+                      (change)="updateAnotherBaggage('checkedBaggage', inBoundUserVal); startPushFilter(this, 'inBound')"
+                    ></mat-checkbox>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Handlers -->
+  <div class="eventBtns text-center pb-4 pt-4">
+    <button  class="btn default_btn reset mr-2 theme__default-button" (click)="resetAllFilters()">
+      <span translate>{{ country === 'ABSA' ? 'Clear' : 'Reset All' }}</span>
+    </button>
+    <button
+      translate
+      class="btn primary_btn apply d-inline d-lg-none theme__default-button"
+      (click)="applyFilters(this)"
+      data-toggle="modal"
+      data-target="#res_filters"
+    >
+      <span translate>Apply</span>
+    </button>
+    <button  translate class="btn primary_btn apply d-none d-lg-inline theme__default-button" ta-toggle="modal" data-target="#res_filters">
+      <span translate>Show Results</span>
+    </button>
+  </div>
+</div>

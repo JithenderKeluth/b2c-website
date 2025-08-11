@@ -1,0 +1,57 @@
+export const DEFAULT_LOCALE: string = 'en-GO';
+export const LOCALE_SEPARATOR: string = '-';
+
+// tslint:disable:object-literal-sort-keys
+export const SUPPORTED_LOCALES = [
+  {
+    language: 'en',
+    direction: 'ltr',
+    name: 'English',
+    countries: [
+      'AC',
+      'AE',
+      'BH',
+      'BW',
+      'CT',
+      'DZ',
+      'EG',
+      'GH',
+      'GO',
+      'GZ',
+      'JO',
+      'KE',
+      'KW',
+      'LY',
+      'MA',
+      'ME',
+      'MW',
+      'NA',
+      'NG',
+      'OM',
+      'PK',
+      'QA',
+      'SA',
+      'TB',
+      'FS',
+      'TN',
+      'TT',
+      'TZ',
+      'ZA',
+      'ZW',
+      'IB',
+      'GZ',
+    ],
+  },
+  {
+    language: 'ar',
+    direction: 'rtl',
+    name: 'عربي',
+    countries: ['AE', 'BH', 'EG', 'KW', 'MA', 'OM', 'QA', 'SA'],
+  },
+  {
+    language: 'tr',
+    direction: 'ltr',
+    name: 'Türk',
+    countries: ['TR'],
+  },
+];

@@ -1,0 +1,97 @@
+<div class="meal-selection">
+  <div class="header">
+    <div class="title" translate>Choose your meal</div>
+    <button class="close-btn" (click)="close()"
+            [attr.data-target]="'#mealSelector-' + travellerIndex">
+      <img
+        ImageSrc
+        src="../../../../assets/icons/srp_Icons/close-icn-new-all.svg"
+        alt="close"
+        aria-label="Close"
+        width="14px"
+        height="14px"
+      />
+    </button>
+  </div>
+
+  <div class="options-container">
+    <!-- No meal preference option -->
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        [id]="'noMealPreference-' + travellerIndex"
+        [name]="'mealSelection-' + travellerIndex"
+        [value]="''"
+        [(ngModel)]="selectedMeal"
+        (change)="selectMeals('', travellerIndex)"
+      />
+      <label class="form-check-label" [for]="'noMealPreference-' + travellerIndex">
+        <span class="meal-name" translate>No meal preference</span>
+        <span class="meal-price">R0</span>
+      </label>
+    </div>
+
+    <!-- Other meal options -->
+    <div
+      class="form-check"
+      *ngFor="
+        let meals of this.travellerForm.value.travellersList[travellerIndex]
+          .type !== 'INFANT'
+          ? mealSelectionData
+          : babyMealSelection;
+        let i = index
+      "
+    >
+      <input
+        class="form-check-input"
+        type="radio"
+        [id]="'meal' + i + '-' + travellerIndex"
+        [name]="'mealSelection-' + travellerIndex "
+        [value]="meals.value"
+        [(ngModel)]="selectedMeal"
+        (change)="selectMeals(meals, travellerIndex)"
+      />
+      <label class="form-check-label" [for]="'meal' + i + '-' + travellerIndex">
+        <span class="meal-name" translate>{{ meals.name }}</span>
+        <span
+          class="meal-price"
+          *ngIf="
+            travellerForm.value.travellersList[travellerIndex].type ===
+              'ADULT' ||
+            travellerForm.value.travellersList[travellerIndex].type ===
+              'YOUNGADULT'
+          "
+        >
+          {{ pricedResult_dataInfo.currencyCode | currencyCode
+          }}{{ mealprferenceAmount | currency: '' + ' ':'symbol':'2.0' }}
+        </span>
+        <span
+          class="meal-price"
+          *ngIf="
+            travellerForm.value.travellersList[travellerIndex].type === 'CHILD'
+          "
+        >
+          {{ pricedResult_dataInfo.currencyCode | currencyCode
+          }}{{ childMealPreferenceAmount | currency: '' + ' ':'symbol':'2.0' }}
+        </span>
+        <span
+          class="meal-price"
+          *ngIf="
+            travellerForm.value.travellersList[travellerIndex].type === 'INFANT'
+          "
+        >
+          {{ pricedResult_dataInfo.currencyCode | currencyCode
+          }}{{ infantMealPreferenceAmount | currency: '' + ' ':'symbol':'2.0' }}
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <div class="apply-btn-container">
+    <button class="apply-btn" (click)="applyMealSelection()" translate
+            [attr.data-target]="'#mealSelector-' + travellerIndex">
+      Apply
+    </button>
+  </div>
+</div>

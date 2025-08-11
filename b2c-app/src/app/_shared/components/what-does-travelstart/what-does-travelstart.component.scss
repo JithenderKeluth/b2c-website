@@ -1,0 +1,73 @@
+@import "./../../../../theme/theme-variables.scss";
+
+.what_does {
+  color: var(--text_primary_color);
+  a {
+    color: var(--text_link_color);
+  }
+  .sec_title {
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+    }
+  }
+  .content {
+    font-size: 13px;
+    font-weight: normal;
+  }
+}
+
+.subscription_sec {
+  background: #ffffff;
+  color: $text-secondary-color;
+  font-size: 12px;
+  font-weight: 600;
+  .content > label:first-child {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text_primary_color);
+  }
+  .content {
+    a {
+      color: $color-neutral-400;
+      font-weight: normal;
+      cursor: pointer;
+    }
+  }
+  .input-group {
+    input {
+      border-radius: 0;
+      height: 46px;
+      font-size: 13px;
+    }
+    .btn {
+      max-width: 120px;
+      height: 46px;
+      border-radius: 0;
+      font-size: 13px !important;
+      background: $color-link-blue;
+    }
+  }
+  .sub_sec {
+    padding: 1.5rem 1.5rem 1.5rem 1rem;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .mt-xs-15 {
+    margin-top: 15px !important;
+  }
+  .subscription_sec {
+    label {
+      font-size: 12px !important;
+    }
+  }
+  .pad-footer {
+    padding: 10px 10px !important;
+  }
+  .what_does {
+    .sec_title {
+      font-size: 18px !important;
+    }
+  }
+}

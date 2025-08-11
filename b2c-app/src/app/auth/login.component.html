@@ -1,0 +1,702 @@
+<div *ngIf="showLogin" class="login-container bg-light" role="document">
+  <div class="login-box">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6 pr-0 col-sm-12">
+            <span class="float-right crossIcon">
+              <img
+                ImageSrc
+                class="close_icon"
+                src="https://cdn1.travelstart.com/assets/icons/close_cross_icn.svg"
+                aria-label="Close"
+                data-dismiss="modal"
+                (click)="backToSignIn('closeModal')"
+                alt="close"
+              />
+            </span>
+            <div class="left-section" [style.padding]="!showEmailOTP ? '40px 25px' : '25px'">
+              <ul *ngIf="showEmailOTP" class="nav nav-tabs" id="nav-tab" role="tablist">
+                <li class="nav-item" (click)="selectTab('login')">
+                  <a
+                    translate
+                    class="nav-link"
+                    data-toggle="tab"
+                    data-target="#nav-login"
+                    rel="nofollow"
+                    role="tab"
+                    aria-controls="nav-login"
+                    [class.active]="tabVal === 'login'"
+                    aria-selected="true"
+                    >Login</a
+                  >
+                </li>
+                <li class="nav-item" (click)="selectTab('signup')">
+                  <a
+                    translate
+                    class="nav-link"
+                    rel="nofollow"
+                    data-toggle="tab"
+                    data-target="#nav-signUp"
+                    role="tab"
+                    aria-controls="nav-signUp"
+                    [class.active]="tabVal === 'signup'"
+                    aria-selected="false"
+                    >Signup</a
+                  >
+                </li>
+              </ul>
+
+              <div class="tab-content" id="nav-tabContent">
+                <div
+                  *ngIf="showEmailOTP"
+                  [class.show]="tabVal === 'login'"
+                  [class.active]="tabVal === 'login'"
+                  class="tab-pane fade show active"
+                  id="nav-login"
+                  role="tabpanel"
+                  aria-labelledby="nav-login"
+                >
+                  <span routerLink="" class="branding spacer d-none">
+                    <img ImageSrc src="https://www.travelstart.com/assets/img/logos/ts-logo-EN.svg" alt="travelstart"
+                  /></span>
+                  <form [formGroup]="loginForm" novalidate>
+                    <div class="header"></div>
+
+                    <div class="validation_msg" *ngIf="errorMsg">
+                      {{ errorMsg }}
+                    </div>
+
+                    <div class="form-group" [style.margin-bottom]="!isPwdLogin ? '10px' : '16px'">
+                      <label class="form-field d-block">
+                        <span translate class="control-label">Email</span>
+                        <input
+                          type="text"
+                          #email
+                          class="form-control"
+                          name="username"
+                          formControlName="username"
+                          (input)="keyEvent()"
+                          autocomplete="username"
+                          placeholder="Enter your Email address"
+                        />
+
+                        <div
+                          translate
+                          class="signUp_validation_msg"
+                          *ngIf="submitLogin && loginForm?.get('username')?.errors?.required"
+                        >
+                          Email is required.
+                        </div>
+                        <div
+                          translate
+                          class="signUp_validation_msg"
+                          *ngIf="submitLogin && loginForm?.get('username')?.errors?.pattern"
+                        >
+                          Please enter a valid email
+                        </div>
+                      </label>
+
+                      <label *ngIf="isPwdLogin" class="form-field d-block">
+                        <span class="control-label" translate>Password</span>
+                        <input
+                          [type]="showEyeIcon ? 'password' : 'text'"
+                          #password
+                          class="form-control"
+                          name="password"
+                          formControlName="password"
+                          autocomplete="current-password"
+                          (input)="keyEvent()"
+                          placeholder="Password"
+                          required
+                        />
+                        <div class="showEye">
+                          <i
+                            aria-hidden="true"
+                            [ngClass]="[showEyeIcon ? 'fa fa-eye-slash' : 'fa fa-eye']"
+                            (click)="showPwd()"
+                          ></i>
+                        </div>
+
+                        <div
+                          translate
+                          class="signUp_validation_msg"
+                          *ngIf="submitLogin && loginForm?.get('password')?.errors?.required"
+                        >
+                          Password is required.
+                        </div>
+                        <div
+                          translate
+                          class="signUp_validation_msg"
+                          *ngIf="submitLogin && loginForm?.get('password')?.errors?.pattern"
+                        >
+                          Invalid Password.
+                        </div>
+                      </label>
+                    </div>
+
+                    <div *ngIf="!isPwdLogin">
+                      <div class="otp_txt">We'll send an OTP via Email</div>
+
+                      <button
+                        class="w-100 btn_height mt-3 btn primary_btn"
+                        aria-label="Get OTP"
+                        [disabled]="!loginForm?.get('username')?.valid || loadOTP"
+                        [ngClass]="{ 'disabled-button': !loginForm?.get('username')?.valid }"
+                        (click)="getOTP()"
+                      >
+                        <i
+                          class="fa fa-spinner fa-spin"
+                          style="font-size: 24px"
+                          [hidden]="!loadOTP"
+                          aria-hidden="true"
+                        ></i
+                        >Get OTP
+                      </button>
+
+                      <div class="divider">
+                        <span class="divider-text">OR LOGIN WITH</span>
+                      </div>
+                    </div>
+
+                    <div class="mt-xs-20 forgotPwdsec" *ngIf="isPwdLogin">
+                      <label class="form-check-label d-inline-flex align-items-center">
+                        <mat-checkbox class="form-switch radio_1set" formControlName="remember"></mat-checkbox>
+                        <span class="remember" translate>Remember me</span>
+                      </label>
+                      <label class="pull-right">
+                        <span translate class="reset_btn" style="cursor: pointer" (click)="getForgotPasswordLink()"
+                          >Forgot your password?
+                        </span>
+                      </label>
+                    </div>
+
+                    <button
+                      *ngIf="isPwdLogin"
+                      class="btn primary_btn w-100 btn_height mt-2"
+                      type="submit"
+                      aria-label="Login"
+                      (click)="loginSubmit()"
+                    >
+                      <i
+                        class="fa fa-spinner fa-spin"
+                        style="font-size: 24px"
+                        [hidden]="!isLoading"
+                        aria-hidden="true"
+                      ></i>
+                      <span translate>Login</span>
+                    </button>
+                    <div class="divider" *ngIf="tabVal === 'login' && isPwdLogin">
+                      <span class="divider-text">OR LOGIN WITH</span>
+                    </div>
+                  </form>
+                </div>
+
+                <div
+                  class="tab-pane fade"
+                  *ngIf="tabVal === 'signup' && showEmailOTP"
+                  id="nav-signUp"
+                  role="tabpanel"
+                  [class.show]="tabVal === 'signup'"
+                  [class.active]="tabVal === 'signup'"
+                  aria-labelledby="nav-signUp"
+                >
+                  <form (ngSubmit)="signUpSubmit()" [formGroup]="signUpForm" novalidate>
+                    <div class="header"></div>
+
+                    <div class="successMsg" *ngIf="successMsg">{{ successMsg }}</div>
+
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-12">
+                          <label style="line-height: 1.5em" class="form-field d-block">
+                            <span translate class="control-label">First Name</span>
+                            <input
+                              type="text"
+                              #firstName
+                              class="form-control"
+                              placeholder="First Name"
+                              formControlName="firstName"
+                              name="firstName"
+                            />
+
+                            <div
+                              translate
+                              class="signUp_validation_msg"
+                              *ngIf="submitSignUp && signUpForm?.get('firstName')?.errors?.required"
+                            >
+                              Required First name
+                            </div>
+                            <div
+                              translate
+                              class="signUp_validation_msg"
+                              *ngIf="submitSignUp && signUpForm?.get('firstName')?.errors?.pattern"
+                            >
+                              Invalid First name
+                            </div>
+                          </label>
+                        </div>
+
+                        <div class="col-12">
+                          <label style="line-height: 1.5em" class="form-field d-block">
+                            <span class="control-label" translate>Surname</span>
+                            <input
+                              type="text"
+                              #surName
+                              class="form-control"
+                              formControlName="surName"
+                              placeholder="Surname"
+                              name="surName"
+                              required
+                            />
+
+                            <div
+                              translate
+                              class="signUp_validation_msg"
+                              *ngIf="submitSignUp && signUpForm?.get('surName')?.errors?.required"
+                            >
+                              Required Surname
+                            </div>
+                            <div
+                              translate
+                              class="signUp_validation_msg"
+                              *ngIf="submitSignUp && signUpForm?.get('surName').errors?.pattern"
+                            >
+                              Invalid Surname
+                            </div>
+                          </label>
+                        </div>
+
+                        <div class="col-12">
+                          <label style="line-height: 1.5em" class="form-field d-block">
+                            <span translate class="control-label">Email</span>
+                            <input
+                              type="text"
+                              #signUpEmail
+                              class="form-control"
+                              placeholder="Email"
+                              name="email"
+                              formControlName="email"
+                              autocomplete="email"
+                            />
+
+                            <div
+                              translate
+                              class="signUp_validation_msg"
+                              *ngIf="submitSignUp && signUpForm?.get('email')?.errors?.required"
+                            >
+                              Email is required.
+                            </div>
+                            <div
+                              translate
+                              class="signUp_validation_msg"
+                              *ngIf="submitSignUp && signUpForm?.get('email')?.errors?.pattern"
+                            >
+                              Please enter a valid email
+                            </div>
+                          </label>
+                        </div>
+
+                        <div class="col-12">
+                          <label style="line-height: 1.5em" class="form-field d-block">
+                            <span translate class="control-label">Password</span>
+                            <input
+                              [type]="showEyeIcon ? 'password' : 'text'"
+                              #signUpPassword
+                              class="form-control"
+                              name="signUpPassword"
+                              placeholder="Password"
+                              formControlName="password"
+                              autocomplete="off"
+                            />
+                            <div class="showEye" style="margin-top: -34px">
+                              <i
+                                aria-hidden="true"
+                                [ngClass]="[showEyeIcon == true ? 'fa fa-eye-slash' : 'fa fa-eye']"
+                                (click)="showPwd()"
+                              ></i>
+                            </div>
+
+                            <div
+                              translate
+                              class="signUp_validation_msg"
+                              *ngIf="submitSignUp && signUpForm?.get('password')?.errors?.required"
+                            >
+                              Password is required.
+                            </div>
+
+                            <div *ngIf="pwdNotMatch" class="pwdError">
+                              <span translate
+                                >Your password should at least be 6 characters long and contain one of each of the
+                                following:</span
+                              >
+                              <ul class="pswdValidation">
+                                <li translate>Letter and</li>
+                                <li translate>Number and</li>
+                                <li translate>Special character (e.g. !,&#64;,#,$,%)</li>
+                              </ul>
+                            </div>
+                          </label>
+                        </div>
+                        <div class="col-12">
+                          <p class="acknowledge">
+                            <input
+                              type="checkbox"
+                              name="agreeTerms"
+                              formControlName="specialOffers"
+                              [checked]="false"
+                            />
+                            <span translate>Send me special offers & promotions</span>
+                          </p>
+                        </div>
+                        <div class="col-12">
+                          <button
+                            class="btn primary_btn w-100 btn_height mt-3"
+                            type="submit"
+                            (click)="signUpSubmit()"
+                            [disabled]="btnDisable"
+                          >
+                            <i
+                              *ngIf="btnDisable"
+                              class="fa fa-spinner fa-spin"
+                              style="font-size: 24px"
+                              [hidden]="!submitSignUp"
+                              aria-label="Sign up"
+                              aria-hidden="true"
+                            ></i>
+                            <span translate>Sign up</span>
+                          </button>
+                        </div>
+
+                        <div class="col-12">
+                          <div *ngIf="signupResponse" class="signUp_validation_msg">
+                            {{ signupResponse }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div class="divider" *ngIf="tabVal === 'signup' && showEmailOTP">
+                <span class="divider-text">OR SIGNUP WITH</span>
+              </div>
+
+              <div class="social_btns mt-2" *ngIf="showEmailOTP">
+                <div class="row">
+                  <div class="col-sm-12" *ngIf="!isPwdLogin && tabVal === 'login'">
+                    <button class="btn g_btn w-100 mb-3" aria-label="with Google" (click)="loginPWDOTP()">
+                      <img
+                        class="float-left"
+                        style="padding-top: 3px"
+                        ImageSrc
+                        alt="google"
+                        src="https://cdn1.travelstart.com/assets/images/login_with_pwd.svg"
+                      />
+                      <span class="fb_btn"> <span translate>Login with Password</span></span>
+                    </button>
+                  </div>
+
+                  <div class="col-sm-12" *ngIf="isPwdLogin && tabVal === 'login'">
+                    <button class="btn g_btn w-100 mb-3 btn_height" aria-label="with Google" (click)="loginPWDOTP()">
+                      <img
+                        class="float-left"
+                        style="padding-top: 6px"
+                        ImageSrc
+                        alt="google"
+                        src="https://cdn1.travelstart.com/assets/images/msg_icn.svg"
+                      />
+                      <span class="fb_btn"> <span translate>Login with OTP</span></span>
+                    </button>
+                  </div>
+
+                  <div class="col-sm-12">
+                    <button class="btn g_btn w-100" aria-label="with Google" (click)="signInWithGoogle()">
+                      <img
+                        class="float-left"
+                        style="padding-top: 3px"
+                        ImageSrc
+                        src="https://cdn1.travelstart.com/assets/images/google-icn.svg"
+                        alt="google"
+                      />
+                      <span class="fb_btn">
+                        <span translate *ngIf="tabVal === 'login'">Login</span>
+                        <span translate *ngIf="tabVal === 'signup'">Sign up</span>
+                        <span translate>with Google</span></span
+                      >
+                    </button>
+                  </div>
+                </div>
+
+                <div translate class="row dont_share">Don't worry, we won't share any of your information.</div>
+              </div>
+
+              <div class="col-12 p-0" *ngIf="showEmailOTP">
+                <div class="form-check mb-3 p-0">
+                  <label class="form-check-label" style="font-size: 12px">
+                    <span class="remember" translate
+                      ><span translate>By proceeding, I acknowledge that i have read and agree to Travelstart's</span>
+                      <a href="{{ 'terms and conditions URL' | translate }}" rel="noopener"
+                        ><span translate>Terms and Conditions</span></a
+                      ></span
+                    >
+                  </label>
+                  <p
+                    translate
+                    *ngIf="submitSignUp && signUpForm.get('agreeTerms')?.errors?.required"
+                    class="signUp_validation_msg"
+                  >
+                    Please accept terms and conditions in order to proceed
+                  </p>
+                </div>
+              </div>
+
+              <div class="show_otp_section text-center" *ngIf="!showEmailOTP">
+                <div class="otp_sent_txt">We have sent an OTP on Email ID</div>
+                <div class="otp_sent_txt">
+                  {{ loginForm?.get('username')?.value }}
+                  <a (click)="showGetOTP()"
+                    ><img
+                      src="https://cdn1.travelstart.com/assets/images/otp_edit.svg"
+                      ImageSrc
+                      alt="edit"
+                      height="13px"
+                  /></a>
+                </div>
+
+                <div class="otp-container mt-4 mb-3">
+                  <input
+                    type="tel"
+                    maxlength="1"
+                    class="otp-input"
+                    (input)="onInput($event, 0); validatingOTP()"
+                    (keydown)="onKeydown($event, 0)"
+                    (keypress)="onlyNumberKey($event)"
+                    #otp0
+                  />
+                  <input
+                    type="tel"
+                    maxlength="1"
+                    class="otp-input"
+                    (input)="onInput($event, 1); validatingOTP()"
+                    (keydown)="onKeydown($event, 1)"
+                    (keypress)="onlyNumberKey($event)"
+                    #otp1
+                  />
+                  <input
+                    type="tel"
+                    maxlength="1"
+                    class="otp-input"
+                    (input)="onInput($event, 2); validatingOTP()"
+                    (keydown)="onKeydown($event, 2)"
+                    (keypress)="onlyNumberKey($event)"
+                    #otp2
+                  />
+                  <input
+                    type="tel"
+                    maxlength="1"
+                    class="otp-input"
+                    (input)="onInput($event, 3); validatingOTP()"
+                    (keydown)="onKeydown($event, 3)"
+                    (keypress)="onlyNumberKey($event)"
+                    #otp3
+                  />
+                  <input
+                    type="tel"
+                    maxlength="1"
+                    class="otp-input"
+                    (input)="onInput($event, 4); validatingOTP()"
+                    (keydown)="onKeydown($event, 4)"
+                    (keypress)="onlyNumberKey($event)"
+                    #otp4
+                  />
+                  <input
+                    type="tel"
+                    maxlength="1"
+                    class="otp-input"
+                    (input)="onInput($event, 5); validatingOTP()"
+                    (keydown)="onKeydown($event, 5)"
+                    (keypress)="onlyNumberKey($event)"
+                    #otp5
+                  />
+                </div>
+
+                <div *ngIf="errorMsg" class="validation_msg">{{ errorMsg }}</div>
+                <div class="mt-3 timer" *ngIf="displayTimer">{{ displayTimer }}</div>
+                <button
+                  class="btn_height mt-3 mb-4 btn resendBtn"
+                  [disabled]="isResendDisabled && displayTimer"
+                  [ngClass]="{ 'disabled-button': isResendDisabled }"
+                  aria-label="RESEND"
+                  (click)="getOTP()"
+                >
+                  <i class="fa fa-spinner fa-spin" style="font-size: 16px" [hidden]="!loadOTP" aria-hidden="true"></i
+                  >RESEND OTP
+                </button>
+                <div class="col-10 p-0 mt-5 otp_success_txt" *ngIf="!successMsg?.msg">{{ successMsg }}</div>
+                <div class="col-10 p-0 mt-5 successMsg" style="margin: 0 auto" *ngIf="successMsg?.msg">
+                  {{ successMsg.msg }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6 right-section" [ngClass]="travelstartPlus ? 'right_sec_bg_img' : 'right_sec_bg_clr'">
+            <div class="float-right">
+              <img
+                class="close_icon"
+                ImageSrc
+                src="https://cdn1.travelstart.com/assets/icons/close_cross_icn.svg"
+                aria-label="Close"
+                data-dismiss="modal"
+                (click)="backToSignIn('closeModal')"
+                alt="close"
+              />
+            </div>
+            <div class="socials">
+              <div class="caption" *ngIf="!travelstartPlus">
+                <label
+                  ><span translate>Welcome to your</span> <span translate class="high">one-stop travel</span>
+                  <span translate>shop</span></label
+                >
+              </div>
+
+              <div *ngIf="travelstartPlus">
+                <label for="Upgrade" class="ts_pls_txt"
+                  ><span translate class="high">Upgrade</span> <span translate>to a world of benefits</span></label
+                >
+              </div>
+
+              <div *ngIf="!travelstartPlus" class="animateLogin">
+                <div class="LeftDashAnim"></div>
+              </div>
+              <div class="pb-2" *ngIf="!travelstartPlus">
+                <div class="">
+                  <p class="lls723LeftBottomText">{{ slideName }}</p>
+                </div>
+              </div>
+
+              <div *ngIf="travelstartPlus" class="ts_plus_content">
+                <div class="ts_plus_txt">Before you can upgrade to travelstart+ make sure to secure your account.</div>
+                <label *ngIf="!isMastercardCountry" for="Travelstart Member" class="mt-3">Already a Travelstart Member</label>
+                <div *ngIf="!isMastercardCountry" class="ts_plus_txt">
+                  If you're already a travelstart member, just log in with your email and password.
+                </div>
+                <label for="Forgot password?" class="mt-3">Forgot password?</label>
+                <div class="ts_plus_txt">No worries, click 'Forgot Password', and we'll send you a link.</div>
+                <label for="New Member" class="mt-3">New Member</label>
+                <div class="ts_plus_txt">If you're new here, simply sign up to get started.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="forgotPassword">
+  <div class="card forgot_box">
+    <div class="card-header forgot_head">
+      <h5 translate class="pull-left">Forgotten your password?</h5>
+      <a (click)="backToSignIn('closeModal')">
+        <img
+          ImageSrc
+          src="https://cdn1.travelstart.com/assets/icons/close_cross_icn.svg"
+          alt="close"
+          class="float-right close_pwd"
+          width="13px"
+          data-dismiss="modal"
+          aria-label="Close"
+        />
+      </a>
+    </div>
+
+    <div class="card-body forgot_body">
+      <h6 translate *ngIf="!pwdSent">Enter your email address and we'll send you a link to reset your password</h6>
+      <div *ngIf="!pwdSent" class="row">
+        <div class="col-12">
+          <label class="form-field d-block">
+            <span class="control-label" translate>Email</span>
+            <input type="email" name="forgotEmail" class="form-control" [formControl]="forgotEmail" required />
+            <div translate class="validation_msg" *ngIf="submitForgotEmail && forgotEmail?.errors?.required">
+              Email is required.
+            </div>
+            <div translate class="validation_msg" *ngIf="submitForgotEmail && forgotEmail?.errors?.pattern">
+              Email is invalid
+            </div>
+          </label>
+        </div>
+
+        <div class="col-12 btns-section">
+          <button
+            mat-button
+            aria-label="Send reset link"
+            type="submit"
+            class="btn btn-reset w-100 btn_height mb-4 mt-2"
+            (click)="sendResetLink('send-reset')"
+          >
+            <span translate>Send reset link</span>
+          </button>
+          <div class="validation_msg" style="line-height: 23px" *ngIf="errorMsg">
+            {{ errorMsg }}
+          </div>
+        </div>
+
+        <div class="col-12 btns-section">
+          <button
+            mat-button
+            type="submit"
+            aria-label="Cancel"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="backToSignIn('closeModal')"
+            class="btn btn-cancel w-100 btn_height mb-4"
+          >
+            <span translate>Cancel</span>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="pwdSent" class="row justify-content-center pwdSentSuccess">
+        <div>
+          <img
+            ImageSrc
+            src="https://cdn1.travelstart.com/assets/icons/tick-forgot.svg"
+            alt="close"
+            data-dismiss="modal"
+            height="70px"
+            width="70px"
+            aria-label="Close"
+            (click)="backToSignIn('closeModal')"
+          />
+        </div>
+        <div translate class="mt-3 ml-3 pwdSuccussMsg">Password reset link sent! Please check your email.</div>
+        <div class="col-12 btns-section">
+          <button
+            mat-button
+            type="submit"
+            aria-label="Back to Sign in"
+            (click)="backToSignIn('returnSignIn')"
+            class="btn btn-reset w-100 btn_height mb-4"
+          >
+            <span translate>Back to Sign in</span>
+          </button>
+        </div>
+        <div class="row emailTroubles text-center">
+          <h6 translate>Troubles receiving the email?</h6>
+          <p class="mt-4">
+            <span translate>Check your email in the next few minutes (including junk folders) or</span>
+            <a translate (click)="sendResetLink('click-here')" rel="nofollow">click here</a>
+            <span translate>to resend the reset mail.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showSpinner">
+  <img ImageSrc src="https://cdn1.travelstart.com/assets/images/Spinner-1s-200px.gif" alt="spin" />
+</div>

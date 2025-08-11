@@ -1,0 +1,43 @@
+<div class="class-selection">
+  <div class="header">
+    <div class="title theme__class_selector_header" translate>Select Class</div>
+    <button
+      class="close-btn theme__class-selector-close"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
+      <img
+        ImageSrc
+        src="../../../../assets/icons/srp_Icons/close-icn-new-all.svg"
+        alt="close"
+        aria-label="Close"
+        width="14px"
+      />
+    </button>
+  </div>
+  <div class="options">
+    <div class="form-check" *ngFor="let option of options">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="classSelection"
+        [value]="option.value"
+        [(ngModel)]="selectedOption"
+        id="radio-{{ option.value }}"
+      />
+      <label
+        class="form-check-label theme__class_selector_option"
+        for="radio-{{ option.value }}"
+        translate
+      >
+        {{ option.display }}
+      </label>
+    </div>
+  </div>
+  <button
+    class="btn primary_btn onHover apply-btn theme__class_selector_apply_btn"
+    (click)="applySelection()"
+  >
+  <span translate>{{ applyButtonTitle }}</span>
+  </button>
+</div>

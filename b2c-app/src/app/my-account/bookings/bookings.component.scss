@@ -1,0 +1,110 @@
+@import "./../../../theme/theme-variables.scss";
+
+.bookings_tab {
+  .card {
+    border: none;
+    border-radius: 0;
+  }
+  .table_data{
+    padding: 0px 30px;
+  }
+  .outer {
+    padding: 10px 10px 12px 10px;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.14);
+    border-bottom: 1px solid var(--border_default_color);
+    border-radius: 15px 15px 0 0;
+    background-color: #fff;
+    .nav-tabs {
+      font-size: 14px;
+      padding-left: 15px;
+      .nav-item {
+        text-transform: capitalize;
+
+        .nav-link {
+          color: var(--text_primary_color);
+          font-weight: 400;
+          font-size: 18px;
+          text-align: center;
+          &.active {
+            border: none;
+            border-bottom: 2px solid var(--text_link_color);
+            color: var(--text_link_color);
+          }
+        }
+      }
+    }
+  }
+  .inner {
+    padding: 14px 10px 24px 10px;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.14);
+    border-radius: 0 0 15px 15px;
+    background-color: #fff;
+    border: none !important;
+    .nav-tabs {
+      font-size: 14px;
+      padding-left: 10px;
+      .nav-item {
+        padding: 0 10px;
+        text-transform: capitalize;
+        font-weight: 400;
+        font-size: 17px;
+        .nav-link {
+          color: var(--text_primary_color);
+          font-weight: 400;
+          padding: 4px 14px;
+          &.active {
+            border: 1px solid var(--text_link_color);
+            border-radius: 50px;
+            color: var(--text_link_color);
+          }
+        }
+      }
+    }
+  }
+}
+::ng-deep .bg-primary {
+  background-color: var(--text_link_color) !important;
+  border: none;
+}
+::ng-deep.btn-light:hover {
+  background-color: var(--text_link_color) !important;
+  color: #ffffff !important;
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+
+  .mt-xs-30 {
+    margin-top: 30px !important;
+  }
+  .pick_date::ng-deep ngb-datepicker {
+    left: 52px !important;
+  }
+  .bld_labl {
+    font-size: 12px !important;
+  }
+  .sec_img {
+    img {
+      width: 100% !important;
+    }
+  }
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .responsive {
+    position: relative;
+  }
+  .bookings_tab {
+    .bookingInfo .bk_id{
+      display: none;
+    }  
+    .view_btn_bk_info .view_itin_btn{
+      margin-left : 40px !important
+    }
+    .outer .nav-tabs .nav-item{
+      width: 30%;
+      .nav-link{
+        font-size: 16px !important;
+      }
+    }
+  }
+
+}

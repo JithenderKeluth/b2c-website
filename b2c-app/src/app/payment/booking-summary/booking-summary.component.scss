@@ -1,0 +1,266 @@
+@import "./../../../theme/theme-variables.scss";
+.booking_summary {
+  label {
+    margin: 0;
+    display: block;
+  }
+  .btn {
+    font-size: 12px;
+    padding: 1px 10px;
+  }
+  .op_airlines {
+    line-height: 10px;
+  }
+  .sec_title {
+    h4 {
+      color: var(--text_primary_color);
+      font-size: 20px;
+      font-weight: normal;
+    }
+    .refernce {
+      color: var(--text_info_color);
+      font-size: 12px;
+      font-weight: normal;
+      strong {
+        font-size: 12px;
+        color: var(--text_primary_color);
+      }
+    }
+  }
+  .sec-labls {
+    padding-bottom: 0px;
+    .labl {
+      color: var(--text_primary_color);
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  .itin-info {
+    .air-info {
+      padding: 0px 5px;
+      .air_labl {
+        color: var(--text_info_color);
+        font-size: 12px;
+        font-weight: normal;
+      }
+      .class_labl {
+        color: var(--text_info_color);
+        font-size: 10px;
+        font-weight: normal;
+      }
+    }
+    .route-info {
+      .dt_labl,
+      .city_labl {
+        color: var(--text_info_color);
+        font-size: 12px;
+      }
+      .time_labl {
+        color: var(--text_primary_color);
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .dur_labl,
+      .stop_labl {
+        color: var(--text_info_color);
+        font-size: 12px;
+      }
+      .time_dur_labls {
+        line-height: 0;
+        padding-top: 14px;
+      }
+    }
+  }
+  .travellers-info {
+    .sec-title {
+      color: var(--text_primary_color);
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .pax-list {
+      padding: 10px 0;
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+
+        li {
+          color: var(--text_info_color);
+          font-size: 14px;
+          margin-bottom: 10px;
+          text-transform: capitalize;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  #fareBreakdown {
+    .sec_heading,
+    .adon_title {
+      color: var(--text_primary_color);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    table {
+      font-size: 14px;
+      color: var(--text_info_color);
+      th {
+        font-weight: normal;
+        border: none;
+        padding: 0px;
+        width: 60%;
+        vertical-align: middle;
+      }
+      td {
+        color: var(--text_primary_color);
+        text-align: right;
+        border: none;
+        padding: 0.3rem;
+      }
+    }
+  }
+
+  .fare-info {
+    color: var(--text_primary_color);
+    .labl {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .amt {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 0.9;
+      .total {
+        float: right;
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+    .link {
+      color: var(--text_link_color);
+      font-size: 11px;
+      font-weight: normal;
+    }
+  }
+}
+.voucher,.voucherAmount {
+  color: $color-teal-400;
+}
+.charges_txt {
+  font-size: 9px;
+  margin-bottom: 0px !important;
+}
+.mm_SavingsTxt{
+  color : var(--text_link_color);
+  font-size : 14px;
+  font-weight:500;
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .toggle_section {
+    display: block;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .sec_title {
+    h4 {
+      font-size: 16px !important;
+      font-weight: 500 !important;
+    }
+  }
+  .hr-custom {
+    margin: 10px 0px !important;
+  }
+  .fare-info {
+    position: fixed;
+    bottom: 0;
+    background: var(--text_primary_color) ;
+    color: $white !important;
+    z-index: 9999;
+    width: 100%;
+    left: 0;
+    padding: 15px;
+    .labl {
+      font-size: 11px !important;
+    }
+    .btn {
+      font-size: 16px !important;
+      padding: 12px 10px;
+    }
+    .link {
+      color: $white !important;
+      float: none;
+    }
+    .amt {
+      float: none !important;
+      display: block;
+      .total {
+        font-size: 16px !important;
+        float: none !important;
+      }
+    }
+  }
+  #fareBreakdown {
+    color: $white ;
+    margin-bottom: 80px;
+    .fare_info {
+      background-color: var(--text_primary_color);
+      padding: 20px 15px;
+      .sec_heading {
+        color: $white;
+      }
+      .price_breakup {
+        .adon_title {
+          color: $white ;
+        }
+        .fares .table {
+          th,
+          td {
+            color: #fff;
+          }
+          #AD {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+  .toggle_section {
+    display: none;
+  }
+  .mm_SavingsTxt{
+    border-top : 1px solid var(--border_active_color);
+  }
+  .priceLink {
+    display: inline-block !important;
+  }
+  .book_btn {
+    padding: 12px 10px ;
+    font-size: 16px ;
+    width: 100%;
+    border: none;
+  }
+  .fares_info_section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    color: $white !important;
+    a.link {
+      color: $white !important;
+      text-align: center;
+      font-size: 12px;
+      float: none;
+    }
+  }
+}
+.disc_text {
+  color: #15c4a1;
+}

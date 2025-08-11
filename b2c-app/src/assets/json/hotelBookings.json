@@ -1,0 +1,771 @@
+{
+    "bookings": [
+      {
+        "bookingId": "e533bc1a-50ee-4bfd-9041-2c661411ff40",
+        "bookingReference": "13A59C92",
+        "created": "2023-09-22T17:50:37.865Z",
+        "productName": "Sugar Hotel",
+        "customerName": "satish gummadi",
+        "email": "satish@travelstart.com",
+        "mobileNumber": "+91 9963999111",
+        "customerAddress": {
+          "addressLine": "Cape Town",
+          "street": null,
+          "suburb": null,
+          "postalCode": "8001",
+          "city": "Cape Town",
+          "countryCode": "IN",
+          "countryName": "India"
+        },
+        "checkin": "2023-11-23T00:00:00",
+        "checkout": "2023-11-25T00:00:00",
+        "status": "Cancelled",
+        "total": 7090.0,
+        "paymentReference": "8ac7a4a18abc7227018abe03d35d353c",
+        "merchantReferenceId": null,
+        "hotelImage": [
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133046.jpg",
+            "description": "Property / Building",
+            "order": 1
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133048.jpg",
+            "description": "Property / Building",
+            "order": 2
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133100.jpg",
+            "description": "Property / Building",
+            "order": 3
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133103.jpg",
+            "description": "Decorative detail",
+            "order": 4
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133108.jpg",
+            "description": "Property / Building",
+            "order": 5
+          }
+        ],
+        "hotelRating": 5,
+        "hotelLocation": "Green Point,Cape Town,Western Cape,South Africa,Africa,",
+        "taxExclusivePrice": null,
+        "currencyCode": "ZAR",
+        "invoiceLineItems": [
+          {
+            "description": "Double Room 9-Ground Floor: Bed & Breakfast",
+            "quantity": "1",
+            "amount": 3545.0,
+            "preSaveAmount": 0
+          }
+        ],
+        "bookedRooms": [
+          {
+            "roomId": "25",
+            "roomTypeName": "Double Room 9-Ground Floor: Bed & Breakfast",
+            "adults": 1,
+            "childAges": [
+              
+            ]
+          }
+        ],
+        "cancellationPolicy": [
+          {
+            "from": "2023-11-22T00:00:00Z",
+            "to": "2023-11-15T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 1.0,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2023-11-14T00:00:00Z",
+            "to": "2023-10-31T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.5,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2023-10-30T00:00:00Z",
+            "to": "2023-10-09T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.2,
+            "remarks": null,
+            "unstructuredPolicy": null
+          }
+        ],
+        "notes": [
+          "1) All bookings must be made in writing and only written confirmations will be honoured.\n2) A deposit of 50% will secure your reservation.\n3) Deposits are only refundable if the reservation is cancelled at least 30 days prior to date of arrival.\n4) No guest will be allowed to check into the hotel unless the accommodation on a bed & breakfast basis and all other pre-booked meals and services are paid for in full.\n5) Cardholder & ID/Passport is required at check-in.\n6) Credit card used for online payment to be present at check-in"
+        ],
+        "voucherId": null,
+        "voucherCode": null,
+        "voucherAmount": 0,
+        "errors": null,
+        "information": null,
+        "traceId": null
+      },
+      {
+        "bookingId": "9b3924c5-a55a-40fd-854c-8235bc5a0aba",
+        "bookingReference": "BC8E6BBF",
+        "created": "2023-09-29T08:25:32.463Z",
+        "productName": "Sugar Hotel",
+        "customerName": "satish gummadi",
+        "email": "satish@travelstart.com",
+        "mobileNumber": "+91 9963999111",
+        "customerAddress": {
+          "addressLine": "Cape Town",
+          "street": null,
+          "suburb": null,
+          "postalCode": "8001",
+          "city": "Cape Town",
+          "countryCode": "IN",
+          "countryName": "India"
+        },
+        "checkin": "2023-10-06T00:00:00",
+        "checkout": "2023-10-07T00:00:00",
+        "status": "Cancelled",
+        "total": 4440.0,
+        "paymentReference": "8ac7a4a28adef41f018ae00ae7365dd8",
+        "merchantReferenceId": null,
+        "hotelImage": [
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133046.jpg",
+            "description": "Property / Building",
+            "order": 1
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133048.jpg",
+            "description": "Property / Building",
+            "order": 2
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133100.jpg",
+            "description": "Property / Building",
+            "order": 3
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133103.jpg",
+            "description": "Decorative detail",
+            "order": 4
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/13469/property/133108.jpg",
+            "description": "Property / Building",
+            "order": 5
+          }
+        ],
+        "hotelRating": 5,
+        "hotelLocation": "Green Point,Cape Town,Western Cape,South Africa,Africa,",
+        "taxExclusivePrice": null,
+        "currencyCode": "ZAR",
+        "invoiceLineItems": [
+          {
+            "description": "Superior King: Bed & Breakfast",
+            "quantity": "1",
+            "amount": 4440.0,
+            "preSaveAmount": 0
+          }
+        ],
+        "bookedRooms": [
+          {
+            "roomId": "1",
+            "roomTypeName": "Superior King: Bed & Breakfast",
+            "adults": 1,
+            "childAges": [
+              
+            ]
+          }
+        ],
+        "cancellationPolicy": [
+          {
+            "from": "2023-10-05T00:00:00Z",
+            "to": "2023-09-29T07:24:46.36Z",
+            "amount": 0,
+            "liableForPercent": 1.0,
+            "remarks": null,
+            "unstructuredPolicy": null
+          }
+        ],
+        "notes": [
+          "1) All bookings must be made in writing and only written confirmations will be honoured.\n2) A deposit of 50% will secure your reservation.\n3) Deposits are only refundable if the reservation is cancelled at least 30 days prior to date of arrival.\n4) No guest will be allowed to check into the hotel unless the accommodation on a bed & breakfast basis and all other pre-booked meals and services are paid for in full.\n5) Cardholder & ID/Passport is required at check-in.\n6) Credit card used for online payment to be present at check-in"
+        ],
+        "voucherId": null,
+        "voucherCode": null,
+        "voucherAmount": 0,
+        "errors": null,
+        "information": null,
+        "traceId": null
+      },
+      {
+        "bookingId": "63c3c8cc-71ff-4f59-b91f-4939d943f3cb",
+        "bookingReference": "3B76535F",
+        "created": "2023-10-12T05:57:46.605Z",
+        "productName": "Mount Currie Inn",
+        "customerName": "Satish Gummadi",
+        "email": "satish@travelstart.com",
+        "mobileNumber": "+91 9963999111",
+        "customerAddress": {
+          "addressLine": "Cape Town",
+          "street": null,
+          "suburb": null,
+          "postalCode": "8001",
+          "city": "Cape Town",
+          "countryCode": "IN",
+          "countryName": "India"
+        },
+        "checkin": "2023-11-17T00:00:00",
+        "checkout": "2023-11-19T00:00:00",
+        "status": "Cancelled",
+        "total": 2000.0,
+        "paymentReference": "8ac9a49f8b1de3cf018b22760043240d",
+        "merchantReferenceId": null,
+        "hotelImage": [
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143581.jpg",
+            "description": "Facade or entrance",
+            "order": 1
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143582.jpg",
+            "description": "Facade or entrance",
+            "order": 2
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143585.jpg",
+            "description": "Garden",
+            "order": 3
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143587.jpg",
+            "description": "Patio",
+            "order": 4
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143591.jpg",
+            "description": "Dining area",
+            "order": 5
+          }
+        ],
+        "hotelRating": 3,
+        "hotelLocation": "Kokstad,KwaZulu-Natal,South Africa,Africa,",
+        "taxExclusivePrice": null,
+        "currencyCode": "ZAR",
+        "invoiceLineItems": [
+          {
+            "description": "Classic Twin Room: Bed & Breakfast",
+            "quantity": "1",
+            "amount": 1000.0,
+            "preSaveAmount": 0
+          }
+        ],
+        "bookedRooms": [
+          {
+            "roomId": "31",
+            "roomTypeName": "Classic Twin Room: Bed & Breakfast",
+            "adults": 1,
+            "childAges": [
+              
+            ]
+          }
+        ],
+        "cancellationPolicy": [
+          {
+            "from": "2023-11-16T00:00:00Z",
+            "to": "2023-11-09T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 1.0,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2023-11-08T00:00:00Z",
+            "to": "2023-10-25T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 1.0,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2023-10-24T00:00:00Z",
+            "to": "2023-10-12T05:18:37.653Z",
+            "amount": 0,
+            "liableForPercent": 0.5,
+            "remarks": null,
+            "unstructuredPolicy": null
+          }
+        ],
+        "notes": [
+          ""
+        ],
+        "voucherId": null,
+        "voucherCode": null,
+        "voucherAmount": 0,
+        "errors": null,
+        "information": null,
+        "traceId": null
+      },
+      {
+        "bookingId": "5737c860-cb93-47e3-87c1-49e5c3352420",
+        "bookingReference": "57CB9FF2",
+        "created": "2023-10-12T14:19:55.805Z",
+        "productName": "Mount Currie Inn",
+        "customerName": "SATISH GUMMADI",
+        "email": "satish@travelstart.com",
+        "mobileNumber": "+91 9963999111",
+        "customerAddress": {
+          "addressLine": "Cape Town",
+          "street": null,
+          "suburb": null,
+          "postalCode": "8001",
+          "city": "Cape Town",
+          "countryCode": "IN",
+          "countryName": "India"
+        },
+        "checkin": "2023-11-16T00:00:00",
+        "checkout": "2023-11-18T00:00:00",
+        "status": "Cancelled",
+        "total": 2100.0,
+        "paymentReference": "8ac9a4a08b1e086d018b2441aedc09d1",
+        "merchantReferenceId": null,
+        "hotelImage": [
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143581.jpg",
+            "description": "Facade or entrance",
+            "order": 1
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143582.jpg",
+            "description": "Facade or entrance",
+            "order": 2
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143585.jpg",
+            "description": "Garden",
+            "order": 3
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143587.jpg",
+            "description": "Patio",
+            "order": 4
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/25588/property/143591.jpg",
+            "description": "Dining area",
+            "order": 5
+          }
+        ],
+        "hotelRating": 3,
+        "hotelLocation": "Kokstad,KwaZulu-Natal,South Africa,Africa,",
+        "taxExclusivePrice": null,
+        "currencyCode": "ZAR",
+        "invoiceLineItems": [
+          {
+            "description": "Classic Twin Room: Bed & Breakfast",
+            "quantity": "1",
+            "amount": 1050.0,
+            "preSaveAmount": 0
+          }
+        ],
+        "bookedRooms": [
+          {
+            "roomId": "31",
+            "roomTypeName": "Classic Twin Room: Bed & Breakfast",
+            "adults": 1,
+            "childAges": [
+              
+            ]
+          }
+        ],
+        "cancellationPolicy": [
+          {
+            "from": "2023-11-15T00:00:00Z",
+            "to": "2023-11-08T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 1.0,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2023-11-07T00:00:00Z",
+            "to": "2023-10-24T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 1.0,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2023-10-23T00:00:00Z",
+            "to": "2023-10-12T14:18:21.196Z",
+            "amount": 0,
+            "liableForPercent": 0.5,
+            "remarks": null,
+            "unstructuredPolicy": null
+          }
+        ],
+        "notes": [
+          ""
+        ],
+        "voucherId": null,
+        "voucherCode": null,
+        "voucherAmount": 0,
+        "errors": null,
+        "information": null,
+        "traceId": null
+      },
+      {
+        "bookingId": "9614024b-253f-4d81-b952-4223a8c4e0d5",
+        "bookingReference": "FD422402",
+        "created": "2024-10-25T06:17:20.235Z",
+        "productName": "Channel API Test 1 - One Room Type",
+        "customerName": "SATISH GUMMADI",
+        "email": "satish@travelstart.com",
+        "mobileNumber": "+91 9963999111",
+        "customerAddress": {
+          "addressLine": "Cape Town",
+          "street": null,
+          "suburb": null,
+          "postalCode": "8001",
+          "city": "Cape Town",
+          "countryCode": "IN",
+          "countryName": "India"
+        },
+        "checkin": "2025-03-13T00:00:00",
+        "checkout": "2025-03-20T00:00:00",
+        "status": "Success",
+        "total": 207,
+        "paymentReference": "8ac7a4a192c19a4c0192c2527ce34dfd",
+        "merchantReferenceId": null,
+        "hotelImage": [
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5290.jpg",
+            "description": "Property / Building",
+            "order": 1
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5296.jpg",
+            "description": "Facade or entrance",
+            "order": 2
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5275.jpg",
+            "description": "Breakfast area",
+            "order": 3
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5281.jpg",
+            "description": "Nearby landmark",
+            "order": 4
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/5298.jpg",
+            "description": "Bed",
+            "order": 5
+          }
+        ],
+        "hotelRating": 5,
+        "hotelLocation": "Sunnyridge (Germiston),Germiston,Gauteng,South Africa,Hout Bay,Cape Town,Western Cape,Africa,",
+        "taxExclusivePrice": null,
+        "currencyCode": "ZAR",
+        "invoiceLineItems": [
+          {
+            "description": "Luxury Seafacing Double Room: Bed & Breakfast",
+            "quantity": "1",
+            "amount": 1,
+            "preSaveAmount": 0
+          }
+        ],
+        "bookedRooms": [
+          {
+            "roomId": "8",
+            "roomTypeName": "Luxury Seafacing Double Room: Bed & Breakfast",
+            "adults": 1,
+            "childAges": [
+              
+            ]
+          }
+        ],
+        "cancellationPolicy": [
+          {
+            "from": "2025-03-12T00:00:00Z",
+            "to": "2025-03-05T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.14,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2025-03-04T00:00:00Z",
+            "to": "2025-02-18T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.7,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2025-02-17T00:00:00Z",
+            "to": "2025-01-27T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.29,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2025-01-26T00:00:00Z",
+            "to": "2024-12-24T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 1,
+            "remarks": null,
+            "unstructuredPolicy": null
+          }
+        ],
+        "notes": [
+          "Check in: 14h00       Check out: 10h00",
+          "Smoking is not permitted indoors."
+        ],
+        "voucherId": "6941",
+        "voucherCode": "ZoAVJq4Z",
+        "voucherAmount": 500,
+        "errors": null,
+        "information": null,
+        "traceId": null
+      },
+      {
+        "bookingId": "21535869-e868-48e3-b514-735de8f9828e",
+        "bookingReference": "8295B67C",
+        "created": "2024-10-25T06:26:03.867Z",
+        "productName": "Channel API Test 1 - One Room Type",
+        "customerName": "SATISH GUMMADI",
+        "email": "satish@travelstart.com",
+        "mobileNumber": "+91 9963999111",
+        "customerAddress": {
+          "addressLine": "Cape Town",
+          "street": null,
+          "suburb": null,
+          "postalCode": "8001",
+          "city": "Cape Town",
+          "countryCode": "ZA",
+          "countryName": "South Africa"
+        },
+        "checkin": "2025-03-13T00:00:00",
+        "checkout": "2025-03-20T00:00:00",
+        "status": "Success",
+        "total": 207,
+        "paymentReference": "8ac7a4a092c1a2870192c25a38073bf3",
+        "merchantReferenceId": null,
+        "hotelImage": [
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5290.jpg",
+            "description": "Property / Building",
+            "order": 1
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5296.jpg",
+            "description": "Facade or entrance",
+            "order": 2
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5275.jpg",
+            "description": "Breakfast area",
+            "order": 3
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5281.jpg",
+            "description": "Nearby landmark",
+            "order": 4
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/5298.jpg",
+            "description": "Bed",
+            "order": 5
+          }
+        ],
+        "hotelRating": 5,
+        "hotelLocation": "Sunnyridge (Germiston),Germiston,Gauteng,South Africa,Hout Bay,Cape Town,Western Cape,Africa,",
+        "taxExclusivePrice": null,
+        "currencyCode": "ZAR",
+        "invoiceLineItems": [
+          {
+            "description": "Luxury Seafacing Double Room: Bed & Breakfast",
+            "quantity": "1",
+            "amount": 1,
+            "preSaveAmount": 0
+          }
+        ],
+        "bookedRooms": [
+          {
+            "roomId": "8",
+            "roomTypeName": "Luxury Seafacing Double Room: Bed & Breakfast",
+            "adults": 1,
+            "childAges": [
+              
+            ]
+          }
+        ],
+        "cancellationPolicy": [
+          {
+            "from": "2025-03-12T00:00:00Z",
+            "to": "2025-03-05T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.14,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2025-03-04T00:00:00Z",
+            "to": "2025-02-18T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.7,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2025-02-17T00:00:00Z",
+            "to": "2025-01-27T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.29,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2025-01-26T00:00:00Z",
+            "to": "2024-12-24T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 1,
+            "remarks": null,
+            "unstructuredPolicy": null
+          }
+        ],
+        "notes": [
+          "Check in: 14h00       Check out: 10h00",
+          "Smoking is not permitted indoors."
+        ],
+        "voucherId": "6941",
+        "voucherCode": "ZoAVJq4Z",
+        "voucherAmount": 500,
+        "errors": null,
+        "information": null,
+        "traceId": null
+      },
+      {
+        "bookingId": "4828f811-0749-43f3-8fc1-9b90a28c9d2d",
+        "bookingReference": "FC084101",
+        "created": "2024-10-25T06:54:15.312Z",
+        "productName": "Channel API Test 1 - One Room Type",
+        "customerName": "SATISH GUMMADI",
+        "email": "satish@travelstart.com",
+        "mobileNumber": "+91 9963999111",
+        "customerAddress": {
+          "addressLine": "Cape Town",
+          "street": null,
+          "suburb": null,
+          "postalCode": "8001",
+          "city": "Cape Town",
+          "countryCode": "ZA",
+          "countryName": "South Africa"
+        },
+        "checkin": "2025-03-13T00:00:00",
+        "checkout": "2025-03-20T00:00:00",
+        "status": "Success",
+        "total": 207,
+        "paymentReference": "flappAND1729839224466",
+        "merchantReferenceId": null,
+        "hotelImage": [
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5290.jpg",
+            "description": "Property / Building",
+            "order": 1
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5296.jpg",
+            "description": "Facade or entrance",
+            "order": 2
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5275.jpg",
+            "description": "Breakfast area",
+            "order": 3
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/property/5281.jpg",
+            "description": "Nearby landmark",
+            "order": 4
+          },
+          {
+            "url": "https://d1zyr4xmqw3mni.cloudfront.net/image/1600/gallery/17631/5298.jpg",
+            "description": "Bed",
+            "order": 5
+          }
+        ],
+        "hotelRating": 5,
+        "hotelLocation": "Sunnyridge (Germiston),Germiston,Gauteng,South Africa,Hout Bay,Cape Town,Western Cape,Africa,",
+        "taxExclusivePrice": null,
+        "currencyCode": "ZAR",
+        "invoiceLineItems": [
+          {
+            "description": "Luxury Seafacing Double Room: Bed & Breakfast",
+            "quantity": "1",
+            "amount": 1,
+            "preSaveAmount": 0
+          }
+        ],
+        "bookedRooms": [
+          {
+            "roomId": "8",
+            "roomTypeName": "Luxury Seafacing Double Room: Bed & Breakfast",
+            "adults": 1,
+            "childAges": [
+              
+            ]
+          }
+        ],
+        "cancellationPolicy": [
+          {
+            "from": "2025-03-12T00:00:00Z",
+            "to": "2025-03-05T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.14,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2025-03-04T00:00:00Z",
+            "to": "2025-02-18T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.7,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2025-02-17T00:00:00Z",
+            "to": "2025-01-27T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 0.29,
+            "remarks": null,
+            "unstructuredPolicy": null
+          },
+          {
+            "from": "2025-01-26T00:00:00Z",
+            "to": "2024-12-24T00:00:00Z",
+            "amount": 0,
+            "liableForPercent": 1,
+            "remarks": null,
+            "unstructuredPolicy": null
+          }
+        ],
+        "notes": [
+          "Check in: 14h00       Check out: 10h00",
+          "Smoking is not permitted indoors."
+        ],
+        "voucherId": "6941",
+        "voucherCode": "ZoAVJq4Z",
+        "voucherAmount": 500,
+        "errors": null,
+        "information": null,
+        "traceId": null
+      }
+    ]
+  }

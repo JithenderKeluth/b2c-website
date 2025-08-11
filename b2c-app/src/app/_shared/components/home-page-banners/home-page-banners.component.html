@@ -1,0 +1,29 @@
+<div class="whats_New" *ngIf="slideObject.length != 0">
+  <div class="banner_head" *ngIf="iframeWidgetService.isWhiteLabelSite() && domainCountry !== 'MM'">
+    We know you love a good deal
+  </div>
+  <div class="exclusiveHeading mb-3" *ngIf="domainCountry === 'MM'">Exclusive Deals</div>
+  <owl-carousel-o [options]="owlOptions">
+    <ng-container *ngFor="let data of slideObject; let index = index">
+      <ng-template carouselSlide [id]="index">
+        <a (click)="redirectTo(data.link_url)">
+          <img
+            [src]="data.image_src"
+            [alt]="data.alt_text"
+            [width]="img_width"
+            height="100%"
+            [title]="data.header"
+            loading="lazy"
+          />
+          <div class="deals_wrapper">
+            <div class="deals_heading" *ngIf="showCarosualHeader">{{ data.header }}</div>
+            <div class="deals_info" *ngIf="showCarosualDescription">{{ data.description }}</div>
+            <div class="deals_btn" *ngIf="data.link_url && showCarosualCTA">
+              <a [href]="data.link_url" target="_blank">{{ data.link_title }}</a>
+            </div>
+          </div>
+        </a>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
+</div>

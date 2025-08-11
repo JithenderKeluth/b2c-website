@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="340" height="275" viewBox="0 0 340 275">
+  <defs>
+    <filter id="Path_576">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-color="#dce3eb" result="color"/>
+      <feComposite operator="out" in="SourceGraphic" in2="blur"/>
+      <feComposite operator="in" in="color"/>
+      <feComposite operator="in" in2="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-flight-header">
+      <rect width="340" height="275"/>
+    </clipPath>
+  </defs>
+  <g id="flight-header" clip-path="url(#clip-flight-header)">
+    <g id="Group_27896" data-name="Group 27896" transform="translate(-2.876 -2.327)">
+      <g id="Group_27895" data-name="Group 27895" transform="translate(-212 9786)">
+        <path id="Path_31643" data-name="Path 31643" d="M170-110c37.611,0,170,188.306,170,282.47s-76.112,170.5-170,170.5S0,266.635,0,172.47,132.389-110,170-110Z" transform="translate(214.876 -9673.673)" fill="#fff"/>
+        <g id="Group_27241" data-name="Group 27241" transform="translate(196.876 -10066.688)">
+          <g data-type="innerShadowGroup">
+            <path id="Path_576-2" data-name="Path 576" d="M881.326,309.593v17.45s48.438-73.712,106.037-73.712,104,73.712,104,73.712V306.676s-53.255-96.02-104-96.02S881.326,309.593,881.326,309.593Z" transform="translate(-799.326 158.967)" fill="#e7ebf0" fill-rule="evenodd"/>
+            <g transform="matrix(1, 0, 0, 1, 18, 283.01)" filter="url(#Path_576)">
+              <path id="Path_576-3" data-name="Path 576" d="M881.326,309.593v17.45s48.438-73.712,106.037-73.712,104,73.712,104,73.712V306.676s-53.255-96.02-104-96.02S881.326,309.593,881.326,309.593Z" transform="translate(-817.33 -124.05)" fill="#fff" fill-rule="evenodd"/>
+            </g>
+          </g>
+          <rect id="Rectangle_460" data-name="Rectangle 460" width="4" height="48" transform="translate(186 368.623)" fill="#fff"/>
+          <rect id="Rectangle_10510" data-name="Rectangle 10510" width="4" height="48" transform="translate(235.45 380) rotate(13)" fill="#fff"/>
+          <rect id="Rectangle_10512" data-name="Rectangle 10512" width="4" height="48" transform="translate(266.45 412) rotate(13)" fill="#fff"/>
+          <rect id="Rectangle_10511" data-name="Rectangle 10511" width="4" height="48" transform="translate(151.347 426.771) rotate(167)" fill="#fff"/>
+          <rect id="Rectangle_10513" data-name="Rectangle 10513" width="4" height="48" transform="translate(115.347 458.771) rotate(167)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

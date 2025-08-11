@@ -1,0 +1,11 @@
+export const PRODUCT = {
+  MEALS_ID: 'MEALS',
+  PRODUCTS_PAGE: 'product',
+  REVIEW_PAGE: 'review',
+  SEATS_ID: 'SEATS',
+  SELECTION_CHECKBOX: 'CHECKBOX',
+  SELECTION_RADIO: 'RADIO',
+  SMS_ID: 'SMS',
+  TRAVELLER_PAGE: 'passenger',
+  WHATSAPP_ID: 'WHATSAPP',
+};

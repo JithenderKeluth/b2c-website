@@ -1,0 +1,32 @@
+<div class="modal-dialog noFlights" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body consistent-modal-body">
+      <div class="text-center">
+        <img
+          ImageSrc
+          class="w-mob-set consistent-modal-icon"
+          src="./../../../../assets/icons/Icon/Negative-scenarios/dummy_error_icon.svg"
+          alt="Flight not available"
+          loading="lazy"
+        />
+        <div translate class="consistent-header-txt">
+          Sadly, your flight is no longer available
+        </div>
+        <div translate class="consistent-body-text">
+          Please try searching for a different flight
+        </div>
+        <div class="modal-btn-container">
+          <button
+            type="button"
+            aria-label="Search New Flight"
+            class="btn ok-btn primary_btn"
+            data-dismiss="modal"
+            (click)="newSearch()"
+          >
+            <span translate>Search New Flight</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

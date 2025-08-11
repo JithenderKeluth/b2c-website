@@ -1,0 +1,57 @@
+<div class="memberDetailsSec p-0">
+  <app-header></app-header>
+  <div class="banner"></div>
+
+  <div class="container membersSection">
+    <div class="sec_heading">
+      <div class="membersHeading">Member details</div>
+      <ul>
+        <li>Policy Number : {{ members_data.policyNumber }}</li>
+        <li>Product type : {{ members_data.planDescription }}</li>
+      </ul>
+    </div>
+    <div class="contentSec">
+      <div>
+        <span translate>Make sure that traveller details match your travel document exactly before making bookings.</span> 
+         <span translate>To change traveller details, send a</span> <a href="{{'whtsappLink' | translate }}" rel="noopener" target="_blank" class="activeLink">WhatsApp</a> to <span translate>27861886600</span>, use the webchat function on <a href="{{'momentum_link' | translate}}" rel="noopener" target="_blank" class="activeLink"> <span translate>multiply.co.za</span></a>
+         or send an email to <a href="mailto:{{'multiply@momentum.co.za' | translate}}" class="activeLink" rel="noopener" target="_blank">multiply&#64;momentum.co.za</a> 
+       </div>
+    </div>
+    <div class="memberDetailsSection">
+      <div class="row d-none d-lg-flex m-0">
+        <div class="col-4 labelsHeading">
+          First name
+        </div>
+        <div class="col-4 labelsHeading">
+        Last name
+        </div>
+        <div class="col-4 labelsHeading" >
+          Date of birth
+        </div>
+      </div>
+      <div class="row membercard" *ngFor="let member of members_data.members; let i = index" >
+          <div class="col-12 col-lg-4">
+            <span class="mermberTitle">
+               <span class="d-lg-none">First name :</span> 
+               <span>{{ member.firstName }}</span>
+              </span>
+          </div>
+          <div class="col-12 col-lg-4">
+            <span class="mermberTitle">
+              <span class="d-lg-none">Last name : </span> 
+              <span>{{ member.surname }}</span> 
+            </span>
+          </div>
+          <div class="col-12 col-lg-4">
+            <span class="mermberDob">
+              <span class="d-lg-none">Date of birth :</span>
+              <span>{{member.birthDate | date : 'dd MMM yyyy' }}</span> 
+            </span>
+          </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

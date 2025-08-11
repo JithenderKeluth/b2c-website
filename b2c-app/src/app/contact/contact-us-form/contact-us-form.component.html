@@ -1,0 +1,168 @@
+<app-header *ngIf="!hideTopBar"></app-header>
+<section *ngIf="!hideTopBar" class="assistance">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h6 translate class="needAssistance">How can we help you?</h6>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact_us_tabs pt-3">
+  <div class="container">
+    <div class="row">
+      <div [ngClass]="tsCountry !== 'NG' && tsCountry !== 'ABSA' ? 'col-md-6 offset-md-3' : 'col-md-12'">
+        <ul class="nav">
+          <li class="nav-item">
+            <a
+              rel="nofollow"
+              class="nav-link"
+              aria-controls="sendUsQuery"
+              (click)="goToRequest('request'); scroll(sendUsQuery)"
+              [ngClass]="[requests ? 'active' : 'inActive']"
+              aria-selected="true"
+              ><span translate>Send us your query</span></a
+            >
+          </li>
+          <li class="nav-item" *ngIf="tsCountry !== 'FS' && tsCountry !== 'NG' && tsCountry !== 'ZA' && tsCountry !== 'ABSA'">
+            <a
+              rel="nofollow"
+              class="nav-link"
+              aria-controls="sendUsQuery"
+              (click)="goToRequest('chat'); scroll(connectWithUs)"
+              [ngClass]="[chatToUs ? 'active' : 'inActive']"
+              aria-selected="true"
+              >
+              <span *ngIf="tsCountry !== 'NG' && tsCountry !== 'ZA'" translate>Working hours</span>
+            </a>
+          </li>
+
+          <li class="nav-item" *ngIf="tsCountry !== 'FS' && tsCountry !== 'ABSA'">
+            <a
+              class="nav-link"
+              rel="nofollow"
+              aria-controls="faqs"
+              aria-selected="false"
+              (click)="goToRequest('frequentQuestions'); scroll(faqs)"
+              [ngClass]="[faq ? 'active' : 'inActive']"
+              ><span translate>FAQs</span></a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section #sendUsQuery class="queryAndChat" [hidden]="!(tsCountry !== 'ABSA' || requests)">
+  <div class="container" >
+    <div class="row">
+      <div class="pr-40 theme__query-container" [ngClass]="tsCountry !== 'NG' ? 'col-md-6 offset-md-3' : 'col-md-6'">
+        <app-contact-form></app-contact-form>
+        <div class="feedback_share" *ngIf="tsCountry === 'NG'">
+          <ng-container *ngTemplateOutlet="share_your_feedback; context: { $implicit: { data: tsCountry === 'NG' } }">
+          </ng-container>
+        </div>
+      </div>
+
+      <div #connectWithUs class="theme__chat-with-us-container" [ngClass]="tsCountry !== 'NG' ? 'col-md-6 offset-md-3 pr-40' : 'col-md-6 pr-60'">
+        <div *ngIf="activeTab !== 'newBooking' && tsCountry !== 'FS'">
+          <app-chat-with-us></app-chat-with-us>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section #faqs [ngClass]="{'faq_wrapper': tsCountry !== 'ABSA', 'theme__contact-form-section-container': tsCountry === 'ABSA'}" [hidden]="!(tsCountry !== 'ABSA' || faq)">
+  <div class="container" *ngIf="tsCountry !== 'FS'">
+    <div class="row">
+      <div class="enquiry_sec_title align-items-center d-flex">
+        <span class="numBullet"></span>
+        <span translate>Frequently Asked Questions:</span>
+      </div>
+    </div>
+    <app-contact-faq></app-contact-faq>
+  </div>
+</section>
+
+<section class="whatDoes" *ngIf="tsCountry !== 'FS' && tsCountry !== 'ABSA'">
+  <app-what-does-travelstart></app-what-does-travelstart>
+</section>
+<app-footer *ngIf="tsCountry !== 'ABSA'"></app-footer>
+
+<div
+  class="modal fade"
+  id="query_failed_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog query_failed" role="document" aria-labelledby="modalTitle">
+    <div class="modal-content dialog_content">
+      <div class="modal-body">
+        <div class="text-center">
+          <img
+            ImageSrc
+            src="./../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg"
+            loading="lazy"
+            alt="Something went wrong icon"
+          />
+          <div class="mt-3">
+            <strong><span translate>Something went wrong, please try again!</span></strong>
+          </div>
+          <button class="mt-3 btn ok-btn primary_btn" type="button" aria-label="OK" data-dismiss="modal">
+            <span translate>OK</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #share_your_feedback let-d >
+  <div class="share_feedback">
+    <h2 translate>Share Your Feedback</h2>
+    <div class="welove_feedback">
+      <span translate>We love feedback - good and bad!</span>
+      <span translate>If you want to pay us a compliment or you have an issue with our service,</span>
+      <span translate>please let us know. We will do our best to try and sort it out for you.</span>
+      <span translate>We aim to resolve complaints quickly and fairly with all our customers and affiliates.</span>
+    </div>
+    <div translate class="submit_feedback">To submit your feedback:</div>
+    <ul>
+      <li>
+        <span translate>Email</span>
+        <a href="mailto:help@travelstart.com">feedback&#64;travelstart.com.ng</a>
+        <span translate>with the Travelstart booking reference number in the subject line.</span>
+      </li>
+      <li>
+        <span translate>In the message section,</span>
+        <span translate>please write a detailed explanation of the feedback or complaint.</span>
+        <span translate
+          >The more detailed information you provide the easier it is for us to solve your problem quickly</span
+        >
+      </li>
+      <li translate>
+        A member of the dispute resolution team will get back to you between Mondays and Fridays - 9am to 5pm
+      </li>
+    </ul>
+    <h2 translate>About Us</h2>
+    <div translate class="more_info">
+      Travelstart is a leading online travel agency that helps today’s business and leisure travellers search, compare
+      and book the best flight options with all your favourite airlines. For more information about who we are,
+      <a href="https://www.travelstart.com.ng/lp/about-us" rel="noopener" target="_blank"
+        ><span translate>read here.</span></a
+      >
+    </div>
+  </div>
+</ng-template>
+
+<div class="whatsApp_Widget" *ngIf="show_WhatsAppWidget">
+  <a href="{{ getWhatsAppLink() | translate }}" target="_blank" rel="noopener">
+    <img ImageSrc  src="../../../assets/icons/whatsAppImg.svg" alt="whatsapp" loading="lazy"/>
+  </a>
+</div>
+

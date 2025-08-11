@@ -1,0 +1,352 @@
+@import "./../../../theme/theme-variables.scss";
+
+.travellers_section {
+  .existing_travellers {
+    h5 {
+      color: var(--text_primary_color);
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .travellers_list {
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        li {
+          display: inline-block;
+          height: 100px;
+          padding: 8px 20px;
+          font-size: 11px;
+          border: solid 0.5px var(--border_active_color);
+          background-color: #ffffff;
+
+          border-radius: 3px;
+          label,
+          span {
+            display: block;
+          }
+          .name {
+            font-size: 15px !important;
+            font-weight: 500;
+            color: var(--text_primary_color);
+            text-overflow: ellipsis;
+            width: 90px !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-transform: capitalize;
+          }
+          .pId {
+            font-size: 12px;
+            font-weight: normal;
+            color: var(--text_primary_color);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+          }
+          .show {
+            display: inline;
+            width: 12px !important;
+          }
+          .tInfo {
+            height: 65px;
+          }
+        }
+        li:hover {
+          .show {
+            cursor: pointer;
+          }
+        }
+      }
+      .addPassengerView {
+        position: fixed;
+        top: 90%;
+        right: 10%;
+      }
+    }
+  }
+  .pr-lg-10 {
+    padding-right: 10px !important;
+  }
+  .add_travellers_section {
+    .add_error_cls {
+      font-size: 14px;
+      padding: 11px;
+      background: #fee8ec;
+      color: var(--text_danger_color);
+      margin: 10px 0px;
+    }
+    .nam_req {
+      margin: 20px 0;
+      background-color: #fafcfc;
+      padding: 10px 16px;
+      .bld_hdg {
+        color: var(--payment_card_strip);
+        font-size: 13px;
+        font-weight: 600;
+      }
+      ul {
+        padding: 0;
+        li {
+          color: var(--text_info_color);
+          font-size: 12px;
+          font-weight: normal;
+          a {
+            color: var(--text_link_color);
+          }
+        }
+      }
+    }
+
+    .passport_info {
+      background-color: #fafcfc;
+      padding: 10px 15px;
+      .bld_label {
+        font-size: 14px;
+        font-weight: bold;
+        color: var(--text_primary_color);
+      }
+      .labl {
+        font-size: 12px;
+        font-weight: normal;
+        color: var(--text_primary_color);
+      }
+    }
+    form {
+      .pax_type {
+        color: var(--text_info_color);
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .btn {
+        input[type="radio"] {
+          height: 16px;
+          width: 16px;
+        }
+        span {
+          position: relative;
+          top: -2px;
+        }
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      .control-label {
+        color: var(--label_color);
+        font-size: 14px;
+        font-weight: normal;
+      }
+      .form-control {
+        border: solid 1px var(--border_default_color);
+        background-color: #ffffff;
+        color: var(--text_primary_color);
+        font-size: 14px;
+      }
+      .btn1 {
+        padding: 12px 50px 12px 50px !important;
+      }
+      .cancel_btn {
+        border: 1px solid var(--border_active_color);
+        border-radius: 3px;
+        padding: 10.5px 35.5px 10.5px;
+        background-color: #ffffff;
+        color: var(--text_link_color);
+      }
+      .sub_btn {
+        border: 1px solid var(--border_active_color);
+        border-radius: 3px;
+        //padding: 10.5px 35.5px 10.5px;
+      }
+      .update_btn {
+        border: 1px solid var(--border_active_color);
+        border-radius: 3px;
+        padding: 10.5px 35.5px 10.5px;
+      }
+      .custom-select {
+        display: block !important;
+      }
+    }
+
+    .scrollToTop {
+      position: absolute;
+      bottom: 5%;
+      right: 10%;
+      z-index: 999;
+    }
+  }
+}
+.dobDay {
+  padding: 0px !important;
+}
+.formColPad {
+  padding: 0px 15px;
+}
+.dateSelect {
+  border-radius: 3px;
+  padding: 5px;
+}
+
+.dobDaySelect {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.dobYearSelect {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+.bor-rad-0 {
+  border-radius: 0px !important;
+}
+
+.bor-none-right {
+  border-right: none !important;
+}
+#DeleteTraveller_Modal {
+  z-index: 9999;
+  padding: 0px !important;
+  border: none !important;
+}
+.mdl_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 6px;
+
+  .mdl_heading {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  .mdl_body {
+    padding: 40px;
+  }
+  .mdl_subheading {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text_info_color);
+    margin-bottom: 30px;
+  }
+  p {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text_info_color);
+  }
+  .cancel_btn {
+    border: 1px solid var(--border_active_color);
+    border-radius: 3px;
+    padding: 10.5px 35.5px 10.5px;
+    background-color: #ffffff;
+    color: var(--text_link_color);
+  }
+  .sub_btn {
+    border: 1px solid var(--border_active_color);
+    border-radius: 3px;
+    padding: 10.5px 35.5px 10.5px;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .travellers_list {
+    ul {
+      li {
+        width: 23%;
+        margin: 12px 5px 0px 12px;
+        padding: 8px 20px !important;
+        height: 80px !important;
+        .pull-left-xs {
+          float: left;
+        }
+      }
+    }
+  }
+  .travellers_section .add_travellers_section form .sub_btn {
+    padding: 10.5px 35.5px 10.5px;
+  }
+  .mdl_dialog {
+    transform: translate(-50%, -50%) !important;
+    width: 30%;
+  }
+  .mb-xs-0 {
+    margin-bottom: 0px !important;
+  }
+  .pt-xs-0 {
+    padding-top: 0px !important;
+  }
+  .passport_info {
+    .bld_label {
+      font-size: 12px !important;
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .travellers_list {
+    ul {
+      li {
+        width: 100%;
+        margin: 0px 0px 5px 0px !important;
+        padding: 10px !important;
+        height: 80px !important;
+        .pull-left-xs {
+          float: left;
+        }
+      }
+    }
+  }
+  .mb-xs-0 {
+    margin-bottom: 0px !important;
+  }
+  .pt-xs-0 {
+    padding-top: 0px !important;
+  }
+  .passport_info {
+    .bld_label {
+      font-size: 12px !important;
+    }
+  }
+  .travellers_section .add_travellers_section form .sub_btn {
+    padding: 10.5px 100px 10.5px;
+  }
+  .mdl_dialog {
+    transform: translate(-50%, -50%) !important;
+    width: 85%;
+  }
+}
+::ng-deep .pick_date ngb-datepicker-navigation-select > .custom-select {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 0 0.5rem;
+  font-size: 0.875rem;
+  /* display: block; */
+  //height: 1.85rem;
+  display: block !important;
+}
+::ng-deep .pick_date .ngb-dp-arrow-btn {
+  padding: 0 0.25rem;
+  margin: 0 0.5rem;
+  /* border: none; */
+  background-color: transparent;
+  z-index: 1;
+  display: none !important;
+}
+::ng-deep .bg-primary {
+  background-color: var(--text_link_color) !important;
+  border: none;
+}
+::ng-deep .iti--separate-dial-code .iti__selected-flag {
+  background-color: #ffffff;
+}
+::ng-deep .datepick ngb-datepicker {
+  transform: translate(0px, -230px) !important;
+}
+::ng-deep .selectCountry.mat-select-panel {
+  margin-top: 0px !important;
+}
+::ng-deep .dateSelection .mat-option {
+  height: 20px !important;
+}
+
+::ng-deep .dateSelection.mat-select-panel {
+  min-width: calc(100% - 32px) !important;
+}

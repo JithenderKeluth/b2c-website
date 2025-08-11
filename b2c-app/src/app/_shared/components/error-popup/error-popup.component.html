@@ -1,0 +1,18 @@
+<div class="error-popup">
+  <!-- Header -->
+  <h2 *ngIf="data.showHeader" class="header">{{ data.header }}</h2>
+
+  <!-- Image -->
+  <img *ngIf="data.showImage" ImageSrc [src]="data.imageUrl" alt="Error Image" class="image" />
+
+  <!-- Message -->
+  <p class="message">{{ data.message }}</p>
+
+  <!-- CTA Button -->
+  <button *ngIf="data.showButton" mat-raised-button color="primary" (click)="handleButtonClick()" class="cta-button">
+    {{ data.buttonText || 'OK' }}
+  </button>
+  <button *ngIf="data.showButton2" mat-raised-button color="primary" (click)="handleButton2Click()" class="cta-button">
+    {{ data.button2Text || 'OK' }}
+  </button>
+</div>

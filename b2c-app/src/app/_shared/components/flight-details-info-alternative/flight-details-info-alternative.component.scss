@@ -1,0 +1,66 @@
+@import "./../../../../theme/theme-variables.scss";
+
+.card-container {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 10px 0px;
+}
+
+.flight-details-header {
+  display: flex;
+  gap: 10px;
+}
+
+.expand-controller {
+  margin-left: auto;
+
+  .fa {
+    font-size: 22px;
+  }
+}
+
+.city-label {
+  font-weight: 500;
+}
+
+.sub-header {
+  font-size: 14px;
+  color: #4c4949;
+}
+
+.baggage-val {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  vertical-align: bottom;
+}
+
+.flight-details-expanded-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.flight-details-time-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.flight-details-airport-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+}
+
+.flight-details-airline-container {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background-color: #F8F6F6;
+  padding: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}

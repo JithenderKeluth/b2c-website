@@ -1,0 +1,24 @@
+{
+  "errors": [
+    {
+      "code": "200.300.404",
+      "description": "invalid or missing parameter",
+      "message": "Oops! Something went wrong. It seems that one or more parameters are missing or invalid. Please double-check your input and try again."
+    },
+    {
+      "code": "700.500.003",
+      "description": "test accounts not allowed in production",
+      "message": "Oops! It seems you're trying to use test cards in a production environment. Please use valid payment information for real transactions."
+    },
+    {
+      "code": "800.100.152",
+      "description": "transaction declined by authorization system",
+      "message": "Sorry, your transaction could not be processed at this time. Please check your payment details and try again."
+    },
+    {
+      "code": "100.380.501",
+      "description": "risk management transaction timeout",
+      "message": "Oops! The transaction took too long to process due to risk management checks. Please try again."
+    }
+  ]
+}

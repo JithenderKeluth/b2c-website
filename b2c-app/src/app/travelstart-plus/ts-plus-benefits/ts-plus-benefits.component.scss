@@ -1,0 +1,348 @@
+@import "./../../../theme/theme-variables.scss";
+
+.ts-plus-bg {
+    background-color: #0E0626;
+    background-image: url('https://cdn1.travelstart.com/assets/images/ts-plus-images/tsplus-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 200px;
+    color: $white;
+    .link_styl, a {
+        color: #1bb3f5;
+        text-decoration: none;
+    }   
+        .travel_world {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 60px;
+            p {
+                font-size: 26px;
+                line-height: 32px;
+                margin-top: 20px;
+            }
+            h4 {
+                margin-top: 20px;
+            }
+        }
+        .sub_amt {
+            position: relative;
+            color: #1bb3f5;
+            width: 320px;
+            margin: 0px auto;
+            padding: 20px;
+            h6{
+                font-size: 50px;
+                font-weight: 600;
+                margin-top: -6px;
+            }
+            .p_m{
+             font-size: 20px;
+             margin-top: -15px;
+            }
+            .bill{
+            font-size: 18px;
+            color: $white;
+            }
+        }              
+        .faq_section {  
+            h6{
+                font-size: 46px;
+            }
+          font-size: 16px;   
+          cursor: pointer;      
+          .faqExpand{
+            background-color: #101828;
+            margin: 0px 100px 5px 100px;
+            text-align: left;
+            padding: 15px 20px;           
+            border-radius: 10px;
+            .plus_icn{
+                font-size: 28px;
+            }
+            .minusIcn{
+                font-size: 40px;  
+            }
+            .plus_icn, .minusIcn{
+                line-height: 24px;
+            }
+          }
+          .collapseSection{
+            background-color: $white;
+            margin: 0px 100px;
+            padding: 15px 20px;
+            color: #101828;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;            
+            text-align: left;        
+          }         
+        }
+        .question_sec{
+            margin: 0px 100px 5px 100px;
+            .row{
+                margin-top: 20px;
+            }
+            .questions_txt{
+                height: 200px;
+                padding: 30px;
+                text-align: left;
+                border: 1px solid #433277;
+                border-radius: 10px;
+                .questn_content{
+                    font-size: 16px;
+                }
+                span{
+                     color: #1bb3f5;  
+                }
+            }
+            p{
+                font-size: 18px;
+                margin-bottom: 5px !important;
+            }
+            span{
+                font-size: 16px;
+            }          
+        }      
+        h4 {
+            margin: 0px auto;
+            font-size: 46px;
+            font-weight: 500;
+        }
+
+        h6 {
+            font-size: 30px;
+            font-weight: 500;
+        }
+
+    .member_benefits{
+        background-color: #101828;
+        .ts_benefits {
+            width: 100%;
+            margin: 0 auto;
+            .more_benefits {
+                display: inline-flex;
+                list-style-type: none;
+            }
+            h4 {
+                padding-top: 30px !important;
+            }
+        }
+    }
+
+    .terms_conditions {
+        background-color: #101828;
+        color: $white;
+        border-radius: 12px;
+        margin: 0px 100px 5px 100px;
+        cursor: pointer;
+        a{
+            padding: 15px;
+        }
+    }
+}
+button {
+    padding: 12px 60px;
+    border: none;
+    font-size: 18px;
+    color: $white;
+    border-radius: 30px;
+    background-color: #EC008C;
+}
+
+.mar_top{
+ margin-top: 50px;
+}
+.mar_btn{
+    margin: 30px 0px;
+}
+
+.whatsApp_Widget{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 999;
+  }
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+    .ts-plus-bg {
+        padding-bottom: 50px !important;
+            .travel_world {
+                padding-top: 40px !important;
+                width: 100% !important;
+                 p{
+                    font-size: 14px !important;
+                    line-height: 20px !important;    
+                 }
+                img {
+                    width: 84% !important;
+                }
+            }
+
+            h4,h6 {
+                font-size: 26px !important;
+            }
+
+           
+
+            .sub_amt {
+                h6{
+                    font-size: 30px !important;
+                    margin-top: 0px !important;
+                }
+                width: auto;
+                .p_m{
+                    font-size: 20px !important;
+                }
+                .bill{
+                    font-size: 14px !important;
+                }
+                padding: 0px 10px 10px 10px;
+            }
+
+            .member_benefits .ts_benefits {
+                width: 100% !important;
+                h4{
+                    padding-top: 30px !important;
+                }                        
+            }
+            button {
+                padding: 8px 50px !important;
+                font-size: 16px !important;
+            }    
+
+        .terms_conditions {
+            padding: 10px !important;
+            width: 100% !important;
+            margin: 0px 0px 5px 0px !important;
+        }
+        .faq_section {
+            h6{
+                font-size: 26px !important;
+            }
+            font-size: 14px !important;
+            .faqExpand{
+                margin: 0px 0px 5px 0px !important;
+                padding: 10px;
+                .plus_icn, .minusIcn{
+                    font-size: 20px !important;
+                }
+            }
+            .collapseSection{
+                margin: 0px 0px 5px 0px !important;  
+                padding: 10px !important;
+            }
+        }
+        .question_sec{
+            h6{
+                font-size: 26px !important;
+            }
+            p{
+                font-size: 16px !important;
+            }
+            margin: 0px 10px 5px 10px !important; 
+            .questions_txt{
+                padding: 20px !important;
+                height: 190px !important;
+                .questn_content{
+                    font-size: 14px !important;
+                }
+            }
+        }
+        
+    }
+    .mar_questn{
+        margin-top: 20px !important;
+       }
+    .mar_top{
+        margin-top: 30px !important;
+       }
+      
+       .benefits-container .front, .benefits-container .back{
+        font-size: 14px !important;
+       }
+       .whatsApp_Widget{
+        right: 20px !important;
+      }
+}
+
+@media (max-width: map-get($grid-breakpoints, 400px)) {
+    .ts-plus-bg {
+        .travel_world {
+            width: 100% !important;
+        }
+    }
+}
+
+
+.benefits-container {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0 12px;
+    perspective: 900px;
+    text-align: center;
+    .flight_vouchers{
+        display: block !important;
+        padding: 30px 10px !important;
+    }
+    .concierge_support{
+        background-image: url('https://cdn1.travelstart.com/assets/images/ts-plus-images/benef-img001.png');
+        }
+        .travel_vouchers{
+            background-image: url('https://cdn1.travelstart.com/assets/images/ts-plus-images/benef-img002.png');
+        }
+         .ai_assist{
+            background-image: url('https://cdn1.travelstart.com/assets/images/ts-plus-images/benef-img003.png');
+         }
+        .free_pk_list{
+             background-image: url('https://cdn1.travelstart.com/assets/images/ts-plus-images/benef-img004.png');
+         }
+         .benefits_content{
+            padding: 10px 0px;
+         }
+
+    .front, .back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 20px;
+        color: white;
+        backface-visibility: hidden;
+      }  
+      .front {
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        width: 200px;
+        padding: 30px 0px;
+      }
+      
+      .back {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #1bb3f5;
+        width: 200px;
+        height: 200px;
+        padding: 10px;
+        font-size: 14px;
+      }
+      .back {
+         transform: rotateY(180deg);
+      }
+      .subscription_benefits {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        transition: all 0.6s ease;
+        transform-style: preserve-3d;
+        background-repeat: no-repeat;
+        background-size: 100% 100% !important;
+      }
+}
+.benefits-container:hover .subscription_benefits {
+    transform: rotateY(180deg);
+}
+
+

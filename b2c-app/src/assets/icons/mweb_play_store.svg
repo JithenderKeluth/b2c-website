@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+  <g id="gplay" transform="translate(-384 -915)">
+    <rect id="Rectangle_211" data-name="Rectangle 211" width="56" height="56" rx="4" transform="translate(384 915)"/>
+    <g id="google-play_1_" data-name="google-play (1)" transform="translate(400 930)">
+      <path id="Path_2003" data-name="Path 2003" d="M30.914,20.332,17.863,32.9a2.221,2.221,0,0,1-.968-1.852V9.617a2.221,2.221,0,0,1,.968-1.852Z" transform="translate(-16.895 -7.335)" fill="#2196f3"/>
+      <path id="Path_2004" data-name="Path 2004" d="M52.007,8.607,47.44,13,34.39.43a1.741,1.741,0,0,1,.154-.106A2.232,2.232,0,0,1,36.8.288Z" transform="translate(-33.422 0)" fill="#4caf50"/>
+      <path id="Path_2005" data-name="Path 2005" d="M280.437,160a2.257,2.257,0,0,1-1.18,2.006l-4.352,2.383L270.338,160l4.559-4.4,4.352,2.383A2.257,2.257,0,0,1,280.437,160Z" transform="translate(-256.318 -147)" fill="#ffc107"/>
+      <path id="Path_2006" data-name="Path 2006" d="M52.007,239.354l-15.21,8.32a2.262,2.262,0,0,1-2.254-.036,1.728,1.728,0,0,1-.154-.106l13.056-12.567Z" transform="translate(-33.423 -221.969)" fill="#f44336"/>
+    </g>
+  </g>
+</svg>

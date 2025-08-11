@@ -1,0 +1,515 @@
+@import "./../../../theme/theme-variables.scss";
+
+.pageLoader {
+  background-color: $color-neutral-light;
+  .skeleton_loader {
+    background-color: $color-neutral-light;
+  }
+
+  .mweb_loader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100vh;
+    padding-top: 20vh;
+    h4 {
+      font-weight: 500;
+    }
+  }
+}
+.booking_view_page {
+  padding: 20px;
+  background-color: var(--body_bg_clr);
+  min-height: 90vh;
+  label {
+    margin: 0;
+  }
+  .collapse_card {
+    background-color: $white;
+    margin: 0 10px;
+    border-radius: 12px;
+    padding: 15px 20px;
+  }
+  .cat_colpse_one {
+    .route_info {
+      padding: 20px 15px;
+      h4 {
+        color: var(--text_primary_color);
+        font-size: 22px;
+        font-weight: normal;
+        margin: 0px 0px 10px;
+      }
+      .route {
+        .collapsible {
+          background: $white;
+          border-radius: 100%;
+          width: 30px;
+          height: 30px;
+          padding: 2px 7px;
+          &:hover {
+            background: var(--results_strip_Bg);
+          }
+        }
+        .labl {
+          color: var(--text_primary_color);
+          font-size: 16px;
+          font-weight: 600;
+        }
+        img {
+          margin-bottom: 6px;
+          width: 16px;
+        }
+        .dt_labl {
+          color: var(--text_info_color);
+          font-size: 14px;
+        }
+        .sptr {
+          color: #8a90a2; // not added color code
+          width: 2px;
+        }
+        .collapsible .fa {
+          font-size: 26px;
+          color: var(--text_primary_color);
+          cursor: pointer;
+        }
+      }
+      .route1 {
+        background-color: $white;
+        .labl {
+          color: var(--text_primary_color);
+          font-size: 16px;
+          font-weight: 600;
+        }
+        img {
+          margin-bottom: 6px;
+          width: 16px;
+        }
+        .dt_labl {
+          color: var(--text_info_color);
+          font-size: 14px;
+        }
+        .sptr {
+          color: var(--text_info_color); // not added color code
+          width: 2px;
+        }
+        .collapsible {
+          .fa {
+            font-size: 26px;
+            color: var(--text_primary_color);
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .contact_info_section {
+      padding: 20px 15px;
+    }
+    .addons_section {
+      margin: 15px;
+      .add_ons {
+        .isFlexiBtn {
+          .btn {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 30px;
+            border-radius: 3px;
+            position: relative;
+            bottom: 20px;
+          }
+        }
+      }
+    }
+  }
+  .payment-options {
+    border-radius: 12px;
+  }
+  .seatCard_Expanded {
+    .side-nav-bar {
+      bottom: 100px !important;
+    }
+  }
+  .fares_info_section {
+    background: $white-secondary;
+    border-radius: 12px;
+  }
+  .st-card {
+    .st-card__body {
+      .st_Icn {
+        padding-right: 0px;
+      }
+      .st_price {
+        color: var(--text_link_color);
+      }
+      .stBtn {
+        font-size: 14px;
+      }
+      .seatInfo {
+        font-size: 12px;
+        width: 100%;
+        margin: 0px 5px 5px 0px;
+        .paxName {
+          color: var(--text_info_color);
+        }
+      }
+    }
+    .select_baggage {
+      vertical-align: middle;
+      line-height: 90px;
+      float: right;
+      padding-right: 15px;
+    }
+    .st_card__heading {
+      color: var(--text_primary_color);
+      font-size: 20px;
+      font-weight: 500;
+      .heading_optional_txt {
+        font-size: 16px;
+      }
+    }
+    .st-product__subheading {
+      color: var(--text_info_color);
+      font-size: 12px;
+      margin-bottom: 0px;
+    }
+    .toastMsg {
+      font-size: 14px;
+      color: #052331;
+      padding: 6px 20px;
+      background-color: #fff7eb;
+      border-radius: 4px;
+      margin: 0px 15px;
+      .toast_text {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.coupon_info_section {
+  box-shadow: 0 2px 2px 0 rgba(5, 35, 49, 0.12);
+  background: $white;
+  padding: 15px 0px;
+  border-radius: 3px;
+}
+
+.cat_colpse_two {
+  margin: 15px 10px;
+  .colpse_two_heading {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text_primary_color);
+  }
+  .travellersList {
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      line-height: 16px;
+      li {
+        display: inline-block;
+        font-size: 12px;
+      }
+    }
+  }
+  .sec_heading {
+    color: var(--text_primary_color);
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 0px;
+    .travellers {
+      font-size: 14px;
+      color: var(--text_primary_color);
+    }
+  }
+
+  .addons_sectionTwo {
+    background-color: $white;
+    box-shadow: 0 2px 2px 0 rgba(5, 35, 49, 0.12);
+    padding: 20px;
+  }
+
+  .addons_continueBtn {
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 40px;
+  }
+}
+.baggage_desc {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text_success_color);
+}
+.baggageSection {
+  .baggage_heading {
+    img {
+      width: 30px;
+      margin-right: 5px;
+    }
+    .heading {
+      color: var(--text_primary_color);
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+}
+.check-in-baggage {
+  img {
+    width: 30px;
+  }
+  .heading {
+    color: var(--text_primary_color);
+    font-size: 20px;
+    font-weight: 500;
+  }
+}
+
+.cat_colpse_four {
+  .add_on_head {
+    line-height: 10px;
+    h4 {
+      color: var(--text_primary_color);
+      font-size: 20px;
+      font-weight: 500;
+      margin: 0;
+    }
+    .addons_desc {
+      font-size: 12px;
+      color: #b4b3ca;
+    }
+  }
+  .addons_promo {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text_success_color);
+    font-size: 12px;
+    margin-left: auto;
+    border-radius: 3px;
+    position: relative;
+    bottom: 0px;
+    font-weight: 500;
+    left: 10px;
+  }
+}
+.proceed {
+  .btn {
+    font-size: 16px;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 35px;
+    float: right;
+    margin: 20px 0;
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+}
+.frequent_flyer {
+  background-color: $white;
+  box-shadow: 0 2px 2px 0 rgb(5 35 49 / 12%);
+  padding: 20px;
+  margin: 20px 0;
+  .meal_pref {
+    background-color: $white;
+    border: 1px solid var(--text_link_color);
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 5px;
+    .pref {
+      padding-right: 10px;
+      padding-left: 10px;
+      .link {
+        text-decoration: none;
+        color: var(--text_link_color) !important;
+        span {
+          font-size: 13px;
+          font-weight: 600;
+          display: block;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+#first_name_length_Modal {
+  .first_name_length_failed {
+    position: fixed;
+    top: 45% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    .dialog_content {
+      border-radius: 14px;
+    }
+    .first_name_lenth_err_txt {
+      font-size: 12px;
+    }
+  }
+}
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.refreshBtn {
+  background-color: $white;
+  color: var(--text_link_color);
+  border: solid 1px var(--text_link_color);
+}
+
+.flexi_Ticket_terms {
+  .dialog_content {
+    width: 630px;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: $white;
+  }
+
+  .flexi_head {
+    border-bottom: none !important;
+    padding: 20px 0px;
+    .flexi_text {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 0px;
+    }
+  }
+  .ticketBody {
+    padding: 0px;
+    .ticket_head_txt {
+      font-size: 16px;
+      font-weight: normal;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0px;
+    }
+    li {
+      font-size: 13px;
+      font-weight: normal;
+      padding: 5px;
+      line-height: 18px;
+      display: inline-flex;
+    }
+    li::before {
+      content: "•";
+      color: #abbac1;
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+      padding-right: 21px;
+    }
+  }
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background-color: var(--filter_strip_bg); // not added color code
+}
+::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
+  background-color: var(--primary_btn_bg);
+}
+#noFlightsModal {
+  .no_flight {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+.priceApiFailedError {
+  .searchDifferentFlight {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 20px !important;
+  }
+  .newFlightBtn {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+    height: 34px;
+    padding: 4px 29px;
+  }
+}
+.termsproceed {
+  margin: 20px 0px 0px 0px !important;
+  display: flex;
+  font-size: 12px;
+  color: var(--text_primary_color);
+  .check {
+    float: left;
+    margin-right: 15px;
+  }
+  a {
+    color: var(--text_link_color);
+  }
+  .error_msg {
+    font-size: 11px;
+    display: table;
+  }
+}
+::ng-deep {
+  .cdk-global-overlay-wrapper {
+    align-items: center !important;
+    .mat-snack-bar-handset {
+      width: auto;
+    }
+    .mat-snack-bar-container {
+      background: var(--text_primary_color) !important;
+      color: $white !important;
+      padding: 14px 20px !important;
+      min-width: 200px !important;
+      border-radius: 25% /150%;
+      box-shadow: none;
+      top: 18% !important;
+      left: 0 !important;
+      position: relative !important;
+      margin: 0px auto;
+      .mat-simple-snackbar {
+        font-size: 14px;
+        text-align: center !important;
+        justify-content: center !important;
+      }
+    }
+  }
+}
+#fare_increased_Modal {
+  .fare {
+    text-align: center !important;
+  }
+}
+.side-nav-bar {
+  overflow: scroll !important;
+}
+.nameLengthIcn {
+  width: 160px;
+  height: 130px;
+}
+.charges_txt {
+  font-size: 9px;
+  margin-bottom: 0px !important;
+}
+.is_disabled {
+  cursor: not-allowed;
+  background-color: #e5e6e8 !important;
+}
+.edit_btn {
+  font-size: 12px;
+  color: var(--text_link_color);
+  padding: 3px 5px;
+  margin-left: auto;
+  img {
+    position: relative;
+    top: -2px;
+    width: 20px;
+  }
+}
+
+.payment-options {
+  border-width: 1px 1px 4px 1px !important;
+  &.borderStyle {
+    border: 1px solid #d6dce8;
+  }
+  &.isTravelOptErr {
+    border: 1px solid #f51b46;
+  }
+}

@@ -1,0 +1,61 @@
+<footer class="footer_area" *ngIf="iframeWidgetService.isShowComponent() && countryValue !== 'FS'">
+  <div class="ftr_btm_area">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 trust-logos">
+          <img
+            ImageSrc
+            *ngIf="show3DSecure"
+            src="./../../../../assets/images/3D_secure.jpg"
+            alt="image"
+            loading="lazy"
+          />
+
+          <img
+            ImageSrc
+            *ngIf="show3DSecure"
+            src="./../../../../assets/images/DigiCert_Blue_Logo_Large.jpg"
+            alt="image"
+            loading="lazy"
+          />
+
+          <img ImageSrc *ngIf="show3DSecure" src="./../../../../assets/images/PCI.jpg" alt="image" loading="lazy" />
+
+          <img
+            ImageSrc
+            *ngIf="showIataSecured()"
+            src="./../../../assets/img/trustlogos/trustlogo-footer-iata.png"
+            alt="image"
+            loading="lazy"
+          />
+
+          <img
+            ImageSrc
+            *ngIf="showIataSecured() && countryValue !== 'FS'"
+            src="./../../../assets/img/trustlogos/trustlogo-footer-cgso.png"
+            alt="image"
+            width="140px"
+            loading="lazy"
+          />
+          <img
+            ImageSrc
+            *ngIf="showIataSecured()"
+            src="./../../../assets/img/trustlogos/trustlogo-footer-popia.png"
+            alt="image"
+            width="50px"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="col-sm-6 text-right">
+          <p class="copyright_text text-right">
+            <span translate>Copyright ©</span> <span>{{ getPresentYear() }}</span>
+            <span translate>Travelstart Online Travel Operations Pty LTD (2004/016841/07).</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<app-fs-footer *ngIf="countryValue === 'FS'"></app-fs-footer>

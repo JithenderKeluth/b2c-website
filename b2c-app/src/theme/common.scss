@@ -1,0 +1,496 @@
+@import "./theme-variables.scss";
+
+a,
+.link,
+.btn,
+button,
+input[type="checkbox"] {
+  cursor: pointer;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #b4bdc0 !important;
+  opacity: 1;
+  /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #b4bdc0 !important;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #b4bdc0 !important;
+}
+
+.mat-autocomplete-panel {
+  max-height: 100% !important;
+  border-radius: 12px !important;
+  margin-top:3px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 11px;
+  top: 5px;
+  left: 10px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: -3px;
+  top: -2.5px;
+  background-color: #fff;
+  box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);
+  transition: 0.4s;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+  background-color: var(--primary_btn_bg);
+  position: absolute;
+  left: -13px;
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--productsBgColor);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input.mat-input-element {
+  margin-top: 0;
+}
+
+input[type="radio"] {
+  /* remove standard background appearance */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* create custom radiobutton appearance */
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  padding: 2px;
+  /* background-color only for content */
+  background-clip: content-box;
+  border: 1.5px solid var(--border_input_color);
+  border-radius: 50%;
+}
+/* appearance for checked radiobutton */
+input[type="radio"]:checked {
+  background-color: var(--text_link_color);
+  border: 1.5px solid var(--text_link_color);
+  padding: 2px !important;
+}
+.radio_1set {
+  height: 18px;
+  width: 18px;
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .flights_results_page {
+    .err_page {
+      img {
+        width: 100%;
+      }
+    }
+  }
+  .modal-dialog {
+    width: 100% !important;
+    margin: auto !important;
+  }
+  .dialog_content {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
+.operate_airline {
+  color: #e68d32;
+  font-size: 9px;
+  font-weight: normal;
+}
+
+.operate_airlineName {
+  color: var(--text_info_color);
+  font-size: 9px;
+  font-weight: normal;
+}
+
+::-webkit-scrollbar {
+  height: 4px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .mat-snack-bar-container {
+    width: 100%;
+    top: 40% !important;
+    left: 35% !important;
+  }
+}
+
+#idleTimeOut {
+  .modal-dialog {
+    width: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    .modal-body {
+      padding: 60px 0px;
+    }
+  }
+
+  .sessionContent {
+    padding: 15px 15px 0px 15px;
+    h6 {
+      font-size: 18px;
+      font-weight: 600;
+      color: $color-header-primary;
+    }
+    label {
+      font-size: 12px;
+      font-weight: normal;
+      color: $color-neutral-400;
+    }
+  }
+
+  .searchBtn {
+    font-size: 12px;
+    font-weight: 600;
+    height: 34px;
+    margin-top: 2%;
+    padding: 4px 29px;
+    background-color: $color-link-blue;
+    color: $white;
+  }
+
+  .updatePriceBtn {
+    color: $color-link-blue;
+    background-color: $white;
+    border: 1px solid $color-link-blue;
+  }
+  .searchBtn,
+  .updatePriceBtn {
+    font-size: 12px;
+    font-weight: 600;
+    height: 34px;
+    margin-top: 2%;
+    padding: 4px 29px;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  margin: 0;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  text-decoration: none;
+  font-size: 10px !important;
+  word-wrap: break-word;
+  opacity: 0;
+}
+
+.tooltip-inner {
+  max-width: auto;
+  color: $white-secondary;
+  text-align: left;
+  background-color: #000;
+  border-radius: 3px;
+  min-width: auto;
+  padding: 10px 15px;
+}
+
+.validation_msg {
+  font-size: 12px;
+  padding: 4px;
+  background: $color-red-100;
+  color: $color-red-500;
+  line-height: 16px;
+}
+
+.offline-message {
+  background: var(--dangerBgColor) !important;
+  color: var(--text_danger_color) !important;
+  border-bottom: 1px solid var(--text_danger_color) !important;
+  padding: 0.875em 0.625em !important;
+  z-index: 1041 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+
+  .offline-body {
+    position: relative;
+    display: flex;
+
+    .offline-icon span {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      border: 2px solid transparent;
+      border-top: 2px solid var(--dangerBgColor);
+      border-bottom: 2px solid var(--dangerBgColor);
+      -webkit-animation: spin 1s linear infinite;
+      -moz-animation: spin 1s linear infinite;
+      -ms-animation: spin 1s linear infinite;
+      -o-animation: spin 1s linear infinite;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.isIframeContent {
+  #filters {
+    position: relative !important;
+    padding-bottom: 40px;
+  }
+}
+.date_fare_price {
+  font-size: 8px;
+  color: var(--new_UI_active_text_color);
+  position: relative;
+  top: -4px;
+  font-weight: 500;
+}
+.fare_subject {
+  font-size: 12px;
+  position: absolute;
+  bottom: 25px;
+  right: 5%;
+  color: #0080AB;
+  background: #EFFBFF;
+  padding: 4px 10px;
+}
+.custom-day.range,
+.custom-day:hover {
+  .date_fare_price {
+    color: #fff;
+  }
+}
+.custom-day.faded .date_fare_price {
+  color: green;
+}
+.dot-typing {
+  position: relative;
+  left: -9999px;
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  color: #f2f2f2;
+  box-shadow: 10006px 0 0 0 #f2f2f2, 10015px 0 0 0 #f2f2f2, 10024px 0 0 0 #f2f2f2;
+  animation: dot-typing 1.5s infinite linear;
+}
+
+@keyframes dot-typing {
+  0% {
+    box-shadow: 10006px 0 0 0 #f2f2f2, 10015px 0 0 0 #f2f2f2, 10024px 0 0 0 #f2f2f2;
+  }
+  16.667% {
+    box-shadow: 10006px -5px 0 0 #f2f2f2, 10015px 0 0 0 #f2f2f2, 10024px 0 0 0 #f2f2f2;
+  }
+  33.333% {
+    box-shadow: 10006px 0 0 0 #f2f2f2, 10015px 0 0 0 #f2f2f2, 10024px 0 0 0 #f2f2f2;
+  }
+  50% {
+    box-shadow: 10006px 0 0 0 #f2f2f2, 10015px -5px 0 0 #f2f2f2, 10024px 0 0 0 #f2f2f2;
+  }
+  66.667% {
+    box-shadow: 10006px 0 0 0 #f2f2f2, 10015px 0 0 0 #f2f2f2, 10024px 0 0 0 #f2f2f2;
+  }
+  83.333% {
+    box-shadow: 10006px 0 0 0 #f2f2f2, 10015px 0 0 0 #f2f2f2, 10024px -5px 0 0 #f2f2f2;
+  }
+  100% {
+    box-shadow: 10006px 0 0 0 #f2f2f2, 10015px 0 0 0 #f2f2f2, 10024px 0 0 0 #f2f2f2;
+  }
+}
+/** for radio labels*/
+.add_lbl {
+  color: var(--text_link_color);
+  cursor: pointer;
+  font-size: 11px;
+  border: 1px solid #6c778d;
+  padding: 8px;
+  border-radius: 50%;
+}
+.remove_lbl {
+  color: var(--text_info_color);
+  cursor: pointer;
+  border: 1px solid var(--text_link_color);
+  padding: 2px;
+  border-radius: 50%;
+  span {
+    display: block;
+    background-color: var(--text_link_color);
+    padding: 6px;
+    border-radius: 50%;
+  }
+}
+.seatsList {
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    line-height: 16px;
+    li {
+      display: inline-block;
+      font-size: 12px;
+    }
+  }
+}
+
+/* New Srp extra small devices (<360) adjustments section */
+@media (max-width: 320px) {
+  .bookNow_btn {
+    padding: 4px 2px !important;
+  }
+  .flight_details_section .flight_details {
+    min-width: 300px !important;
+  }
+  .sticky_priceFooter .flight_Info .info {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .srp_resHeader .jour_info {
+    width: 82% !important;
+  }
+  .bund_aif_pdd {
+    padding: 0 !important;
+  }
+  .dom_flight_card {
+    .time {
+      font-size: 13px !important;
+    }
+    .aif_pdd {
+      margin: 0 !important;
+      padding: 0 2px !important;
+    }
+  }
+  .rht-align {
+    text-align: right;
+  }
+  .bookNow_btn {
+    padding: 4px 15px !important;
+  }
+  .sticky_priceFooter {
+    .btnContinue {
+      float: none !important;
+    }
+    ul {
+      padding: 10px 3px !important;
+    }
+    .w-37 {
+      width: 38% !important;
+      .info img {
+        margin: 0 !important;
+      }
+    }
+  }
+}
+
+#spinner {
+  -webkit-animation: frames 1s infinite linear;
+  animation: frames 1s infinite linear;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 100%;
+  border-top-color: var(--border_active_color);
+  width: 25px;
+  height: 25px;
+  opacity: 0.6;
+  padding: 0;
+  z-index: 999;
+}
+@keyframes frames {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+.form-control:disabled, .form-control[readonly],.readOnly{
+  pointer-events: none ;
+  background-color: #e9ecef;
+}
+.savingAmountTxt{
+  color:var(--text_link_color) !important;
+}

@@ -1,0 +1,105 @@
+@import "./../../../theme/theme-variables.scss";
+
+
+.sortCardView{
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(185, 194, 213, 0.76);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text_primary_color);
+    .route_info{
+      font-size: 16px;
+    }
+    .itin_info{
+            border-bottom: 1px solid #dfe4ed;
+            padding: 8px 10px;
+      .date_info{
+            font-size: 14px;
+            color: var(--label_color);
+            }
+    }
+    .sort_options_info{
+        padding: 8px 10px;
+        font-size: 14px;
+        .showFilter_btn{
+            background-color: #fff;
+            color: var(--new_UI_active_text_color);
+            padding: 5px 15px;
+            border-radius: 6px;
+            border: 1px solid var(--new_UI_active_text_color);
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: none;
+            &:focus{
+              box-shadow: none !important;
+            }
+        }
+    }
+}
+.moreFlights_expanded{
+  background-color: var(--more_flight_bg);
+  border-radius: 6px;
+  .more_flights_btn{
+    background-color: var(--more_flight_bg) !important;
+  }
+}
+
+.load_more_results {
+  padding: 3em 0;
+  .btn {
+    padding: 10px 40px;
+    font-size: 12px;
+    font-weight: 500;
+    background: var(--filter_strip_bg);
+    color: var(--text_link_color);
+    text-transform: uppercase;
+    &:hover {
+      background-color: var(--primary_btn_bg);
+      color: white;
+    }
+  }
+}
+
+.more_flights{
+  text-align: center;
+  height: 5px;
+  .more_flights_btn{
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px;
+    border-radius: 16px;
+    position: relative;
+    top: -20px;
+    width: 30%;
+    color: var(--text_link_color);
+    border: none;
+    background-color: #f5f7fa;
+  }
+}
+.hide_flights_btn{
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0px 5px 10px 5px;
+  border-radius: 16px;
+  width: 30%;
+  color: var(--text_link_color);
+  border: none;
+  background-color: transparent;
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .dom_flight_section{
+  .col{
+    padding: 0px;
+    height: 100vh;
+    overflow-y: scroll;
+  }
+  }
+}
+@media only screen and (min-width: 1725px) {
+  .showFilter_btn{
+    display: none !important;
+  }
+}

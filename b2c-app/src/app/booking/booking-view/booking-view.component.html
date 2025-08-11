@@ -1,0 +1,793 @@
+<app-back-button
+  *ngIf="
+    country === 'ABSA' &&
+    (responsiveService.screenWidth == 'sm' ||
+      responsiveService.screenWidth == 'md')
+  " [navigationLink]="backButtonNavLink"
+  ><span translate>{{ getPageTitle() }}</span>
+</app-back-button>
+<app-header></app-header>
+<div id="pause" class="d-flex align-items-center justify-content-center" *ngIf="sidenavLoaded">
+  <div id="spinner"></div>
+</div>
+<div class="pageLoader mt-1" *ngIf="showMask">
+  <div class="pb-2">
+    <app-progressbar-loader></app-progressbar-loader>
+  </div>
+
+  <div class="container skeleton_loader d-none d-md-block pb-4" *ngIf="!pricedResult_data">
+    <app-traveller-page-loader></app-traveller-page-loader>
+  </div>
+
+  <div class="d-md-none mweb_loader text-center m-auto w-50" *ngIf="!pricedResult_data">
+    <h4>Fetching flight information</h4>
+    <i class="fa fa-spinner fa-spin" style="font-size: 24px" aria-hidden="true"></i>
+  </div>
+</div>
+
+<div
+  *ngIf="!showNoflight && flightsearchInfo && flightsearchInfo.itineraries && pricedResult_data"
+  class="booking_view_page"
+>
+  <div class="container" [style.height]="navService.isNavOpen() ? '0px' : '100%'">
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-9 p-0">
+        <div
+          class="cat_colpse_one mb-2 collapse_card"
+          [hidden]="
+            isShowTravellerDetails && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+          "
+        >
+          <div class="collapse show">
+            <div class="itinerary_info_section" *ngIf="pricedResult_data">
+              <app-itinerary-info [pricedResult_data]="pricedResult_data"></app-itinerary-info>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="cat_colpse_two collapse_card mb-2 travellerCard_Expanded"
+          [ngClass]=" {
+            'mb_100': !isShowTravellerDetails && !isShowCheckInBaggage() && !isShowCheckedBaggage(),
+            'theme__conditionally-hidden': isShowTravellerDetails
+           }"
+        >
+          <div
+            class="d-flex align-items-center"
+            [style.cursor]="!collapseCardList.travellerCard_Expanded ? 'pointer' : ''"
+          >
+            <div class="colpse_two_heading">
+              Traveller Information & Contact Details
+              <div class="travellersList" *ngIf="travellerList.length > 0 && !collapseCardList.travellerCard_Expanded">
+                <ul>
+                  <li *ngFor="let traveller of travellerList" class="mr-2">
+                    <span> <img ImageSrc src="../../../assets/icons/pax-icn.svg" alt="pax" class="mb-1" /></span>
+                    <span>{{ traveller.firstName }} {{ traveller.lastName }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div
+              class="float-right ml-auto"
+              *ngIf="!collapseCardList.travellerCard_Expanded"
+              (click)="isEnable_Addons_View ? expandCard('travellerCard_Expanded') : ''"
+            >
+              <button class="btn edit_btn">
+                <span> <img ImageSrc src="../../../assets/icons/travellerpage_Icons/edit_icn.svg" alt="edit" /></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="" [hidden]="!collapseCardList.travellerCard_Expanded">
+            <div class="contact_info_section">
+              <app-contact-info
+                #contact
+                [contactFormDetails]="contactFormData"
+                [pricedResult_dataInfo]="pricedResult_data"
+              ></app-contact-info>
+            </div>
+
+            <div class="passenger_details">
+              <div class="sec_heading d-lg-flex align-items-center">
+                <span class="d-block">Who’s travelling?</span>
+                <span class="travellers ml-lg-auto">
+                  <span class="dt_labl" *ngIf="flightsearchInfo.travellers.adults"
+                    >{{ flightsearchInfo.travellers.adults }}
+                    {{ getPassengers(flightsearchInfo.travellers.adults, 'adult') }}</span
+                  >
+                  <span class="dt_labl" *ngIf="flightsearchInfo.travellers.youngAdults"
+                    >{{ flightsearchInfo.travellers.youngAdults }}
+                    {{ getPassengers(flightsearchInfo.travellers.youngAdults, 'youngAdults') }}</span
+                  >
+                  <span class="dt_labl" *ngIf="flightsearchInfo.travellers.children"
+                    >{{ flightsearchInfo.travellers.children }} Children</span
+                  >
+                  <span class="dt_labl" *ngIf="flightsearchInfo.travellers.infants"
+                    >{{ flightsearchInfo.travellers.infants }}
+                    {{ getPassengers(flightsearchInfo.travellers.infants, 'infant') }}</span
+                  >
+                </span>
+              </div>
+              <div class="travellersInfo_section">
+                <app-traveller-info
+                  #traveller
+                  [traveller_info]="traveller_list"
+                  [pricedResult_dataInfo]="pricedResult_data"
+                >
+                </app-traveller-info>
+              </div>
+            </div>
+
+            <div
+              class="payment-options bg-white mb-2 mt-4"
+              *ngIf="
+                country !== 'ABSA' &&
+                travelOptionsOpt?.flexiProduct?.id === 'CNG_AST' &&
+                !iframeWidgetService.isB2BApp() &&
+                performMetaCpySourceCheck()
+              "
+              [hidden]="
+                isShowTravellerDetails &&
+                (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+              "
+            >
+              <app-travel-options
+                #travelOptions
+                [showOptMessage]="isShowFlexiOptMessage"
+                [travelOptions]="travelOptionsOpt"
+              ></app-travel-options>
+            </div>
+
+            <div class="text-right d-none d-lg-block" *ngIf="!isShowCheckInBaggage() && !isShowCheckedBaggage()">
+              <button
+                class="btn addons_continueBtn primary_btn onHover mt-3"
+                (click)="continueToAddons()"
+                [disabled]="isLoading && !isAddonsAvilable() && !isShowSeatOption()"
+              >
+                <span *ngIf="isLoading && !isAddonsAvilable() && !isShowSeatOption()">
+                  <i class="fa fa-spinner fa-spin" style="font-size: 20px" [hidden]="!isLoading" aria-hidden="true"></i>
+                </span>
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!--End of Traveller Flow-->
+        <!--checked/check-in baggage selection section Start-->
+        <div
+          class="cat_colpse_two collapse_card mb-2 baggageCard_Expanded"
+          [ngClass]="!isShowTravellerDetails ? 'mb_100' : 'theme__conditionally-hidden'"
+          *ngIf="isShowCheckInBaggage() || isShowCheckedBaggage()"
+        >
+          <div
+            class="d-flex align-items-center"
+            [style.cursor]="!collapseCardList.baggageCard_Expanded ? 'pointer' : ''"
+          >
+            <div class="colpse_two_heading">Add baggage</div>
+            <div
+              class="float-right ml-auto"
+              *ngIf="!collapseCardList.baggageCard_Expanded"
+              (click)="isEnable_Addons_View ? expandCard('baggageCard_Expanded') : ''"
+            >
+              <button class="btn edit_btn">
+                <span><img ImageSrc src="../../../assets/icons/travellerpage_Icons/edit_icn.svg" alt="" /></span>
+              </button>
+            </div>
+          </div>
+          <div [hidden]="!collapseCardList.baggageCard_Expanded">
+            <div class="baggage_desc" *ngIf="isShowCheckInBaggage()">
+              <span>
+                <img
+                  ImageSrc
+                  src="../../../assets/icons/travellerpage_Icons/check-in_baggage-stars.svg"
+                  width="16px"
+                  alt="check-in_baggage-stars"
+              /></span>
+              <span translate>Add your check-in Baggage online and save 40%</span>
+            </div>
+            <div class="baggageSection" *ngIf="isShowCheckInBaggage() || isShowCheckedBaggage()">
+              <div class="check_in_baggage mb-3" *ngIf="isShowCheckInBaggage() && isOutBound_Check_InBaggage()">
+                <ng-container *ngTemplateOutlet="check_In_Baggage"> </ng-container>
+              </div>
+              <div class="" *ngIf="isShowCheckedBaggage()">
+                <div class="checked_baggage mt-3">
+                  <app-baggage-selection
+                    #checkedBaggage
+                    [pricedResult_data]="pricedResult_data"
+                    (checkedBaggage)="priceRequest($event)"
+                  >
+                  </app-baggage-selection>
+                </div>
+              </div>
+              <div class="check_in_baggage" *ngIf="isShowCheckInBaggage() && !isOutBound_Check_InBaggage()">
+                <ng-container *ngTemplateOutlet="check_In_Baggage"> </ng-container>
+              </div>
+              <div class="text-right d-none d-lg-block">
+                <button
+                  class="btn addons_continueBtn primary_btn onHover mt-3"
+                  (click)="continueToAddons()"
+                  [disabled]="isLoading && isConnected && !isAddonsAvilable() && !isShowSeatOption()"
+                >
+                  <span *ngIf="isLoading && isConnected && !isAddonsAvilable() && !isShowSeatOption()">
+                    <i
+                      class="fa fa-spinner fa-spin"
+                      style="font-size: 20px"
+                      [hidden]="!isLoading"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                  Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- checked/check-in baggage selection section Ends-->
+
+        <!--Seat selection section Start-->
+        <div
+          class="cat_colpse_three collapse_card mb-2 seatCard_Expanded"
+          *ngIf="isShowSeatOption()"
+          [ngClass]="isSeatSelectionDone ? 'theme__conditionally-hidden' : ''"
+          [hidden]="
+            !isShowTravellerDetails && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+          "
+        >
+          <!-- [ngClass]="!isEnable_Addons_View ? 'is_disabled' : ''" -->
+          <div class="st-card">
+            <div class="st-card__body">
+              <div class="row align-items-center" *ngIf="!showWidget">
+                <div class="col-9 col-md-9 col-xl-10">
+                  <div class="st_card__heading">
+                    Choose your seats <span class="heading_optional_txt">(optional)</span>
+                  </div>
+
+                  <div class="seatsList" *ngIf="totalSeatCost > 0 && selectedSeatsData?.length > 0">
+                    <div
+                      *ngFor="let traveler of selectedSeatsData; let idx = index"
+                      [ngClass]="{ 'd-none no-border': traveler.type === 'INFANT' }"
+                    >
+                      <ul *ngIf="traveler?.specialRequests?.seatDetails?.length > 0" class="d-inline pull-left">
+                        <span *ngIf="traveler?.specialRequests?.seatDetails[0].seatNumber">
+                          <img ImageSrc src="../../../assets/icons/pax-icn.svg" alt="pax" class="mb-1"
+                        /></span>
+                        <li *ngFor="let seatData of traveler?.specialRequests?.seatDetails" class="mr-2">
+                          <span *ngIf="seatData.seatNumber" class="seatNumber"> {{ seatData.seatNumber }}</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- <ul>
+                      <li *ngFor="let seatData of selectedSeatsData | keyvalue" class="mr-2">
+                        <span> <img ImageSrc src="../../../assets/icons/pax-icn.svg" alt="pax" class="mb-1" /></span>
+                        <span *ngIf="seatData.value && seatData.value.length > 0">
+                          <span class="seat" *ngFor="let seat of seatData.value; let last = last">
+                            {{ seat.seatNumber }}<span *ngIf="!last">,</span>
+                          </span>
+                        </span>
+                        <span class="seat" *ngIf="seatData.value && seatData.value.length == 0"> N/A </span>
+                      </li>
+                    </ul> -->
+                  </div>
+                </div>
+                <div class="col-3 col-md-3 col-xl-2 text-right">
+                  <div class="st_price float-left d-none" *ngIf="totalSeatCost">
+                    <strong>
+                      {{ pricedResult_data.currencyCode | currencyCode
+                      }}{{ totalSeatCost | currency: '' + ' ':'symbol':'2.0' }}
+                    </strong>
+                  </div>
+                  <button
+                    *ngIf="isEnable_Addons_View && !collapseCardList.travellerCard_Expanded"
+                    type="button"
+                    translate
+                    class="btn btn-lg edit_btn"
+                    [disabled]="this.traveller.travellerForm.status !== 'VALID'"
+                    (click)="
+                      selectedSeatsData.length == 0
+                        ? showSeatMap('addseat', false)
+                        : expandCard('seatCard_Expanded', false)
+                    "
+                  >
+                    <span><img ImageSrc src="../../../assets/icons/travellerpage_Icons/edit_icn.svg" alt="" /></span>
+                  </button>
+                </div>
+              </div>
+              <app-side-nav
+                *ngIf="
+                  showMwebSeats && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+                "
+                [sidenavTemplateRef]="seatContent"
+                [direction]="'right'"
+                [duration]="1"
+                (closeNav)="closeSideNav()"
+              ></app-side-nav>
+              <ng-template #seatContent>
+                <app-seatmaps
+                  #seatData
+                  (closeNav)="closeSideNav()"
+                  (reset_skipSeatMap)="skipSeatSelection()"
+                  (selectedSeatDetails)="getSeatDetails($event); continueToAddons_products()"
+                  (page_Loaded)="sidenavPageloaded()"
+                ></app-seatmaps>
+              </ng-template>
+              <div
+                [hidden]="!collapseCardList.seatCard_Expanded"
+                *ngIf="
+                  isEnable_Addons_View &&
+                  showMwebSeats &&
+                  responsiveService.screenWidth !== 'sm' &&
+                  responsiveService.screenWidth !== 'md'
+                "
+              >
+                <app-seatmaps
+                  #seatData
+                  (reset_skipSeatMap)="skipSeatSelection()"
+                  (selectedSeatDetails)="getSeatDetails($event); continueToAddons_products()"
+                ></app-seatmaps>
+
+                <div class="text-right d-none">
+                  <button class="btn addons_continueBtn primary_btn onHover" (click)="continueToAddons_products()">
+                    Continue
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Seat selection section Ends-->
+
+        <!--Add on section-->
+        <div
+          class="cat_colpse_four collapse_card add_onsCard_Expanded"
+          [ngClass]="
+            apiservice.extractCountryFromDomain() !== 'NG' && apiservice.extractCountryFromDomain() !== 'GI'
+              ? 'mb_100'
+              : ''
+          "
+          [hidden]="
+            !isShowTravellerDetails && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+          "
+          *ngIf="pricedResult_data && isAddonsAvilable()"
+        >
+          <div class="align-items-center">
+            <div class="add_on_head">
+              <span>
+                <h4>
+                  Add-Ons
+                  <span class="addons_promo">
+                    <img
+                      ImageSrc
+                      src="../../../assets/icons/travellerpage_Icons/addons_flights.svg"
+                      imagesrc
+                      alt="addons_flights"
+                      width="12px"
+                      class="mr-1"
+                    />
+                    Safe and comfortable trip
+                  </span>
+                </h4>
+              </span>
+            </div>
+          </div>
+
+          <div class="add_ons_expanded_view mt-3" *ngIf="collapseCardList.add_onsCard_Expanded">
+            <div *ngIf="pricedResult_data && pricedResult_data.products" class="add_ons_selection">
+              <app-add-on-selection
+                #product
+                [pricedResult_data]="pricedResult_data"
+                [isAddOns_Expanded]="collapseCardList.add_onsCard_Expanded"
+              >
+              </app-add-on-selection>
+            </div>
+            <!-- <div class="check-in-baggage" >
+            <app-baggage-selection
+              #checkedBaggage
+              [pricedResult_data]="pricedResult_data"
+              (checkedBaggage)="priceRequest($event)"
+            >
+            </app-baggage-selection>
+          </div> -->
+          </div>
+        </div>
+
+        <div class="row m-0">
+          <div class="col-sm-12 col-lg-12">
+            <div
+              class="mt-3 mb_100"
+              *ngIf="apiservice.extractCountryFromDomain() === 'NG' || apiservice.extractCountryFromDomain() === 'GI'"
+              [hidden]="
+                !isShowTravellerDetails &&
+                (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+              "
+            >
+              <div class="termsproceed">
+                <span>
+                  <mat-checkbox
+                    type="checkbox"
+                    class="mat-checkbox check"
+                    [checked]="false"
+                    [formControl]="agreeTerms"
+                  ></mat-checkbox>
+                </span>
+                <span>
+                  <span translate
+                    >By checking this box, you agree and accept that the passenger name(s), flight itinerary, baggage
+                    details, all travel documents and products that you or the person booking on your behalf selected
+                    are correct and valid. You also agree and accept the
+                  </span>
+                  <a href="{{ 'terms and conditions URL' | translate }}" target="_blank" rel="noopener"
+                    ><span translate>Terms and Conditions</span></a
+                  >
+                  <span translate>of Travelstart and its partners. </span>
+                  <div class="validation_msg error_msg" *ngIf="submitted && !agreeTerms.value">
+                    You must agree to the Terms and Conditions before proceeding.
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- disable payment button in web also bcoz we are adding button in strip-->
+          <div
+            class="col-sm-12 col-lg-12 text-right"
+            *ngIf="
+              !collapseCardList.travellerCard_Expanded &&
+              ((isAddonsAvilable() && collapseCardList.add_onsCard_Expanded) ||
+                (isShowSeatOption() && !collapseCardList.seatCard_Expanded && !isAddonsAvilable()))
+            "
+          >
+            <div class="proceed d-none d-lg-block">
+              <button
+                type="button"
+                class="btn primary_btn onHover"
+                (click)="proceedToPaymet(false)"
+                [disabled]="isLoading || !isEnable_Addons_View"
+              >
+                <i class="fa fa-spinner fa-spin" style="font-size: 24px" [hidden]="!isLoading" aria-hidden="true"></i>
+                <!-- Proceed To Payment -->
+                <span translate>Continue</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-12 col-lg-3 p-0 theme__greyed-out-background">
+        <div class="sticky">
+          <!-- TO DO if we need voucher -->
+          <!-- <section *ngIf="showCouponsInfo" class="coupon_info_section mb-3 d-none d-lg-block">
+            <app-coupons-info></app-coupons-info>
+          </section> -->
+
+          <div class="fares_info_section">
+            <div
+              appCloseCollapseStrip
+              id="viewpriceBreakdownData"
+              [ngClass]="
+                responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md' ? 'collapse' : 'web'
+              "
+            >
+              <app-fare-info
+                #fares
+                [pricedResult_data]="pricedResult_data"
+                (totalAmount)="getAmount($event)"
+                [baggagefee]="baggageFee"
+                (editPriceModalHandler)="openEditPriceModal()"
+                [seatCost]="totalSeatCost"
+                [showAddons_param]="showAddons_param"
+              ></app-fare-info>
+            </div>
+
+            <!-- this sticky pricing will need to be hiden when the meal selector is in view -->
+            <!--mweb sticky pricing-->
+            <div class="mweb_TotalAmtsec d-block d-lg-none" *ngIf="pricedResult_data">
+              <div class="row">
+                <div class="col-6">
+                  <div (click)="showPriceIcon()" data-toggle="collapse" data-target="#viewpriceBreakdownData">
+                    <label for="TOTAL PRICE" translate class="labl theme__raise-priority">TOTAL PRICE</label>
+                    <label
+                      for="Total Price Includin"
+                      *ngIf="showPriceWithAddons()"
+                      translate
+                      class="labl price_with_addons d-none"
+                      >Total Price Including<br />
+                      Add-ons</label
+                    >
+                    <div class="clearfix"></div>
+                    <label for="total" class="amt">
+                      <span class="total">
+                        {{ pricedResult_data.currencyCode | currencyCode
+                        }}{{ mwebTotalPrice | currency: '' + ' ':'symbol':'2.0' }}
+                      </span>
+                      <span *ngIf="country !== 'ABSA'">
+                        <a translate rel="nofollow" class="link mt-2">
+                          <span class="angleIcon">
+                            <i
+                              *ngIf="viewpriceDownIcon"
+                              data-toggle="collapse"
+                              data-target="#viewpriceBreakdownData"
+                              aria-hidden="true"
+                              class="fa fa-angle-down"
+                            >
+                            </i>
+                          </span>
+                          <span class="angleIcon" data-toggle="collapse" data-target="#viewpriceBreakdownData">
+                            <i
+                              *ngIf="viewpriceUpIcon"
+                              data-toggle="collapse"
+                              data-target="#viewpriceBreakdownData"
+                              aria-hidden="true"
+                              class="fa fa-angle-up"
+                            >
+                            </i>
+                          </span>
+                        </a>
+                      </span>
+                      <span *ngIf="country === 'ABSA'">
+                        <img
+                          class="theme__info-icon"
+                          data-toggle="collapse"
+                          data-target="#viewpriceBreakdownData"
+                          ImageSrc
+                          src="../../../assets/icons/srp_Icons/fare-breakdown-info.svg"
+                          alt="fare-breakdown-info">
+                      </span>
+                    </label>
+                    <p *ngIf="apiservice.extractCountryFromDomain() == 'IB'" class="charges_txt">
+                      Price includes <span *ngIf="flightsResultsResponse.isIntl">an International</span>
+                      <span *ngIf="!flightsResultsResponse.isIntl">a domestic</span> booking fee of
+                      {{ pricedResult_data.currencyCode | currencyCode
+                      }}<span *ngIf="!flightsResultsResponse.isIntl">95</span
+                      ><span *ngIf="flightsResultsResponse.isIntl">200</span> per person.
+                    </p>
+                    <span class="clearfix"></span>
+                  </div>
+                </div>
+                <div class="col-6 float-right" [ngClass]="country === 'ABSA' ? 'text-right' : 'text-center'">
+                  <button
+                    type="button"
+                    *ngIf="isShowTravellerDetails && !collapseCardList.seatCard_Expanded"
+                    class="btn primary_btn continueBtn mt-2 w-100"
+                    (click)="proceedToPaymet(false)"
+                    [disabled]="isLoading"
+                  >
+                    <!-- Proceed To Payment -->
+                    <span translate class="view_payment">
+                      <i
+                        translate
+                        class="fa fa-spinner fa-spin"
+                        style="font-size: 20px"
+                        [hidden]="!isLoading"
+                        aria-hidden="true"
+                      ></i
+                      >Continue</span
+                    >
+                  </button>
+                  <button
+                    (click)="canProceedToNext()"
+                    *ngIf="!isShowTravellerDetails"
+                    type="button"
+                    class="btn primary_btn continueBtn mt-2 w-100"
+                  >
+                    <span translate>Continue</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="text-center priceApiFailedError" style="margin-top: 125px" *ngIf="showNoflight">
+  <img
+    ImageSrc
+    class="wid40per-xs w-mob-set"
+    src="./../../../../assets/icons/Icon/Negative-scenarios/try_different_flight_icon.svg"
+    alt="Flight not available"
+  />
+  <div class="searchDifferentFlight">
+    <div translate>Sorry, we cannot find your flight.</div>
+    <div translate>Please try searching for a different flight.</div>
+  </div>
+  <button type="button" class="btn newFlightBtn primary_btn" data-dismiss="modal" (click)="flight_results()">
+    <span translate>Search New Flight</span>
+  </button>
+</div>
+<div class="modal fade" id="fare_increased_Modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog fare_increased" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body consistent-modal-body">
+        <div class="text-center">
+          <img
+            ImageSrc
+            class="w-mob-set consistent-modal-icon"
+            src="./../../../../assets/icons/Icon/Negative-scenarios/fare_increased_icon.svg"
+            alt="fare"
+            loading="lazy"
+          />
+          <div class="consistent-header-txt" translate>Fare increased</div>
+          <div *ngIf="show_fare" class="consistent-body-text">
+            <span translate>Your flight ticket has increased by</span> <span class="theme__price-data">{{ pricedResult_data.currencyCode | currencyCode
+            }}{{ pricedResult_data.priceIncrease | currency: '' + ' ':'symbol':'2.0' }}</span>.
+            <span translate>Seats selling fast, click continue to secure your booking.</span>
+          </div>
+          <div class="modal-btn-container">
+            <button
+              type="button"
+              mat-button
+              aria-label="Search again"
+              class="btn fare-btn default_btn"
+              data-dismiss="modal"
+              (click)="flight_results()"
+            >
+              <span translate>Search again</span>
+            </button>
+            <button
+              type="button"
+              aria-label="Continue"
+              mat-button
+              class="btn fare-btn primary_btn proceedBtn onHover"
+              data-dismiss="modal"
+            >
+              <span translate>Continue</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="noFlightsModal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <app-error-message></app-error-message>
+</div>
+<div
+  class="modal fade"
+  id="flexi_ticket_terms_Condtions"
+  data-backdrop="static"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog flexi_Ticket_terms" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-header flexi_head pr-4">
+        <p translate class="flexi_text">Flexi ticket terms and conditions</p>
+        <img
+          ImageSrc
+          src="../../../assets/icons/close_cross_icn.svg"
+          alt="close"
+          class="float-right"
+          width="13px"
+          data-dismiss="modal"
+          aria-label="Close"
+          loading="lazy"
+        />
+      </div>
+      <app-flexi-ticket-terms></app-flexi-ticket-terms>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="duplicateBookingModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <app-duplicate-booking-modal *ngIf="duplicateBookingInfo" [duplicateBookingInfo]="duplicateBookingInfo"  (continuePayment)="proceedToPaymet($event)">
+  </app-duplicate-booking-modal>
+</div>
+<div class="modal fade" id="priceError_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <app-session-expired-error></app-session-expired-error>
+</div>
+
+<div class="modal fade" id="payment_error_modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <app-payment-error-dialog></app-payment-error-dialog>
+</div>
+
+<div
+  class="modal fade"
+  id="payment_methods_error"
+  data-backdrop="static"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <app-payment-methods-error></app-payment-methods-error>
+</div>
+
+<div class="modal fade" id="price_failed" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <app-pricing-failed></app-pricing-failed>
+</div>
+
+<div
+  class="modal fade"
+  id="first_name_length_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog first_name_length_failed" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body consistent-modal-body">
+        <div class="text-center">
+          <img
+            ImageSrc
+            class="consistent-modal-icon"
+            [src]="country === 'ABSA' 
+              ? './../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg' 
+              : './../../../../assets/icons/Icon/Negative-scenarios/something_was_not_right.svg'"
+            alt="no flights"
+            loading="lazy"
+          />
+              <div class="consistent-header-txt" translate
+                >Hold up!
+              </div>
+              <div class="consistent-body-text">
+                <span translate> It looks like your names have exceeded our max character limit to book online.</span>
+                <span translate>Please contact us to assist you with your flight booking by calling</span>
+                <span translate>+27 21 468 4300</span>
+              </div>
+              <div class="modal-btn-container">
+                <button
+                translate
+                class="mt-3"
+                aria-label="ok"
+                type="button"
+                class="btn ok-btn primary_btn"
+                data-dismiss="modal"
+              >
+                <span translate>ok</span>
+              </button>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" id="seat_are_Notselected" role="dialog">
+  <app-seat-not-selected-modal
+    (chooseSelectSeats)="expandCard('seatCard_Expanded')"
+    (continueCloseModal)="proceedToPaymet(false, true)"
+  ></app-seat-not-selected-modal>
+</div>
+<div class="modal" id="ancilliaries_Notselected" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <app-products-not-selected-modal (continuePayment)="continueToPayment(false)"></app-products-not-selected-modal>
+</div>
+<!-- B2B discount edit modal for SRP -->
+<div
+  tabindex="-1"
+  role="dialog"
+  class="modal fade pr-0"
+  aria-hidden="true"
+  id="editpricing_modal_"
+  data-keyboard="false"
+  data-backdrop="static"
+  *ngIf="iframeWidgetService.isB2BApp()"
+>
+  <app-edit-price-modal
+    (formSubmitEvent)="on_EditPriceModalSubmit($event)"
+    (closeEvent)="closeEditPriceModal()"
+  ></app-edit-price-modal>
+</div>
+
+<!-- tempalete for checkin baggage -->
+<ng-template #check_In_Baggage>
+  <app-add-check-in-baggage
+    #checkInBaggage
+    [travellerList]="traveller?.travellerForm?.value?.travellersList"
+    (BaggageAmount)="get_baggageAmount($event)"
+  ></app-add-check-in-baggage>
+</ng-template>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" />

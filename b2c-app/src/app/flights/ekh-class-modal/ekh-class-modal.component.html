@@ -1,0 +1,39 @@
+<div class="modal-dialog payment_error_dialog" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body">
+      <div class="text-center">
+        <img
+          ImageSrc
+          class="wid40per-xs"
+          src="./../../../../assets/svg/airport-change-icn.svg"
+          alt="Flight not available"
+        />
+        <div class="payment_error_modal_text ek_h_content">
+          <div class="mt-2 ek_h_fare">
+            <span translate>You have chosen Emirates <br /><span translate>SPECIAL BUSINESS CLASS Fare</span></span>
+          </div>
+        </div>
+      </div>
+
+      <ul class="ek_h_conditions">
+        <div class="note_conditions" translate>Please note the conditions below.</div>
+        <li>No Chauffeur Drive Service</li>
+        <li>No lounge access (unless allowed by members Skywards tier benefits – eg Platinum or Gold member)</li>
+        <li>Complimentary seat selection after check-in opens (48 hrs prior to departure)</li>
+        <li>No upgrades to First Class permitted using miles</li>
+        <li>Restricted mileage earning</li>
+      </ul>
+
+      <div class="text-center">
+        <button
+          type="button"
+          class="btn ok-btn text-center primary_btn"
+          data-dismiss="modal"
+          (click)="continueFlight()"
+        >
+          <span translate>Okay</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,606 @@
+<div
+  [ngClass]="{
+    is_Itin_show: activeFlight !== itinerary.id && ExpandedFlightDetails !== itinerary.id,
+    is_Itin_hide: activeFlight === itinerary.id && ExpandedFlightDetails === itinerary.id
+  }"
+>
+  <div
+    class="flight_card"
+    *ngIf="itinerary"
+    [ngClass]="isUnBundleFlight() ? 'dom_flight_card' : ''"
+    (click)="selectDomesticFlight(itinerary)"
+  >
+    <div
+      class="row m-0"
+      class="{{ itinerary.flightType }} {{ flightSearchData.tripType }}"
+      [ngClass]="{ active: isActive(itinerary) }"
+    >
+      <div class="flight_info itinWdth" [ngClass]="isWeb() && isBundleFlight() ? 'col-12 col-lg-10' : 'col-12'">
+        <div class="theme__chips-container" *ngIf="itinerary?.flagTypes?.length > 0">
+          <ul class="flight_labels">
+            <li  *ngFor = "let flagType of itinerary?.flagTypes ">
+              <span class="mr-2 flight_labl" class="{{ flagType }}">
+                <span
+                  ><img
+                    ImageSrc
+                    src="../../../assets/icons/v1-icons/{{ flagType }}.svg"
+                    alt="{{ flagType }}"
+                /></span>
+                <span class="">{{ flagType }}</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="row m-0 flight_row"
+          (click)="
+            showFlightDetails(itinerary.odoList) && !isUnBundleFlight()
+              ? toggleFlightDetails(itinerary, itinerary.id)
+              : ''
+          "
+          *ngFor="let odoList of itinerary.odoList; let idx = index; let last = last; let first = first"
+          [ngClass]="{
+            show_details: activeFlight !== itinerary.id && ExpandedFlightDetails !== itinerary.id,
+            hide_details: activeFlight === itinerary.id && ExpandedFlightDetails === itinerary.id,
+            bor_btm: !last
+          }"
+        >
+          <div
+            class="segMents_route px-3 mb-2 col-12"
+            *ngIf="isBundleFlight() && itinerary.odoList.length > 1 && flightSearchData?.tripType == 'multi'"
+          >
+            <span>
+              <img ImageSrc src="../../../assets/icons/srp_Icons/flight_dpt.svg" alt="flight_dpt" loading="lazy" />
+            </span>
+            <span class="dept_seg">
+              <span class="way_def">TRIP {{ idx + 1 }}</span>
+            </span>
+          </div>
+          <div
+            class="d-flex align-items-center aif_pdd theme__airline-details-container"
+            [ngClass]="isUnBundleFlight() ? 'col-sm-12 mb-2' : 'col-lg-3 col-sm-12 pl-lg-4 mb-2 mb-lg-0'"
+          >
+            <span class="airl_logo">
+              <img
+                class="carrier_logo airLineXs"
+                ImageSrc
+                src="assets/img/carriers/retina48px/carrier-{{ odoList.segments[0].airlineCode }}.png"
+                alt="{{ odoList.segments[0].airlineCode }}"
+                loading="lazy"
+              />
+            </span>
+            <span class="air_info clearfix">
+              <span class="airl_name">
+                {{ getAirlinename(flightsList.airlineNames[odoList.segments[0].airlineCode]) }}
+                <span
+                  [ngClass]="region === 'ABSA' ? 'd-block d-lg-inline' : ''"
+                  *ngIf="
+                    apiService?.getEnvironment() !== 'live' ||
+                    (Iframewidgetservice.isB2BApp() && (Iframewidgetservice?.b2bOrganization() == 'TS_CT' || Iframewidgetservice?.b2bOrganization() == 'TS_FS'))
+                  "
+                >
+                  ({{ odoList.companyName }})
+                </span>
+              </span>
+              <span [ngClass]="region !== 'ABSA' ? 'airl_numb d-lg-block d-none' : 'd-lg-block theme__airline-number'"  *ngIf="!(isUnBundleFlight() && isMobile())">
+               {{ region !== 'ABSA' ? '(' + odoList.segments[0].flightNumber + ')' : odoList.segments[0].flightNumber }}
+              </span>
+              <span class="float-right dom_mweb_fare d-none" *ngIf="!isBundleFlight() && !isWeb()">
+                <span>{{ itinerary.currencyCode | currencyCode }}</span
+                >{{ itinerary.amount | currency: '' + ' ' + '
+                ':'symbol':'2.0' }}
+              </span>
+
+              <div *ngIf="isBundleFlight() && odoList.segments[0].opAirlineCode">
+                <div class="mweb opAirline">
+                  Operated by {{ flightsList.airlineNames[odoList.segments[0].opAirlineCode] }}
+                </div>
+              </div>
+              <div
+                class="extras mt-lg-2 aif_pdd pt-1 pt-lg-0"
+                *ngIf="
+                  isBundleFlight() &&
+                  responsiveService.screenWidth != 'sm' &&
+                  responsiveService.screenWidth != 'md' &&
+                  (getBaggage(odoList.segments[0].ID, 'checked').length != 0 ||
+                    getBaggage(odoList.segments[0].ID, 'hand').length != 0)
+                "
+              >
+                <ng-container *ngTemplateOutlet="baggageData; context: { $implicit: { odoList: odoList } }">
+                </ng-container>
+              </div>
+            </span>
+            <span
+              class="mr-1 ml-auto"
+              *ngIf="isUnBundleFlight() && (itinerary.flightType == 'outBound' || itinerary.flightType == 'inBound')"
+            >
+              <img
+                *ngIf="!isActive(itinerary)"
+                ImageSrc
+                src="../../../assets/icons/travellerpage_Icons/tick_default.svg"
+                alt="tick_default"
+              />
+              <img
+                *ngIf="isActive(itinerary)"
+                ImageSrc
+                src="../../../assets/icons/travellerpage_Icons/tick_selected.svg"
+                alt="tick_selected"
+              />
+            </span>
+          </div>
+          <div
+            class=""
+            [ngClass]="isUnBundleFlight() ? 'col-sm-12 mb-2' : 'col-lg-9 col-sm-12 '"
+            [style.padding]="isUnBundleFlight() && !isMobile() ? '0px 40px' : ''"
+          >
+            <div class="row theme__flight-details-row">
+              <div class="text-center" [ngClass]="isUnBundleFlight() ? 'col-4 aif_pdd ' : 'col-lg-4 col-4 pl-lg-0'">
+                <div class="trip_date" *ngIf="isBundleFlight()">
+                  {{ odoList.segments[0].departureDateTime | date: 'd MMM yy' }}
+                </div>
+                <div class="time theme__time-label">
+                  {{ odoList.segments[0].departureDateTime | date: 'HH:mm' }}
+                </div>
+                <div
+                  class="airp_name theme__flight-airport"
+                  *ngIf="((isUnBundleFlight() || isBundleFlight()) && !(isUnBundleFlight() && isMobile())) || region === 'ABSA'"
+                >
+                  {{ getAirportName(odoList.segments[0].origCode) }}
+                </div>
+              </div>
+
+              <div class="text-center p-0 pt-1" [ngClass]="isUnBundleFlight() ? 'col-4' : 'col-lg-3 col-4'">
+                <div class="flight_data">
+                  <div class="dur" *ngIf="isWeb() || (isMobile() && !isUnBundleFlight())">
+                    {{ getTimeInHours(odoList.duration) }}
+                  </div>
+
+                  <div class="stops-container">
+                    <div *ngIf="region !== 'ABSA'" class="line-with-dots">
+                      <div class="line"></div>
+                      <div
+                        *ngFor="let position of getStopPositions(odoList?.segments?.length - 1)"
+                        class="middle-dot"
+                        [style.left.%]="position"
+                      ></div>
+                    </div>
+                    <div class="theme__flight-duration-icon-container" *ngIf="region === 'ABSA'">
+                      <img ImageSrc class="theme__flight-duration-icon" src="./../../../assets/icons/absa_icons/flight-duration-icon.svg" alt="flight duration icon">
+                    </div>
+                  </div>
+                  <div class="stops" *ngIf="isWeb() || (isMobile() && !isUnBundleFlight())">
+                    {{ region === 'ABSA' ? getStops(odoList.segments) : getStopsWithLocations(odoList) }}
+                  </div>
+
+                  <div class="techStops" *ngIf="getTechStopsTxt(odoList)">
+                    <div class="tech_stps_txt mt-2">
+                      {{ getTechStopsTxt(odoList) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="pl-lg-3 text-center"
+                [ngClass]="isUnBundleFlight() ? 'col-4 aif_pdd rht-align' : 'col-lg-4 col-4 pl-4'"
+              >
+                <div class="trip_date" *ngIf="isBundleFlight()">
+                  {{ odoList.segments[odoList.segments.length - 1].arrivalDateTime | date: 'd MMM yy' }}
+                </div>
+                <div class="time theme__time-label">
+                  {{ odoList.segments[odoList.segments.length - 1].arrivalDateTime | date: 'HH:mm' }}
+                  <sup class="theme__days-counter" *ngIf="getDurationDays(odoList) > 0"
+                    >+{{ getDurationDays(odoList) }}<span *ngIf="getDurationDays(odoList) == 1">&nbsp;Day</span>
+                    <span *ngIf="getDurationDays(odoList) > 1">&nbsp;Days</span>
+                  </sup>
+                </div>
+                <div
+                  class="airp_name theme__flight-airport"
+                  *ngIf="((isUnBundleFlight() || isBundleFlight()) && !(isUnBundleFlight() && isMobile())) || region === 'ABSA'"
+                >
+                  {{ getAirportName(odoList.segments[odoList.segments.length - 1].destCode) }}
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="theme__flight-stops-duration-container"
+              *ngIf="
+                isUnBundleFlight() && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+              "
+            >
+              <span class="dur">
+                {{ getTimeInHours(odoList.duration) }}
+              </span>
+              <span class="stops ml-1">
+                <span translate> {{ getStops(odoList.segments) }}</span>
+                <span class="cabinClass d-none d-lg-inline">- {{ odoList.segments[0].cabinClass | lowercase }}</span>
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="extras pl-3 pr-2 mt-lg-2 pt-2 pt-lg-0"
+            [ngClass]="isBundleFlight() ? 'offset-0 offset-lg-3 pl-lg-0' : 'pl-lg-0'"
+            [style.width]="responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md' ? '100%' : ''"
+            [style.border-top]="
+              isUnBundleFlight() && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+                ? '1px dashed #D0D5DD'
+                : ''
+            "
+            *ngIf="
+              ((isBundleFlight() && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')) ||
+                (isMobile() && isUnBundleFlight())) &&
+              (getBaggage(odoList.segments[0].ID, 'checked').length != 0 ||
+                getBaggage(odoList.segments[0].ID, 'hand').length != 0)
+            "
+          >
+            <span class="baggage">
+              <ng-container *ngTemplateOutlet="baggageData; context: { $implicit: { odoList: odoList } }">
+              </ng-container>
+            </span>
+          </div>
+          <div class="w-100 dom_mweb_fare mt-1 text-center" *ngIf="!isBundleFlight() && !isWeb()">
+            <span class="" *ngIf="region !== 'MM'">
+              <span>{{ itinerary.currencyCode | currencyCode }}</span
+              >{{
+                showPerson_Price()
+                  ? (itinerary.ppsAmount | currency: '' + ' ' + ' ':'symbol':'2.0')
+                  : (itinerary.amount | currency: '' + ' ' + ' ':'symbol':'2.0')
+              }}
+            </span>
+            <span *ngIf="region === 'MM'">
+              <span class="d-block">
+                {{ itinerary.currencyCode | currencyCode
+                }}{{ displayItnPrice(itinerary).finalAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+              </span>
+            </span>
+            <div class="perPerson text-center" *ngIf="showPerson_Price()" translate>Per Person</div>
+          </div>
+
+          <div
+            class="aif_pdd"
+            [ngClass]="[
+              isUnBundleFlight() ? '' : 'col mt-lg-1',
+              responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md' ? 'col-12' : ''
+            ]"
+            *ngIf="last"
+          >
+            <ng-container *ngTemplateOutlet="promo; context: { $implicit: { data: itinerary } }"> </ng-container>
+          </div>
+
+          <div
+            class="col d-block theme__card-message-container"
+            *ngIf="last && (responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md')"
+          >
+            <span class="pt-2" [ngClass]="{ 'float-right': flightsList.isIntl }">
+              <ng-container *ngTemplateOutlet="card_header_Promo; context: { $implicit: { itin: itinerary } }">
+              </ng-container>
+            </span>
+          </div>
+
+          <!--Bundle Flights details collapse button-->
+          <span *ngIf="showFlightDetails(itinerary.odoList)">
+            <span
+              class="float-right"
+              [ngClass]="{
+                show_details: activeFlight !== itinerary.id && ExpandedFlightDetails !== itinerary.id,
+                hide_details: activeFlight === itinerary.id && ExpandedFlightDetails === itinerary.id
+              }"
+              *ngIf="
+                (!isUnBundleFlight() && itinerary.odoList.length === 2 && first) ||
+                (!isUnBundleFlight() && itinerary.odoList.length !== 2 && last)
+              "
+            >
+              <a
+                class="flight_details_link"
+                rel="nofollow"
+                [ngClass]="!isUnBundleFlight() && itinerary.odoList.length !== 2 && last ? 'bottom_up_link' : ''"
+                translate
+              >
+                <span class=""
+                  ><img ImageSrc src="../../../assets/icons/v1-icons/down-arrow.svg" alt="down-arrow" loading="lazy"
+                /></span>
+                Flight Details
+              </a>
+            </span>
+          </span>
+        </div>
+
+        <!--Bundle Flights details-->
+        <div
+          class="collapse"
+          [ngClass]="isDetailsOpen(itinerary.id) && ExpandedFlightDetails === itinerary.id ? 'show' : 'hide_details'"
+          #collapseFlightDetails
+          *ngIf="isDetailsOpen(itinerary.id) && ExpandedFlightDetails === itinerary.id"
+        >
+          <app-flight-info
+            [itinerary_info]="selectedItin_details"
+            (notifyFlightCard)="notifyFlightsCard(itinerary)"
+          ></app-flight-info>
+        </div>
+      </div>
+
+      <!--Mweb price block for bundled Flights-->
+      <div class="col-12 price_section mWeb_price d-block" *ngIf="isMobile() && isBundleFlight()">
+        <span class="float-left pt-2 flight_dtls position-static" *ngIf="isMoreFlightsAvl > 1">
+          <a (click)="viewMoreFlight()" rel="nofollow" data-toggle="modal" data-target="#more_Flights">
+            {{ isMoreFlightsAvl - 1 }}
+            <span translate> {{ isMoreFlightsAvl - 1 > 1 ? 'More flights' : 'More flight' }} </span>
+          </a>
+        </span>
+
+        <span class="price_labl float-right m-0 d-flex align-items-center">
+          <span class="float-left">
+            <span [ngClass]="{ strikeOut: region === 'MM' && displayItnPrice(itinerary)?.savingAmt > 0 }">
+              <span *ngIf="region !== 'MM'">
+                {{ itinerary.currencyCode | currencyCode}}
+                {{showPerson_Price()
+                  ? (itinerary.ppsAmount | currency: '' + ' ' + ' ':'symbol':'2.0')
+                  : (itinerary.amount | currency: '' + ' ' + ' ':'symbol':'2.0')
+              }}</span>
+
+              <span *ngIf="region === 'MM'">
+                {{ itinerary.currencyCode | currencyCode}}{{ displayItnPrice(itinerary)?.strikeAmt | currency: '' + ' ' + ' ':'symbol':'2.0'}}
+              </span>
+            </span>
+
+            <span *ngIf="region === 'MM' && displayItnPrice(itinerary).savingAmt > 0" class="strikeoutOrginalAmount">
+              <span>
+                {{ itinerary.currencyCode | currencyCode
+                }}{{ displayItnPrice(itinerary).finalAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+              </span>
+            </span>
+            <!-- B2B discount icon for display next to price starts here -->
+            <span
+              style="cursor: pointer"
+              (click)="openEditPriceModelHandler(itinerary)"
+              class="mr-2"
+              *ngIf="hasPermissionToEditFlightPrice()"
+            >
+              <img ImageSrc src="../../../assets/icons/b2b_icons/edit-black.svg" alt="edit-icon" />
+            </span>
+            <div class="perPerson" *ngIf="showPerson_Price()" translate>Per Person</div>
+          </span>
+          <span class="float-right mr-1">
+            <button
+              type="button"
+              aria-label="Book Now"
+              class="btn primary_btn book_btn ml-3 onHover"
+              (click)="selectFlight(itinerary)"
+              translate
+            >
+              {{ region === 'ABSA' ? 'Book' : 'Book now' }}
+            </button>
+
+            <div class="clearfix"></div>
+          </span>
+        </span>
+        <div class="clearfix"></div>
+        <span *ngIf="region === 'MM' && displayItnPrice(itinerary)?.savingAmt > 0" class="d-block text-right pr-2">
+          Your Multiply savings <span *ngIf="displayItnPrice(itinerary)?.isPPS">per person</span>
+          <span
+            >{{ itinerary.currencyCode | currencyCode
+            }}{{ displayItnPrice(itinerary).savingAmt | currency: '' + ' ' + ' ':'symbol':'2.0' }}</span
+          >
+        </span>
+
+        <div *ngIf="isEnableBNPL(itinerary.amount)">
+          <app-bnpl-message
+            [currency]="itinerary.currencyCode"
+            [amount]="itinerary.amount"
+            [isBundled]="true"
+          ></app-bnpl-message>
+        </div>
+      </div>
+
+      <!--Web price block for bundled Flights-->
+      <div
+        *ngIf="!isMobile() && isBundleFlight()"
+        (click)="selectDomesticFlight(itinerary)"
+        [ngClass]="{ active: isActive(itinerary) }"
+        class="col-lg-2 price_section priceWdth"
+        [ngClass]="
+          (isWeb() || (isMobile() && isBundleFlight())) && !(isMobile() && isUnBundleFlight()) ? 'col-4' : 'col-12'
+        "
+      >
+        <div>
+          <span>
+            <ng-container *ngTemplateOutlet="card_header_Promo; context: { $implicit: { itin: itinerary } }">
+            </ng-container>
+          </span>
+          <div class="price_labl">
+            <span [ngClass]="{ strikeOut: region === 'MM' && displayItnPrice(itinerary)?.savingAmt > 0 }">
+              <span *ngIf="region !== 'MM'">
+                {{ itinerary.currencyCode | currencyCode }}{{
+                showPerson_Price()
+                  ? (itinerary.ppsAmount | currency: '' + ' ' + ' ':'symbol':'2.0')
+                  : (itinerary.amount | currency: '' + ' ' + ' ':'symbol':'2.0')
+              }}</span>
+
+              <span *ngIf="region === 'MM'">
+                {{ itinerary.currencyCode | currencyCode }}{{
+                displayItnPrice(itinerary)?.strikeAmt | currency: '' + ' ' + ' ':'symbol':'2.0'
+              }}</span>
+            </span>
+
+            <span *ngIf="region === 'MM' && displayItnPrice(itinerary).savingAmt > 0" class="strikeoutOrginalAmount">
+              <span class="d-block">
+                {{ itinerary.currencyCode | currencyCode
+                }}{{ displayItnPrice(itinerary).finalAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+              </span>
+            </span>
+
+            <!-- B2B discount icon for display next to price starts here -->
+            <span
+              style="cursor: pointer"
+              (click)="openEditPriceModelHandler(itinerary)"
+              class="mr-2"
+              *ngIf="hasPermissionToEditFlightPrice()"
+              data-toggle="modal"
+              data-target="#editprice_modal"
+            >
+              <img ImageSrc src="../../../assets/icons/b2b_icons/edit-black.svg" alt="edit-icon" />
+            </span>
+            <del class="d-none">R9,819</del>
+            <div class="perPerson" *ngIf="showPerson_Price()" translate>Per Person</div>
+          </div>
+
+          <div *ngIf="isEnableBNPL(itinerary.amount)">
+            <app-bnpl-message
+              [currency]="itinerary.currencyCode"
+              [amount]="itinerary.amount"
+              [isBundled]="true"
+            ></app-bnpl-message>
+          </div>
+
+          <div *ngIf="itinerary.flightType == 'isBundled'">
+            <button
+              type="button"
+              aria-label="Book Now"
+              class="btn primary_btn book_btn onHover"
+              (click)="selectFlight(itinerary)"
+              translate
+            >
+              {{ region === 'ABSA' ? 'Book' : 'Book now' }}
+            </button>
+
+            <span *ngIf="region === 'MM' && displayItnPrice(itinerary)?.savingAmt > 0" class="d-block savingTxt">
+              <span class="labl">
+                Your Multiply savings <span *ngIf="displayItnPrice(itinerary)?.isPPS">per person</span>
+              </span>
+              <span class="amount d-block"
+                >{{ itinerary.currencyCode | currencyCode
+                }}{{ displayItnPrice(itinerary).savingAmt | currency: '' + ' ' + ' ':'symbol':'2.0' }}</span
+              >
+            </span>
+
+            <div class="clearfix"></div>
+
+            <span class="flight_dtls d-block d-lg-none" *ngIf="isMoreFlightsAvl > 1">
+              <a (click)="viewMoreFlight()" rel="nofollow" data-toggle="modal" data-target="#more_Flights">
+                {{ isMoreFlightsAvl - 1 }}
+                <span *ngIf="isMoreFlightsAvl == 2" translate
+                  >{{ isMoreFlightsAvl > 2 ? 'More Flights' : 'More Flight' }}
+                </span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!--price block for unbundled Flights-->
+      <div class="col-12 dom_price_section domWeb_price" *ngIf="!isMobile() && isUnBundleFlight()">
+        <span
+          class="baggage"
+          *ngIf="
+            getBaggage(itinerary.odoList[0].segments[0].ID, 'checked').length != 0 ||
+            getBaggage(itinerary.odoList[0].segments[0].ID, 'hand').length != 0
+          "
+        >
+          <ng-container *ngTemplateOutlet="baggageData; context: { $implicit: { odoList: itinerary.odoList[0] } }">
+          </ng-container>
+        </span>
+
+        <span class="price_labl float-right ml-auto d-flex align-items-center">
+          <span
+            class="mr-3"
+            *ngIf="
+              isUnBundleFlight() && responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'
+            "
+          >
+            <ng-container *ngTemplateOutlet="card_header_Promo; context: { $implicit: { itin: itinerary } }">
+            </ng-container>
+          </span>
+          <span class="" *ngIf="region !== 'MM'">
+            <span>{{ itinerary.currencyCode | currencyCode }}</span
+            >{{
+              showPerson_Price()
+                ? (itinerary.ppsAmount | currency: '' + ' ' + ' ':'symbol':'2.0')
+                : (itinerary.amount | currency: '' + ' ' + ' ':'symbol':'2.0')
+            }}
+            <div class="perPerson" *ngIf="showPerson_Price()" translate>Per Person</div>
+          </span>
+          <span *ngIf="region === 'MM'">
+            <span class="d-block">
+              {{ itinerary.currencyCode | currencyCode
+              }}{{ displayItnPrice(itinerary).finalAmount | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+            </span>
+            <div class="perPerson" *ngIf="showPerson_Price()" translate>Per Person</div>
+          </span>
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #promo let-d>
+  <app-flight-promo-info [itinarary_data]="d.data"></app-flight-promo-info>
+</ng-template>
+
+<ng-template #card_header_Promo let-data>
+  <div
+    class="add_txt"
+    [ngClass]="{ oneway_seat_txt: flightSearchData.tripType == 'oneway', seatWidth: !flightsList.isIntl }"
+  >
+    <div
+      *ngIf="
+        getSeatscount(data.itin) && !getAirlinePromo_txt(data.itin.odoList[0].segments[0].airlineCode, 'promoText')
+      "
+      class="seat_info"
+    >
+      <span>
+        Only <span>{{ getSeatscount(data.itin) }}</span>
+        <span *ngIf="getSeatscount(data.itin) == 1" translate>Seat</span>
+        <span *ngIf="getSeatscount(data.itin) > 1" translate>Seats</span>
+        <span *ngIf="responsiveService.screenWidth == ('sm' || 'md') || isUnBundleFlight()">left!</span>
+        <span *ngIf="responsiveService.screenWidth !== ('sm' || 'md') && !isUnBundleFlight()">left at this price!</span>
+      </span>
+    </div>
+    <div
+      *ngIf="
+        getAirlinePromo_txt(data.itin.odoList[0].segments[0].airlineCode, 'promoText') && !getSeatscount(data.itin)
+      "
+      class="discount_info"
+    >
+      <span>
+        {{ getAirlinePromo_txt(data.itin.odoList[0].segments[0].airlineCode, 'promoText') }}
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #baggageData let-data>
+  <div class="baggage_Info theme__baggage-info">
+    <span class="baggage hglt" *ngIf="getBaggage(data.odoList.segments[0].ID, 'hand')">
+      <img
+        ImageSrc
+        class="bag_icon"
+        src="./../../../assets/icons/srp_Icons/new_hand_baggage.svg"
+        alt="hand"
+        loading="lazy"
+      />{{ getBaggage(data.odoList.segments[0].ID, 'hand') }}
+    </span>
+    <span *ngIf="getBaggage(data.odoList.segments[0].ID, 'checked').length != 0">
+      <span *ngIf="getBaggage(data.odoList.segments[0].ID, 'checked') == 'No baggage allowance'" class="noBaggage_Bg">
+        <img
+          class="bag_icon ml-1"
+          ImageSrc
+          src="./../../../assets/icons/srp_Icons/new_no_baggage.svg"
+          alt="no bag"
+          loading="lazy"
+        />
+
+        <span translate class="no_baggage_txt">No Baggage</span>
+      </span>
+      <span class="hglt" *ngIf="getBaggage(data.odoList.segments[0].ID, 'checked') != 'No baggage allowance'">
+        <img
+          ImageSrc
+          class="bag_icon"
+          src="./../../../assets/icons/srp_Icons/new_checked_baggage.svg"
+          alt="hand"
+          loading="lazy"
+        /><span>{{ getBaggage(data.odoList.segments[0].ID, 'checked') }}</span>
+      </span>
+    </span>
+  </div>
+</ng-template>

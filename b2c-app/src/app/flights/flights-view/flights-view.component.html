@@ -1,0 +1,312 @@
+<div class="results_page" *ngIf="responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'">
+  <app-header></app-header>
+</div>
+
+<div class="results_page" *ngIf="responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md'">
+  <app-srp-mweb-header
+    [flightslist]="flightslist"
+    [switchDomFilght]="switchDomFilght"
+    #SrpMwebHeader
+    (isShowSearch)="showSearchPage($event)"
+  ></app-srp-mweb-header>
+  <app-booking-flowcoundown></app-booking-flowcoundown>
+</div>
+
+<div class="autosetWidth" [ngClass]="flightslist && flightslist?.isBundled ? '' : 'theme__flight-results-page-container'">
+  <div
+    class="result_page_view d-inline-block"
+    [ngClass]="!showMask && flightslist && !flightslist?.isBundled && !showDomMwebStrip ? 'showDomesticDetails' : ''"
+  >
+    <div
+      class="bg-white common"
+      [style.top]="responsiveService.screenWidth !== 'sm' || showMask ? '0px' : '75px'"
+      [ngClass]="responsiveService.screenWidth === 'sm' || responsiveService.screenWidth === 'md' ? 'collapse' : 'web'"
+      id="res_Modify"
+    >
+      <div class="search_section">
+        <div class="container pt-2 maxWidth_Container">
+          <span class="flight_Icn d-none" [ngClass]="!showmultiCity ? '' : 'multiCityflight'">
+            <img
+              ImageSrc
+              src="../../../assets/icons/srp_Icons/fly-srp-icn.png"
+              alt="fly-srp-icn"
+              loading="lazy"
+              width="200px"
+            />
+          </span>
+          <app-search
+            *ngIf="showSearch_page"
+            [showCross_icon]="showSearch_page"
+            #Search
+            (freshSearch)="handleFreshSearch()"
+            (flightsdata)="getFlightResults($event)"
+            (showMulicity_data)="showMultiCity_box()"
+            [disableSearch]="showMask"
+          ></app-search>
+        </div>
+
+        <!--Multi city multi search layout-->
+        <div class="multi-city" *ngIf="showmultiCity">
+          <app-multicity-flight-results (showSearch)="showSearchPage($event)" (searchFlights)="flightSearch()">
+          </app-multicity-flight-results>
+        </div>
+        <div
+          class="closeSrp text-center pt-2"
+          *ngIf="responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md'"
+        >
+          <img
+            ImageSrc
+            src="../../../assets/icons/mweb-cross-close.svg"
+            loading="lazy"
+            width="42px"
+            alt="close"
+            (click)="collapseSrpHeader()"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="container err_section mt-4 bg-white" *ngIf="isErrorFromApi">
+      <app-no-flights *ngIf="searchErrorType === 'nff'" (searchFlightAgain)="flightSearch()"></app-no-flights>
+      <app-server-err *ngIf="searchErrorType === 'api'" (searchFlightAgain)="flightSearch()"></app-server-err>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 p-0 mb-3" *ngIf="showMask">
+      <app-progressbar-loader></app-progressbar-loader>
+    </div>
+    <div class="autosetWidth" *ngIf="!isErrorFromApi">
+      <div
+        *ngIf="responsiveService.screenWidth !== ('sm' || 'md') && flightslist && !showMask"
+        [ngClass]="isShowFilters ? 'viewFilter_section' : 'hideFilters_section'"
+      >
+        <div class="filtersection" id="filterSection" [ngClass]="isShowFilters ? 'showFilters' : ''">
+          <app-flight-filters
+            *ngIf="flightslist && !domFlights()"
+            (noFiltersRes)="noFiltersMacth($event)"
+            (flightsdata)="getFlightResults($event)"
+            (filterEvent)="getFlightsByfilter($event)"
+            (moreActionEvent)="showFilters($event)"
+            (isFiltersSelected)="isFiltersSelected($event)"
+          ></app-flight-filters>
+
+          <app-flight-filters
+            *ngIf="flightslist && domFlights()"
+            (noFiltersRes)="noFiltersMacth($event)"
+            (flightsdata)="getFlightResults($event)"
+            (filterEvent)="getDomesticFlightsByfilter($event)"
+            (moreActionEvent)="showFilters($event)"
+            (isFiltersSelected)="isFiltersSelected($event)"
+          ></app-flight-filters>
+        </div>
+      </div>
+
+      <div
+        class="container maxWidth_Container"
+        #flightsViewSection
+        [ngClass]="isShowFilters && responsiveService.screenWidth !== ('sm' || 'md') ? 'displayFilters' : 'hideFilters'"
+      >
+        <div class="col-lg-12 col-md-12 col-sm-12 p-0" *ngIf="showMask">
+          <app-flights-loader
+            [showSkeltonLoader]="showMask"
+            [tripType]="flightSearchData?.tripType"
+          ></app-flights-loader>
+        </div>
+        <div class="row flightsViewSection" *ngIf="!showMask">
+          <div class="col-12 pad-xs-lr-10">
+            <div *ngIf="flightslist?.isBundled">
+              <div
+                class="sortSection row m-0"
+                [style.padding]="
+                  responsiveService.screenWidth == 'lg' && flightslist.itineraries.length == 0 ? '10px' : '0px'
+                "
+                *ngIf="flightslist && flightslist.itineraries"
+              >
+                <div class="col-5 d-none d-lg-flex showFilter">
+                  <span *ngIf="flightslist?.isBundled" class="noOf_flights"
+                    >{{ flightslist.itineraries.length }} Flights found</span
+                  >
+                </div>
+
+                <div
+                  class="float-right col-lg-7 col-sm-12 sorting_section pr-lg-0"
+                  *ngIf="
+                    responsiveService.screenWidth !== 'sm' &&
+                    responsiveService.screenWidth !== 'md' &&
+                    flightslist.itineraries.length > 0
+                  "
+                >
+                  <div class="float-right">
+                    <span class="showFilter">
+                      <button class="btn showFiltersBtn" data-toggle="modal" data-target="#res_filters">
+                        <img
+                          ImageSrc
+                          src="../../../assets/icons/v1-icons/filter-new-icn.svg"
+                          alt="filter_icn"
+                          class=""
+                          width="14px"
+                        />
+                        <span translate>Show Filters</span>
+                      </button>
+                    </span>
+                    <span>
+                      <app-sorting
+                        [flightslist]="flightslist.itineraries"
+                        (sortEvent)="getFlightsByOrder($event)"
+                      ></app-sorting>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--[destroy]="destroyChild"-->
+            <app-results-view
+              [destroy]="destroyChild"
+              *ngIf="!noFlightsMatch"
+              [outboundItineraries]="outboundItineraries"
+              [inboundItineraries]="inboundItineraries"
+              [groupedItineraries]="groupedItinerariesData"
+              [flightslist]="flightslist"
+              [labeled_Itinerary]="labeled_Itineraries"
+              [display_label_itin]="display_label_itin()"
+            ></app-results-view>
+            <div>
+              <app-no-filters-error *ngIf="noFlightsMatch"></app-no-filters-error>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flight_details_section" *ngIf="!showMask && flightslist && !flightslist?.isBundled && !showDomMwebStrip">
+    <div class="flight_details">
+      <app-flight-details
+        (selectedDomFlight)="selectedDomesticFlight($event)"
+        [flightslist]="flightslist"
+      ></app-flight-details>
+    </div>
+  </div>
+</div>
+<div
+  class="modal hide"
+  id="destination_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <app-destination-modal
+    [listofAirports]="airportsList"
+    [transitVisa]="transitVisaRequired"
+    (continueFlight)="checkVisaTransits()"
+    (continueTransitVisaFlight)="checkCabinClasses()"
+  >
+  </app-destination-modal>
+</div>
+<div
+  class="modal hide"
+  id="cabinClass_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <app-cabin-class-error (continueFlight)="continueFlightSelection()"></app-cabin-class-error>
+</div>
+
+<!--Filters Modal Window -->
+<div
+  class="modal"
+  id="res_filters"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="res_filters"
+  [ngClass]="responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md' ? 'bottom fade' : 'left'"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" style="height: 90vh">
+        <app-flight-filters
+          *ngIf="flightslist && !domFlights()"
+          (noFiltersRes)="noFiltersMacth($event)"
+          (flightsdata)="getFlightResults($event)"
+          (filterEvent)="getFlightsByfilter($event)"
+          (moreActionEvent)="showFilters($event)"
+          (isFiltersSelected)="isFiltersSelected($event)"
+        ></app-flight-filters>
+
+        <app-flight-filters
+          *ngIf="flightslist && domFlights()"
+          (noFiltersRes)="noFiltersMacth($event)"
+          (flightsdata)="getFlightResults($event)"
+          (filterEvent)="getDomesticFlightsByfilter($event)"
+          (moreActionEvent)="showFilters($event)"
+          (isFiltersSelected)="isFiltersSelected($event)"
+        ></app-flight-filters>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  tabindex="-1"
+  role="dialog"
+  class="modal fade pr-0"
+  aria-hidden="true"
+  id="EK_H_modal"
+  data-keyboard="false"
+  data-backdrop="static"
+>
+  <app-ekh-class-modal (continueEkFlight)="continueFlight()"></app-ekh-class-modal>
+</div>
+
+<!--sorting Modal Window -->
+<div
+  *ngIf="flightslist && flightslist.itineraries && flightslist.itineraries.length > 1"
+  class="modal bottom fade"
+  id="res_sorting"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="res_sorting"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" style="height: auto">
+        <app-sorting [flightslist]="flightslist.itineraries" (sortEvent)="getFlightsByOrder($event)"></app-sorting>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal hide"
+  id="time_modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <app-time-difference-modal
+    [domesticSelectedFlight]="domSelected"
+    [showtimeHoursDiffMsg]="showtimeHoursDiff"
+    (continueEvent)="continueFlightSelection()"
+  ></app-time-difference-modal>
+</div>
+<!-- B2B discount edit modal for SRP -->
+<div
+  tabindex="-1"
+  role="dialog"
+  class="modal fade pr-0"
+  aria-hidden="true"
+  id="editprice_modal"
+  data-keyboard="false"
+  data-backdrop="static"
+  *ngIf="iframewidgetService.isB2BApp() && flightslist"
+>
+  <app-edit-price-modal
+    (formSubmitEvent)="onSubmit($event)"
+    (closeEvent)="closeEditPriceModal()"
+  ></app-edit-price-modal>
+</div>

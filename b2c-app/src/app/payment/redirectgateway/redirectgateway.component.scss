@@ -1,0 +1,77 @@
+@import "./../../../theme/theme-variables.scss";
+
+#spinner {
+  -webkit-animation: frames 1s infinite linear;
+  animation: frames 1s infinite linear;
+  background: transparent;
+  border: 2px solid #fff;
+  border-radius: 100%;
+  border-top-color: var(--border_active_color);
+  width: 25px;
+  height: 25px;
+  opacity: 0.6;
+  padding: 0;
+  z-index: 999;
+}
+@keyframes frames {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+#pause {
+  display: block;
+  background: rgba(0, 0, 0, 0.66) no-repeat 0 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+}
+.process_txt {
+  font-size: 16px;
+  color: #fff;
+}
+.booking_failed {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  width: 50%;
+  .failed_modal_body {
+    padding: 40px 30px;
+  }
+  .dialog_content {
+    width: 600px;
+  }
+  a {
+    color: var(--text_link_color);
+  }
+  .paymnt_addlTxt {
+    width: 48%;
+    border: 1px solid var(--border_default_color);
+    margin: 0px 5px;
+    padding: 10px;
+    font-size: 12px;
+    span {
+      display: list-item;
+    }
+  }
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .booking_failed {
+    width: calc(100% - 20px) !important;
+    .paymnt_addlTxt {
+      width: 100% !important;
+    }
+  }
+  .wid40per-xs {
+    width: 40% !important;
+  }
+}

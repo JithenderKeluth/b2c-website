@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="row pt-2 pb-4 footer-links">
+    <div class="col-lg-4 col-md-4 col-sm-12" *ngFor="let footerItem of items">
+      <h3 class="link-header">{{ footerItem.header }}</h3>
+      <ul class="link-items">
+        <li *ngFor="let link of footerItem.links">
+          <a href="{{ link.url }}">{{ link.name }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

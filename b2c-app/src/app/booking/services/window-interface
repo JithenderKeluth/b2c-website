@@ -1,0 +1,21 @@
+import { INavigator } from './navigator-interface';
+import { ILocation } from 'general/services/window/location-interface';
+import { IHistory } from 'general/services/window/history-interface';
+
+export interface IWindow {
+    navigator: INavigator;
+    location: ILocation;
+    top: any;
+    self: any;
+    history: IHistory;
+    setTimeout: any;
+    clearTimeout: any;
+    localStorage: any;
+    sessionStorage: any;
+    /**
+     * Field only populated in browser, not server side
+     */
+    browserWindow: any;
+
+    open(url: string, target: string): void;
+}

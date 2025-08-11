@@ -1,0 +1,17 @@
+<div class="modal-dialog mdl_dialog" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body consistent-modal-body">
+      <div translate class="consistent-header-txt">{{modalData.title | translate}}</div>
+      <div translate class="consistent-body-text">{{modalData.content | translate }}</div>
+      <div class="modal-btn-container">
+        <button [disabled]="isLoading" type="button" class="theme__modal-cancel-button" aria-label="Close"
+                data-dismiss="modal" (click)="closeModal()">
+          <span translate>Cancel</span>
+        </button>
+        <button [disabled]="isLoading" type="button" class="theme__modal-accept-button" aria-label="Close" (click)="confirm()">
+          <span translate>Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

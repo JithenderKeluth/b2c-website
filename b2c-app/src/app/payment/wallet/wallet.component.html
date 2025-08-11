@@ -1,0 +1,374 @@
+<div class="modal fade" id="navigation_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+  aria-hidden="true">
+  <div class="modal-dialog EFT_failed" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body failed_modal_body">
+        <div class="text-center">
+          <img src="./../../../../assets/icons/Icon/Negative-scenarios/something_was_not_right.svg"
+            alt="stop_payment" />
+          <div class="mt-3">
+            <div><strong translate>You’re almost done!</strong></div>
+            <div class="payment_failedtext">
+              If you leave this page, we won’t be able to hold this price and your flight ticket may increase.
+            </div>
+          </div>
+          <div class="mt-3">
+            <span><button type="button" class="btn ok-btn mr-3 float-left" data-dismiss="modal">
+                Go Back to Search Results
+              </button></span>
+            <span><button type="button" class="btn ok-btn float-right refreshBtn" data-dismiss="modal">
+                Refresh My Flight
+              </button></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="payments_sec">
+  <div class="container-fluid payment_sec_body">
+    <div class="row">
+      <div class="p-0 col-12">
+        <div class="mb-3 mb-md-0" *ngIf="!addmoneyLayout">
+          <div class="mb-3 text-center" *ngIf="!isWalletBalanceLoading && !checkSufficentAmount()">
+            <span class="is_sufficient_mny">
+              <i class="fa fa-exclamation-circle" aria-hidden="true"></i> YOU HAVE INSUFFICIENT BALANCE IN YOUR WALLET.
+              PLEASE TOP UP BEFORE PROCEEDING WITH THE FLIGHT BOOKING.</span>
+          </div>
+
+          <div class="wallet_balance_card mb-3">
+            <div *ngIf="bookingSummaryAmt">
+              <div class="wallet_text">Amount To be debited</div>
+              <div class="wallet_content">
+                <div class="total_balance">
+                  {{ wallet?.currency | currencyCode }}{{ bookingSummaryAmt | currency: '' + ' ':'symbol':'2.0' }}
+                  <img class="infoImg" ImageSrc src="../../../assets/icons/wt-info-icon.svg" alt="info"
+                    [ngbTooltip]="tipContent" />
+                </div>
+              </div>
+            </div>
+            <div *ngIf="hasPermissionForWalletAgent()" class="mt-2 bookFlowTotal">
+              <div class="wallet_text">Your Current Wallet Amount</div>
+              <label for="wallet content" class="wallet_content">
+                <div class="total_balance" *ngIf="!isWalletBalanceLoading">
+                  {{ wallet.currency | currencyCode }}{{ wallet?.amount | currency: '' + ' ':'symbol':'2.0' }}</div>
+                <div id="spinner" *ngIf="isWalletBalanceLoading"></div>
+              </label>
+            </div>
+            <div class="mt-1" *ngIf="!isWalletBalanceLoading">
+              <button *ngIf="paymentDetails?.length > 0 && hasPermissionForWalletAgent()" [disabled]="isLoading"
+                class="btn add_money_btn" (click)="selectPaystackTabHandler(PAYSTACK)">
+                <span>
+                  <img ImageSrc src="../../../assets/icons/b2b_icons/plus_icn.svg" alt="plus_icn" width="16px" />Add
+                  money</span>
+              </button>
+              <button class="btn pay_btn ml-lg-3 mt-3 mt-lg-0" (click)="payAmount()"
+                [disabled]="isLoading || !checkSufficentAmount()"
+                *ngIf="isBookingPaymentOptionAvailable('CASH') && cashPaymentMethods?.paymentMethods?.length > 0">
+                <i class="fa fa-spinner fa-spin mr-2" [hidden]="!isWalletPayLoading" aria-hidden="true"></i>
+                <span>Pay</span>
+              </button>
+            </div>
+          </div>
+          <div class="reserveSec"
+            *ngIf="isBookingPaymentOptionAvailable('REFT') && b2bApiService.hasPermissionForReservedBookings() && reserveEFTMethods?.paymentMethods?.length > 0">
+            <button class="btn reserveNowCTA default_btn" (click)="reserveBooking()" [disabled]="isLoading">
+              <i class="fa fa-spinner fa-spin mr-2" [hidden]="!isReserveLoading" aria-hidden="true"></i>
+              <span *ngIf="!isReserveLoading">
+                <img ImageSrc src="../../../assets/icons/b2b_icons/reserve-icn.svg" alt="reserve-icn">
+                <span *ngIf="apiService.extractCountryFromDomain() !== 'NG'">Reserve Only</span>
+                <span *ngIf="apiService.extractCountryFromDomain() === 'NG'">Book on Hold</span> 
+              </span>
+            </button>
+          </div>
+          <div class="reserveSec" *ngIf="
+          isBookingPaymentOptionAvailable('EFT') &&
+          b2bApiService.hasPermissionForReservedBookings() &&
+          eftMethods?.paymentMethods?.length > 0
+        ">
+            <!-- EFT payment methods section -->
+            <div class="eft_methods col-sm-12 col-xs-12 p-0" *ngIf="!paymentMethods?.reserverd">
+              <div class="eft_cards">
+                <div class="selectbank_Info">
+                  <span translate>Select your bank and pay by cash deposit or EFT</span>
+                </div>
+                <ul class="mt-3"
+                  *ngIf="eftMethods && eftMethods.paymentMethods && eftMethods.paymentMethods.length > 0">
+                  <li *ngFor="let eftMethod of eftMethods.paymentMethods; let idx = index"
+                    [ngClass]="{ card_active: selectedEftMethod == eftMethod.name, uba_pad: eftMethod.bankId == 'UBA' }"
+                    (click)="selectEftMethod(eftMethod.name)">
+                    <div class="d-flex align-items-center">
+                      <img ImageSrc src="../../../assets/icons/tick_default.svg" alt="tick_default"
+                        *ngIf="selectedEftMethod != eftMethod.name" />
+                      <img ImageSrc src="../../../assets/icons/tick_selected.svg" alt="tick_selected"
+                        *ngIf="selectedEftMethod == eftMethod.name" />
+                      <img class="bankLogo" src="https://cdn1.travelstart.com/assets/images/{{eftMethod.bankId}}.svg"
+                        alt="{{ eftMethod.bankId }}"
+                        [ngClass]="eftMethod.bankId === 'travelstart' ? 'TsLogoCls' : ''" />
+                      <span class="ml-auto" *ngIf="selectedEftMethod == eftMethod.name">
+                        <button [disabled]="disableEFT_PayNow" class="btn eftPaynowBtn primary_btn"
+                          (click)="paywithEFT(idx)">
+                          <i class="fa fa-spinner fa-spin" style="font-size: 24px" [hidden]="!disableEFT_PayNow"
+                            aria-hidden="true"></i>
+                          Pay Now
+                        </button>
+                      </span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- selected bank details section -->
+            <div class="row selected_EFT_DetailsSec" *ngIf="paymentMethods?.reserverd">
+              <div class="col-12">
+                <div class="headingSec">
+                  <span translate>Selected Bank details</span>
+                  <div class="desc_sec" *ngIf="isClubHubOrg()">
+                    <p>All Proof of Payments need to be sent to <span
+                        class="helpLink">ticketpayments&#64;clubtravel.co.za. </span> Please include your CT reference number and Agency name on your Proof of Payment.
+                    </p>
+                  </div>
+                </div>
+                <div class="EFT_payment_Details col-12 col-lg-8 p-0">
+                  <div class="bank_details">
+                    <div translate class="heading">Bank Details</div>
+                    <ul class="banksList" *ngFor="let eftMethod of eftMethods.paymentMethods; let idx = index">
+                      <li class="banksListItem">
+                        <table class="table" aria-describedby="">
+                          <tr>
+                            <td id="bank" class="txt_align">
+                              <span translate>Bank</span>
+                            </td>
+                            <td id="bank" class="txt_des">
+                              {{ eftMethod.name }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td id="Account holder" class="txt_align">
+                              <span translate>Account holder</span>
+                            </td>
+                            <td id="Account holder" class="txt_des">
+                              {{ eftMethod.holder }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td id="Account number" class="txt_align">
+                              <span translate>Account number</span>
+                            </td>
+                            <td id="Account number" class="txt_des">
+                              {{ eftMethod.accountNo }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td id="Branch code" class="txt_align">
+                              <span translate>Branch code</span>
+                            </td>
+                            <td id="Branch code" class="txt_des">
+                              <span *ngIf="!eftMethod?.branchNo">N/A</span>
+                              <span *ngIf="eftMethod?.branchNo">{{
+                                eftMethod.branchNo}}</span>
+                            </td>
+                          </tr>
+                        </table>
+                        <div class="paymentAmountSec mt-2 w-100 col-12 d-flex align-items-center">
+                          <div class="price">
+                            <label translate class="labl">Pending payment</label>
+                            <label class="price_labl d-block" *ngIf="bookingSummaryAmt && currency_Code">
+                              {{ currency_Code | currencyCode }}{{ bookingSummaryAmt | currency: '' + '
+                              ':'symbol':'2.0' }}
+                            </label>
+                          </div>
+                          <div class="pay ml-auto">
+                            <button type="button" class="btn primary_btn" aria-label="Log Into Your Bank"
+                              *ngIf="eftMethod?.site">
+                              <a href="{{ eftMethod?.site }}" rel="noopener" target="_blank"><span translate>Log Into
+                                  Your Bank</span></a>
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label
+              *ngIf="!isBookingPaymentOptionAvailable('EFT') ||(isBookingPaymentOptionAvailable('EFT') && !paymentMethods?.reserverd) || selectedTab == 'Wallet'"
+              for="offline deposit" class="btn p-0" [ngClass]="selectedMethod === OFFLINE_DEPOSIT ? '' : 'd-flex'">
+              <mat-checkbox type="checkbox" (change)="showCompanyDetails($event)" class="mat-checkbox"
+                [checked]="false">
+              </mat-checkbox>
+              <span translate class="labl ml-2">I require a VAT invoice</span>
+            </label>
+
+            <div *ngIf="showCompanyVat" class="row Card-Enter">
+              <div class="col-2"></div>
+              <div class="col-sm-8 pl-5">
+                <div class="form-group">
+                  <label translate for="cc_name">Company name</label>
+                  <input type="text" id="vatcompanyName" class="form-control" autocomplete="off"
+                    [formControl]="companyName" />
+                  <div *ngIf="submitted && companyName.errors">
+                    <div translate class="validation_msg" *ngIf="companyName.errors.required">Required Company Name
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label translate for="cc_name">Company VAT No</label>
+                  <input type="text" id="companyVat" class="form-control" autocomplete="off"
+                    [formControl]="companyVatNo" />
+                  <div *ngIf="submitted && companyVatNo.errors">
+                    <div class="validation_msg" *ngIf="companyVatNo.errors.required">
+                      <span translate>Required Company VAT No</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="
+            apiService.extractCountryFromDomain() !== 'NG' &&
+            apiService.extractCountryFromDomain() !== 'IB' &&
+            apiService.extractCountryFromDomain() !== 'GI'
+          ">
+              <hr class="mb-2 mt-0 d-none d-lg-block" />
+              <div class="labl proceed_txt">
+                <span translate>By proceeding to book I agree and accept the</span>
+                <a href="{{ 'terms and conditions URL' | translate }}" target="_blank" rel="noopener"><span
+                    translate>Terms and Conditions</span></a>
+                <span translate>of the Travelstart website and its travel partners. </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- add money to wallet modal  -->
+    <div class="custom-overlay" [ngClass]="{ 'custom-show': addMoneyToWallet_Modal_show }">
+      <div class="custom-dialog" (click)="$event.stopPropagation()">
+        <div class="custom-content addMoneyToWallet_Modal">
+          <div class="custom-body addMoneyToWallet_sec">
+            <div class="modal-body mdl_body p-0">
+              <div class="addMoneyToWallet_heading">
+                <span>Add Money to Wallet</span>
+                <img ImageSrc src="../../../assets/icons/srp_Icons/close-icn-new-all.svg" alt="close" alt="close"
+                  class="pull-right close_img" width="13px" data-dismiss="modal" (click)="closeAddMoneySection()" />
+              </div>
+              <div class="addMoneyToWallet_container" *ngIf="showAddMoneySec">
+                <ul class="nav nav-tabs" id="myTab" role="tablist" style="border-bottom: none !important"
+                  *ngIf="!isIframeDisplayed">
+                  <li class="nav-item" (click)="getAddMoneyPaymentOption('PAYSTACK')"
+                    *ngIf="isWalletPaymentOptionAvailable('PAYSTACK')">
+                    <a translate class="nav-link" [ngClass]="{ active: selectedAddmoneyOption == 'PAYSTACK' }"
+                      id="payStackPayment" data-toggle="tab" href="#payStackPayment" role="tab"
+                      aria-controls="payStackPayment" aria-selected="true">
+                      Paystack
+                    </a>
+                  </li>
+                  <li class="nav-item" (click)="getAddMoneyPaymentOption('CC')"
+                    *ngIf="isWalletPaymentOptionAvailable('CC')">
+                    <a translate class="nav-link" [ngClass]="{ active: selectedAddmoneyOption == 'CC' }"
+                      id="credit-card" data-toggle="tab" href="#credit-card" role="tab" aria-controls="credit-card"
+                      aria-selected="true">
+                      Credit/Debit card
+                    </a>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane fade mt-2 mb-4"
+                    [ngClass]="{ active: selectedAddmoneyOption == 'PAYSTACK', show: selectedAddmoneyOption == 'PAYSTACK' }"
+                    id="payStackPayment" role="tabpanel" *ngIf="paymentDetails">
+                    <app-paystack-payment [paymentDetails]="paymentDetails" (closeAddMoneySection)="walletUpdated()"
+                      (IframeDisplayed)="IframeisDisplayed($event)">
+                    </app-paystack-payment>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-overlay" [ngClass]="{ 'custom-show': payment_failed_Modal_show }">
+      <div class="custom-dialog EFT_failed" (click)="$event.stopPropagation()">
+        <div class="custom-content">
+          <div class="custom-body">
+            <div class="modal-body failed_modal_body">
+              <div class="text-center">
+                <img ImageSrc class=""
+                  src="./../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg"
+                  alt="payment failed" width="80px" loading="lazy" />
+                <div class="mt-3" *ngIf="!BookApiError && !paxNamelengthError">
+                  <div><strong translate>Sorry, your booking has failed, please try again.</strong></div>
+                  <div class="payment_failedtext">
+                    <span translate>Don’t worry, no money has been deducted from your account.</span>
+                  </div>
+                </div>
+                <div *ngIf="BookApiError && !paxNamelengthError">
+                  <strong translate> {{ BookApiError.description }} </strong>
+                </div>
+                <div class="payment_failedtext" *ngIf="!BookApiError && paxNamelengthError">
+                  <span translate>Hold up! It looks like your names have exceeded our max character limit to book
+                    online.</span>
+                  <span translate>Please contact us to assist you with your flight booking by calling</span>
+                  <span translate>+27 21 468 4300</span>
+                </div>
+                <button *ngIf="
+                BookApiError?.category === 'paymentfailures' ||
+                BookApiError?.category === 'validationfailures' ||
+                (!BookApiError && !paxNamelengthError)
+              " class="mt-3 btn ok-btn primary_btn" type="button" (click)="closeModal()" aria-label="Ok">
+                  <span translate>Ok</span>
+                </button>
+
+                <button *ngIf="paxNamelengthError" class="mt-3 btn ok-btn primary_btn" type="button"
+                  data-dismiss="modal" aria-label="Ok" (click)="navigateToTravellerpage()">
+                  <span translate>Ok</span>
+                </button>
+
+                <button *ngIf="BookApiError?.category === 'supplierfailures' || BookApiError?.category === 'unknown'"
+                  (click)="flight_results()" class="mt-3 btn ok-btn primary_btn" type="button" data-dismiss="modal"
+                  aria-label="Search New Flight">
+                  <span translate>Search New Flight</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-overlay" [ngClass]="{ 'custom-show': success_modal_show }">
+      <div class="custom-dialog" (click)="$event.stopPropagation()">
+        <div class="custom-content">
+          <div class="custom-body">
+            <div class="modal-body mdl_body">
+              <div class="main-section">
+                <div class="row">
+                  <div class="col-4 px-0">
+                    <img class="img_section" src="../../../../assets/icons/success-green-tick.svg" alt="success_img" />
+                  </div>
+                  <div class="col-8 px-0">
+                    <div class="success_text">Amount added successfully</div>
+                    <div class="payment_section">you can proceed to payment section</div>
+                  </div>
+                </div>
+                <div>
+                  <button class="click_btn" data-dismiss="modal" aria-label="Close"
+                    (click)="getSelectedPaymentOption(WALLET, 'closeModal')">
+                    OK
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #tipContent><span>Amount has included markup as well but we are not deducting any markup amount from
+        your wallet.</span>
+    </ng-template>

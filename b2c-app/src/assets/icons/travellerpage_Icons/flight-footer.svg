@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="340" height="215" viewBox="0 0 340 215">
+  <defs>
+    <clipPath id="clip-flight-footer">
+      <rect width="340" height="215"/>
+    </clipPath>
+  </defs>
+  <g id="flight-footer" clip-path="url(#clip-flight-footer)">
+    <g id="Group_27898" data-name="Group 27898" transform="translate(33.592 46.103)">
+      <path id="Path_32778" data-name="Path 32778" d="M534.948,454.964l80.619,71.591,3.9,18.277-109.8-30.725S524.969,483.144,534.948,454.964Z" transform="translate(-331.436 -393.567)" fill="#dce1ea" fill-rule="evenodd"/>
+      <path id="Path_32780" data-name="Path 32780" d="M490.187,454.964l-80.62,71.591-3.9,18.277,109.8-30.725S500.165,483.144,490.187,454.964Z" transform="translate(-420.884 -393.567)" fill="#dce1ea" fill-rule="evenodd"/>
+    </g>
+    <g id="Group_27897" data-name="Group 27897" transform="translate(392.124 8437.385)">
+      <path id="Path_31646" data-name="Path 31646" d="M168.4,343.884c63.431,0,146.555-114.576,168.252-211.636,3.724-16.658,0-35,0-50C336.648-18.4,261.319-100,168.4-100S.145-18.4.145,82.248c0,15.7-4.144,32.152,0,50C22.492,228.489,105.487,343.884,168.4,343.884Z" transform="translate(-390.427 -8566.27)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,161 @@
+@import "./../../../theme/theme-variables.scss";
+
+.add_baggage_heading {
+  color: var(--text_primary_color);
+  font-size: 22px;
+  font-weight: 500;
+  margin: 15px 0px;
+}
+
+.ts-card {
+  .route_head_sec {
+    align-items: center;
+    margin: 10px 0px;
+
+    .airlineLogo {
+      width: 20px;
+      margin-right: 10px;
+    }
+
+    .route_heading {
+      color: var(--text_primary_color);
+      font-size: 16px;
+      font-weight: 500;
+
+    }
+
+    .baggage_info {
+      font-size: 13px;
+
+      .includedTag {
+        background-color: var(--text_success_color);
+        color: $white;
+        font-size: 10px;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 11px;
+        position: relative;
+        margin-left: 5px;
+      }
+    }
+
+  }
+
+  .ts-card__body {
+    background-color: var(--bm_checkIN_bag_bg);
+    border-radius: 8px;
+    padding: 15px 20px;
+
+    .ts_product {
+      width: 80%;
+      margin-left: auto;
+
+      .ts-product_desc {
+        border: 1px solid #acb3c1;
+        padding: 10px 15px;
+        border-radius: 8px
+      }
+
+      .bag_Selected {
+        border: 1px solid var(--text_link_color);
+        border-radius: 8px;
+      }
+    }
+
+    .bag_Icn {
+      padding: 0px;
+      max-width: 13.666% !important;
+
+      img {
+        width: 38px;
+      }
+    }
+
+    .select_baggage {
+      float: right;
+
+      button {
+        font-size: 10px;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
+    }
+
+    .card__heading {
+      color: var(--text_primary_color);
+      font-size: 14px;
+      font-weight: 500;
+      margin-right: 5px;
+    }
+
+    p.ts-product__subheading {
+      color: var(--text_primary_color);
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    .toastMsg {
+      font-size: 14px;
+      color: var(--text_primary_color);
+      border-radius: 4px;
+      margin: 5px 0px;
+      line-height: 14px;
+
+      .toast_text {
+        font-size: 12px;
+
+        img {
+          width: 12px;
+          position: relative;
+          top: -1px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .add_baggage_heading {
+    margin: 10px;
+  }
+
+  .ts-card {
+    .ts-card__body {
+      padding: 15px !important;
+
+      .select_baggage {
+        vertical-align: middle;
+        line-height: 25px;
+        padding-right: 5px;
+      }
+
+      .ts_product {
+        width: 100% !important;
+
+        .card__heading {
+          font-size: 13px !important;
+
+        }
+
+        p.ts-product__subheading {
+          font-size: 11px !important;
+          line-height: 14px !important;
+        }
+
+        .ts-product_desc {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+
+    .toastMsg {
+      padding: 6px 0px !important;
+      margin: 5px 0px !important;
+
+      .toast_text {
+        font-size: 11px !important;
+      }
+    }
+  }
+}

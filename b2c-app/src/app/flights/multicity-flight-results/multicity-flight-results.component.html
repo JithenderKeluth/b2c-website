@@ -1,0 +1,70 @@
+<section class="multicity-sec">
+  <div class="container">
+    <div class="row pt-2">
+      <div class="col-10 pr-0">
+        <div class="multicity_box">
+          <ul class="mulicity_itenaries">
+            <li class="left_arrow" *ngIf="showLeftIcon">
+              <div class="left_icon">
+                <i class="fa fa-angle-left" (click)="scrollLeft()" aria-hidden="true"></i>
+              </div>
+            </li>
+            <li>
+              <div (click)="showSearch_page()">
+                <div *ngIf="flights_search_info.itineraries" class="multi_cities">
+                  <div #itenaryContent class="itenary_data">
+                    <div class="itenaries_data">
+                      <div
+                        class="traveller-info"
+                        [ngClass]="[flights_search_info.itineraries.length == 2 ? 'col-6' : 'col-4']"
+                        *ngFor="let itenary of flights_search_info.itineraries"
+                      >
+                        <span class="depart_cities">{{ itenary.dept_city.code }}, {{ itenary.dept_city.city }}</span>
+                        <span
+                          ><img ImageSrc src="./../../../assets/icons/one_way_arw.svg" alt="img" loading="lazy"
+                        /></span>
+                        <span class="arrival_cities">{{ itenary.arr_city.code }}, {{ itenary.arr_city.city }}</span>
+                        <div>
+                          <span class="dprtDate"
+                            >{{ itenary.dept_date | date: 'd MMM' }}
+                            <span class="itn-seperate"></span>
+                          </span>
+                          <span class="passengers" *ngIf="this.totalPassengers > 1"
+                            >{{ this.totalPassengers }} <span translate>Passengers</span></span
+                          >
+                          <span class="passengers" *ngIf="this.totalPassengers == 1"
+                            >{{ this.totalPassengers }} <span translate>Passenger</span></span
+                          >
+                          <span class="itn-seperate"></span>
+                          <span class="cabin_class">{{ flights_search_info.cabinClass.display }}</span>
+                        </div>
+                      </div>
+
+                      <!-- <span *ngIf="showSeparator" class="sprtrItenaries"></span> -->
+                      <span *ngIf="showSeparator" class="itn-seperate"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="right_arrow" *ngIf="flights_search_info.itineraries.length > 3 && showRightIcon">
+              <div>
+                <i class="fa fa-angle-right right_icon" (click)="scrollRight($event)" aria-hidden="true"></i>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-2 pl-0 txt_style">
+        <button
+          type="button"
+          aria-label="Search Again"
+          class="btn primary_btn search_again-btn"
+          (click)="searchFlightsAgain()"
+        >
+          <span translate>Search Again</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

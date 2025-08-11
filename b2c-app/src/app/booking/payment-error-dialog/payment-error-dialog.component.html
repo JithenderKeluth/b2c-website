@@ -1,0 +1,56 @@
+<div class="modal-dialog payment_error_dialog" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body consistent-modal-body">
+      <div class="text-center">
+        <img
+          ImageSrc
+          class="w-mob-set consistent-modal-icon"
+          src="./../../../../assets/icons/Icon/Negative-scenarios/something_was_not_right.svg"
+          alt="Flight not available"
+          loading="lazy"
+        />
+          <div class="consistent-header-txt" translate>Your session has expired.</div>
+          <div translate class="consistent-body-text" *ngIf="flightsearchInfo && flightsearchInfo.itineraries">
+            Still want to fly from {{ flightsearchInfo.itineraries[0].dept_city.city }} to
+            {{ flightsearchInfo.itineraries[flightsearchInfo.itineraries.length - 1].arr_city.city }}?
+          </div>
+        <div class="d-none d-md-block modal-btn-container">
+          <span
+            ><button
+              type="button"
+              aria-label="No, Search New Flight"
+              class="btn ok-btn mr-3 default_btn"
+              data-dismiss="modal"
+              (click)="flight_results()"
+            >
+              <span translate>No, Search New Flight</span>
+            </button></span
+          >
+          <span
+            ><button
+              type="button"
+              aria-label="Yes, Refresh My Flight"
+              class="btn ok-btn primary_btn"
+              data-dismiss="modal"
+            >
+              <span translate>Yes, Refresh My Flight</span>
+            </button></span
+          >
+        </div>
+        <div class="d-md-none d-block text-center modal-btn-container">
+          <span
+            ><button
+              type="button"
+              aria-label="Go Back to Search Results"
+              class="btn ok-btn mr-3 primary_btn"
+              data-dismiss="modal"
+              (click)="flight_results()"
+            >
+              <span translate>Go Back to Search Results</span>
+            </button></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

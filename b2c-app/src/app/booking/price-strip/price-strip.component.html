@@ -1,0 +1,99 @@
+<div class="strip_container" *ngIf="bookingData">
+  <div class="sticky_price">
+    <div class="container">
+      <div class="row">
+        <div class="col-8 flights_section">
+          <div class="row">
+            <div
+              class=""
+              [ngClass]="{ 'col-6': odoData.length == 2, 'w-100': odoData.length == 1 }"
+              [style.border-right]="!multitripType && !last ? '1px solid #50656E' : 'none'"
+              *ngFor="let odoList of odoData; let idx = index; let last = last"
+            >
+              <div class="flight_Data">
+                <div class="direction">
+                  <div class="row">
+                    <div class="pt-1" [ngClass]="odoData.length == 2 ? 'col-2' : 'col-1'">
+                      <img
+                        ImageSrc
+                        *ngIf="!multitripType"
+                        class="carrier_logo"
+                        src="assets/img/carriers/retina48px/carrier-{{ odoList.segments[0].airlineCode }}.png"
+                        alt="{{ odoList.segments[0].airlineCode }}"
+                        width="34px"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div
+                      class="col-10 pt-1"
+                      [style.border-right]="multitripType && !last ? '1px solid #50656E' : 'none'"
+                    >
+                      <div class="route">
+                        <span class="pr-1 city_labl">{{ odoList.segments[0].origCode }} </span>
+                        <img
+                          ImageSrc
+                          src="./../../../assets/icons/strip-arrow-city-icn.svg"
+                          alt="dir"
+                          class="ic_arrow_back"
+                          loading="lazy"
+                        />
+                        <span class="pl-1 city_labl">{{ odoList.segments[odoList.segments.length - 1].destCode }}</span>
+                      </div>
+                      <div class="info">
+                        <span class="date_labl">{{ odoList.segments[0].departureDateTime | date: 'HH:mm' }}</span>
+                        <span> <i class="fa fa-minus pr-1 pl-1" aria-hidden="true"></i> </span>
+                        <span class="date_labl">{{
+                          odoList.segments[odoList.segments.length - 1].arrivalDateTime | date: 'HH:mm'
+                        }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-2 price_Info text-center">
+          <span class="fare_tooltip">
+            <div class="price_txt" translate>Total Price</div>
+            <div class="price_amt">
+              {{ bookingData.currencyCode | currencyCode }} {{ totalprice | currency: '' + ' ' + ' ':'symbol':'2.0' }}
+              <img
+                ImageSrc
+                src="../../../assets/icons/strip-price_info-icn.svg"
+                alt="price_Info"
+                width="14px"
+                class="mb-1"
+                loading="lazy"
+              />
+              <div class="farebreakdown">
+                <ng-container *ngTemplateOutlet="tipContent"> </ng-container>
+              </div>
+            </div>
+          </span>
+        </div>
+        <div class="col-2">
+          <div class="continue_btn">
+            <span class="price_divider d-none">
+              <img ImageSrc src="./../../../assets/icons/strip-dvider-icn.svg" alt="sprtr" loading="lazy" />
+            </span>
+            <button
+              mat-button
+              type="button"
+              aria-label="Payment Options"
+              class="btn btn-primary"
+              (click)="proceedToPayment()"
+              [disabled]="isLoading"
+            >
+              <i class="fa fa-spinner fa-spin" style="font-size: 24px" [hidden]="!isLoading" aria-hidden="true"></i>
+              <span translate>Payment Options</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #tipContent>
+    <app-fare-info #fares [pricedResult_data]="priceDataInfo" [baggagefee]="baggageFee"></app-fare-info>
+  </ng-template>
+</div>

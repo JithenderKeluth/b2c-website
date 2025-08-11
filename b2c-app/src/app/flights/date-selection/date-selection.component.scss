@@ -1,0 +1,91 @@
+@import "./../../../theme/theme-variables.scss";
+
+.tripTypeData {
+  position: absolute;
+  top: 24px !important;
+  left: 15%;
+  font-size: 16px;
+  font-weight: 600;
+}
+.fare_subject_txt {
+  padding: 10px;
+  font-size: 12px;
+  background-color: #dff4fe;
+}
+::ng-deep .widget_calender {
+  ngb-datepicker {
+    transform: translate(0px, 0px) !important;
+    position: unset !important;
+    left: 0px !important;
+    overflow: scroll;
+    width: 100%;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+.date_info {
+  padding: 20px 20px 30px 20px;
+  background-color: #f2f2f2;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  min-height: 150px;
+  .labl {
+    margin: 0;
+    font-size: 15px;
+  }
+  .labl_data {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .done_btn {
+    padding: 10px;
+  }
+}
+.dropdown-menu {
+  color: var(--text_primary_color) !important;
+}
+.custom-day {
+  text-align: center;
+  padding: 0.76rem 0.25rem !important;
+  display: inline-block;
+  height: 2.8rem;
+  width: 2.8rem;
+  border-radius: 3px;
+  border: none !important;
+  outline: none !important;
+  background-color: #f7f7f8;
+}
+.custom-day.focused {
+  background-color: var(--primary_btn_bg);
+  border: none !important;
+  color: $white;
+}
+.custom-day.range,
+.custom-day:hover {
+  background-color: var(--primary_btn_bg);
+  border: none;
+  color: $white;
+}
+.custom-day.faded {
+  background-color: var(--filter_strip_bg);
+  color: #000;
+  border-radius: 0px !important;
+}
+::ng-deep .ngb-dp-month-name {
+  background-color: $white;
+  display: block;
+}
+::ng-deep .ngb-dp-weekdays {
+  background-color: $white;
+}
+::ng-deep .bg-primary {
+  background-color: var(--primary_btn_bg) !important;
+  border: none;
+}
+
+@media only screen and (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, lg)) {
+  .custom-day {
+    width: 95% !important;
+  }
+}

@@ -1,0 +1,34 @@
+<div class="modal showSeatsModal" tabindex="-1" id="seatNotselected" role="dialog">
+  <div class="modal-dialog fare_increased" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body consistent-modal-body">
+        <div class="text-center">
+          <div class="fare text-center">
+            <div class="consistent-header-txt" translate>Are you sure?</div>
+            <div translate class="consistent-body-text">{{ modelSubDes }}</div>
+          </div>
+          <div class="modal-btn-container">
+            <span>
+              <button
+                type="button"
+                class="btn fare-btn default_btn"
+                data-dismiss="modal"
+                (click)="chooseSeats()"
+              >
+                <span translate>Choose seat</span>
+              </button>
+            </span>
+            <button
+              type="button"
+              class="btn proceedBtn primary_btn onHover"
+              data-dismiss="modal"
+              (click)="closeSeatMap()"
+            >
+              <span translate>Continue</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

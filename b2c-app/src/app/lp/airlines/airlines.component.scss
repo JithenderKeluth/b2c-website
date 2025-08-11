@@ -1,0 +1,138 @@
+@import "../../../../src/theme/theme-variables.scss";
+.airlines-page {
+  background: #ffffff;
+  .section-links {
+    display: flex;
+    align-items: center;
+    padding: 5.5rem 0 0.75rem;
+    .section-links-text {
+      text-align: center;
+      a {
+        color: initial;
+        text-decoration: none;
+        padding-bottom: 0.75rem;
+        font-size: 0.9rem;
+        &:hover,
+        &.active {
+          border-bottom: 2px solid #1db2f5;
+        }
+      }
+      .separator {
+        color: #d9d9d9;
+        padding: 0 1rem;
+      }
+    }
+  }
+}
+
+.list-items {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 1.25rem;
+  margin: 0;
+  .list-item {
+    flex: 0 0 262px;
+    max-width: 262px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ededed;
+    padding: 1rem;
+    list-style: none;
+    box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    a {
+      color: #a1a1a1;
+    }
+    img {
+      padding-right: 1rem;
+    }
+  }
+}
+.list-item:hover {
+  cursor: pointer;
+  box-shadow: 0 1px 11px 2px rgba(0, 0, 0, 0.2);
+  a {
+    text-decoration: none;
+  }
+  img {
+    transform: rotate(15deg);
+  }
+}
+a {
+  text-decoration: none;
+  color: #1db2f5;
+}
+
+// AIRLINES SEARCH (Filter)
+#myInput {
+  width: 100%;
+  font-size: 16px;
+  padding: 1rem 20px 1rem 1rem;
+  border: 1px solid #ddd;
+  margin-bottom: 2rem;
+}
+
+#myUL {
+  /* Remove default list styling */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#myUL li a {
+  margin-top: -1px;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 12px;
+  color: black;
+  display: block;
+}
+
+// FLIGHT SEARCH (Hero)
+app-search {
+  background-color: #f9f9f9;
+  padding: 1rem 1.5rem 0rem;
+  margin-top: 6rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  @media screen and (max-width: $screen-lg-min-width) {
+    margin-top: 1rem;
+    padding: 0;
+  }
+}
+// for mobile
+.search-dropdown {
+  display: none;
+  width: 100%;
+  // margin-top: 3rem;
+  @media screen and (max-width: $screen-lg-min-width) {
+    display: block;
+    z-index: 9999;
+    .dropdown-toggle {
+      width: 80%;
+      margin-left: 10%;
+      background-color: $color-link-blue;
+      color: $white;
+      font-size: 14px;
+      padding: 15px 20px;
+      &::after {
+        display: none;
+      }
+    }
+    .dropdown-content {
+      width: 100%;
+      font-size: 14px;
+      padding: 10px 20px;
+      transition: all 0.5s ease;
+    }
+  }
+}
+
+.hide-search {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  transition: all 0.3s ease;
+}

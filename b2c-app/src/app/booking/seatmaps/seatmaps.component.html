@@ -1,0 +1,390 @@
+<div class="container seatmap p-lg-0">
+  <header class="seat-map-drawer__header mt-2 d-block">
+    <div class="d-flex align-items-center">
+      <button class="seat-map-drawer__close btn btn-link d-none float-left" (click)="skipSeats()">
+        <img ImageSrc src="../../../assets/icons/srp_Icons/close-icn-new-all.svg" alt="close" />
+      </button>
+      <h4 translate class="seat-map-drawer__header-text d-inline seat_header" translate>
+        Choose your seats <span class="seat_header_optional_txt">(optional)</span>
+      </h4>
+      <div class="footer pull-right ml-auto">
+        <div class="seat-map-drawer__footer-buttons text-center text-md-right">
+          <button class="btn btn-link st_btn st_btn_clear theme__link-button" (click)="skipSeats()">
+            {{ 'Skip to add ons' | translate }}
+          </button>
+          <button
+            class="btn primary_btn st_btn st_btn_save d-none"
+            (click)="checkSelectedSeats()"
+            *ngIf="!isSeatmapLoading && !hasError"
+          >
+            {{ 'Save selection' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="!isSeatmapLoading && !hasError"
+      class=""
+      [ngClass]="!isSeatmapLoading ? 'segmentSection mt-2 theme__raise-priority' : 'd-none'"
+    >
+      <div class="d-flex align-items-center">
+        <ul class="segmentsList segmentListItems mb-1">
+          <li
+            class="seg-labl"
+            *ngFor="let segment of seatMapInfoObject.segmentsDataList[0].segments; let idx = index"
+            [class.selected]="idx === selectedSegmentIndex"
+             [attr.id]="'segment' + idx"
+            (click)="onSegmentChange(segment, idx)"
+          >
+            {{ segment.origin }} - {{ segment.destination }}
+          </li>
+        </ul>
+
+        <div id="" class="ml-auto d-none d-lg-inline">
+          <img ImageSrc src="../../../assets/icons/travellerpage_Icons/seats.svg" alt="seats" width="40px" />
+        </div>
+      </div>
+
+      <div class="avlSegmentDesc d-block">
+        <img class="theme__info-icon" imagesrc src="https://cdn1.travelstart.com/assets/icons/wt-info-icon.svg" alt="info" /> Seat selection
+        available for above segments only
+      </div>
+    </div>
+  </header>
+
+  <div class="row mt-4 theme__seat-selection-container">
+    <div class="seat-map-drawer__loading indeterminate-loader" *ngIf="isSeatmapLoading">
+      <app-progressbar-loader></app-progressbar-loader>
+    </div>
+    <div class="seat-map-drawer__error seat_Error_Sec" *ngIf="!isSeatmapLoading && hasError">
+      <div class="seat-map-drawer__error-container">
+        <span class="seat_error">
+          <img ImageSrc src="../../../assets/icons/seat_map_Icons/seat_error.svg" alt="seat_error" loading="lazy" />
+        </span>
+        <h5 translate class="seat-map-drawer__error-header mt-3 mb-4" translate>Sorry, seat map is not available.</h5>
+        <button class="btn primary_btn ml-auto st_btn addons_continueBtn d-none" (click)="skipSeats()">Ok</button>
+      </div>
+    </div>
+
+    <div class="col-sm-5 theme__pax-seat-container" *ngIf="!isSeatmapLoading && !hasError">
+      <div *ngIf="selectedSegment">
+        <label class="labl-mute">DEPARTURE FLIGHTS</label>
+        <span class="labl-high"
+          >{{ getAirportCityName(selectedSegment.origin) }} -
+          {{ getAirportCityName(selectedSegment.destination) }}</span
+        >
+      </div>
+      <!-- <label class="labl-mute mt-4">SELECT PASSENGERS</label> -->
+      <ul class="travelerList">
+        <li
+          class="labl-txt"
+          *ngFor="let traveler of this.seatMapInfoObject.travelerDataList; let idx = index"
+          [class.selected]="idx === selectedTravelerIndex"
+          [ngClass]="{ 'd-none no-border': traveler.type === 'INFANT' }"
+          [attr.id]="'traveller' + idx"
+          (click)="onTravelerChange(traveler, idx)"
+        >
+          <div *ngIf="traveler.type !== 'INFANT'">
+            <div
+              class="paxShortName"
+              *ngIf="
+                (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md') &&
+                selectedTraveler.uniqueId !== traveler.uniqueId &&
+                country !== 'ABSA'
+              "
+            >
+              {{ getPaxShortName(traveler) }}
+            </div>
+            <div
+              class="paxSeat d-flex align-items-center"
+              *ngIf="
+                ((responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md') &&
+                  (selectedTraveler.uniqueId == traveler.uniqueId || country === 'ABSA')) ||
+                (responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md')
+              "
+            >
+              <div class="mr-2 theme__traveller-name">
+                {{ traveler.firstName }} {{ traveler.lastName }}
+                <span class="" *ngIf="infantsList.length > 0 && infantsList[idx]"
+                  >+HELD INFANT {{ infantsList[idx].firstName }} {{ infantsList[idx].lastName }}</span
+                >
+              </div>
+              <div class="paxClearSeat float-right" *ngIf="travellerHasSeats(traveler)">
+                <img
+                  ImageSrc
+                  src="../../../assets/icons/srp_Icons/close-icn-new-all.svg"
+                  width="10px"
+                  alt="close-icn-new-all.svg"
+                  (click)="nullSeatsForSelectedTraveler(idx)"
+                />
+              </div>
+            </div>
+            <span *ngIf="traveler.segments?.length == 0">Select seat</span>
+            <div
+              class="mt-1"
+              *ngIf="
+                (traveler.segments?.length > 0 &&
+                  (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md') &&
+                  (selectedTraveler.uniqueId == traveler.uniqueId || country === 'ABSA')) ||
+                (responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md')
+              "
+            >
+              <span *ngFor="let segment of traveler.segments">
+                <span *ngIf="segment.seat" class="seatNumber mr-1">
+                  <img  ImageSrc src="../../../assets/icons/seat_map_Icons/pax_seat.svg" alt="pax_seat" class="mb-1" />
+                  {{ segment.seat.number }}
+                </span>
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="mt-4" *ngIf="decksForSelSegment && !(country === 'ABSA' && decksForSelSegment.length <= 2)">
+        <label class="labl-mute">SELECT DECK</label>
+        <ul>
+          <li class="labl-txt p-0 theme_deck-item" *ngFor="let deck of decksForSelSegment; let idx = index">
+            <span (click)="changeDeck(idx)">{{ deck }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      *ngIf="country === 'ABSA' && !isSeatmapLoading && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')"
+      class="container theme__legends-container"
+    >
+      <div translate class="theme__legends-header">Seat options</div>
+      <div class="row">
+        <div class="col-12">
+          <div class="legends">
+            <!-- <div class="smp-amenities-container">Seat Options</div> -->
+            <div class="legendsData d-flex d-lg-block">
+              <div id="legend">
+                <div class="smp-legend-container">
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-free smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span translate>Available</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-selected smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span translate>Selected</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-occupied smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span translate>Occupied</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-facility smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span translate>Not a seat</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-seat_blocked smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span translate>Seat blocked</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="infant_legend_logo smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span translate>Bassinet</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="child_legend_logo smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span translate>Child not allowed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-7 theme__seat-picker-container" *ngIf="!isSeatmapLoading && !hasError">
+      <div class="seat-map-container" *ngIf="seatMapData">
+        <!-- Display rows and columns index for reference -->
+        <table class="seatmap-table">
+          <tr *ngFor="let row of seatMapData[0]?.rows">
+            <ng-container *ngFor="let cell of row.cells">
+              <td
+                *ngIf="cell.type != 'groupedFacility'"
+                class="seatmap-table-cell"
+                class="{{ cell.type }}"
+                [colSpan]="cell.colspan"
+                [ngClass]="{
+                  'extra-leg': cell.extraleg,
+                  'occupied-seat': cell.seatAvailabilityStatus === 'OCCUPIED',
+                  selected: cell.isSelected
+                }"
+              >
+                <div class="extra-leg-space" *ngIf="cell.isExtraLeg"></div>
+                <button
+                  class="seatmap-table-cell-content"
+                  class="{{
+                    cell.type +
+                      ' ' +
+                      getSeatClass(cell.seat) +
+                      ' ' +
+                      cell.seat?.travelerPricing[selectedTravelerIndex]?.seatAvailabilityStatus
+                  }}"
+                  [ngClass]="{
+                    'extra-leg': cell.isExtraLeg,
+                    selected: cell.isSelected,
+                    blocked: cell.isBlocked,
+                    'notAllowedToChild' : cell.isNotAllowedToChild
+                  }"
+                  [attr.data-characteristics]="getSeatCharacteristics(cell.seat)"
+                  *ngIf="cell.type == 'seat'"
+                  (click)="selectSeat(cell)"
+                  (mouseenter)="showSeatInfo(cell)"
+                  (mouseleave)="hideSeatInfo()"
+                >
+                  <!-- {{ cell.seat.number }} -->
+                </button>
+
+                <!-- Tooltip for displaying seat characteristics and price -->
+                <div
+                  *ngIf="hoveredSeat?.seat?.number === cell?.seat?.number"
+                  class="seat-tooltip"
+                  [style.visibility]="hoveredSeat ? 'visible' : 'hidden'"
+                >
+                  <p>Seat: {{ hoveredSeat?.seat?.number }}</p>
+                  <p>Price: {{ hoveredSeatCurrency | currencyCode }}{{ hoveredSeatPrice | number: '1.2-2' }}</p>
+                  <ul>
+                    <li *ngFor="let code of hoveredSeatCharacteristics">
+                      <span *ngIf="code !== 'CH' && code !== 'LS' && code !== 'FC' && code !== 'OW' && code !== 'RS'">{{
+                        getCharacteristicDescription(code)
+                      }}</span>
+                    </li>
+                  </ul>
+                  <div class="tooltip-arrow"></div>
+                </div>
+
+                <div
+                  *ngIf="cell.type == 'columnIndex'"
+                  class="seatmap-table-cell-content"
+                  (click)="selectSeat(cell)"
+                  [ngClass]="cell.type"
+                >
+                  {{ cell.index }}
+                </div>
+                <div
+                  *ngIf="cell.type == 'rowIndex'"
+                  class="seatmap-table-cell-content"
+                  (click)="selectSeat(cell)"
+                  [ngClass]="cell.type"
+                >
+                  {{ cell.index }}
+                </div>
+                <div
+                  *ngIf="cell.type == 'facility'"
+                  class="seatmap-table-cell-content"
+                  (click)="selectSeat(cell)"
+                  [ngClass]="cell.type"
+                >
+                  {{ cell.index }}
+                </div>
+              </td>
+            </ng-container>
+          </tr>
+        </table>
+        <!-- Error Handling -->
+        <div *ngIf="hasError">Failed to load seat map. Please try again.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-controls" *ngIf="!isSeatmapLoading && !hasError">
+    <div class="segment-navigation py-2">
+      <button
+        class="btn-link theme__link-button"
+        (click)="prevSegment()"
+        [disabled]="selectedSegmentIndex === 0"
+        [ngClass]="{ 'mute-txt': selectedSegmentIndex === 0 }"
+      >
+        <i class="fa fa-angle-left pr-1" aria-hidden="true"></i> Previous Flight
+      </button>
+      <button
+        class="btn-link pull-right theme__link-button"
+        (click)="nextSegment()"
+        [ngClass]="{ 'mute-txt': selectedSegmentIndex === seatMapInfoObject.segmentsDataList[0].segments.length - 1 }"
+        [disabled]="selectedSegmentIndex === seatMapInfoObject.segmentsDataList[0].segments.length - 1"
+      >
+        Next Flight<i class="fa fa-angle-right pl-1" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div *ngIf="country !== 'ABSA' || !(responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')" class="container p-1">
+      <div class="row">
+        <div class="col-12">
+          <div class="legends">
+            <!-- <div class="smp-amenities-container">Seat Options</div> -->
+            <div class="legendsData d-flex d-lg-block">
+              <div id="legend">
+                <div class="smp-legend-container">
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-free smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span>Available</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-selected smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span>Selected</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-occupied smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span>Occupied</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-facility smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span>Not a seat</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="smp-seat_blocked smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span>Seat blocked</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="infant_legend_logo smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span>Bassinet</span>
+                  </div>
+                  <div class="smp-sm-legend-element">
+                    <div class="child_legend_logo smp-seat smp-column-a smp-seat-1a">1A</div>
+                    <span>Child not allowed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="seatMapcontinueSec" *ngIf="!isSeatmapLoading && !hasError">
+    <div class="d-flex align-items-center float-lg-right mt-lg-3">
+      <span class="mr-3" *ngIf="totalSeatsCost && !hasError"
+        >Total {{ currencyCode | currencyCode }}{{ totalSeatsCost | number: '1.2-2' }}</span
+      >
+      <button
+        id="continueBtnFromSeats"
+        class="btn primary_btn ml-auto st_btn addons_continueBtn float-right onHover"
+        (click)="checkSelectedSeats()"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="isAllPaxSeatsNotSelected && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')"
+>
+  <app-seat-not-selected-modal
+    [modelParent]="model_Parent"
+    (chooseSelectSeats)="closeSeatsModal()"
+    (continueCloseModal)="closeSeatMap()"
+  ></app-seat-not-selected-modal>
+</div>
+<div class="modal" id="seatNotselected" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <app-seat-not-selected-modal
+    [modelParent]="model_Parent"
+    (chooseSelectSeats)="closeSeatsModal()"
+    (continueCloseModal)="closeSeatMap()"
+  >
+  </app-seat-not-selected-modal>
+</div>

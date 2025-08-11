@@ -1,0 +1,176 @@
+@import "./../../../theme/theme-variables.scss";
+.changedate_booking_section {
+  background-color: var(--primary_Body_bg);
+  .changedate_booking {
+    background-color: $white;
+    padding: 0px 15px;
+    border-radius: 0px 0px 12px 12px;
+    .changedate_body {
+      .header_desc {
+        h4 {
+          font-size: 18px;
+          font-weight: bold;
+        }
+        p {
+          font-size: 13px;
+        }
+      }
+    }
+    .choose_journey {
+      .jrny_head {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 25px 0px;
+      }
+
+      .route_traveller {
+        .route_info {
+          font-size: 15px;
+          font-weight: bold;
+          .ticketCreated {
+            font-size: 13px;
+            background-color: #fedcdd;
+            padding: 5px 10px;
+            font-weight: 500;
+          }
+        }
+        .pick_date {
+          margin: 16px 0px 0px;
+          .selectdate {
+            border-radius: 3px !important;
+            width: 115px !important;
+            padding: 2px 10px;
+            height: 30px;
+            font-size: 13px;
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+  .sub_btn {
+    padding: 10px 50px;
+    border: none;
+  }
+}
+.w-md-25 {
+  width: 21% !important;
+}
+.changepick_date ::ng-deep ngb-datepicker {
+  transform: translate(700px, 15px) !important;
+}
+::ng-deep {
+  .changepick_date ngb-datepicker-navigation-select > .custom-select {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+    /* display: block; */
+    //height: 1.85rem;
+    display: block !important;
+  }
+  .changepick_date .ngb-dp-arrow-btn {
+    padding: 0 0.25rem;
+    margin: 0 0.5rem;
+    /* border: none; */
+    background-color: transparent;
+    z-index: 1;
+    display: none !important;
+  }
+  .bg-primary {
+    background-color: var(--text_link_color) !important;
+    border: none;
+  }
+  .btn-light:hover {
+    color: $white !important;
+    background-color: var(--text_link_color) !important;
+    border-color: none;
+  }
+}
+.q_recordLink {
+  color: var(--text_link_color);
+  border: 1px solid var(--text_link_color);
+  padding: 5px 8px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+.cancel_mdl_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  min-width: 660px;
+  text-align: center;
+  background-color: $white;
+  border-radius: 3px;
+
+  .mdl_heading {
+    font-size: 23px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  .mdl_body {
+    padding: 50px 26px;
+  }
+  .mdl_subheading {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 25px;
+  }
+  .sub_btn {
+    border: 1px solid var(--border_active_color);
+    border-radius: 3px;
+    padding: 10.5px 35.5px 10.5px;
+  }
+}
+.viewQuery_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  min-width: 600px;
+  text-align: center;
+  background-color: $white;
+  border-radius: 3px;
+
+  .mdl_heading {
+    font-size: 23px;
+    margin-bottom: 24px;
+    font-weight: 600;
+    .close_img {
+      cursor: pointer;
+    }
+  }
+  .mdl_body {
+    padding: 15px 10px;
+  }
+}
+@media (min-width: map-get($grid-breakpoints, md)) {
+}
+
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .changedate_booking_section {
+    .changedate_booking {
+      .choose_journey {
+        .jrny_head {
+          margin: 20px 0px !important;
+          font-size: 14px !important;
+        }
+      }
+      .changedate_body {
+        .header_desc {
+          h4 {
+            font-size: 16px !important;
+          }
+        }
+      }
+    }
+  }
+
+  .sub_btn {
+    width: 100% !important;
+  }
+  .w-md-25 {
+    width: 100% !important;
+  }
+}

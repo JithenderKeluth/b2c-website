@@ -1,0 +1,75 @@
+<div class="passengers d-flex">
+  <div class="cabin_Class w-100">
+    <button mat-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+      {{ travellersSummary.total > 0 ? travellersSummary.total : 'Select' }}
+      {{ activeTab! !== 'cars' ? 'Traveller(s)' : 'Driver' }}
+      <span class="ml-auto">
+        <i *ngIf="!menuTrigger.menuOpen" aria-hidden="true" class="fa fa-angle-down"></i>
+        <i *ngIf="menuTrigger.menuOpen" aria-hidden="true" class="fa fa-angle-up"></i>
+      </span>
+    </button>
+    <mat-menu #menu="matMenu" yPosition="below">
+      <ul class="guestCounter classSelect p-0" *ngIf="userTravellers?.length > 0">
+        <li *ngFor="let pax of getTravellers(userTravellers); let i = index">
+          <a translate mat-menu-item (click)="onChange($event); selectPax(pax)">
+            <span class="name">
+              <mat-checkbox
+                type="checkbox"
+                class="mat-checkbox check mr-2"
+                [checked]="pax.paxSelected"
+                style="pointer-events: none"
+              >
+              </mat-checkbox>
+              {{ pax.personName.givenName | titlecase }} {{ pax.personName?.surname | titlecase }}
+            </span>
+            <span class="paxType" *ngIf="pax.paxType !=='YOUNGADULT' ">{{ pax.paxType | titlecase  }}</span>
+            <span class="paxType" *ngIf="pax.paxType == 'YOUNGADULT' ">Young Adult</span>
+          </a>
+
+          <!-- <a *ngIf="activeTab! === 'cars'" translate mat-menu-item>
+            <span class="name">
+              <mat-radio-group [(ngModel)]="selectedCPax" (change)="selectPax($event.value)">
+                <mat-radio-button class="mat-radio-button mr-2" [value]="pax">
+                  {{ pax.personName.givenName | titlecase }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </span>
+            <span class="paxType">{{ pax.paxType | titlecase }}</span>
+          </a> -->
+        </li>
+      </ul>
+      <div class="adultSelectionInfoSec" *ngIf="activeTab !== 'cars'">
+        <span>
+          <img src="../../../assets/images/ts+landing/MM-info.svg" alt="MM-info">
+        </span>
+        <span class="ml-1 adultSelectionTxt">There must be at least one adult per booking for online bookings.</span>
+      </div>
+    </mat-menu>
+  </div>
+</div>
+<!---To display modal when user try to book without adult-->
+<div
+  tabindex="-1"
+  role="dialog"
+  class="modal fade pr-0"
+  aria-hidden="true"
+  id="noAdultsModal"
+  data-keyboard="false"
+  data-backdrop="static"
+>
+<div class="modal-dialog payment_error_dialog noAdultModal" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body mdl_body">
+      <div class="selectAdultTxt">
+        There must be at least one adult per booking for online bookings.
+      </div>
+      <div class="text-center">
+        <button type="button" class="btn okBtn  mt-3 text-center primary_btn onHover" aria-label="Close"
+          data-dismiss="modal">
+          <span translate>Ok</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

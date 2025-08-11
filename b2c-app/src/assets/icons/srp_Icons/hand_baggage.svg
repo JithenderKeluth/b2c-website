@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12.385" height="12.945" viewBox="0 0 12.385 12.945">
+    <g data-name="Group 27821">
+        <path data-name="Path 31617" d="M118.643 19.328h-1.66v-1.414a.916.916 0 0 0-.9-.914h-3.973a.916.916 0 0 0-.9.914v1.414h-1.66a1.543 1.543 0 0 0-1.55 1.547v7.312a1.545 1.545 0 0 0 1.416 1.545c.506.011 3.851.013 3.832.012h.69c.507 0 4.332 0 4.832-.012a1.545 1.545 0 0 0 1.416-1.545v-7.312a1.543 1.543 0 0 0-1.542-1.547zm-6.938-1.414a.412.412 0 0 1 .4-.41h3.973a.412.412 0 0 1 .4.41v1.414h-4.775zm-.062 11.831zm3.8 0zm4.241-1.55a1.047 1.047 0 0 1-1.047 1.047h-9.087a1.047 1.047 0 0 1-1.047-1.047v-7.317a1.047 1.047 0 0 1 1.047-1.047h9.085a1.047 1.047 0 0 1 1.047 1.047z" transform="translate(-107.9 -16.9)" style="fill:#687189;stroke:#687189;stroke-width:.2px"/>
+        <g data-name="Rectangle 10416" style="fill:#687189;stroke:#687189;stroke-width:.2px">
+            <path style="stroke:none" d="M0 0h1v5H0z" transform="translate(3.693 4.973)"/>
+            <path style="fill:none" d="M.1.1h.8v4.8H.1z" transform="translate(3.693 4.973)"/>
+        </g>
+        <g data-name="Rectangle 10992" style="fill:#687189;stroke:#687189;stroke-width:.2px">
+            <path style="stroke:none" d="M0 0h1v5H0z" transform="translate(7.693 4.973)"/>
+            <path style="fill:none" d="M.1.1h.8v4.8H.1z" transform="translate(7.693 4.973)"/>
+        </g>
+    </g>
+</svg>

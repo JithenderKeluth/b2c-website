@@ -1,0 +1,24 @@
+.bnpl-message {
+  font-size: 12px;
+  line-height: 1.2rem;
+  color: #667085;
+  font-weight: 500;
+  .new_tag {
+    background-color: #ffe6d5;
+    color: #bc1b06;
+    padding: 2px 4px;
+    font-size: 9px;
+  }
+  .mult {
+    font-size: 9px;
+  }
+  .bld {
+    color: #00a1d4;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .bnpl-message {
+    top: 0px !important;
+  }
+}

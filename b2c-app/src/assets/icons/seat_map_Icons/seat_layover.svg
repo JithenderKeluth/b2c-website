@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27">
+  <g id="seat_layover" transform="translate(-66 -253)">
+    <g id="Icon_Airplane" transform="translate(66 253)">
+      <g id="Ellipse_2" fill="#fff" stroke="#faa3b5" stroke-width="1">
+        <ellipse cx="13.5" cy="13.5" rx="13.5" ry="13.5" stroke="none"/>
+        <ellipse cx="13.5" cy="13.5" rx="13" ry="13" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_26064" transform="translate(74.519 260.097)">
+      <path id="Path_31545" d="M5.405,2.63a1.258,1.258,0,1,1,.89-.368A1.258,1.258,0,0,1,5.405,2.63Z" transform="translate(-1.25 -0.114)" fill="#e77d93"/>
+      <path id="Path_31546" d="M6.8,7.624V5.11A1.448,1.448,0,0,0,5.346,3.6c-1.455,0-1.659,1.006-1.659,1.811V8.03c0,.6.207,1.61,1.867,1.61h2.8l.622,2.516a.779.779,0,0,0,.727.5.622.622,0,0,0,.519-.8L9.495,8.333c0-.1-.207-.5-.519-.5Z" transform="translate(-1.195 -0.531)" fill="#e77d93"/>
+      <path id="Path_31547" d="M4.8,12.238H6.464a.5.5,0,1,0,0-1.006H4.8c-1.971,0-2.9-1.107-2.9-3.119V5.7a.519.519,0,1,0-1.037,0V8.112C.759,10.527,2,12.238,4.8,12.238Z" transform="translate(-0.857 -0.716)" fill="#e77d93"/>
+    </g>
+  </g>
+</svg>

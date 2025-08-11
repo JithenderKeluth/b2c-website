@@ -1,0 +1,44 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+      "outDir": "./dist",
+      "sourceMap": true,
+      "declaration": false,
+      "module": "ES2022",
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "allowJs": true,
+      "importHelpers": true,
+      "ignoreDeprecations": "5.0",
+      "target": "ES2022",
+      "lib": [ "ES2022", "dom"],
+      "baseUrl": "./",
+      "skipLibCheck": true,
+      "useDefineForClassFields": false,
+
+      "exactOptionalPropertyTypes": false,
+      "noImplicitAny": false,
+      "suppressImplicitAnyIndexErrors": true,
+      "strict": false,
+
+      "paths": {
+        "@app/*": ["src/app/*"],
+        "@core": ["src/app/_core"],
+        "@core/*": ["src/app/_core/*"],
+        "@shared": ["src/app/_shared"],
+        "@shared/*": ["src/app/_shared/*"],
+        "@env/*": ["src/environments/*"],
+        "@app/i18n": ["src/app/i18n"],
+        "@app/_core": ["src/app/_core"],
+        "@app/general/*": ["src/app/general/*"],
+        "@app/booking/*": ["src/app/booking/*"],
+        "@app/auth/*": ["src/app/auth/*"]
+      }
+    },
+    "angularCompilerOptions": {
+      "fullTemplateTypeCheck": true,
+      "strictInjectionParameters": true,
+      "preserveWhitespaces": true
+    }
+  }

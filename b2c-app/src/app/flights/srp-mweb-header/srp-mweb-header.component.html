@@ -1,0 +1,178 @@
+<div id="resGroup">
+  <div class="srp_resHeader">
+    <div class="route_info">
+      <div class="route">
+        <div class="back_arr" (click)="switchPaths()">
+          <img ImageSrc src="./../../../assets/icons/back-arrow-resp.svg" alt="back" />
+        </div>
+
+        <div class="jour_info" *ngIf="flightsearchInfo && flightsearchInfo.itineraries.length != 0">
+          <label>
+            <span class="labl">{{ flightsearchInfo.itineraries[0].dept_city.city }}</span>
+            <span *ngIf="flightsearchInfo.tripType === 'return'" class="pr-2 pl-2"
+              ><img ImageSrc class="pt-1" src="./../../../assets/icons/two_arrows.svg" alt="round"
+            /></span>
+            <span *ngIf="flightsearchInfo.tripType === 'oneway'" class="pr-2 pl-2"
+              ><img ImageSrc class="pt-1" src="./../../../assets/icons/oneway_arw_icn.svg" alt="one way"
+            /></span>
+            <span *ngIf="flightsearchInfo.tripType === 'multi'" class="pr-2 pl-2"
+              ><img ImageSrc class="pt-1" src="./../../../assets/icons/multy_city_arrows_dark.svg" alt="multi"
+            /></span>
+            <span class="labl" *ngIf="flightsearchInfo.tripType !== 'multi'">{{
+              flightsearchInfo.itineraries[0].arr_city.city
+            }}</span>
+            <span class="labl" *ngIf="flightsearchInfo.tripType == 'multi'">{{
+              flightsearchInfo.itineraries[flightsearchInfo.itineraries.length - 1].arr_city.city
+            }}</span>
+          </label>
+
+          <div class="clearfix"></div>
+          <label class="pax_nums">
+            <span *ngIf="flightsearchInfo.tripType !== 'multi'">
+              <span class="dt_labl">{{ getDeptDate(flightsearchInfo.itineraries[0].dept_date) }} </span>
+              <span class="dt_labl" *ngIf="flightsearchInfo.tripType == 'return'">
+                -
+                {{ getDeptDate(flightsearchInfo.itineraries[flightsearchInfo.itineraries.length - 1].arr_date) }}
+              </span>
+              <span class="sptr">|</span>
+            </span>
+
+            <span class="dt_labl" *ngIf="flightsearchInfo.travellers.adults"
+              >{{ flightsearchInfo.travellers.adults }}
+              {{ getPassengers(flightsearchInfo.travellers.adults, 'adult') }}</span
+            >
+            <span class="dt_labl" *ngIf="flightsearchInfo.travellers.youngAdults"
+              >{{ flightsearchInfo.travellers.youngAdults }}
+              {{ getPassengers(flightsearchInfo.travellers.youngAdults, 'youngAdults') }}</span
+            >
+            <span class="dt_labl" *ngIf="flightsearchInfo.travellers.children"
+              >{{ flightsearchInfo.travellers.children }} Children</span
+            >
+            <span class="dt_labl" *ngIf="flightsearchInfo.travellers.infants"
+              >{{ flightsearchInfo.travellers.infants }}
+              {{ getPassengers(flightsearchInfo.travellers.infants, 'infant') }}
+            </span>
+          </label>
+        </div>
+
+        <div class="modify_btn">
+          <button
+            class="btn primary_btn d-none d-md-inline"
+            (click)="handleCollapse('modify', flightsearchInfo.tripType)"
+            data-toggle="collapse"
+            data-target="#res_Modify"
+            href="#res_Modify"
+            role="button"
+            aria-expanded="false"
+            aria-controls="res_Modify"
+          >
+            Modify
+          </button>
+
+          <span
+            class="d-block d-md-none"
+            (click)="handleCollapse('modify', flightsearchInfo.tripType)"
+            data-toggle="collapse"
+            data-target="#res_Modify"
+            aria-expanded="false"
+            aria-controls="res_Modify"
+          >
+          <img ImageSrc src="./../../../assets/icons/srp_Icons/modify-icn-new.svg" alt="modify" />
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sort_filters theme__sort-filters" *ngIf="flightslist && (flightslist.itineraries || flightslist.outboundItineraries)">
+      <div *ngIf="region === 'ABSA'" class="theme__absa-filter-row">
+        <div class="theme__absa-results-found"><span *ngIf="flightslist.itineraries && flightslist.itineraries.length > 0">{{flightslist.itineraries.length}} Results Found</span></div>
+        <div class="d-flex align-items-center">
+          <div class="text-center theme__flight-header-button-container mr-1" data-toggle="modal" data-target="#res_filters">
+            <button class="theme__flight-filter-button w-100 filterBtns">
+              <div>
+                <img class="pr-2" ImageSrc src="./../../../assets/icons/absa_icons/filter-icn-resp.svg" alt="filters" />
+              </div>
+              <div>Filter</div>
+            </button>
+          </div>
+
+          <div class="text-center res_sorting theme__flight-header-button-container" data-toggle="modal" data-target="#res_sorting">
+            <button class="w-100 filterBtns theme__flight-sorting-button">
+              <span>
+                <img class="pr-2" ImageSrc src="./../../../assets/icons/absa_icons/sortbt-resp.svg" alt="filters" />
+              </span>
+              <span>Sorting</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="region !== 'ABSA'" class="row">
+        <div class="col-6 text-center p-0 res_filters" data-toggle="modal" data-target="#res_filters">
+          <button class="btn w-100 filterBtns">
+            <span>
+              <img ImageSrc src="./../../../assets/icons/filter-icn-resp.svg" alt="filters" />
+            </span>
+            <span>Filters</span>
+          </button>
+        </div>
+
+        <div class="col-6 text-center res_sorting p-0" data-toggle="modal" data-target="#res_sorting">
+          <button class="btn w-100 filterBtns">
+            <span>
+              <img ImageSrc src="./../../../assets/icons/sortbt-resp.svg" alt="filters" />
+            </span>
+            <span>Sorting</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sort_filters"
+      *ngIf="
+        flightsearchInfo &&
+        flightsearchInfo.itineraries.length != 0 &&
+        flightslist &&
+        flightslist.outboundItineraries && flightslist.outboundItineraries.length > 0
+      "
+    >
+
+      <div *ngIf="region === 'ABSA'" class="row">
+        <div class="col-6 text-center p-0 res_filters theme__domestic-flight-filters-header">
+          <div class="w-100 domInfo theme__domestic-flight-header-text">
+            <span translate class="theme__domestic-flight-direction-text">Outbound</span>
+            <span class="theme__domestic-flight-result-count">&nbsp;{{flightslist.outboundItineraries.length}} Results found</span>
+          </div>
+        </div>
+
+        <div class="col-6 text-center res_sorting p-0">
+          <div class="w-100 domInfo theme__domestic-flight-header-text">
+            <span translate class="theme__domestic-flight-direction-text">Return</span>
+            <span class="theme__domestic-flight-result-count">&nbsp;{{flightslist.inboundItineraries.length}} Results found</span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="region !== 'ABSA'" class="row">
+        <div class="col-6 text-center p-0 res_filters">
+          <div class="w-100 domInfo">
+            <span class="route"> DEPARTURE </span>
+            <span
+              >{{ flightsearchInfo.itineraries[0].dept_city.code }} -
+              <span class="labl">{{ flightsearchInfo.itineraries[0].arr_city.code }}</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-6 text-center res_sorting p-0">
+          <div class="w-100 domInfo">
+            <span class="route"> RETURN </span>
+            <span>
+              <span class="labl">{{ flightsearchInfo.itineraries[0].arr_city.code }}</span> -
+              {{ flightsearchInfo.itineraries[0].dept_city.code }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,699 @@
+<section class="search-sec">
+  <div *ngIf="loading" class="loader-overlay">
+    <div class="loader-spinner"></div>
+  </div>
+  <div>
+    <app-side-nav
+      *ngIf="showWidget && (responsiveservice.screenWidth == 'sm' || responsiveservice.screenWidth == 'md')"
+      [sidenavTemplateRef]="navContent"
+      [direction]="'right'"
+      [duration]="0.5"
+      (closeNav)="closeSideNav()"
+    ></app-side-nav>
+
+    <ng-template #navContent>
+      <app-city-selection (selectedCity)="selectCityVal($event)" *ngIf="loadContent == 'location'"></app-city-selection>
+      <app-date-selection
+        *ngIf="loadContent == 'date'"
+        [widgetInfo]="dateWidgetData"
+        [datefareInfo]="price_calendar_res"
+        (selectedDate)="selectDateVal($event)"
+      ></app-date-selection>
+    </ng-template>
+
+    <div class="trip_section" style="position: relative">
+      <div class="row">
+        <ul class="trip_types p-0">
+          <li
+            *ngFor="let trip of tripTypes_List; let index = index"
+            [ngClass]="region === 'MM' && trip.value == 'multi' ? 'd-none' : ''"
+          >
+            <label
+              class="btn btn-info nav_links"
+              *ngIf="(region === 'MM' && trip.value !== 'multi') || region !== 'MM'"
+              [ngClass]="[tripSelected == trip.value ? 'tbActive' : 'in-active']"
+              ><input
+                type="radio"
+                class="form-switch radio_1set"
+                [(ngModel)]="tripSelected"
+                name="list_name"
+                aria-label="list_name"
+                value="{{ trip.value }}"
+                (change)="onItineraryChange(trip)"
+                translate
+              />
+              {{ trip.name }}
+            </label>
+          </li>
+        </ul>
+        <div class="pax_sel">
+          <div class="passengers d-flex">
+            <div class="mr-2 cabin_Class" *ngIf="region !== 'ABSA'">
+              <button mat-button [matMenuTriggerFor]="menu" #c="matMenuTrigger">
+                {{ cabinClass?.display }} Class
+
+                <span class="ml-3 float-right">
+                  <i *ngIf="!c.menuOpen" aria-hidden="true" class="fa fa-angle-down"></i>
+                  <i *ngIf="c.menuOpen" aria-hidden="true" class="fa fa-angle-up"></i>
+                </span>
+              </button>
+              <mat-menu #menu="matMenu" yPosition="below">
+                <ul class="guestCounter classSelect p-0">
+                  <li>
+                    <a
+                      translate
+                      mat-menu-item
+                      [ngClass]="[cabinClassSelected === 'ECONOMY' ? 'selected' : '']"
+                      (click)="onChange('ECONOMY')"
+                    >
+                      Economy
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      translate
+                      mat-menu-item
+                      [ngClass]="[cabinClassSelected === 'PREMIUM' ? 'selected' : '']"
+                      (click)="onChange('PREMIUM')"
+                    >
+                      Premium
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      translate
+                      mat-menu-item
+                      [ngClass]="[cabinClassSelected === 'BUSINESS' ? 'selected' : '']"
+                      (click)="onChange('BUSINESS')"
+                    >
+                      Business</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      translate
+                      mat-menu-item
+                      [ngClass]="[cabinClassSelected === 'FIRST' ? 'selected' : '']"
+                      (click)="onChange('FIRST')"
+                      >First
+                    </a>
+                  </li>
+                </ul>
+              </mat-menu>
+            </div>
+
+            <a
+              *ngIf="region === 'ABSA'"
+              type="button"
+              rel="nofollow"
+              class="btn passenger_select mr-2"
+              data-toggle="collapse"
+              data-target="#classSelector"
+              (click)="toggleClassCollapse()"
+            >
+              <span class="">{{ cabinClass.display }} Class </span>
+              <i
+                [ngClass]="{
+                  'fa-angle-up': isClassCollapsed,
+                  'fa-angle-down': !isClassCollapsed,
+                }"
+                class="ml-3 fa"
+              ></i>
+            </a>
+
+            <a
+              *ngIf="region !== 'MM'"
+              type="button"
+              rel="nofollow"
+              class="btn passenger_select"
+              data-toggle="collapse"
+              data-target="#pax"
+              (click)="togglePaxCollapse()"
+            >
+              <!-- <div class="paxClass">Travellers / Class</div> -->
+              <span class="passengerval"
+                >{{ travellers.adults + travellers.youngAdults + travellers.children + travellers.infants }}
+                <span translate>Traveller(s)</span></span
+              >
+              <i [ngClass]="{ 'fa-angle-up': isPaxCollapsed, 'fa-angle-down': !isPaxCollapsed }" class="ml-3 fa"></i>
+            </a>
+            <div
+              class="passenger_select"
+              *ngIf="region == 'MM'"
+              [ngClass]="{ err_focus: region == 'MM' && !isValidPaxSelected }"
+            >
+              <app-user-travellers
+                *ngIf="region == 'MM'"
+                [userActiveTab]="activeButton"
+                (passengers)="saveMmfPax($event)"
+              ></app-user-travellers>
+            </div>
+
+            <div class="collapseShowPassenger">
+              <div id="pax" #paxInfo class="collapse">
+                <app-passengers
+                  (passengers)="savePax($event)"
+                  (showApply)="showApplyBtn($event)"
+                  (cabinClassObj)="getCabinClass($event)"
+                  (closeTravellers)="closeTravellersDialog('close')"
+                  [passengerCount]="sendEvent"
+                ></app-passengers>
+                <hr *ngIf="country !== 'ABSA'" />
+                <div class="submit passengerSubmit text-right" data-target="#pax">
+                  <button
+                    *ngIf="country !== 'ABSA'"
+                    type="button"
+                    aria-label="Close"
+                    mat-button
+                    color="primary"
+                    (click)="closeTravellersDialog('close')"
+                    class="btn btnClose mr-2 default_btn"
+                  >
+                    <span translate>Close</span>
+                  </button>
+                  <button
+                    *ngIf="(country !== 'ABSA' && showApplybtn) || country === 'ABSA'"
+                    type="button"
+                    aria-label="Apply"
+                    mat-button
+                    color="primary"
+                    (click)="closeTravellersDialog('apply')"
+                    [disabled]="country === 'ABSA' && !showApplybtn"
+                    class="btn btnApply primary_btn theme__primary-button"
+                  >
+                    <span translate>Apply</span>
+                  </button>
+                </div>
+              </div>
+
+              <div id="classSelector" #classInfo class="collapse">
+                <app-class-selector
+                  (apply)="closeClassDialog('apply', $event)"
+                  (close)="closeClassDialog('close')"
+                ></app-class-selector>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="momentum_multiply d-none" style="position: absolute; bottom: 10px; right: 0" *ngIf="region === 'MM'">
+        <img ImageSrc src="./../../../assets/images/ts+landing/travelstart-powered.svg" />
+      </span>
+    </div>
+
+    <div class="tab-content">
+      <div
+        class="tab-pane active"
+        id="return"
+        [style.padding-bottom]="
+          tripSel.value !== 'multi' && responsiveservice.screenWidth !== 'sm' && responsiveservice.screenWidth !== 'md'
+            ? '16px'
+            : '0'
+        "
+      >
+        <form action="#" method="post" class="search_form" [formGroup]="myForm" *ngIf="isReady">
+          <div
+            class="col-lg-12 mb-2 dyna_rows"
+            formArrayName="itineraries"
+            *ngFor="let item of myForm.get('itineraries')['controls']; let i = index"
+          >
+            <ng-container [formGroupName]="i">
+              <div class="row">
+                <div class="col-sm-12 col-lg-7">
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-12 p-0 position-relative depart_airport ng-autocomplete">
+                      <input
+                        type="text"
+                        aria-label="dept_city"
+                        class="form-control borderRds bor-rad-3 input_shadow_mweb"
+                        formControlName="dept_city"
+                        matInput
+                        [matAutocomplete]="deptAirpt"
+                        (input)="onKeypressEvent($event, i, 'dept_city')"
+                        (click)="clearItenary(i, 'dept_city')"
+                        (blur)="showItenary(i, 'dept_city')"
+                        id="{{ 'dept_city' + i }}"
+                        required
+                        autocomplete="off"
+                      />
+                      <span class="floating-label" translate>From</span>
+                      <div
+                        class="validation_msg"
+                        *ngIf="submitted && !itenariesForm.controls[i].get('dept_city').value"
+                      >
+                        <span translate>Please select a departure city/airport</span>
+                      </div>
+                      <div
+                        class="validation_msg"
+                        *ngIf="
+                          submitted &&
+                          itenariesForm.controls[i].get('dept_city').value &&
+                          getType(itenariesForm.controls[i].get('dept_city').value)
+                        "
+                      >
+                        <span translate>Please select a departure city/airport</span>
+                      </div>
+                      <a (click)="exchangeCities($event, i)">
+                        <img
+                          ImageSrc
+                          class="exchange"
+                          [src]="
+                            country === 'GI'
+                              ? './../../../assets/icons/gigm_icons/srch-dir.svg'
+                              : './../../../assets/icons/srp_Icons/srch-dir.svg'
+                          "
+                          alt="img"
+                          width="30px"
+                          height="30px"
+                        />
+                      </a>
+
+                      <mat-autocomplete #deptAirpt="matAutocomplete" [displayWith]="displayFn">
+                        <span *ngIf="responsiveservice.screenWidth !== 'sm'">
+                          <mat-progress-bar
+                            mode="indeterminate"
+                            class="mb-1"
+                            *ngIf="currentDepartureIndex == i"
+                            [hidden]="!dept_city_load"
+                          ></mat-progress-bar>
+                          <mat-option
+                            class="departAirports"
+                            (click)="autoValue(i, 'dept_city', arrinp)"
+                            *ngFor="let option of filteredOptions"
+                            [value]="option"
+                          >
+                            <div class="row mt-2 mb-1 align-items-center">
+                              <div class="col-10 pl-2 d-flex align-items-center">
+                                <span class="mr-2 ml-1">
+                                  <img
+                                    ImageSrc
+                                    src="../../../assets/icons/srp_Icons/fly-city-light.svg"
+                                    alt="fly-city-light"
+                                    width="20px"
+                                  />
+                                </span>
+                                <span class="cityVal"
+                                  ><span class="">{{ option['city'] }},</span>
+                                  <span class="">{{ option['airport'] }}</span>
+                                  <div class="clearfix"></div>
+                                  <span class="sub_txt">{{ option['city'] }},</span>
+                                  <span class="sub_txt">{{ option['country'] }}</span>
+                                </span>
+                              </div>
+                              <div class="col-2 pl-0">
+                                <span class="city_search_code">{{ option['code'] }}</span>
+                              </div>
+                            </div>
+                          </mat-option>
+                        </span>
+                      </mat-autocomplete>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 p-0 position-relative arrive_airport">
+                      <input
+                        #arrinp="matAutocompleteTrigger"
+                        type="text"
+                        aria-label="arr_city"
+                        class="form-control bor-rad-3 border-left-1 input_shadow_mweb"
+                        formControlName="arr_city"
+                        matInput
+                        [matAutocomplete]="arrAirport"
+                        (input)="onKeypressEvent($event, i, 'arr_city')"
+                        (click)="clearItenary(i, 'arr_city'); ArrMatFocused(arrinp, true)"
+                        (blur)="showItenary(i, 'arr_city')"
+                        id="{{ 'arr_city' + i }}"
+                        required
+                        autocomplete="off"
+                      />
+                      <span translate class="floating-label">To</span>
+                      <div
+                        translate
+                        class="validation_msg"
+                        *ngIf="submitted && !itenariesForm.controls[i].get('arr_city').value"
+                      >
+                        Please select an arrival city/airport
+                      </div>
+
+                      <div
+                        translate
+                        class="validation_msg"
+                        *ngIf="
+                          submitted &&
+                          itenariesForm.controls[i].get('arr_city').value &&
+                          getType(itenariesForm.controls[i].get('arr_city').value)
+                        "
+                      >
+                        Please select an arrival city/airport
+                      </div>
+
+                      <div translate class="validation_msg" *ngIf="compareDeptArrCity(i)">
+                        Departure city and arrival city should not be the same
+                      </div>
+                      <mat-autocomplete #arrAirport="matAutocomplete" [displayWith]="displayFn">
+                        <span *ngIf="responsiveservice.screenWidth !== 'sm' && responsiveservice.screenWidth !== 'md'">
+                          <mat-progress-bar
+                            mode="indeterminate"
+                            class="mb-1"
+                            *ngIf="currentArrivalIndex == i"
+                            [hidden]="!arr_city_load"
+                          ></mat-progress-bar>
+                          <mat-option
+                            class="arrAirports"
+                            (click)="autoValue(i, 'arr_city', arrinp)"
+                            *ngFor="let option of filteredOptions"
+                            [value]="option"
+                          >
+                            <div class="row mt-2 mb-1 align-items-center">
+                              <div class="col-10 pl-2 d-flex align-items-center">
+                                <span class="mr-2 ml-1">
+                                  <img
+                                    ImageSrc
+                                    src="../../../assets/icons/srp_Icons/fly-city-light.svg"
+                                    alt="fly-city-light"
+                                    width="20px"
+                                  />
+                                </span>
+                                <span class="cityVal"
+                                  ><span class="city">{{ option['city'] }},</span>
+                                  <span class="arp">{{ option['airport'] }}</span>
+                                  <div class="clearfix"></div>
+                                  <span class="city sub_txt">{{ option['city'] }},</span>
+                                  <span class="cty sub_txt">{{ option['country'] }}</span>
+                                </span>
+                              </div>
+                              <div class="col-2 pl-0">
+                                <span class="city_search_code">{{ option['code'] }}</span>
+                              </div>
+                            </div>
+                          </mat-option>
+                        </span>
+                      </mat-autocomplete>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-12">
+                  <div class="row">
+                    <div
+                      class="p-0 position-relative depart_date q-datepicker position-relative w-100"
+                      [ngClass]="[tripSel.value == 'return' ? 'col-lg-6  col-sm-6' : 'col-lg-12 col-md-6  col-sm-12']"
+                    >
+                      <input
+                        *ngIf="tripSel.value != 'return'"
+                        type="text"
+                        aria-label="dept_date"
+                        class="form-control bor-rad-3 border-left-1 dept_date input_shadow_mweb"
+                        matInput
+                        formControlName="dept_date"
+                        [minDate]="getMinDate(i)"
+                        [maxDate]="ngbmaxDate"
+                        [autoClose]="'outside'"
+                        autocomplete="off"
+                        id="{{ 'dept_date' + i }}"
+                        required
+                        [displayMonths]="displayMonths"
+                        (keydown)="disableDate()"
+                        [navigation]="navigation"
+                        outsideDays="hidden"
+                        [showWeekNumbers]="showWeekNumbers"
+                        ngbDatepicker
+                        [dayTemplate]="oneway"
+                        [footerTemplate]="footerTemplate"
+                        #d="ngbDatepicker"
+                        autocomplete="off"
+                        (click)="nonRountripDatepicker(d, i, 'dept_date')"
+                        (focus)="openCalender($event, d, i)"
+                        (dateSelect)="onewayDateSelection($event, d, i)"
+                      />
+                      <ng-template #oneway let-date let-focused="focused">
+                        <span
+                          class="custom-day"
+                          [class.focused]="focused"
+                          (mouseenter)="hoveredDate = date"
+                          (mouseleave)="hoveredDate = null"
+                        >
+                          {{ date.day }}
+                          <div class="dot-typing" *ngIf="price_loading"></div>
+                          <div class="date_fare_price" *ngIf="!price_loading && getDatepriceData(date)">
+                            {{ getDatepriceData(date).currency | currencyCode
+                            }}{{
+                              getDatepriceData(date).amount
+                                | currency
+                                  : '' +
+                                      '
+                            '
+                                  : 'symbol'
+                                  : '2.0'
+                            }}
+                          </div>
+                        </span>
+                      </ng-template>
+                      <ng-template #footerTemplate>
+                        <div translate class="float-right fare_subject">*Fares subject to availability</div>
+                      </ng-template>
+                      <ng-template #return let-date let-focused="focused">
+                        <span
+                          class="custom-day"
+                          [class.focused]="focused"
+                          [class.range]="isRange(date)"
+                          [class.faded]="isHovered(date) || isInside(date)"
+                          (mouseenter)="hoveredDate = date"
+                          (mouseleave)="hoveredDate = null"
+                        >
+                          {{ date.day }}
+                          <div class="dot-typing" *ngIf="price_loading"></div>
+                          <div class="date_fare_price" *ngIf="!price_loading && getDatepriceData(date)">
+                            {{ getDatepriceData(date).currency | currencyCode
+                            }}{{
+                              getDatepriceData(date).amount
+                                | currency
+                                  : '' +
+                                      '
+                              '
+                                  : 'symbol'
+                                  : '2.0'
+                            }}
+                          </div>
+                        </span>
+                      </ng-template>
+                      <input
+                        #dpFromDate
+                        *ngIf="tripSel.value == 'return'"
+                        class="form-control bor-rad-3 border-left-1 input_shadow_mweb"
+                        name="dpFromDate"
+                        required
+                        ngbDatepicker
+                        #datepicker="ngbDatepicker"
+                        (keydown)="disableDate()"
+                        [autoClose]="'outside'"
+                        (dateSelect)="onDateSelection($event, datepicker, 'dpFromDate')"
+                        [displayMonths]="displayMonths"
+                        [dayTemplate]="return"
+                        [footerTemplate]="footerTemplate"
+                        outsideDays="hidden"
+                        [minDate]="getMinDate(i)"
+                        [maxDate]="ngbmaxDate"
+                        id="{{ 'dept_date' + i }}"
+                        matInput
+                        formControlName="dept_date"
+                        aria-label="dept_date"
+                        tabindex="-1"
+                        autocomplete="off"
+                        (click)="roundTripDatepicker(datepicker, i, 'dept_date')"
+                      />
+                      <!-- daterangeclose -->
+                      <span translate class="floating-label">Departure</span>
+                      <div
+                        translate
+                        class="validation_msg"
+                        *ngIf="submitted && !itenariesForm.controls[i].get('dept_date').value"
+                      >
+                        Required departure date
+                      </div>
+                      <div
+                        class="validation_msg"
+                        *ngIf="
+                          submitted &&
+                          itenariesForm.controls[i].get('dept_date').value &&
+                          itenariesForm.controls[i].get('dept_date').invalid
+                        "
+                      >
+                        <span translate>Invalid departure date</span>
+                      </div>
+
+                      <img
+                        ImageSrc
+                        src="./../../../assets/icons/v1-icons/calendar-new-icn.svg"
+                        alt="icon"
+                        height="18px"
+                        width="18px"
+                        class="calendar-icon"
+                      />
+                    </div>
+                    <div class="col-lg-6 col-sm-6 p-0 position-relative arrive_date" *ngIf="tripSel.value == 'return'">
+                      <input
+                        #dpToDate
+                        class="form-control return_datepick bor-rad-3 border-left-1 input_shadow_mweb"
+                        name="dpFromDate"
+                        matInput
+                        required
+                        ngbDatepicker
+                        (keydown)="disableDate()"
+                        #datepicker1="ngbDatepicker"
+                        [autoClose]="'outside'"
+                        [displayMonths]="displayMonths"
+                        [dayTemplate]="return"
+                        outsideDays="hidden"
+                        [minDate]="getReturnMinDate()"
+                        [maxDate]="ngbmaxDate"
+                        formControlName="arr_date"
+                        aria-label="arr_date"
+                        tabindex="-1"
+                        autocomplete="off"
+                        id="{{ 'arr_date' + i }}"
+                        (dateSelect)="onDateSelection($event, datepicker1, 'dpToDate')"
+                        (click)="roundTripDatepicker(datepicker1, i, 'arr_date')"
+                      />
+                      <!-- daterangepicker close -->
+                      <span translate class="floating-label">Return</span>
+                      <div
+                        translate
+                        class="validation_msg"
+                        *ngIf="
+                          submitted && tripSel.value == 'return' && !itenariesForm.controls[i].get('arr_date').value
+                        "
+                      >
+                        Required return date
+                      </div>
+                      <div
+                        class="validation_msg"
+                        *ngIf="
+                          submitted &&
+                          itenariesForm.controls[i].get('arr_date').value &&
+                          itenariesForm.controls[i].get('arr_date').invalid
+                        "
+                      >
+                        <span translate>Invalid return date</span>
+                      </div>
+                      <img
+                        ImageSrc
+                        src="./../../../assets/icons/v1-icons/calendar-new-icn.svg"
+                        alt="icon"
+                        height="18px"
+                        width="18px"
+                        class="calendar-icon"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="p-0 mt-1"
+                  *ngIf="
+                    countrySelectionError(i) &&
+                    (responsiveservice.screenWidth === 'sm' || responsiveservice.screenWidth === 'md')
+                  "
+                  [ngClass]="[tripSel.value == 'multi' ? 'col-lg-10  col-sm-12' : 'col-lg-12  col-sm-12']"
+                >
+                  <div translate class="countryWarning">
+                    There are currently no flights to/from Pretoria. We recommend choosing a nearby airport such as O.R.
+                    Tambo International or Lanseria instead.
+                  </div>
+                </div>
+                <div
+                  class="col-lg-2 col-sm-12 p-0"
+                  [style.height]="
+                    (responsiveservice.screenWidth === 'sm' || responsiveservice.screenWidth === 'md') &&
+                    tripSel.value == 'multi'
+                      ? '0'
+                      : ''
+                  "
+                >
+                  <div class="search-btn">
+                    <button
+                      mat-button
+                      type="submit"
+                      class="btn primary_btn onHover w-100"
+                      aria-label="Search Flights"
+                      *ngIf="tripSel.value !== 'multi'"
+                      [disabled]="disableSearch"
+                      (click)="searchFlights(tripSel, i)"
+                    >
+                      <span translate>Search Flights</span>
+                    </button>
+                    <a *ngIf="tripSel.value == 'multi'" (click)="removeItineraries(i)">
+                      <span *ngIf="i > 0" class="mr-5 mt-3 crossXs pull-right">
+                        <img
+                          ImageSrc
+                          src="../../../assets/icons/close_cross_icn.svg"
+                          class="clear_itn mt-xs-0"
+                          alt="clear"
+                          loading="lazy"
+                        />
+                      </span>
+                      <!-- <button mat-button *ngIf="i == 0" class="btn search-btn disabled">Remove</button> -->
+                    </a>
+                  </div>
+                </div>
+                <div
+                  class="p-0 mt-1"
+                  *ngIf="
+                    countrySelectionError(i) &&
+                    responsiveservice.screenWidth !== 'sm' &&
+                    responsiveservice.screenWidth !== 'md'
+                  "
+                  [ngClass]="[tripSel.value === 'multi' ? 'col-lg-10  col-sm-12' : 'col-lg-12  col-sm-12']"
+                >
+                  <div translate class="countryWarning">
+                    {{ countrySelectionError(i) }}
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+
+          <div
+            class="form-group search_controls mt-xs-0 mt-4 pb-3 col-sm-12 col-lg-12 pr-0 pl-0 multiSearchMweb d-flex align-items-center"
+            *ngIf="tripSel.value === 'multi'"
+          >
+            <span *ngIf="itenariesForm.length !== 6" class="">
+              <span *ngIf="tripSel.value === 'multi'"
+                ><button
+                  mat-button
+                  aria-label="Add another flight"
+                  class="btn default_btn add_row bor-rad-3"
+                  (click)="addNewItineraries()"
+                >
+                  <img ImageSrc src="../../../assets/icons/plus_icon.svg" alt="add" width="11px" loading="lazy" />&nbsp;
+                  <span translate>Add another flight</span>
+                </button></span
+              >
+              <!-- <span
+                class="btn clr_btn ml-3"
+                (click)="clearAllItineraries()"
+                *ngIf="tripSel.value == 'multi'"
+              >
+                Clear all
+            </span> -->
+            </span>
+            <span class=" ml-auto">
+              <button
+                mat-button
+                type="submit"
+                [disabled]="disableSearch"
+                aria-label="Search Flights"
+                class="btn search_btn primary_btn onHover"
+                *ngIf="tripSel.value === 'multi'"
+                (click)="searchFlights(tripSel)"
+              >
+                <span translate>Search Flights</span>
+              </button>
+            </span>
+          </div>
+        </form>
+        <span class="d-none" style="position: relative; left: 22%" *ngIf="region === 'MM'">
+          <img ImageSrc src="./../../../assets/images/ts+landing/travelstart-powered.svg" />
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+@import "./../../../theme/theme-variables.scss";
+.fly_txt {
+  color: #c1173b;
+  font-size: 16px;
+  font-weight: 600;
+}
+.price_range {
+  color: var(--text_primary_color);
+  font-weight: 500;
+  font-size: 18px;
+}
+.book_btn {
+  bottom: 0px !important;
+}

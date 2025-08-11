@@ -1,0 +1,52 @@
+@import "../../../../../theme/theme-variables.scss";
+
+.pricing-details {
+  font-size: 10px;
+  background-color: rgba(185, 185, 185, 0.103);
+  .pricing-details-row {
+    span {
+      font-size: 11px;
+      font-weight: 500;
+    }
+    font-weight: 500;
+    padding: 3.5px 7px;
+    select {
+      font-weight: 500;
+    }
+    &.discount-row {
+      padding: 8px 7px;
+      select {
+        height: 21px;
+        width: 75px;
+        border-radius: 3px;
+        border: solid 0.5px rgba(0, 0, 0, 0.47);
+      }
+      span {
+        font-size: 11px;
+        padding: 2px 0px 0px 7px;
+        font-weight: bold;
+        border-radius: 2px;
+        color: var(--payment_card_strip);
+        background-color: rgba(247, 236, 153, 0.47);
+        .input_box {
+          text-align: right;
+          width: 70px !important;
+          border: none !important;
+          background-color: rgba(247, 236, 153, 0.47);
+        }
+      }
+    }
+
+    &.final-price-row {
+      padding: 8px 7px;
+      color: var(--payment_card_strip);
+      background-color: $brightGrayLight !important;
+      span {
+        font-size: 16px;
+      }
+      strong {
+        font-size: 16px;
+      }
+    }
+  }
+}

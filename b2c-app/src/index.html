@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- <link rel="icon" type="image/x-icon" href="favicon.ico" /> -->
+    <link rel="canonical" href="https://www.travelstart.com/" />
+    <title>Search and Book Cheap Flights | Travelstart</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1" />
+    <meta name="theme-color" content="#35C0F0" />
+    <meta name="fragment" content="!" />
+    <meta charset="UTF-8" />
+    <!-- <link rel="manifest" href="manifest.webmanifest" /> -->
+
+    <!-- Meta tags for SEO -->
+    <meta name="robots" content="index, follow" />
+    <meta
+      name="description"
+      content="Compare all airlines & book cheap flights with Travelstart ✓ Africa's leading travel agency ✓ Secured online booking - Book your ticket today!"
+    />
+    <meta
+      name="keywords"
+      content="cheap flights, accommodation, flights, hotel, car, car hire, ailrine, popular airlines, alerts, affiliate, holiday, destinations, travel insurance, popular routes, flight routes, travel deals, flight deals, travel updates"
+    />
+
+    <link rel="dns-prefetch" href="https://connect.facebook.net" />
+    <link rel="dns-prefetch" href="https://loco.travelstart.com" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://googletagmanager.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <script>
+      (function () {
+        if(!window || typeof window === 'undefined' || typeof document === 'undefined' ) return;
+        const originalFetch = window.fetch;
+        const originalXHR = window.XMLHttpRequest;
+    
+        const OLD_API_HOST = "https://api.iterable.com";
+        const NEW_API_HOST = "https://api.eu.iterable.com";
+    
+        /** ✅ Intercept Fetch API requests */
+        window.fetch = async function (input, init) {
+          let url = typeof input === "string" ? input : input.url;
+    
+          if (url.includes(OLD_API_HOST)) {
+            url = url.replace(OLD_API_HOST, NEW_API_HOST);
+          }
+    
+          return originalFetch.call(this, url, init).catch(error => {
+            throw error;
+          });
+        };
+    
+        /** ✅ Intercept XHR requests */
+        function overrideXHR() {
+          if(!window || typeof window === 'undefined' || typeof document === 'undefined' ) return;
+          const XHR = window.XMLHttpRequest;
+    
+          class CustomXHR extends XHR {
+            open(method, url, async = true, user, password) {
+              if (url.includes(OLD_API_HOST)) {
+                url = url.replace(OLD_API_HOST, NEW_API_HOST);
+              }
+    
+              this._isAsync = async; 
+    
+              return super.open(method, url, async, user, password);
+            }
+    
+            set responseType(value) {
+              if (this._isAsync || value === "") {
+                super.responseType = value;
+              } else {
+                // console.warn("⚠️ Skipping responseType change for synchronous XHR request.");
+              }
+            }
+          }
+    
+          window.XMLHttpRequest = CustomXHR;
+        }
+    
+        overrideXHR();
+        
+      })();
+    </script>
+
+    <script src="https://cdn1.travelstart.com/assets/js/newrelic.js"></script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": {
+          "@type": "Question",
+          "name": "What does Travelstart do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Travelstart is your one-stop online travel shop. Forget trawling the web for the latest flight specials. We bring you the best international and domestic flights from all your favourite airlines. Book your hotel stay at properties on every continent and select car hire from top car rental companies. For all your travel needs, go with the best and we’ll take care of the rest."
+          }
+        }
+      }
+    </script>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  </head>
+
+  <body>
+    <!--[if lt IE 10]>
+      <p>
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+
+    <noscript>
+      <p>This page requires JavaScript to work properly. Please enable JavaScript in your browser.</p>
+    </noscript>
+    <app-root></app-root>
+    <script>
+      function writeData() {
+        if(!window || typeof window === 'undefined' || typeof document === 'undefined' ) return;
+        var script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.text = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'Travelstart Online Travel Operations Pty LTD',
+          alternateName: 'Travelstart',
+          url: window.location.origin,
+          logo: 'https://cdn1.travelstart.com/assets/images/TS-logo.svg',
+          sameAs: [
+            'https://www.facebook.com/Travelstart',
+            'https://twitter.com/travelstart',
+            'https://www.instagram.com/travelstart/',
+            'https://www.youtube.com/user/TRAVELSTARTchannel',
+            'https://www.linkedin.com/company/travelstart',
+          ],
+        });
+        document.querySelector('head').appendChild(script);
+      }
+      writeData();
+    </script>
+  </body>
+
+</html>

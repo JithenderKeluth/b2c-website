@@ -1,0 +1,6 @@
+{
+    "watch": ["dist/server"],
+    "ext": "js",
+    "ignore": ["dist/browser"],
+    "exec": "node dist/server/main.js"
+}

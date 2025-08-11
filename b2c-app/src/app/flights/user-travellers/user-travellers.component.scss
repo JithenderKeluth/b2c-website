@@ -1,0 +1,71 @@
+@import "./../../../theme/theme-variables.scss";
+
+input[type="checkbox"] {
+  background-color: var(--primary_btn_bg) !important;
+}
+.passengers {
+  background: #fff;
+  border: none;
+  border-radius: 12px;
+  position: relative;
+}
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background: var(--primary_btn_bg) !important;
+  cursor: pointer;
+}
+::ng-deep .mat-checkbox-layout {
+  margin-bottom: 1px !important;
+}
+.guestCounter {
+  max-height: 260px;
+  min-width: 200px;
+  overflow-y: scroll;
+  li a {
+    .paxType {
+      float: inline-end;
+      margin-left: 10px;
+    }
+  }
+}
+.cabin_Class{
+  border-radius: var(--radius-md, 6px);
+    background: #fff;
+    box-shadow: 0 1px 2px 0 #98a2b3;
+    color: var(--text_primary_color) !important;
+}
+.adultSelectionInfoSec{
+  background-color: var(--layover_bg_color);
+  padding: 5px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  margin: 10px 15px;
+  .adultSelectionTxt{
+    font-size: 12px;
+    color: var(--text_primary_color);
+    font-weight: 500;
+  }
+}
+.noAdultModal {
+  min-width: 660px;
+  text-align: center;
+  background-color: $white;
+  border-radius: 12px;
+  .mdl_body {
+    padding: 50px 26px;
+    .selectAdultTxt{
+      font-size: 16px;
+      color: var(--text_primary_color);
+      font-weight: 500;
+    }
+  }
+  .okBtn {
+    padding: 5px 20px;
+    font-size: 14px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .noAdultModal {
+    min-width: calc(100% - 20px) !important;
+  }
+}

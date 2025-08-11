@@ -1,0 +1,198 @@
+@import "./../../../theme/theme-variables.scss";
+
+.sorting {
+  .sort_types {
+    .sort_labl_head {
+      color: var(--text_primary_color);
+      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .route_info {
+      padding: 10px 0;
+      font-weight: 500;
+      display: none;
+    }
+    ul {
+      display: flex;
+      padding: 0;
+      justify-content: flex-end;
+      li {
+        list-style-type: none;
+        display: inline-block;
+        margin-right: 0.8%;
+        &.card {
+          background-color: $white;
+          border-radius: 0px;
+          border: none;
+          cursor: pointer;
+          .card-body {
+            padding: 10px;
+            height: 58px;
+            .icnSort {
+              float: left;
+              margin: 5px 6px 0px 5px;
+            }
+            .sort_txt {
+              float: left;
+            }
+          }
+          &.active {
+            border-bottom: solid 3px var(--border_active_color);
+            .labl {
+              color: var(--text_primary_color);
+              text-transform: uppercase;
+              font-size: 11px;
+              font-weight: 500;
+              margin: 1px 0px;
+              display: block;
+            }
+            .bld_labl {
+              color: var(--text_primary_color);
+              font-size: 13px;
+              font-weight: 600;
+              margin-bottom: 0px;
+              display: block;
+            }
+            .active {
+              display: inline-block;
+            }
+            .in-active {
+              display: none;
+            }
+          }
+          .in-active {
+            display: inline-block;
+          }
+          .active {
+            display: none;
+          }
+          .labl {
+            color: var(--text_info_color);
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin: 1px 0px;
+            display: block;
+          }
+          .bld_labl {
+            color: var(--text_info_color);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 0px;
+            display: block;
+          }
+        }
+        &:last-child {
+          margin-right: 0px;
+        }
+      }
+    }
+  }
+}
+.sortWidth {
+  width: 19% !important;
+}
+.domestic_sort {
+  .sort_btn {
+    min-width: 120px;
+    background-color: transparent;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--new_UI_active_text_color);;
+    border: 1px solid var(--new_UI_active_text_color);;
+    img{
+      width: 12px;
+      position: relative;
+      top: -1px;
+    }
+    .fa {
+      font-size: 18px;
+      color: var(--new_UI_active_text_color);
+    }
+  }
+  &:hover {
+    background: none;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .sorting {
+    background: $white;
+    z-index: 999;
+    padding: 10px 15px;
+    top: 0px;
+    height: 100%;
+    padding-top: 30px;
+    box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+    .sort_types {
+      ul {
+        display: block;
+        li {
+          margin-bottom: 5px !important;
+        }
+        .sortCard {
+          width: 49% !important;
+          border: solid 1px #f2f2f2 !important;
+          border-radius: 4px !important;
+          margin-right: 0px !important;
+          .card {
+            width: 100% !important;
+          }
+          &.active {
+            border: solid 1px var(--text_link_color) !important;
+          }
+        }
+      }
+    }
+    .bld_labl {
+      font-weight: 500 !important;
+    }
+
+    .applyBtn {
+      color: #fff !important;
+      border-radius: 3px;
+    }
+  }
+  .w-100-xs {
+    width: 100% !important;
+  }
+  .pad-xs-10 {
+    padding: 10px !important;
+  }
+  .baggage_mar {
+    margin-bottom: 5px !important;
+  }
+  .d-bag-xs {
+    display: inline;
+  }
+}
+.mat_menu_btn {
+  padding: 0px 20px !important;
+  font-size: 12px !important;
+  height: 40px !important;
+  width: 240px !important;
+  img {
+    width: 20px;
+    margin-right: 10px;
+    position: relative;
+    top: -3px;
+  }
+  .sort_labl {
+    color: var(--label_color);
+    padding: 0px 20px 0px 5px !important;
+  }
+  .sort_val {
+    color: var(--text_primary_color);
+  }
+  &:hover{
+    background-color: transparent !important;
+  }
+}
+
+.bor_btm {
+  border-bottom: 1px solid #f3f3f3;
+}
+
+

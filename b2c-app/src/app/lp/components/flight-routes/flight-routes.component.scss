@@ -1,0 +1,248 @@
+@import "../../../../../src/theme/theme-variables.scss";
+
+.hide-terms {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  padding: 0;
+  transition: all 1s ease;
+}
+
+.section-title {
+  // padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  text-align: center;
+  z-index: 1;
+  h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+  .subtext {
+    font-size: 0.9rem;
+    color: #8d8d8d;
+  }
+  .terms {
+    font-size: 0.9rem;
+    color: #1db2f5;
+    font-weight: bold;
+  }
+  .dropdown-content {
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 0.75rem;
+    color: #8d8d8d;
+    text-align: left;
+    .markdown {
+      display: block;
+      ul {
+        padding-left: 0 !important;
+      }
+    }
+  }
+}
+
+.promo-tiles {
+  display: flex;
+  width: 100%;
+  grid-gap: 1rem;
+  margin: 0 5rem;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    margin: 0 1rem;
+  }
+  .promo-tile {
+    display: flex;
+    padding: 1em;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+    border-radius: 5px;
+    flex: 1;
+    .content {
+      display: flex;
+      flex-direction: column;
+      .title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      .text {
+        font-size: 0.75rem;
+        color: #8d8d8d;
+      }
+    }
+  }
+}
+
+.flight-routes-table {
+  width: 100%;
+  font-size: 0.75rem;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.1);
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 0 auto;
+  thead {
+    position: relative;
+    display: block;
+    border-top-right-radius: 0.4rem;
+    border-top-left-radius: 0.4rem;
+    tr {
+      color: #ffffff;
+      background-color: rgb(6 34 49 / 80%);
+      border-top-right-radius: 0.4rem;
+      border-top-left-radius: 0.4rem;
+      th {
+        padding: 1.25rem 1rem;
+      }
+      .header-trip-type {
+        text-align: center;
+      }
+      .header-price {
+        text-align: center;
+      }
+    }
+    @media screen and (max-width: $screen-lg-min-width) {
+      display: none;
+    }
+  }
+  thead tr {
+    display: block;
+    position: relative;
+    width: 100%;
+  }
+  td:nth-child(1),
+  th:nth-child(1) {
+    min-width: 150px;
+    width: 40%;
+  }
+  td:nth-child(2),
+  th:nth-child(2) {
+    min-width: 100px;
+  }
+  td:nth-child(3),
+  th:nth-child(3) {
+    min-width: 100px;
+    width: 28%;
+  }
+  td:nth-child(4),
+  th:nth-child(4) {
+    min-width: 100px;
+    width: 18%;
+  }
+  td:nth-child(5),
+  th:nth-child(5) {
+    min-width: 100px;
+    width: 13%;
+  }
+
+  th,
+  td {
+    padding: 5px;
+    text-align: left;
+  }
+  tbody {
+    display: block;
+    overflow: auto;
+    width: 100%;
+  }
+  tbody tr:nth-child(2n) {
+    background-color: #efefef;
+  }
+
+  tbody {
+    tr:not(:last-child) {
+      border-bottom: 1px solid #f3f3f3;
+    }
+
+    tr:hover {
+      background-color: #dedbdb;
+    }
+    td {
+      padding: 15px;
+    }
+    .flight-route {
+      font-weight: 600;
+      img {
+        filter: opacity(0.5);
+        width: 1rem;
+        height: 1rem;
+        margin: 0 0.5rem;
+      }
+    }
+    .flight-price {
+      color: #64c30e;
+      font-weight: 600;
+      font-size: 1rem;
+      text-align: center;
+      .old {
+        color: #8d8d8d;
+        font-size: 0.75rem;
+        text-align: center;
+        text-decoration: line-through;
+      }
+    }
+    .flight-airline {
+      display: flex;
+      align-items: center;
+      color: #8d8d8d;
+      img {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.5rem;
+      }
+    }
+    .flight-trip-type {
+      color: #8d8d8d;
+      text-align: center;
+    }
+    .flight-action {
+      text-align: right;
+      .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border-radius: 0.25rem;
+        background-color: #1db2f5;
+        color: #fff;
+        border: none;
+        &:hover {
+          background-color: #1db2f5;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $screen-lg-min-width) {
+    tbody {
+      tr {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        padding-bottom: 1rem;
+        .flight-action {
+          padding: 0 1rem;
+          width: unset;
+          position: absolute;
+          right: 0;
+          bottom: 1.5rem;
+        }
+        .flight-airline {
+          padding: 0 1rem;
+        }
+        .flight-price {
+          text-align: left;
+          width: unset;
+        }
+        .flight-trip-type {
+          position: absolute;
+          padding: 0 1rem;
+          right: 0rem;
+          top: 3.5rem;
+          width: unset;
+        }
+      }
+    }
+  }
+}

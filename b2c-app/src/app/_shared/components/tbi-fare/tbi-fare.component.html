@@ -1,0 +1,138 @@
+<div class="w-100 fare_rules" role="document">
+    <div class="modal-content dialog_content w-100 p-4">
+        <div class="modal-body p-0">
+            <div class="modal-header p-0 mb-2">
+                <span translate class="flight_head_txt">Fare Rules</span>
+                <span class="closeIcon">
+                    <img ImageSrc src="../../../assets/icons/close-new-icn.svg" aria-label="Close" data-dismiss="modal"
+                        alt="close" loading="lazy" />
+                </span>
+            </div>
+            <h6 class="mb-3 cancel_policies">Cancellation & Change Policies and Reissues</h6>
+                <img *ngIf="airline === 'GE'" class="carrier_logo" ImageSrc src="assets/img/carriers/retina48px/carrier-GE.png"
+                    width="20px" alt="GE" />
+                <img *ngIf="airline === 'FA'" class="carrier_logo" ImageSrc src="assets/img/carriers/retina48px/carrier-FA.png"
+                    width="20px" alt="FA" />
+                <span *ngIf="(airline === 'GE' ||  airline === 'FA')" class="route"> {{selectedOdoList?.segments[0].origCode}} - {{selectedOdoList?.segments[selectedOdoList.segments.length -
+                    1].destCode}}</span>
+                <div class="row modelData p-3">
+                <div class="col-md-12 p-0">
+                    <div *ngIf="airline === 'FA'">
+                        <table class="table fare_table" aria-describedby="Cancel details ">
+                            <thead>
+                                <tr>
+                                    <th translate id="Flysafair rules">Fare charge rules</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="cancel_dept">
+                                        <ul class="pl-3">
+                                            <li class="p-1">
+                                                LITE FARE (Only applicable to Domestic Flights) Included services
+                                                Carriage of one person 7 kg
+                                                carry-on luggage Route/Date changes Permitted. Change Fee applies per
+                                                one-way flight plus any
+                                                increase in fare if applicable. Name Changes Permitted. Change Fee
+                                                applies per one-way flight.
+                                                Cancellation No refunds other than those stipulated in clause 57 and 58
+                                                of these Terms and
+                                                Conditions of Booking & Carriage. Refund to Wallet Permitted up to 24
+                                                hours before departure and
+                                                subject to deduction of a Change Fee per one-way flight
+                                            </li>
+                                            <li class="p-1">R300.00 fee to change</li>
+                                            <li class="p-1">R300.00 fee for major name change</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="lift_rules" *ngIf="airline === 'GE'">
+                        <h6 class="mb-3 fare_head">Fare Charges Rules</h6>
+                        <table class="table fare_table" aria-describedby="Cancel details ">
+                            <tbody>
+                                <tr>
+                                    <th id=""></th>
+                                    <th id=" > 24 HOURS OF DEPARTURE">> 24 HOURS OF DEPARTURE</th>
+                                    <th id="< 24 HOURS OF DEPARTURE">
+                                        < 24 HOURS OF DEPARTURE</th>
+                                </tr>
+                                <tr>
+                                    <th id="ECONOMY - NO BAG">ECONOMY - NO BAG</th>
+                                    <td>No Change Fee‚ but a difference in fare may apply</td>
+                                    <td>A Change Fee of R250 per flight‚ per passenger as well as a possible difference
+                                        in fare</td>
+                                </tr>
+                                <tr>
+                                    <th id="ECONOMY - BAG">ECONOMY - BAG</th>
+                                    <td>No Change Fee‚ but a difference in fare may apply</td>
+                                    <td>A Change Fee of R250 per flight‚ per passenger as well as a possible difference
+                                        in fare</td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <th id=" > 1 HOUR BEFORE DEPARTURE">> 1 HOUR BEFORE DEPARTURE</th>
+                                    <th id=" < 1 HOUR BEFORE DEPARTURE">
+                                        < 1 HOUR BEFORE DEPARTURE</th>
+                                </tr>
+                                <tr class="premium">
+                                    <th id="premium">PREMIUM</th>
+                                    <td>No Change Fee‚ but a difference in fare may apply</td>
+                                    <td>A Change Fee of R250 per flight‚ per passenger as well as a possible difference
+                                        in fare</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h6 class="mb-3 fare_head">Name changes</h6>
+                        <table class="table fare_table" aria-describedby="Cancel details ">
+                            <tbody>
+                                <tr>
+                                    <th id=""></th>
+                                    <th id="24 HOURS OF DEPARTURE">> 24 HOURS OF DEPARTURE</th>
+                                    <th id="Before 24 HOURS OF DEPARTURE">
+                                        < 24 HOURS OF DEPARTURE</th>
+                                </tr>
+                                <tr>
+                                    <th id="No BAG">ECONOMY - No BAG</th>
+                                    <td>No Change Fee</td>
+                                    <td>A Change Fee of R250 per person</td>
+                                </tr>
+                                <tr>
+                                    <th id="BAG">ECONOMY - BAG</th>
+                                    <td>No Change Fee</td>
+                                    <td>A Change Fee of R250 per person</td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td id=""></td>
+                                    <th id="HOUR BEFORE DEPARTURE">> 1 HOUR BEFORE DEPARTURE</th>
+                                    <th id="HOUR BEFORE DEPARTURES">
+                                        < 1 HOUR BEFORE DEPARTURE</th>
+                                </tr>
+                                <tr class="premium">
+                                    <th id="PREMIUM">PREMIUM</th>
+                                    <td>No Change Fee</td>
+                                    <td>A Change Fee of R250 per person</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

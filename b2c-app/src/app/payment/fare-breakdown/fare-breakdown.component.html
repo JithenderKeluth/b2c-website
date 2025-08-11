@@ -1,0 +1,107 @@
+<div class="fare_info" *ngIf="itineraryData">
+  <div class="price_breakup">
+    <div class="fares collapse show" id="products">
+      <div class="total_amt" *ngIf="showAddons()">
+        <hr *ngIf="showAddons()" class="p-0 mt-2 mb-2" />
+        <label *ngIf="showAddons()" class="selcted_adons" translate>Price details</label>
+        <label class="amt">
+          <div class="clearfix"></div>
+        </label>
+      </div>
+
+      <div class="products_selected">
+        <table
+          *ngIf="itineraryData && itineraryData.fareBreakdown.invoiceLines.length > 0"
+          class="table"
+          aria-describedby="fares"
+        >
+          <tr *ngFor="let product of itineraryData.fareBreakdown.invoiceLines; let idx = index">
+            <th id="{{ product.id }}" *ngIf="product.description">{{ modifyDescription(product.description) }}</th>
+            <td *ngIf="product.amount > 0" class="txt_des">
+              {{ product.currencyCode | currencyCode }}{{ product.amount | number: '1.2-2' }}
+            </td>
+            <td *ngIf="product.amount < 0" class="txt_des">
+              -{{ product.currencyCode | currencyCode }}{{ getMinusAmt(product.amount) | number: '1.2-2' }}
+            </td>
+          </tr>
+          <!-- <tr  *ngIf="voucherAmount">
+            <th class="voucher" translate id="Voucher Amount">Voucher Amount</th>
+            <td class="voucher">{{ voucherCurrencyCode }}</td>
+          </tr> -->
+          <!-- <tr *ngIf="baggageFee">
+            <th translate id="fees">Baggage Amount</th>
+            <td>
+              {{ itineraryData.currencyCode | currencyCode }}{{ baggageFee | currency: '' + ' ':'symbol':'2.0' }}
+            </td>
+          </tr> -->
+        </table>
+        <div *ngIf="selected_Add_ons(itineraryData.currencyCode, itineraryData.totalAmount)" class="selctedAddOn">
+          <label translate>Add-ons</label>
+          <table class="table" aria-describedby="fares">
+            <tr *ngFor="let prod of selectedAdd_ons; let idx = index">
+              <th *ngIf="prod.initSelected" id="{{ prod.id }}">{{ prod.name }}</th>
+              <td class="prod_amt" *ngIf="prod.initSelected">
+                {{ prod.currencyCode | currencyCode }}{{ prod.amount | number: '1.2-2' }}
+              </td>
+            </tr>
+            <tr *ngIf="processingFee">
+              <th translate id="fees">Booking Fee</th>
+              <td class="prod_amt">
+                {{ itineraryData.currencyCode | currencyCode }}{{ processingFee | number: '1.2-2' }}
+              </td>
+            </tr>
+            <tr *ngIf="discAmount">
+              <th translate id="discount">Discount applied</th>
+              <td class="prod_amt">
+                -{{ itineraryData.currencyCode | currencyCode }}{{ getMinusAmt(discAmount) | number: '1.2-2' }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <hr *ngIf="itineraryData && itineraryData.passengers && itineraryData.passengers.adults" class="p-0 mt-2 mb-2" />
+    <div class="total_amt d-none d-lg-block">
+      <label translate class="labl">TOTAL PRICE</label>
+      <label class="amt">
+        <div class="clearfix"></div>
+        <span class="total">
+          <span>
+            {{ itineraryData.currencyCode | currencyCode
+            }}<span>{{
+              getTotalPrice(
+                itineraryData.currencyCode,
+                itineraryData.totalAmount,
+                itineraryData.fareBreakdown.totalOutstanding
+              ) | currency: '' + ' ':'symbol':'2.0'
+            }}</span>
+          </span>
+        </span>
+        <span class="clearfix"></span>
+        <a *ngIf="showAddons()" translate class="link" rel="nofollow" data-toggle="collapse" data-target="#products"
+          >Hide price breakdown</a
+        >
+      </label>
+    </div>
+
+    <!--Web GFS data tracking-->
+    <table id="paymentSummaryPriceTotal" aria-describedby="totalfares" style="visibility: hidden; height: 0px; line-height: 0">
+      <tr>
+        <th></th>
+        <td class="booking-summary__price--total">
+          <span>
+            {{ itineraryData.currencyCode | currencyCode
+            }}<span>{{
+              getTotalPrice(
+                itineraryData.currencyCode,
+                itineraryData.totalAmount,
+                itineraryData.fareBreakdown.totalOutstanding
+              ) | currency: '' + ' ':'symbol':'2.0'
+            }}</span>
+          </span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

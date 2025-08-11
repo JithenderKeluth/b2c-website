@@ -1,0 +1,17 @@
+{
+  "extends": "./../../tsconfig.app.json",
+   "compilerOptions": {
+    "module": "esnext",               // ✅ Required for import.meta.url
+    "target": "es2020",               // ✅ Optional but recommended
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["node"]
+  },
+  "files": [
+    "./../main.server.ts",
+    "server.main.ts"
+  ],
+  "angularCompilerOptions": {
+    "entryModule": "./src/app.server.module#AppServerModule"
+  }
+}

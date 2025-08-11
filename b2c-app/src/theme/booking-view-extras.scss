@@ -1,0 +1,202 @@
+@import "./theme-variables.scss";
+@media (max-width: map-get($grid-breakpoints, sm)) {
+
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .skeleton_loader {
+    background-color: $white !important ;
+  }
+  .mweb_TotalAmtsec {
+    background-color: var(--text_primary_color);
+    padding: 10px 15px 10px 15px;
+    .labl {
+      font-size: 11px !important;
+      margin-top: 10px !important;
+      margin-bottom: 0px !important;
+      display: block;
+      color: #fff;
+    }
+    .amt {
+      line-height: 20px !important;
+      margin: 0px !important;
+      padding: 0px !important;
+      color: #fff;
+    }
+    .view_payment {
+      font-size: 15px;
+    }
+    .price_with_addons {
+      font-size: 14px !important;
+      margin-top: 0px !important;
+    }
+  }
+  .contact_info_section {
+    margin: 10px 0px 0 0;
+    .contact_info {
+      .card {
+        padding: 10px 0 !important;
+        .card-body {
+          .section_heading {
+            padding-bottom: 0px !important;
+          }
+        }
+      }
+    }
+  }
+  .booking_view_page {
+    padding: 15px !important;
+    margin: 0;
+    .collapse_card {
+      padding: 15px !important;
+    }
+    .cat_colpse_one {
+      .itinerary_info_section {
+        margin: 0;
+      }
+      .contact_info_section {
+        margin: 10px 0px 0 0;
+        &.mb-xs-7 {
+          margin-bottom: 7em;
+        }
+      }
+      .route_info {
+        padding: 0;
+        h4 {
+          padding: 10px 15px 0px 15px;
+          margin: 0;
+        }
+        .route {
+          padding: 10px 15px;
+        }
+      }
+    }
+    .cat_colpse_two {
+      .colpse_two_heading {
+        font-size: 18px !important;
+      }
+      .edit_btn {
+        border: none !important;
+        img {
+          width: 20px;
+        }
+      }
+      .check-in-baggage {
+        h4 {
+          padding-left: 15px;
+        }
+      }
+    }
+    .container {
+      padding: 0;
+    }
+  }
+  .st_card__heading,
+  .add_on_head h4,
+  .check-in-baggage h4 {
+    font-size: 18px !important;
+  }
+  .fares_info_section {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 9999;
+    right: 0;
+    box-shadow: none !important;
+    .continueBtn {
+      border-radius: 3px;
+      padding: 10px;
+    }
+    a.link {
+      color: $white !important;
+      text-align: center;
+      font-size: 24px;
+    }
+  }
+  .activeCollapse {
+    -webkit-border-top-left-radius: 14px !important;
+    -webkit-border-top-right-radius: 14px !important;
+    -moz-border-radius-topleft: 14px !important;
+    -moz-border-radius-topright: 14px !important;
+    border-top-left-radius: 14px !important;
+    border-top-right-radius: 14px !important;
+  }
+  .inactiveCollapse {
+    border-radius: 0px !important;
+  }
+
+  .flexi_Ticket_terms {
+    width: 100% !important;
+    width: calc(100% - 20px) !important;
+    .flexi_head {
+      padding: 15px;
+      .flexi_text {
+        font-size: 16px !important;
+      }
+    }
+    .ticketBody {
+      padding: 0px;
+      li {
+        font-size: 11px;
+      }
+      li::before {
+        margin-left: 0px !important;
+        padding-right: 10px !important;
+      }
+    }
+    .dialog_content {
+      padding: 15px !important;
+    }
+  }
+  .addons_section {
+    margin: 10px 20px !important;
+  }
+
+  .cat_colpse_two {
+    .sec_heading {
+      h4 {
+        margin-bottom: 10px !important;
+      }
+    }
+  }
+  div.sticky {
+    z-index: 9999;
+  }
+
+  .mweb_bookType {
+    margin-bottom: 6.2em;
+    .add_ons {
+      .col {
+        border: 1px solid #ced3dc;
+        padding: 10px;
+        position: relative;
+        margin: 4px;
+        border-radius: 3px;
+        .rec_label {
+          position: absolute;
+          top: -14px;
+          background: $color-teal-400;
+          font-size: 9px;
+          padding: 2px 10px;
+          color: white;
+        }
+      }
+    }
+  }
+  #noFlightsModal {
+    .modal-body {
+      padding: 20px 40px;
+    }
+  }
+  .termsproceed {
+    margin-top: 0px !important;
+    .error_msg {
+      font-size: 10px;
+    }
+  }
+
+  .mb_100 {
+    margin-bottom: 100px !important;
+  }
+  
+}

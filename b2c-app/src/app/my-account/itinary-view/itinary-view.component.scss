@@ -1,0 +1,531 @@
+@import "./../../../theme/theme-variables.scss";
+.myaccount_page {
+  .myAct_bg {
+    background-image: var(--myAccount_header_Bg);
+    width: 100%;
+    height: 225px;
+    position: absolute;
+  }
+  .sec_header {
+    width: 100%;
+    display: inline-block;
+    h1 {
+      font-size: 18px;
+
+      .back_page {
+        cursor: pointer;
+      }
+    }
+    .travelInfo {
+      color: var(--label_color);
+      font-size: 12px;
+      .Pending {
+        color: #ff6f5e;
+        font-weight: 400;
+      }
+      .Failed {
+        color: #ff204f;
+        font-weight: 400;
+      }
+      .Cancelled {
+        color: #ff6f5e;
+        font-weight: 400;
+      }
+      .Upcoming {
+        color: #17c3a1;
+        font-weight: 400;
+      }
+    }
+  }
+  .dashboard {
+    background-color: var(--primary_Body_bg);
+    .main-tab-section {
+      color: #fff;
+    }
+  }
+}
+
+.booking_Itinerary_page {
+  background-color: #f2f4f4;
+  padding-top: 15px;
+  .total_viewcontainer {
+    position: relative;
+    top: -10px;
+    .op_airlines {
+      position: relative;
+      top: 10px;
+    }
+  }
+  .resendBtn {
+    border: 1px solid var(--text_link_color);
+    padding: 2px 15px;
+    border-radius: 3px;
+    color: var(--text_link_color);
+    background-color: $white;
+    margin-left: 5px;
+  }
+  .payment {
+    width: 60%;
+    border: 1px solid var(--border_default_color);
+    padding: 5px;
+    .price {
+      width: 50%;
+      display: inline-block;
+      line-height: 1.4;
+      .labl {
+        color: var(--label_color);
+        font-size: 12px;
+      }
+      .price_labl {
+        color: var(--label_color);
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+    .pay {
+      width: 50%;
+      display: inline-block;
+      .btn {
+        border-radius: 0;
+        a {
+          text-decoration: none;
+          color: $white;
+        }
+      }
+    }
+  }
+  label {
+    display: block;
+    margin: 0;
+  }
+  .booking_status {
+    box-shadow: 0 2px 3px 0 rgb(0 0 0 / 6%);
+    background-color: $white;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    padding: 30px 0px;
+    .booking_info {
+      margin: auto;
+    }
+    .status_title {
+      .title {
+        font-size: 24px;
+        color: #20be79;
+        font-weight: bold;
+      }
+      .desc {
+        font-size: 12px;
+        color: var(--text_info_color);
+      }
+    }
+    .route_defn {
+      .city_labls {
+        color: var(--text_primary_color);
+        font-size: 24px;
+        font-weight: bold;
+      }
+      img {
+        width: 14px;
+        position: relative;
+        bottom: 2px;
+      }
+      .book_ref {
+        .labls {
+          color: var(--text_primary_color);
+          font-size: 12px;
+        }
+      }
+    }
+    .confirm_labls {
+      padding: 10px;
+      background: rgb(29 178 245 / 9%);
+      margin-top: 12px;
+      color: var(--text_primary_color);
+      font-size: 12px;
+    }
+  }
+  .payment_details {
+    .total_amount {
+      display: inline-block;
+      padding: 10px 20px;
+      background: var(--text_link_color);
+      font-size: 14px;
+      .labl {
+        font-size: 14px;
+      }
+      .amt {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+    .details {
+      box-shadow: 0 2px 3px 0 rgb(0 0 0 / 6%);
+      background-color: $white;
+      padding: 20px;
+      margin: 10px 0;
+      .sec_title {
+        label {
+          font-size: 24px;
+          color: var(--label_color);
+        }
+      }
+      .payment_desc {
+        font-size: 14px;
+        p {
+          color: var(--text_primary_color);
+          font-size: 14px;
+          font-weight: bold;
+        }
+      }
+      .bank_details {
+        .heading {
+          color: var(--text_primary_color);
+          font-size: 20px;
+          font-weight: bold;
+        }
+        label {
+          width: 41%;
+          font-size: 12px;
+          border-bottom: 1px solid var(--border_default_color);
+          padding: 6px 0;
+          &:last-child {
+            border: none;
+          }
+          .key {
+            width: 35%;
+            display: inline-block;
+          }
+          .val {
+            width: 60%;
+            display: inline-block;
+          }
+          .cpy {
+            width: 5%;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+  .travellers_details {
+    box-shadow: 0 2px 3px 0 rgb(0 0 0 / 6%);
+    background-color: $white;
+    padding: 15px 20px 8px;
+    margin: 10px 0;
+    border-radius: 3px;
+    color: var(--text_primary_color);
+    .sec_title {
+      label {
+        font-size: 17px;
+        font-weight: bold;
+      }
+    }
+    .email {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .list {
+      list-style-type: none;
+      display: block;
+      padding: 0;
+      margin: 0;
+      li {
+        border-bottom: 1px solid var(--border_default_color);
+        font-size: 13px;
+        padding: 4px 0;
+        &:last-child {
+          border: none;
+        }
+      }
+      .trav_labl {
+        font-size: 11px;
+      }
+      .trav_data {
+        font-size: 14px;
+      }
+      .selected_seats_section {
+        .seat_Info {
+          display: inline-block;
+          border: 1px solid var(--border_default_color);
+          padding: 5px 15px;
+          font-size: 10px;
+          font-weight: 500;
+          border-radius: 3px;
+        }
+      }
+    }
+  }
+  .hotels_section {
+    box-shadow: 0 2px 3px 0 rgb(0 0 0 / 6%);
+    background-color: $white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 3px;
+  }
+}
+.itinerary_info {
+  background-color: $white !important;
+  border-radius: 11px;
+  label {
+    margin: 0;
+  }
+  font-size: 14px;
+  .route_details {
+    border-radius: 10px;
+    margin: 5px 0px;
+    padding: 15px;
+    .itin {
+      padding: 3px;
+    }
+    .segments {
+      padding: 10px;
+      .bookRef {
+        color: var(--text_primary_color);
+        .pnr {
+          font-weight: 500;
+        }
+      }
+      .direction {
+        display: inline-block;
+        border-radius: 20px;
+        background-color: var(--secondary_Body_bg);
+        color: var(--text_link_color);
+        margin-bottom: 12px;
+        text-align: center;
+        font-size: 12px;
+        padding: 4px 17px;
+      }
+      .trip_space {
+        border-top: 1px solid var(--border_default_color);
+        padding-top: 15px;
+      }
+      ul {
+        display: inline-flex;
+        li {
+          list-style-type: none;
+          border: 1px solid var(--border_active_color);
+          padding: 2px 15px;
+          border-radius: 3px;
+          margin-left: 5px;
+          button {
+            border: none;
+            background-color: $white;
+          }
+
+          .list_data {
+            color: var(--text_link_color) !important;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .seg_legs {
+        font-weight: bold;
+        .airLine_block {
+          margin-top: 17px;
+          .airLine_logo {
+            float: left;
+            img {
+              margin-right: 15px;
+              width: 40px;
+            }
+          }
+          .airLine_name_num {
+            span {
+              display: block;
+            }
+          }
+        }
+        .layover_section {
+          // border-top: 1px dashed #e4e5ea;
+          // border-bottom: 1px dashed #e4e5ea;
+          padding: 6px;
+          margin: 5px 0;
+          color: var(--text_info_color);
+          font-size: 12px;
+          font-weight: normal;
+          .layover_labl {
+            color: #faa3b5;
+          }
+          img.ic_baggage {
+            position: relative;
+            bottom: 2px;
+            margin-right: 3px;
+          }
+        }
+        .air_name {
+          color: var(--text_color_new);
+          font-size: 12px;
+        }
+        .flt_num {
+          color: var(--text_info_color);
+          font-size: 12px;
+        }
+        .dept_city {
+          color: var(--text_color_new);
+          overflow: hidden;
+        }
+        .arr_city {
+          color: var(--text_color_new);
+          overflow: hidden;
+        }
+        .time_labl,
+        .date_labl {
+          color: var(--text_info_color);
+          font-size: 13px;
+          font-weight: normal;
+        }
+        .fly_icon {
+          position: relative;
+          color: var(--text_info_color);
+          font-size: 12px;
+          padding-left: 4%;
+          img {
+            width: 60%;
+          }
+          .dur {
+            margin-left: 13%;
+            color: var(--label_color);
+          }
+          .cls_labl {
+            text-transform: capitalize;
+          }
+        }
+        .non_ref {
+          color: #f5607e;
+          font-size: 12px;
+          font-weight: normal;
+          text-align: right;
+        }
+        .rules {
+          font-size: 12px;
+          color: var(--text_link_color);
+        }
+      }
+    }
+  }
+}
+.payment_details {
+  h4 {
+    color: var(--text_primary_color);
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .table {
+    font-size: 13px;
+    th {
+      font-weight: bold;
+      color: var(--text_primary_color);
+    }
+    td {
+      color: var(--text_info_color);
+      font-weight: normal;
+    }
+  }
+}
+.fare_breakdown {
+  box-shadow: 0 2px 3px 0 rgb(0 0 0 / 6%);
+  background-color: $white;
+  border-radius: 3px;
+  padding: 20px 10px;
+  .fare_info {
+    //padding: 15px 20px 30px;
+    font-size: 16px;
+    width: 40%;
+    border: 1px solid var(--border_default_color);
+    border-radius: 5px;
+    label {
+      margin: 0;
+    }
+    .tripType {
+      padding: 20px 15px 0px;
+
+      .sec_heading {
+        color: var(--text_primary_color);
+        font-size: 18px;
+        font-weight: bold;
+        border-bottom: 1px solid var(--border_default_color);
+        width: 100%;
+        padding: 0px 0px 15px;
+        margin-bottom: 10px;
+      }
+    }
+    .price_breakup {
+      .fares {
+        // border-bottom: 1px dashed #e4e5ea;
+        padding: 0px 15px 15px;
+        .table {
+          font-size: 14px;
+          margin: 0;
+          td {
+            padding: 12px 0px;
+          }
+          .txt_align {
+            text-align: left;
+
+            font-weight: normal;
+            color: var(--text_info_color);
+            border: none;
+          }
+          .txt_des {
+            text-align: right;
+            // padding: 5px 0px;
+            color: var(--text_color_new);
+            font-size: 14px;
+            width: 38%;
+            border: none;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    .total_amt {
+      padding: 20px 15px;
+      // position: relative;
+      // top: 12px;
+      min-height: 50px;
+      font-size: 18px;
+      background-color: #f4f7f8;
+      border-top: 1px dashed var(--border_default_color);
+      .labl {
+        color: var(--text_primary_color);
+        color: 18px;
+        font-weight: bold;
+      }
+      .amt {
+        float: right;
+        color: var(--text_primary_color);
+        font-size: 20px;
+        font-weight: bold;
+        position: relative;
+        bottom: 26px;
+      }
+    }
+  }
+}
+@media print {
+  #printOnly,
+  #head_print {
+    display: none;
+  }
+}
+.set_border {
+  border-top: 1px dashed var(--border_default_color);
+  border-bottom: 1px dashed var(--border_default_color);
+}
+.unset_border {
+  display: none;
+  border-top: none;
+  border-bottom: none;
+}
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 15px 15px !important;
+}
+::ng-deep .mat-expansion-panel {
+  box-shadow: none !important;
+}
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .email {
+    text-align: right !important;
+  }
+}

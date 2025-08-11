@@ -1,0 +1,139 @@
+<div id="pause" class="d-flex align-items-center justify-content-center">
+  <div *ngIf="!errorMsg" class="d-flex">
+    <div id="spinner"></div>
+    <div class="ml-3 process_txt">Please wait while we are processing your payment</div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="payment_failed_Modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog booking_failed" role="document">
+    <div class="modal-content dialog_content">
+      <div class="modal-body failed_modal_body">
+        <div class="text-center">
+          <img
+            ImageSrc
+            class="wid40per-xs"
+            src="./../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg"
+            alt="payment failed"
+            width="80px"
+          />
+          <div class="mt-3" *ngIf="!BookApiError">
+            <div>
+              <strong translate>Hmmm… Something went wrong with your payment.</strong>
+            </div>
+            <div
+              class="row mt-3"
+              *ngIf="
+                bookApiPayload &&
+                bookApiPayload.selectedPaymentMethod &&
+                (bookApiPayload.selectedPaymentMethod.paymentOptionName == 'CC' ||
+                  bookApiPayload.selectedPaymentMethod.paymentOptionName == 'CC_3D' ||
+                  bookApiPayload.selectedPaymentMethod.paymentOptionName == 'DC_3D' ||
+                  bookApiPayload.selectedPaymentMethod.paymentOptionName == 'CC_3D_INS' ||
+                  bookApiPayload.selectedPaymentMethod.paymentOptionName == 'CC_INS')
+              "
+            >
+              <div class="text-left paymnt_addlTxt mb-2 mb-lg-0">
+                <strong translate>What could have caused this?</strong>
+                <div class="pl-3">
+                  <span translate> You may have entered incorrect card details.</span>
+                  <span *ngIf="apiSessionService.isWhiteLabelInstance()" translate
+                    >Your card issuer may have rejected your payment request or you have insufficient funds in your
+                    account.</span
+                  >
+                  <span *ngIf="!apiSessionService.isWhiteLabelInstance()" translate
+                    >Your card issuer may have rejected your payment request or you don’t have enough funds in your
+                    account.</span
+                  >
+                  <span *ngIf="!apiSessionService.isWhiteLabelInstance()" translate
+                    >You may not be registered with 3D secure.</span
+                  >
+                </div>
+              </div>
+              <div class="text-left paymnt_addlTxt">
+                <strong translate>What should you do:</strong>
+                <div class="pl-3">
+                  <span *ngIf="apiSessionService.isWhiteLabelInstance() && apiService.extractCountryFromDomain() !== 'ABSA'"
+                    >Check that you have entered your Investec Visa card details correctly and resubmit</span>
+
+                    <span *ngIf="apiService.extractCountryFromDomain()== 'ABSA'"
+                    >Check that you have entered your Absa card details correctly and resubmit</span>
+
+                  <span *ngIf="!apiSessionService.isWhiteLabelInstance()" translate
+                    >Check the above details and resubmit your card details again or select a different form of
+                    payment.</span
+                  >
+                  <span translate
+                    >Check with your bank and register for 3D secure and create a new booking online.</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                bookApiPayload &&
+                bookApiPayload.selectedPaymentMethod &&
+                bookApiPayload.selectedPaymentMethod.paymentOptionName !== 'CC' &&
+                bookApiPayload.selectedPaymentMethod.paymentOptionName !== 'CC_3D' &&
+                bookApiPayload.selectedPaymentMethod.paymentOptionName !== 'DC_3D' &&
+                bookApiPayload.selectedPaymentMethod.paymentOptionName !== 'CC_3D_INS' &&
+                bookApiPayload.selectedPaymentMethod.paymentOptionName !== 'CC_INS'
+              "
+              class="payment_failedtext"
+            >
+              <span translate>Don’t worry, no money has been deducted from your account.</span>
+              <span translate>If there has been a deduction, please </span>
+              <a translate [routerLink]="['/contact-us']" target="_blank">contact us</a>.
+            </div>
+            <button
+              class="mt-3"
+              type="button"
+              class="btn ok-btn primary_btn"
+              data-dismiss="modal"
+              (click)="dismissModal()"
+            >
+              <span translate>Ok</span>
+            </button>
+          </div>
+          <div class="mt-3" *ngIf="BookApiError">
+            <div>
+              <strong translate> {{ BookApiError.description }} </strong>
+            </div>
+
+            <button
+              *ngIf="
+                (BookApiError?.category === 'paymentfailures' || BookApiError?.category === 'validationfailures')
+              "
+              class="mt-3"
+              type="button"
+              class="btn ok-btn primary_btn"
+              data-dismiss="modal"
+              aria-label="Ok"
+              (click)="navigateToPaymentpage()"
+            >
+              <span translate>Ok</span>
+            </button>
+
+            <button
+              *ngIf="(BookApiError?.category === 'supplierfailures' || BookApiError?.category === 'unknown' )"
+              (click)="flight_results()"
+              class="mt-3"
+              type="button"
+              class="btn ok-btn primary_btn"
+              data-dismiss="modal"
+            >
+              <span translate>Search New Flight</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,229 @@
+{
+  "contact_reason": [
+    {
+      "category": "Cancellation & Refund",
+      "subCategories": [
+        {
+          "category": "Urgent cancellation to booking made today",
+          "isbookingreferncemandatory": true,
+          "type": "Cancellation",
+          "categoryKey": "CANCELLATION",
+          "isSubCategory": true,
+          "subCategoryValue": "cancel_ticket_issued_today"
+        },
+        {
+          "category": "Cancellation request - please advice which passengers",
+          "isbookingreferncemandatory": true,
+          "type": "Void",
+          "categoryKey": "CANCELLATION_REFUND_QUOTE",
+          "isSubCategory": true,
+          "subCategoryValue": "cancel_ticket_72_hour_flight"
+        },
+        {
+          "category": "Confirmation of refund quotation",
+          "isbookingreferncemandatory": true,
+          "type": "Void",
+          "categoryKey": "CONFIRMATION_OF_REFUND",
+          "isSubCategory": true,
+          "subCategoryValue": "apply_for_refund"
+        },
+
+        {
+          "category": "Submit banking details to process a refund",
+          "isbookingreferncemandatory": true,
+          "type": "Payment",
+          "categoryKey": "BANK_DETAILS_FOR_REFUND",
+          "isSubCategory": true,
+          "subCategoryValue": "apply_for_refund"
+        },
+        {
+          "category": "Follow up on pending refund",
+          "isbookingreferncemandatory": true,
+          "type": "Refund",
+          "categoryKey": "FOLLOW_UP_REFUND",
+          "isSubCategory": true,
+          "subCategoryValue": "apply_for_refund"
+        },
+        {
+          "category": "Confirmation of refund quotation - all passengers automated",
+          "isbookingreferncemandatory": true,
+          "type": "Void",
+          "categoryKey": "CANCELLATION_REFUND_QUOTE",
+          "isSubCategory": true,
+          "subCategoryValue": "apply_for_refund"
+        }
+      ]
+    },
+    {
+      "category": "Changes on Existing booking",
+      "subCategories": [
+        {
+          "category": "Urgent change/change to a booking made today",
+          "isbookingreferncemandatory": true,
+          "type": "Refund",
+          "categoryKey": "CANCELLATION",
+          "isSubCategory": true,
+          "subCategoryValue": "change_booking"
+        },
+        {
+          "category": "Incorrect name on a booking made today",
+          "isbookingreferncemandatory": true,
+          "type": "Void",
+          "categoryKey": "INCORRECT_NAME",
+          "isSubCategory": true,
+          "subCategoryValue": "change_booking"
+        },
+        {
+          "category": "Date change request",
+          "isbookingreferncemandatory": true,
+          "type": "Amendment",
+          "categoryKey": "CHANGES",
+          "isSubCategory": true,
+          "subCategoryValue": "make_date_change"
+        },
+        {
+          "category": "Rebook my suspended ticket",
+          "isbookingreferncemandatory": true,
+          "type": "Amendment",
+          "categoryKey": "CHANGES_SUSPENDED",
+          "isSubCategory": true,
+          "subCategoryValue": "change_booking"
+        },
+        {
+          "category": "Name change Request",
+          "isbookingreferncemandatory": true,
+          "type": "Amendment",
+          "categoryKey": "NAME_CHANGE_REQUEST",
+          "isSubCategory": true,
+          "subCategoryValue": "name_change"
+        },
+        {
+          "category": "Confirmation of Date change request",
+          "isbookingreferncemandatory": true,
+          "type": "Amendment",
+          "categoryKey": "CONFIRMATION_DATE_CHANGE",
+          "isSubCategory": true,
+          "subCategoryValue": "confirm_date_change_quote"
+        }
+      ]
+    },
+
+    {
+      "category": "Payment",
+      "subCategories": [
+        {
+          "category": "Retry my payment",
+          "isbookingreferncemandatory": true,
+          "type": "Payment",
+          "categoryKey": "RETRY_PAYMENT_REQUEST",
+          "isSubCategory": true,
+          "subCategoryValue": "made_payment_date_change_72_hour_flight"
+        },
+        {
+          "category": "Payment related queries",
+          "isbookingreferncemandatory": false,
+          "email": "bankpayments@travelstart.com",
+          "type": "Payment",
+          "categoryKey": "GENERAL_PAYMENT_ENQUIRY",
+          "isSubCategory": true,
+          "subCategoryValue": "Web contact form Payment enquiry and tcc reference"
+        }
+      ]
+    },
+
+    {
+      "category": "Schedule Change made by the airline",
+      "subCategories": [
+        {
+          "category": "Acceptance of schedule change",
+          "isbookingreferncemandatory": true,
+          "type": "Amendment",
+          "categoryKey": "ACCEPT_SCHEDULE_CHANGE_ITINERARY",
+          "isSubCategory": true,
+          "subCategoryValue": "accept_schedule_change_itinerary"
+        },
+        {
+          "category": "Decline schedule change",
+          "isbookingreferncemandatory": true,
+          "type": "Amendment",
+          "categoryKey": "DECLINE_SCHEDULE_CHANGE_ITINERARY",
+          "isSubCategory": true,
+          "subCategoryValue": "decline_schedule_change_itinerary"
+        }
+      ]
+    },
+
+    {
+      "category": "Others",
+      "subCategories": [
+        {
+          "category": "Meal request",
+          "isbookingreferncemandatory": true,
+          "type": "Support",
+          "categoryKey": "MEAL_REQUEST",
+          "isSubCategory": true,
+          "subCategoryValue": "change_booking"
+        },
+        {
+          "category": "Wheelchair",
+          "isbookingreferncemandatory": true,
+          "type": "Support",
+          "categoryKey": "WHEELCHAIR_REQUEST",
+          "isSubCategory": true,
+          "subCategoryValue": "change_booking"
+        },
+        {
+          "category": "Frequent flyer numbers",
+          "isbookingreferncemandatory": true,
+          "type": "Support",
+          "categoryKey": "FFN_REQUEST",
+          "isSubCategory": true,
+          "subCategoryValue": "change_booking"
+        },
+        {
+          "category": "Seat",
+          "isbookingreferncemandatory": true,
+          "type": "Support",
+          "categoryKey": "SEAT_REQUEST",
+          "isSubCategory": true,
+          "subCategoryValue": "change_booking"
+        },
+        {
+          "category": "Change my email address",
+          "isbookingreferncemandatory": false,
+          "type": "Support",
+          "categoryKey": "Change my email address",
+          "isSubCategory": true,
+          "email": "help@travelstart.com.ng",
+          "subCategoryValue": "Change my email address"
+        },
+        {
+          "category": "I made a booking and don't have a reference",
+          "isbookingreferncemandatory": false,
+          "type": "Support",
+          "email": "help@travelstart.com.ng",
+          "categoryKey": "I made a booking and don't have a reference",
+          "isSubCategory": true,
+          "subCategoryValue": "I made a booking and don't have a reference"
+        },
+        {
+          "category": "Baggage enquiries",
+          "isbookingreferncemandatory": false,
+          "type": "Support",
+          "categoryKey": "Baggage enquiries",
+          "isSubCategory": true,
+          "email" : "help@travelstart.com.ng",
+          "subCategoryValue": "change_booking"
+        },
+        {
+          "category": "Add products to my existing ticket",
+          "isbookingreferncemandatory": true,
+          "type": "Support",
+          "categoryKey": "PRODUCT_REQUEST",
+          "isSubCategory": true,
+          "subCategoryValue": "change_booking"
+        }
+      ]
+    }
+  ]
+}

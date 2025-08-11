@@ -1,0 +1,26 @@
+@import "./theme-variables.scss";
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  //manage booking page responsive
+  .nav-link {
+    font-size: 13px !important;
+  }
+  .manage_booking_section .sub_btn {
+    padding: 10px 50px !important;
+    width: 100%;
+    border-radius: 3px !important;
+  }
+  .cancel_mdl_dialog {
+    transform: translate(-53%, -50%) !important;
+    min-width: 340px !important;
+    .mdl_subheading {
+      font-size: 14px !important;
+    }
+    .sub_btn {
+      padding: 10.5px 22.5px !important;
+    }
+  }
+}

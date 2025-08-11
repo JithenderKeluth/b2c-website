@@ -1,0 +1,252 @@
+<div class="flight_card">
+  <div
+    class="col-lg-12 col-12 flight_info p-0"
+    *ngIf="itinerary_Data_Info && itinerary_Data_Info.itineraries?.length > 0"
+  >
+    <div
+      *ngFor="let itineraries of itinerary_Data_Info.itineraries; let index = index"
+      [ngClass]="index == 0 && itinerary_Data_Info.itineraries.length > 1 ? 'border_btm' : ''"
+    >
+      <div
+        class="m-0 flight_row"
+        *ngFor="let odoList of itineraries.odoList; let idx = index; let last = last; let first = first"
+        [ngClass]="!last ? 'border_btm' : 'pb-0'"
+      >
+        <div class="segMents_route mb-2 mb-lg-3">
+          <span>
+            <img ImageSrc src="../../../assets/icons/srp_Icons/flight_dpt.svg" alt="flight_dpt" />
+          </span>
+          <span *ngIf="tripType && tripType !== 'multi'">
+            <span class="dept_seg" *ngIf="idx === 0 && index === 0 && tripType && tripType !== 'multi'">
+              <span translate class="way_def">DEPARTURE</span>
+              <span class="date_Info">{{
+                itinerary_Data_Info.itineraries[0].odoList[idx].segments[0].departureDateTime | date: 'd MMM yy'
+              }}</span>
+            </span>
+
+            <span
+              class="dept_seg"
+              *ngIf="
+                (itinerary_Data_Info.itineraries[0].odoList.length === 2 &&
+                  idx === 1 &&
+                  tripType &&
+                  tripType === 'return') ||
+                index > 0
+              "
+            >
+              <span translate class="way_def">RETURN</span>
+              {{ itinerary_Data_Info.itineraries[index].odoList[idx].segments[0].departureDateTime | date: 'd MMM yy' }}
+            </span>
+          </span>
+
+          <span
+            class="dept_seg"
+            *ngIf="itinerary_Data_Info.itineraries[0].odoList.length > 1 && tripType && tripType === 'multi'"
+          >
+            <span class="way_def">TRIP {{ idx + 1 }}</span>
+            {{ itinerary_Data_Info.itineraries[0].odoList[idx].segments[0].departureDateTime | date: 'd MMM yy' }}
+          </span>
+          <span class="float-lg-right d-block text-right">
+            <div class="fare_ref" *ngIf="itinerary_Data_Info?.fareChargesRules">
+              <span
+                translate
+                class="non-ref-text"
+                *ngIf="
+                  odoList.segments[0].airlineCode === 'GE' ||
+                  odoList.segments[0].airlineCode === 'FA' ||
+                  itinerary_Data_Info?.fareChargesRules?.cancellations === 'ANY TIME TICKET IS NON-REFUNDABLE.'
+                "
+              >
+                Non-Refundable
+              </span>
+              <span
+                class="fareRules_sec ml-2"
+                *ngIf="
+                  itinerary_Data_Info?.fareChargesRules &&
+                  odoList.segments[0].airlineCode !== 'GE' &&
+                  odoList.segments[0].airlineCode !== 'FA' &&
+                  (itinerary_Data_Info?.fareChargesRules?.cancellations ||
+                    itinerary_Data_Info?.fareChargesRules?.changes ||
+                    itinerary_Data_Info?.fareChargesRules?.reissue) &&
+                  (!appSessionService.isWhiteLabelInstance() ||
+                    (appSessionService.isWhiteLabelInstance() &&
+                      odoList.segments[0].airlineCode !== 'GE' &&
+                      odoList.segments[0].airlineCode !== 'FA'))
+                "
+              >
+                <a translate class="fareRules_txt" data-toggle="modal" data-target="#fare_rules_Modal">Fare rules</a>
+              </span>
+              <span
+                *ngIf="odoList.segments[0].airlineCode === 'GE' || odoList.segments[0].airlineCode === 'FA'"
+                class="fareRules_sec ml-2"
+              >
+                <a
+                  translate
+                  class="fareRules_txt"
+                  data-toggle="collapse"
+                  data-target="#TBI_fare_rules_Modal"
+                  (click)="openTBIFareRules(odoList, odoList.segments[0].airlineCode)"
+                  >Fare rules</a
+                >
+              </span>
+            </div>
+          </span>
+        </div>
+
+        <div class="row mb-2" *ngFor="let segments of odoList.segments; let index = index; let last = last">
+          <div class="d-flex align-items-center align-items-lg-start col-lg-3 col-sm-12 mb-2 mb-lg-0 pr-lg-0">
+            <span class="airl_logo">
+              <img
+                class="carrier_logo airLineXs"
+                ImageSrc
+                src="assets/img/carriers/retina48px/carrier-{{ segments.airlineCode }}.png"
+                alt="{{ segments.airlineCode }}"
+              />
+            </span>
+            <span class="air_info clearfix">
+              <span class="airl_name">
+                {{
+                  flightsList?.airlineNames
+                    ? getAirlinename(flightsList.airlineNames[segments.airlineCode])
+                    : segments.airlineCode
+                }}
+              </span>
+              <span class="airl_numb d-lg-block"> ({{ segments.flightNumber }}) </span>
+
+              <div *ngIf="segments.opAirlineCode">
+                <div class="mweb opAirline">
+                  Operated by
+                  {{
+                    flightsList?.airlineNames
+                      ? flightsList.airlineNames[segments.opAirlineCode]
+                      : segments.opAirlineCode
+                  }}
+                </div>
+              </div>
+              <div class="d-none d-lg-block">
+                <ng-container
+                  *ngTemplateOutlet="baggage_InfoData; context: { $implicit: { segments: odoList.segments[0] } }"
+                >
+                </ng-container>
+              </div>
+            </span>
+          </div>
+          <div class="col-md-12 col-lg-9 col-12">
+            <div class="row">
+              <div class="col-lg-4 col-4 text-center">
+                <div class="airp_name">{{ segments.departureDateTime | date: 'd MMM yy' }}</div>
+                <div class="time">
+                  {{ segments.departureDateTime | date: 'HH:mm' }}
+                </div>
+                <div class="airp_name">
+                  {{ getAirportName(segments.origCode) }}
+                </div>
+              </div>
+
+              <div class="text-center col-lg-3 col-4">
+                <div class="flight_data w-100">
+                  <div class="dur">
+                    {{ getTimeInHours(segments.duration) }}
+                  </div>
+                  <div class="stops-container">
+                    <div class="line-with-dots">
+                      <div class="line"></div>
+                    </div>
+                  </div>
+                  <div class="stops" translate>
+                    <span class="cabinClass d-lg-inline">{{ segments.cabinClass | lowercase }}</span>
+                  </div>
+                  <div class="techStops" *ngIf="segments?.technicalStops && getTechStopsContent(segments) && load">
+                    <div class="tech_stps_txt mt-2">
+                      {{ getTechStopsContent(segments) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-4 text-center">
+                <div class="airp_name">{{ segments.arrivalDateTime | date: 'd MMM yy' }}</div>
+                <div class="time">
+                  {{ segments.arrivalDateTime | date: 'HH:mm' }}
+                </div>
+                <div class="airp_name">
+                  {{ getAirportName(segments.destCode) }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="extras mt-1 offset-0 offset-lg-3 pl-lg-0 col-12 col-lg-8">
+            <div class="d-block d-lg-none">
+              <ng-container
+                *ngTemplateOutlet="baggage_InfoData; context: { $implicit: { segments: odoList.segments[0] } }"
+              >
+              </ng-container>
+            </div>
+            <div
+              class="offset-0 offset-lg-3 col-12 layover_section text-center"
+              *ngIf="odoList.segments.length > 1 && !last"
+            >
+              <div class="layover">
+                <span>
+                  <img ImageSrc src="./../../../assets/icons/flight_dt_layover.svg" alt="layover" />
+                  <span class="lap_txt">{{ getLayoverTxt(odoList)[index] }}</span>
+                  {{ getLayoverTime(odoList)[index] }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade fare_rules"
+  id="TBI_fare_rules_Modal"
+  data-backdrop="static"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl fare_increased" role="document">
+    <app-tbi-fare [airline]="airlineCode" [odoList]="fareOdoList"></app-tbi-fare>
+  </div>
+</div>
+<ng-template #baggage_InfoData let-data>
+  <div class="baggage_Info">
+    <span class="baggage" *ngIf="data.segments.baggageAllowance.length > 0">
+      <span *ngFor="let bag of data.segments.baggageAllowance; let idx = index; let first = first" class="baggage_des" [ngClass]="bag === 'No baggage allowance'? 'noBaggage_Bg': ''">
+        <img
+          ImageSrc
+          *ngIf="handBag(bag)"
+          class="bag_icon"
+          src="./../../../assets/icons/srp_Icons/new_hand_baggage.svg"
+          alt="hand"
+        />
+        <img
+          ImageSrc
+          *ngIf="bag === 'No baggage allowance'"
+          ImageSrc
+          class="bag_icon ml-1"
+          src="./../../../assets/icons/srp_Icons/new_no_baggage.svg"
+          alt="no bag"
+        />
+        <img
+          ImageSrc
+          *ngIf="bagageDesc(bag) === 'Checked baggage'"
+          class="bag_icon ml-1"
+          src="./../../../assets/icons/srp_Icons/new_checked_baggage.svg"
+          alt="checked_baggage"
+        />
+
+        <span *ngIf="bag === 'No baggage allowance'" class="handLaggage"
+          ><span translate class="baggage_val">No baggage</span>
+        </span>
+        <span *ngIf="bag !== 'No baggage allowance'" class="handLaggage"
+          ><span class="baggage_val">{{ baggageDes(bag) }}</span>
+        </span>
+      </span>
+    </span>
+  </div>
+</ng-template>

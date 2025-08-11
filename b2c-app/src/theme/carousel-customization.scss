@@ -1,0 +1,163 @@
+@import "./theme-variables.scss";
+/* homepage carousel styling customization */
+// .carousel-wrap {
+//   width: 1000px;
+//   margin: auto;
+//   position: relative;
+// }
+.owl-carousel .owl-item img {
+  width: 98% !important;
+  border-radius: 10px;
+  height:100% !important
+}
+.owl-carousel {
+  .owl-nav {
+    overflow: hidden;
+    height: 0px;
+  }
+  .item {
+    text-align: center;
+  }
+  .nav-btn {
+    height: 47px;
+    position: absolute;
+    width: 26px;
+    cursor: pointer;
+    top: 68px !important;
+  }
+  .prev-slide {
+    background: url("https://cdn1.travelstart.com/assets/icons/left-icn-arrow.svg") no-repeat scroll 0 0;
+    left: -33px;
+    &:hover {
+      //	background-position: 0px -53px;
+    }
+  }
+  .next-slide {
+    background: url("https://cdn1.travelstart.com/assets/icons/right-icon-arrow.svg") no-repeat scroll 0px;
+    right: -20px;
+    &:hover {
+      //	background-position: -24px -53px;
+    }
+  }
+}
+.owl-theme .owl-dots .owl-dot.active span,
+.owl-theme .owl-dots .owl-dot:hover span {
+  background: #2caae1;
+}
+.owl-carousel .owl-prev.disabled,
+.owl-carousel .owl-next.disabled {
+  pointer-events: none;
+  opacity: 0.2;
+}
+span {
+  &.img-text {
+    text-decoration: none;
+    outline: none;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    cursor: pointer;
+    // width: 100%;
+    font-size: 23px;
+    display: block;
+    text-transform: capitalize;
+    &:hover {
+      color: #2caae1;
+    }
+  }
+}
+
+/* Feel free to change duration  */
+.animated {
+  -webkit-animation-duration: 1000 ms;
+  animation-duration: 1000 ms;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+/* .owl-animated-out - only for current item */
+/* This is very important class. Use z-index if you want move Out item above In item */
+.owl-animated-out {
+  z-index: 1;
+}
+/* .owl-animated-in - only for upcoming item
+/* This is very important class. Use z-index if you want move In item above Out item */
+.owl-animated-in {
+  z-index: 0;
+}
+/* .fadeOut is style taken from Animation.css and this is how it looks in owl.carousel.css:  */
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+}
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .next-slide {
+    right: 5px !important;
+    background-size: 24px 24px !important;
+  }
+  .prev-slide {
+    left: 0px !important;
+    background-size: 24px 24px !important;
+  }
+  .owl-carousel .owl-item img {
+    width: 100% !important;
+  }
+  .owl-carousel .nav-btn {
+    height: 24px !important;
+    width: 24px !important;
+    top: 76px !important;
+  }
+}
+@media only screen and (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, lg)) {
+ 
+  .next-slide {
+    right: 5px !important;
+    background-size: 24px 24px !important;
+  }
+  .prev-slide {
+    left: 0px !important;
+    background-size: 24px 24px !important;
+  }
+  .owl-carousel .nav-btn {
+    height: 24px !important;
+    width: 24px !important;
+    top: 76px !important;
+  }
+}
+
+@media (min-width: map-get($grid-breakpoints, lg)) {
+  .owl-carousel {
+    .prev-slide {
+      left: 0px !important;
+    }
+    .nav-btn {
+      height: 40px !important;
+      width: 40px !important;
+      top: 74px !important;
+    }
+    .next-slide {
+      right: 6px !important;
+    }
+    .owl-nav.disabled {
+      display: block !important;
+    }
+  }
+ 
+}

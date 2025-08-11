@@ -1,0 +1,88 @@
+@import "./theme-variables.scss";
+
+.line-with-dots::before,
+.line-with-dots::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: #c1c5d0;
+  border-radius: 50%;
+  position: absolute;
+  border: 1px solid #c1c5d0;
+}
+
+.line-with-dots::before {
+  left: 0;
+}
+
+.line-with-dots::after {
+  right: 0;
+}
+
+.line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: white;
+  border: 1px solid #c1c5d0;
+}
+
+.middle-dot {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  border: 1.5px solid #c1c5d0;
+  transform: translateX(-50%);
+}
+.line-with-dots {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 20px;
+  width: 76%;
+  margin: 0px auto;
+}
+
+.techStops {
+  font-size: 10px;
+  color: var(--text_primary_color);
+  text-align: -webkit-center;
+  .tech_stps_txt {
+    color: #e68d32;
+    width: max-content;
+    padding: 2px 0px;
+    margin: 0px auto;
+    line-height: 13px;
+  }
+}
+.techStops .tech_stps_txt::before {
+  content: "•";
+  color: #e68d32;
+  font-size: 22px;
+  position: relative;
+  top: 4px;
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .line-with-dots::before,
+  .line-with-dots::after {
+    width: 6px !important;
+    height: 6px !important;
+  }
+
+  .line {
+    height: 1px;
+  }
+
+  .middle-dot {
+    width: 8px !important;
+    height: 8px !important;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .line-with-dots {
+    width: 100% !important;
+  }
+}

@@ -1,0 +1,370 @@
+@import "./../../../theme/theme-variables.scss";
+@import "./../../../theme/flight-comm-styles.scss";
+.itinerary_info {
+  label {
+    margin: 0;
+  }
+  font-size: 14px;
+  .review_Flight_Section {
+    .reviewFlightHead {
+      display: flex;
+      align-items: center;
+      .head_content {
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--text_primary_color);
+      }
+      .flight_details_link {
+        font-size: 12px;
+        color: var(--text_link_color);
+        float: right;
+        cursor: pointer;
+        margin-left: auto;
+      }
+    }
+  }
+  .route_details {
+    border-radius: 6px;
+    .segments {
+      margin-bottom: 10px;
+      &:last-child {
+        margin-bottom: 10px !important;
+      }
+      .direction {
+        display: inline-block;
+        border-radius: 100px;
+        padding: 3px 10px;
+        background-color: $color-blue-25;
+        color: $color-link-blue;
+        margin-bottom: 12px;
+        font-size: 12px;
+      }
+
+      .seg_legs {
+        .air_name {
+          color: var(--text_primary_color);
+          font-size: 13px;
+        }
+        .flt_num {
+          color: var(--text_info_color);
+          font-size: 12px;
+        }
+        .dept_city,
+        .arr_city {
+          color: var(--text_primary_color);
+          font-weight: 500;
+          font-size: 13px;
+          line-height: 16px;
+          display: block;
+        }
+
+        .time_labl,
+        .date_labl {
+          color: var(--text_info_color);
+          font-size: 13px;
+          font-weight: normal;
+        }
+        .fly_icon {
+          position: relative;
+          font-size: 12px;
+          color: var(--text_primary_color);
+          text-transform: capitalize;
+          font-weight: normal;
+          .cls_labl {
+            text-transform: capitalize;
+          }
+          hr {
+            background-color: #8a90a2; //not added color code
+            border-color: #8a90a2; //not added color code
+          }
+          .fa {
+            position: absolute;
+            top: 3px;
+            left: 41%;
+            background: $white-secondary;
+            padding: 6px;
+            border-radius: 100px;
+            transform: rotate(45deg);
+            color: var(--text_info_color);
+          }
+          .stops {
+            line-height: 17px !important;
+          }
+        }
+      }
+    }
+    .segement_border {
+      border-top: 1px dashed var(--more_flight_bg);
+      padding-top: 15px;
+    }
+    .flightOverview {
+      .time_labl {
+        font-size: 18px !important;
+        color: var(--text_primary_color) !important;
+        font-weight: 600 !important;
+        line-height: 10px !important;
+      }
+    }
+  }
+}
+
+[data-toggle="collapse"] .fa:before {
+  content: "\f139";
+}
+
+[data-toggle="collapse"].collapsed .fa:before {
+  content: "\f13a";
+}
+.airLine_block {
+  .airLine_logo {
+    float: left;
+    img {
+      margin-right: 8px;
+      width: 30px;
+    }
+  }
+}
+.baggage_Info {
+  font-size: 13px;
+  img {
+    position: relative;
+    top: -2px;
+  }
+}
+//fare rules scss
+
+.fare_rules {
+  .fare_head {
+    border-bottom: none !important;
+    padding-top: 30px;
+    display: block;
+    .close_img {
+      position: relative;
+      bottom: 71px;
+      cursor: pointer;
+    }
+  }
+  .fare_text {
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 15px;
+    margin-bottom: 20px;
+  }
+  .tab_text {
+    position: relative;
+    bottom: 35px;
+    max-height: 450px;
+    overflow-y: scroll;
+  }
+  .fare-content {
+    width: 750px !important;
+    margin: 0px auto !important;
+  }
+  #fare {
+    position: relative;
+    top: 10px;
+    padding: 0px;
+  }
+  #fare #fare_accordian .card {
+    border: 0;
+  }
+  .baggage_head {
+    font-size: 16px;
+    padding: 30px 15px 0px;
+    margin: 0px;
+  }
+  .carrier_logo {
+    position: relative;
+    bottom: 0px;
+  }
+  #fare #fare_accordian .card .card-header {
+    border: 0;
+    border-radius: 2px;
+    padding: 0;
+  }
+  #fare #fare_accordian .card .card-header .btn-header-link:focus {
+    box-shadow: none;
+  }
+  #fare #fare_accordian .card .card-header .btn-header-link {
+    display: block;
+    text-align: left;
+    background-color: var(--bm_flight_review_bg);
+    padding: 13px 19.5px 13px 20px;
+    border-bottom: 1px solid var(--border_default_color); //not added color code
+    border-radius: 0;
+    font-size: 13px;
+    font-weight: 550;
+  }
+  thead {
+    background-color: var(--bm_flight_review_bg);
+    border: 1px solid var(--border_default_color); //not added color code
+    padding: 7px 44px 6px 15px;
+  }
+  #fare_accordian {
+    border: 1px solid var(--border_default_color); //not added color code
+    margin: 15px;
+  }
+  table td {
+    border: 1px solid var(--border_default_color); //not added color code
+  }
+  .baggage_table th {
+    border: transparent !important;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .changedate_table th,
+  .cancel_table th,
+  .baggage_table th {
+    font-weight: 600 !important;
+    padding: 8px 15px;
+    font-size: 11px;
+  }
+  .dept_schudule {
+    font-size: 9px;
+    font-weight: normal;
+    color: var(--text_info_color); //not added color code
+  }
+  .cancel_dept {
+    font-size: 11px;
+    color: var(--text_primary_color);
+    font-weight: normal;
+    ul {
+      list-style: none;
+    }
+
+    ul li::before {
+      color: var(--text_info_color); //not added color code
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+    .fare_heading {
+      font-size: 12px;
+      font-weight: 600;
+    }
+  }
+  .fare_cancel {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text_primary_color);
+  }
+  .non-refund {
+    margin-left: 65%;
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    color: $color-red-400;
+  }
+  #fare #fare_accordian .card .card-header .btn-header-link:after {
+    content: "❯";
+    float: right;
+    transform: rotate(-90deg);
+    color: #7f90b5; //not added color code
+  }
+  #fare_rules_Modal .modal-content {
+    min-height: 400px;
+  }
+
+  td.borders div {
+    height: 40px;
+    width: 3px;
+    margin-top: 22px;
+    background: lightblue;
+  }
+  #fare #fare_accordian .card .card-header .btn-header-link.collapsed:after {
+    transform: rotate(90deg);
+    content: "❯";
+    color: #7f90b5; //not added color code
+  }
+  #fare #fare_accordian .card .collapsing {
+    line-height: 30px;
+  }
+  #fare #fare_accordian .card .collapse {
+    border: 0;
+  }
+  .cross-icon {
+    border-radius: 50%;
+    padding: 1px 9px;
+    color: var(--text_info_color);
+    background: rgba(242, 244, 244, 0.9568627450980393);
+  }
+  .cross-icon:hover {
+    color: var(--text_link_color);
+    background: $color-blue-25; //not added color code
+  }
+  .fare_options {
+    .cancel_head {
+      color: var(--text_primary_color);
+      padding: 0px 15px;
+      font-size: 14px;
+      margin-bottom: 10px !important;
+    }
+  }
+  .terms_cndns {
+    padding: 15px 15px 0px;
+
+    .terms_head {
+      font-size: 14px;
+    }
+    .terms_content {
+      font-size: 11px;
+      color: var(--text_info_color); //not added color code
+    }
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .itinerary_info .review_Flight_Section .reviewFlightHead {
+    margin-bottom: 0 !important;
+    .head_content {
+      font-size: 18px !important;
+    }
+  }
+
+  .itinerary_info {
+    .route_details {
+      .segments {
+        .direction {
+          margin-bottom: 5px;
+        }
+      }
+      .seg_legs {
+        .air_name {
+          font-size: 12px !important;
+        }
+        .date_labl {
+          font-size: 13px !important;
+          font-weight: 500 !important;
+          color: var(--text_primary_color) !important;
+        }
+        .time_labl {
+          color: var(--text_primary_color) !important;
+          font-weight: 500 !important;
+        }
+        .dept_city {
+          font-size: 13px !important;
+        }
+        .date_labl,
+        .arr_city {
+          font-size: 13px !important;
+        }
+        .layover_section {
+          margin: 0px 0px !important;
+          padding: 10px 0px !important;
+        }
+      }
+    }
+  }
+  .baggage-seperate {
+    margin: 0px 5px !important;
+  }
+  .fare_rules {
+    .fare-content {
+      width: 100% !important;
+      .non-refund {
+        margin-left: 20% !important;
+      }
+    }
+  }
+}

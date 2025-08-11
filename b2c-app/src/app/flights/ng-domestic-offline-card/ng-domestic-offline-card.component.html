@@ -1,0 +1,275 @@
+<div (click)="dana_air_modal(airline)" *ngFor="let airline of applicableAirlines">
+  <div
+    class="flight_card"
+    *ngIf="itinerary"
+    [ngClass]="isUnBundleFlight() ? 'dom_flight_card' : ''"
+    (click)="dana_air_modal(airline)"
+  >
+    <div class="row m-0" class="{{ itinerary.flightType }} {{ flightSearchData.tripType }}">
+      <div class="flight_info" [ngClass]="isWeb() && isBundleFlight() ? 'col-12 col-lg-10' : 'col-12'">
+        <div
+          class="row m-0 flight_row"
+          (click)="dana_air_modal(airline)"
+          *ngFor="let odoList of itinerary.odoList; let idx = index; let last = last; let first = first"
+        >
+          <div
+            class="d-flex align-items-center aif_pdd"
+            [ngClass]="isUnBundleFlight() ? 'col-sm-12 mb-2' : 'col-lg-3 col-sm-12 pl-lg-4 mb-2 mb-lg-0'"
+          >
+            <span class="airl_logo">
+              <img
+                class="carrier_logo airLineXs"
+                ImageSrc
+                src="https://cdn1.travelstart.com/assets/img/carriers/retina48px/carrier-{{ airline.airLinecode }}.png"
+                alt="dana"
+                loading="lazy"
+              />
+            </span>
+            <span class="air_info clearfix">
+              <span translate class="airl_name">
+                {{ airline.airlineName }}
+              </span>
+
+              <span class="float-right dom_mweb_fare d-none" *ngIf="!isBundleFlight() && !isWeb()">
+                <span>{{ itinerary.currencyCode | currencyCode }}</span
+                >{{ airline.price }}
+              </span>
+
+              <div
+                class="extras pr-2 mt-lg-2 aif_pdd pt-1 pt-lg-0"
+                *ngIf="
+                  isBundleFlight() && responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'
+                "
+              >
+                <ng-container *ngTemplateOutlet="offline_air_baggage; context: { $implicit: { airlineData: airline } }">
+                </ng-container>
+              </div>
+            </span>
+          </div>
+
+          <div
+            class=""
+            [ngClass]="isUnBundleFlight() ? 'col-sm-12 mb-2' : 'col-lg-9 col-sm-12 '"
+            [style.padding]="isUnBundleFlight() && !isMobile() ? '0px 40px' : ''"
+          >
+            <div class="row">
+              <div class="text-center" [ngClass]="isUnBundleFlight() ? 'col-4 aif_pdd ' : 'col-lg-4 col-4 pl-lg-0'">
+                <div class="time">06:05</div>
+                <div
+                  class="airp_name"
+                  *ngIf="(isUnBundleFlight() || isBundleFlight()) && !(isUnBundleFlight() && isMobile())"
+                >
+                  {{ getAirportName(odoList.segments[0].origCode) }}
+                </div>
+              </div>
+              <div class="text-center p-0 pt-1" [ngClass]="isUnBundleFlight() ? 'col-4' : 'col-lg-3 col-4'">
+                <div class="flight_data">
+                  <div class="dur" *ngIf="isWeb() || (isMobile() && !isUnBundleFlight())">
+                    {{ flightSearchData.cabinClass.display }}
+                  </div>
+                  <div class="">
+                    <img ImageSrc src="../../../assets/icons/v1-icons/flight_route.svg" alt="flight_route" />
+                  </div>
+                  <div class="stops" *ngIf="isWeb() || (isMobile() && !isUnBundleFlight())">
+                    <span translate>Non Stop</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="pl-lg-3 text-center"
+                [ngClass]="isUnBundleFlight() ? 'col-4 aif_pdd rht-align' : 'col-lg-4 col-4 pl-4'"
+              >
+                <div class="time">08:23</div>
+                <div
+                  class="airp_name"
+                  *ngIf="(isUnBundleFlight() || isBundleFlight()) && !(isUnBundleFlight() && isMobile())"
+                >
+                  {{ getAirportName(odoList.segments[odoList.segments.length - 1].destCode) }}
+                </div>
+              </div>
+            </div>
+            <div
+              class=""
+              *ngIf="
+                isUnBundleFlight() && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+              "
+            >
+              <span class="stops ml-1">
+                <span translate>Non Stop</span>
+              </span>
+            </div>
+          </div>
+          <div
+            class="extras pl-3 pr-2 mt-lg-2 aif_pdd pt-1 pt-lg-0"
+            [ngClass]="isBundleFlight() ? 'offset-0 offset-lg-3 pl-lg-0' : 'pl-lg-0'"
+            [style.width]="responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md' ? '100%' : ''"
+            [style.border-top]="
+              isUnBundleFlight() && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')
+                ? '1px dashed #D0D5DD'
+                : ''
+            "
+            *ngIf="
+              (isBundleFlight() && (responsiveService.screenWidth == 'sm' || responsiveService.screenWidth == 'md')) ||
+              (isMobile() && isUnBundleFlight())
+            "
+          >
+            <span class="baggage">
+              <ng-container *ngTemplateOutlet="offline_air_baggage; context: { $implicit: { airlineData: airline } }">
+              </ng-container>
+            </span>
+          </div>
+          <div class="w-100 dom_mweb_fare mt-1 text-center" *ngIf="isMobile() && isUnBundleFlight()">
+            <span class="price_range pr-1">From</span><span>{{ itinerary.currencyCode | currencyCode }}</span
+            >{{ airline.price }}
+            <div class="perPerson" *ngIf="showPerson_Price()" translate>Per Person</div>
+            <div>
+              <button
+                type="button"
+                aria-label="Get a Quote"
+                (click)="dana_air_modal(airline)"
+                class="btn primary_btn onHover dana_btn"
+                translate
+              >
+                Get a Quote
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Mweb price block for bundled Flights-->
+      <div class="col-12 price_section mWeb_price d-block" *ngIf="isMobile() && isBundleFlight()">
+        <span class="price_labl float-right m-0 d-flex align-items-center">
+          <span class="price_range pr-1">From </span
+          ><span class="float-left">
+            <span>{{ itinerary.currencyCode | currencyCode }}</span
+            >{{ airline.price }}
+            <div class="perPerson" *ngIf="showPerson_Price()" translate>Per Person</div>
+          </span>
+          <span class="float-right mr-1">
+            <button
+              type="button"
+              aria-label="Get a Quote"
+              class="btn primary_btn book_btn ml-3 onHover"
+              (click)="dana_air_modal(airline)"
+              translate
+            >
+              Get a Quote
+            </button>
+          </span>
+        </span>
+      </div>
+      <!--Web price block for bundled Flights-->
+      <div
+        *ngIf="!isMobile() && isBundleFlight()"
+        class="col-lg-2 price_section"
+        [ngClass]="
+          (isWeb() || (isMobile() && isBundleFlight())) && !(isMobile() && isUnBundleFlight()) ? 'col-4' : 'col-12'
+        "
+      >
+        <div>
+          <div class="price_labl">
+            <span class="price_range pr-1">From </span> <span>{{ itinerary.currencyCode | currencyCode }}</span
+            >{{ airline.price }}
+            <div class="perPerson" *ngIf="showPerson_Price()" translate>Per Person</div>
+          </div>
+          <div *ngIf="itinerary.flightType == 'isBundled'">
+            <button
+              type="button"
+              aria-label="Get a Quote"
+              class="btn primary_btn book_btn onHover"
+              (click)="dana_air_modal(airline)"
+              translate
+            >
+              Get a Quote
+            </button>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+
+      <!--price block for unbundled Flights-->
+      <div class="col-12 dom_price_section domWeb_price" *ngIf="!isMobile() && isUnBundleFlight()">
+        <span class="baggage">
+          <ng-container *ngTemplateOutlet="offline_air_baggage; context: { $implicit: { airlineData: airline } }">
+          </ng-container>
+        </span>
+
+        <span class="price_labl float-right ml-auto d-flex align-items-center">
+          <span class="pr-1">
+            <span class="price_range pr-1">From</span><span>{{ itinerary.currencyCode | currencyCode }}</span
+            >{{ airline.price }}
+            <div class="perPerson" *ngIf="showPerson_Price()" translate>Per Person</div>
+          </span>
+          <span>
+            <button
+              type="button"
+              aria-label="Book Now"
+              class="btn primary_btn onHover mr-3 dana_btn"
+              (click)="dana_air_modal(airline)"
+              translate
+            >
+              Get a Quote
+            </button>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  *ngIf="selectedAirline"
+  class="modal hide ng_domestic_airlines_modal"
+  id="dana_air_modal"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <app-ng-domestic-offline-form
+    [itinerary]="itinerary"
+    [selectedAirLine]="selectedAirline"
+  ></app-ng-domestic-offline-form>
+</div>
+<ng-template #offline_air_baggage let-data>
+  <div class="baggage_Info">
+    <span class="baggage hglt">
+      <img
+        *ngIf="
+          flightSearchData.cabinClass.display === 'Economy'
+            ? data?.airlineData?.Economy?.hand
+            : data?.airlineData.Business?.hand
+        "
+        ImageSrc
+        class="bag_icon"
+        src="./../../../assets/icons/srp_Icons/new_hand_baggage.svg"
+        alt="hand"
+        loading="lazy"
+      />{{
+        flightSearchData.cabinClass.display === 'Economy'
+          ? data?.airlineData?.Economy?.hand
+          : data?.airlineData.Business?.hand
+      }}
+    </span>
+    <span class="hglt">
+      <img
+        *ngIf="
+          flightSearchData.cabinClass.display === 'Economy'
+            ? data?.airlineData?.Economy?.checked
+            : data?.airlineData?.Business?.checked
+        "
+        ImageSrc
+        class="bag_icon"
+        src="./../../../assets/icons/srp_Icons/new_checked_baggage.svg"
+        alt="hand"
+        loading="lazy"
+      /><span>
+        {{
+          flightSearchData.cabinClass.display === 'Economy'
+            ? data?.airlineData?.Economy?.checked
+            : data?.airlineData?.Business?.checked
+        }}</span
+      >
+    </span>
+  </div>
+</ng-template>

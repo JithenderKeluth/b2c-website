@@ -1,0 +1,235 @@
+// Use Bootstrap defaults for other variables, imported here so we can access all app variables in one place when used
+// in components.
+
+/*
+ * Application global variables.
+ */
+
+// ---------------------------------------------------------------------------
+// Bootstrap variables
+//
+// Override Bootstrap variables here to suite your theme.
+// Copy variables you want to customize from node_modules/bootstrap/scss/_variables.scss
+
+//
+// Color system
+//
+
+$white: #ffffff;
+$white-secondary: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #868e96;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000000;
+
+$blue: #0073dd;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #e83e8c;
+$red: #dc3545;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #28a745;
+$teal: #20c997;
+$cyan: #17a2b8;
+
+$theme-colors: (
+  primary: $blue,
+  secondary: $gray-600,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  light: $gray-100,
+  dark: $gray-800,
+);
+
+/**
+ * These are the variables used throughout the application. This is where
+ * overwrites that are not specific to components should be maintained.
+ */
+
+/**
+ Start: NEW DESIGN SYSTEM
+ New design sytem colours should be placed over here.
+ Old variables will eventually be merged here or removed.
+**/
+
+$black: #000000;
+$color-header-primary: #062231;
+$color-link-blue: #1db2f5;
+$color-link-blue-secondary: #138fc4;
+$text-primary-color: #052231;
+$text-secondary-color: rgb(6 34 49 / 0.8);
+$bg-light-color: #f5f8ff;
+$light-border-color: rgb(112 112 112 / 0.14);
+$thbg-light-color: #878f9d;
+$tr-background-color: #f1f4f8;
+$color-neutral-light: #f2f2f2;
+$btn-hover-color: #6bba65;
+
+$auroMetalSaurus: #687189;
+$japaneseIndigo: #1e3845;
+$midnightGreen: #094862;
+$gainsboro: #dadfe6;
+$eerieBlack: #1f1e1e;
+$pewterBlue: #97b0bc;
+$cyanProcess: #00b8ef;
+$darkElectricBlue: #486879;
+$appActiveBlue: #1db2f5;
+$chineseSilver: #cbc5c5;
+$aliceBlue: #f3fbff;
+$platinum: #e4e5e8;
+$Platinum: #e1e7ea;
+$brightGrayLight: #e9ebed;
+$bitWhite: #fff;
+
+//blue palette
+$color-blue-800: #0a4762;
+$color-blue-700: #106b93;
+$color-blue-600: #158fc4;
+$color-blue-500: #1bb3f5; //primary brand color //active states //links
+$color-blue-400: #48c2f7;
+$color-blue-300: #76d1f9; //button and link hover state
+$color-blue-200: #a3e0fb;
+$color-blue-100: #d1effd; //info background
+$color-blue-50: #e8f7fe;
+$color-blue-25: #dff4fe;
+$color-blue-facebook: #3b5998;
+
+//neutral palette
+$color-neutral-900: #052331;
+$color-neutral-800: #1e3945; //default heading color
+$color-neutral-700: #374f5a;
+$color-neutral-600: #50656e; //default body or paragraph color //default icon color
+$color-neutral-500: #697b83;
+$color-neutral-400: #829198; //secondary information text //input placeholder text
+$color-neutral-300: #9ba7ad;
+$color-neutral-200: #b4bdc1; //secondary information text /
+$color-neutral-100: #cdd3d6; //disabled text //Secondary icon colour //Border for checkboxes and radio buttons
+$color-neutral-50: #e6e9ea; //default for borders: input field borders, secondary button borders, dividers for menus, tables etc
+$color-neutral-25: #f2f4f4;
+$color-neutral-10: #fafbfb;
+$color-neutral-0: #ffffff;
+
+//teal palette // success
+$color-teal-600: #15c4a1; //price color
+$color-teal-500: #1bf5ca;
+$color-teal-400: #109379;
+$color-teal-100: #d1fdf4;
+$color-teal-50: #e8fef9;
+
+//yellow palette // warning
+$color-yellow-800: #f5881a;
+$color-yellow-500: #f5ca1b;
+$color-yellow-100: #fdf4d1;
+
+//red palette // error
+$color-red-600: #93102a;
+$color-red-500: #f51b46;
+$color-red-400: #f7486a;
+$color-red-300: #fba3b5;
+$color-red-200: #f97690;
+$color-red-100: #fee8ec;
+$color-red-50: #fdd1da;
+$color-red-google: #dd4b39;
+
+//links
+$link-color-base: $color-blue-500;
+
+/**
+ New design sytem typographic variables should be placed over here.
+**/
+$base-font-size: 16px !default;
+$font-family-base: "Roboto", sans-serif;
+$heading-color: $color-neutral-800;
+$line-height-base: 1.5;
+$line-height-title: 1.333;
+$line-height-display: 1.2;
+
+/**
+End: NEW DESIGN SYSTEM
+**/
+
+//z-indexes
+$overlay-z-index: 998;
+$modal-z-index: 1050;
+$tooltip-z-index: 1000;
+$calendar-z-index: 1000;
+$error-z-index: 1000;
+$loading-modal-overlay: 1040;
+$toastr-z-index: 1050;
+
+$content-xs-max-width: 320px;
+$content-sm-max-width: 480px;
+$content-md-max-width: 768px;
+$content-lg-max-width: 1024px;
+$content-xl-max-width: 1200px;
+$content-xxl-max-width: 1400px;
+
+$screen-xs-max-width: 320px;
+$screen-sm-min-width: 480px;
+$screen-md-min-width: 768px;
+$screen-lg-min-width: 992px;
+$screen-xl-min-width: 1200px;
+
+//alert colours
+$alert-success-bg: $color-teal-100;
+$alert-success-color: $color-teal-600;
+
+$alert-danger-bg-color: $color-red-100;
+$alert-danger-text-color: $color-red-500;
+$alert-danger-text-color-light: $color-neutral-600;
+$alert-danger-border-color: $color-red-500;
+
+$alert-warning-bg: $color-yellow-100;
+$alert-warning-info: $color-yellow-500;
+$alert-warning-color: $color-neutral-800;
+
+$alert-info-bg: $color-blue-100;
+$alert-info-color: $color-blue-500;
+$alert-info-border-color: $color-blue-500;
+
+//spacing
+$default-block-padding: 8px;
+$default-block-bottom-padding: 12px;
+$default-button-padding: 12px;
+$default-button-side-padding: 16px;
+
+$spacing-xs: 4px;
+$spacing-base: 8px;
+$spacing-sm: 16px;
+$spacing-md: 24px;
+$spacing-lg: 36px;
+$spacing-xl: 48px;
+$spacing-xxl: 64px;
+$spacing-super-size: 84px;
+
+// box-shadows
+$light-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+$web-chat-shadow: 0 4px 5px 0 rgba(5, 35, 49, 0.12), 0 2px 4px 0 rgba(5, 35, 49, 0.14);
+$elevation-1dp: 0 2px 2px 0 rgba(5, 35, 49, 0.12), 0 0 2px 0 rgba(5, 35, 49, 0.14);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  sm-max: 767px,
+  md: 768px,
+  md-max: 991px,
+  lg: 992px,
+  xl: 1200px,
+);
+
+$link-hover-decoration: none; // remove underline from button links
+
+$link-color: #3f51b5; // set link color based on the used material theme
+
+// font-weights
+
+$base-bold-font-weights: 600;

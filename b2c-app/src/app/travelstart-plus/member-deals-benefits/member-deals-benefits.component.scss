@@ -1,0 +1,18 @@
+@import "./../../../theme/theme-variables.scss";
+.memberDeals {
+  padding: 26px 0px;
+  .banner_head {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .memberDeals {
+    padding: 10px 0px;
+    .banner_head {
+      font-size: 20px !important;
+    }
+  }
+}

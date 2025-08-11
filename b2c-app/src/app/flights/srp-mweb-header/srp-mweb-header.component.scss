@@ -1,0 +1,114 @@
+@import "./../../../theme/theme-variables.scss";
+.srp_resHeader {
+  width: 100%;
+  overflow: hidden;
+  .route_info {
+    box-shadow: 0 1px 2px rgb(45 35 66 / 25%), 0 3px 6px -4px rgb(45 35 66 / 15%);
+    padding: 10px 15px 10px 15px;
+    h4 {
+      color: var(--payment_card_strip);
+      font-size: 22px;
+      font-weight: normal;
+      margin: 0px 0px 10px;
+      padding: 10px 15px 0px;
+    }
+    .route {
+      .back_arr {
+        display: inline-block;
+        width: 25px;
+        float: left;
+        position: relative;
+        top: 3px;
+      }
+      .jour_info {
+        display: inline-block;
+        width: 73%;
+        label {
+          margin-bottom: 0px;
+        }
+      }
+      .modify_btn {
+        display: inline-block;
+        float: right;
+        margin-top: 6px;
+        button {
+          font-size: 12px;
+          border-radius: 3px;
+        }
+      }
+      .labl {
+        color: var(--payment_card_strip);
+        font-size: 14px;
+        font-weight: 600;
+      }
+      img {
+        margin-bottom: 6px;
+        width: 16px;
+      }
+      .dt_labl {
+        color: $color-neutral-400;
+        font-size: 12px;
+      }
+      .sptr {
+        color: #8a90a2; // not added color code
+        width: 2px;
+      }
+    }
+    .route1 {
+      background-color: $white;
+      .labl {
+        color: var(--payment_card_strip);
+        font-size: 16px;
+        font-weight: 600;
+      }
+      img {
+        margin-bottom: 6px;
+        width: 16px;
+      }
+      .dt_labl {
+        color: $color-neutral-400;
+        font-size: 14px;
+      }
+      .sptr {
+        color: #8a90a2; // not added color code
+        width: 2px;
+      }
+    }
+  }
+  .sort_filters {
+    box-shadow: 0 1px 2px rgb(45 35 66 / 25%), 0 2px 4px -4px rgb(45 35 66 / 15%);
+    .res_filters[aria-expanded="true"],
+    .res_sorting[aria-expanded="true"] {
+      border-bottom: 2px solid $color-blue-500;
+    }
+    .btn {
+      border: none;
+      outline: none !important;
+      span {
+        margin: 0px 5px;
+        color: var(--label_color);
+        font-weight: 500;
+        font-size: 14px;
+      }
+    }
+
+    .res_filters {
+      position: relative;
+      border-right: 1px solid #dce1ea;
+    }
+    .domInfo {
+      font-size: 12px;
+      padding: 8px 15px;
+      background-color: #ecf7fd;
+      margin-top: 2px;
+      .route {
+        font-size: 10px;
+        color: var(--text_link_color);
+        margin-right: 5px;
+      }
+    }
+    &:last-child {
+      margin-bottom: 5px;
+    }
+  }
+}

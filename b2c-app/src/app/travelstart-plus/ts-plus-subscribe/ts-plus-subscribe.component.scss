@@ -1,0 +1,27 @@
+@import "./../../../theme/theme-variables.scss";
+.dialog_content{
+    border-radius: 14px !important;
+    background-color: #1E1238;
+    .modal-body{
+        img{
+            cursor: pointer;
+        }
+      .user_subscribe{
+        padding: 25px;     
+            h6{
+              font-size: 28px;
+              color: $white;
+            }  
+            p{
+              font-size: 20px;
+              color: #21C3EE;
+            }
+            .subscription_txt{
+                color: $white; 
+                line-height: 18px;
+            }
+          }
+      } 
+}
+ 
+

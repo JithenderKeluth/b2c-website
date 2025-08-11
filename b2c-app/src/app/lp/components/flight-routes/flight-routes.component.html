@@ -1,0 +1,130 @@
+<div class="flight-routes">
+  <div class="section-title pt-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2>{{ flightRoutes.header }}</h2>
+          <div class="subtext">
+            {{ flightRoutes.subHeader }}
+          </div>
+          <div *ngIf="flightRoutes.promoActive">
+            <button class="btn" type="button" (click)="toggle()">
+              <span class="terms" translate>Terms and Conditions</span>
+            </button>
+            <div class="dropdown-content" [ngClass]="{ 'hide-terms': !termsExpanded }">
+              <markdown class="markdown" [data]="flightRoutes.terms"> </markdown>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-body pb-3">
+    <div class="container">
+      <div class="row mb-5" *ngIf="flightRoutes.promoActive">
+        <div class="promo-tiles">
+          <div class="promo-tile">
+            <span class="mr-4">
+              <img
+                ImageSrc
+                src="./../../assets/icons/Icon/Travel/useful_information.svg"
+                alt="icon"
+                class="calendar-icon"
+                loading="lazy"
+              />
+            </span>
+            <span class="content">
+              <h3 class="title">Till when can I book?</h3>
+              <p class="text">Until {{ flightRoutes.salePeriod }}</p>
+            </span>
+          </div>
+          <div class="promo-tile">
+            <span class="mr-4">
+              <img
+                ImageSrc
+                src="./../../assets/icons/Icon/Travel/plane-ticket.svg"
+                alt="icon"
+                class="calendar-icon"
+                loading="lazy"
+              />
+            </span>
+            <span class="content">
+              <h3 class="title">When can I depart?</h3>
+              <p class="text">{{ flightRoutes.departurePeriod }}</p>
+            </span>
+          </div>
+          <div class="promo-tile">
+            <span class="mr-4">
+              <img
+                ImageSrc
+                src="./../../assets/icons/Icon/Travel/plane-ticket.svg"
+                alt="icon"
+                class="calendar-icon"
+                loading="lazy"
+              />
+            </span>
+            <span class="content">
+              <h3 class="title">When can I return?</h3>
+              <p class="text">{{ flightRoutes.returnPeriod }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <table class="flight-routes-table">
+            <caption style="display: none">
+              Flight Routes
+            </caption>
+            <thead
+              *ngIf="flightRoutes.routes && flightRoutes.routes.length > 0"
+              style="background:url('{{ flightRoutes.headerImageURL }}') no-repeat center center"
+            >
+              <tr>
+                <th>Flight Route</th>
+                <th>Airline</th>
+                <th class="header-trip-type">Trip Type</th>
+                <th class="header-price">Price</th>
+                <th></th>
+              </tr>
+            </thead>
+            <!-- <app-progressbar-loader v-if="!flightRoutes"></app-progressbar-loader> -->
+            <tbody *ngIf="flightRoutes.routes && flightRoutes.routes.length > 0; else empty">
+              <tr *ngFor="let route of flightRoutes.routes; let k = index">
+                <td class="flight-route">
+                  <span>{{ route.departure_city_name }}</span>
+                  <img src="https://cdn1.travelstart.com/assets/images/reverse.svg" alt="flight route" />
+                  <span>{{ route.destination_city_name }}</span>
+                </td>
+                <td class="flight-airline">
+                  <img
+                    src="https://www.travelstart.co.za/assets/img/carriers/retina48px/carrier-{{
+                      route.airline_code
+                    }}.png"
+                    alt="{{ route.airline_name }}"
+                  />
+                  <span>{{ route.airline_name }}</span>
+                </td>
+                <td class="flight-trip-type">{{ route.trip_type === 'ONE_WAY' ? 'One Way' : 'Round Trip' }}</td>
+                <td class="flight-price">
+                  <span *ngIf="route.new_price"> {{ route.display_currency_code }} {{ route.new_price }} </span>
+                  <span [ngClass]="{ old: route.new_price }">
+                    {{ route.display_currency_code }} {{ route.min_price_display }}
+                  </span>
+                </td>
+                <td class="flight-action">
+                  <button class="btn btn-primary" (click)="followLink(route)">Book Now</button>
+                </td>
+              </tr>
+            </tbody>
+            <ng-template #empty>
+              <tr>
+                <td colspan="5" class="text-center">No flight routes found</td>
+              </tr>
+            </ng-template>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

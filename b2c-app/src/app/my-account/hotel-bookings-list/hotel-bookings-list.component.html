@@ -1,0 +1,202 @@
+<div class="sorting">
+  <div class="sort_types card">
+    <ul class="card-header ul_list">
+      <li class="card" (click)="selectSort('All')" [ngClass]="{ active: isActive('All') }">
+        <div class="card-body">
+          <div class="clearfix"></div>
+          <label class="bld_labl"> <span translate>All</span></label>
+        </div>
+      </li>
+      <li class="card" (click)="selectSort('Upcoming')" [ngClass]="{ active: isActive('Upcoming') }">
+        <div class="card-body">
+          <div class="clearfix"></div>
+          <label class="bld_labl"> <span translate>Upcoming</span></label>
+        </div>
+      </li>
+      <li class="card" (click)="selectSort('Paid')" [ngClass]="{ active: isActive('Paid') }">
+        <div class="card-body">
+          <div class="clearfix"></div>
+          <label class="bld_labl"> <span translate>Past</span></label>
+        </div>
+      </li>
+      <li class="card" (click)="selectSort('Cancelled')" [ngClass]="{ active: isActive('Cancelled') }">
+        <div class="card-body">
+          <div class="clearfix"></div>
+          <label class="bld_labl">
+            <span translate>Cancelled</span>
+          </label>
+        </div>
+      </li>
+      <li class="card" (click)="selectSort('Failed')" [ngClass]="{ active: isActive('Failed') }">
+        <div class="card-body">
+          <div class="clearfix"></div>
+          <label class="bld_labl">
+            <span translate>Suspended</span>
+          </label>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="mt-2 mt-md-4">
+  <div *ngIf="loading" class="m-5 p-5">
+    <app-progressbar-loader></app-progressbar-loader>
+  </div>
+  <div class="hotelTableData" *ngIf="!loading && hotelBookings.length > 0">
+    <ngx-datatable
+      class="material"
+      [rows]="hotelBookings"
+      [columnMode]="'force'"
+      [headerHeight]="0"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [scrollbarV]="false"
+    >
+      <ngx-datatable-column [width]="350">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="HotelDetailsSec">
+            <div class="d-none d-lg-inline">
+              <img ImageSrc src="../../../assets/images/ts+landing/hotel_default.svg" alt="hotel_default" />
+            </div>
+            <div class="ml-lg-3">
+              <div class="hotelName">{{ row.productName }}</div>
+              <div class="hotelLocation">
+                <span
+                  ><img ImageSrc src="../../../assets/images/ts+landing/location-symbol.svg" alt="location-symbol"
+                /></span>
+                <span class="ml-1">{{ row.hotelLocation }}</span>
+              </div>
+              <div class="hotelRatings" *ngIf="row.hotelRating">
+                <span *ngFor="let stars of [].constructor(row.hotelRating)">
+                  <img ImageSrc src="../../../assets/images/ts+landing/star-rating.svg" alt="star-rating" />
+                </span>
+                Hotel
+              </div>
+            </div>
+          </div>
+          <div class="d-lg-none">
+            <div class="checkinSec my-2">
+              <div class="checkinLabel">Check-in</div>
+              <div class="checkinData">
+                <span>{{ row.checkin | date: 'EEEE' }}</span>
+                <span class="d-lg-block">{{ row.checkin | date: 'dd MMM yyyy, hh:mm a' }}</span>
+              </div>
+            </div>
+            <span class="duration">4 nights</span>
+            <div class="checkinSec my-2">
+              <div class="checkinLabel">Check-out</div>
+              <div class="checkinData">
+                <span>{{ row.checkout | date: 'EEEE' }}</span>
+                <span class="d-lg-block">{{ row.checkout | date: 'dd MMM yyyy, hh:mm a' }}</span>
+              </div>
+            </div>
+            <span class="mr-1 mr-md-0 view_btn default_btn">
+              <span translate class="q_recordLink" (click)="viewDetails(row)">View details</span>
+            </span>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        [width]="170"
+        *ngIf="responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="checkinSec">
+            <div class="checkinLabel">Check-in</div>
+            <div class="checkinData">
+              <span>{{ row.checkin | date: 'EEEE' }}</span>
+              <span class="d-lg-block">{{ row.checkin | date: 'dd MMM yyyy, hh:mm a' }}</span>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name=""
+        [width]=""
+        *ngIf="responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <span class="duration">{{ getStayNightsCount(row.checkin, row.checkout) }} nights</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        [width]="170"
+        *ngIf="responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="checkinSec">
+            <div class="checkinLabel">Check-out</div>
+            <div class="checkinData">
+              <span>{{ row.checkout | date: 'EEEE' }}</span>
+              <span class="d-lg-block">{{ row.checkout | date: 'dd MMM yyyy, hh:mm a' }}</span>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name=""
+        [width]="100"
+        *ngIf="responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="status">
+            <div class="{{ row.status }}">{{ row.status }}</div>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name=""
+        [width]=""
+        *ngIf="responsiveService.screenWidth !== 'sm' && responsiveService.screenWidth !== 'md'"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <span class="mr-1 mr-md-0 view_btn default_btn">
+            <span translate class="q_recordLink" (click)="viewDetails(row)">View details</span>
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+  <div class="container err_section mt-4 bg-white" *ngIf="showError && !noBookings && !loading">
+    <div class="err_page text-center">
+      <div class="container error_body">
+        <div class="sec_img">
+          <img ImageSrc src="./../../../../assets/images/nff-web.svg" alt="server Error" />
+        </div>
+        <div class="err_msg">
+          <h4 translate *ngIf="selected === 'Upcoming'">
+            You have no upcoming trips.
+            <p translate style="font-size: 16px">Let’s change that and start planning your next trip!</p>
+          </h4>
+          <h4 translate *ngIf="selected === 'Paid'">No Past bookings found</h4>
+          <h4 translate *ngIf="selected === 'Cancelled'">No Cancelled bookings found</h4>
+          <h4 translate *ngIf="selected === 'Failed'">No Failed or Suspended bookings found</h4>
+          <h4 translate *ngIf="selected === 'All'">No Bookings Found</h4>
+          <button class="btn primary_btn" *ngIf="selected === 'Upcoming'" translate (click)="goToHome()">
+            Book My Trip
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container err_section mt-4 bg-white" *ngIf="noBookings">
+    <div class="err_page text-center">
+      <div class="container error_body">
+        <div class="sec_img">
+          <img ImageSrc src="./../../../../assets/images/nff-web.svg" alt="server Error" />
+        </div>
+        <div class="err_msg">
+          <p translate class="Trip_head">Enjoy Your Trip</p>
+          <p class="trip_des">
+            <span translate>Don't have any bookings?</span>
+            <span translate>Search and book Hotels for your next trip.</span><br />
+            <span translate>Get going by clicking</span>
+          </p>
+          <button class="mt-3" type="button" class="btn start-btn" [routerLink]="'/'">
+            <span translate>Get Started</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

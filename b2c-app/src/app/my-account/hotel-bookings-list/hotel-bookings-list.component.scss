@@ -1,0 +1,200 @@
+@import "./../../../theme/theme-variables.scss";
+
+.sorting {
+  .sort_types {
+    border: none;
+    .ul_list {
+      padding: 10px 10px 6px 10px;
+      box-shadow: 0 1px 6px 0 rgb(0 0 0 / 14%);
+      border-bottom: 1px solid var(--border_default_color);
+      border-radius: 0px 0px 15px 15px;
+      background-color: #fff;
+    }
+    ul {
+      display: block;
+      li {
+        list-style-type: none;
+        display: inline-block;
+        .img_cls {
+          width: 14px;
+          margin-top: -4px;
+        }
+        &.card {
+          border: none ;
+          background-color: #ffffff;
+
+          .card-body {
+            padding: 5px 20px;
+            margin: 0px;
+            text-align: center;
+          }
+          &.active {
+            .labl {
+              color: var(--text_primary_color);
+            }
+            .bld_labl {
+              color: var(--text_link_color);
+            }
+            .active {
+              display: inline-block;
+            }
+            .in-active {
+              display: none;
+            }
+          }
+          .in-active {
+            display: inline-block;
+          }
+          .active {
+            display: none;
+          }
+          .labl {
+            color: rgb(30 57 69 / 0.5);
+            font-size: 14px;
+            font-weight: normal;
+          }
+          .bld_labl {
+            font-size: 15px;
+            cursor: pointer;
+            color: var(--label_color);
+            font-weight: 400;
+            .fa {
+              font-weight: normal;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.err_page {
+  margin: auto;
+  padding: 0px 30px;
+  .Trip_head {
+    font-size: 22px;
+
+    margin: 7px;
+    color: var(--text_info_color);
+  }
+  .trip_des {
+    font-size: 13px;
+    font-weight: normal;
+    color: var(--text_info_color);
+    opacity: 0.8;
+  }
+  .start-btn {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: capitalize;
+    height: 34px;
+    background-color: var(--text_link_color);
+    color: #ffffff;
+    padding: 4px 29px;
+  }
+}
+.err_section {
+  .error_body {
+    margin: 40px 0px 0px;
+    .err_msg {
+      margin-top: 30px;
+    }
+  }
+}
+.depart {
+  border-right: solid 1px var(--border_default_color);
+}
+ .hotelTableData{
+  padding: 0px 30px;
+    .HotelDetailsSec{
+        display: flex;
+        align-items: center;
+        line-height: 20px;
+        font-size: 14px;
+        .hotelName{
+           font-weight: 500;
+            color: var(--text_primary_color);
+        }
+        .hotelLocation{
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text_info_color);
+            white-space : normal;
+            display: flex;
+            line-height: 14px;
+        }
+        .hotelRatings{
+            font-size: 13px;
+            color: var(--text_info_color);
+        }
+
+    }
+    .checkinSec{
+        line-height: 20px;
+        font-size: 13px;
+        .checkinLabel{
+            color: var(--text_info_color);
+        }
+        .checkinData{
+            color: var(--text_primary_color);
+        }
+    }
+    .duration{
+        font-size: 13px;
+        color: var(--text_primary_color);
+        background-color: #f2f4f6;
+        padding: 6px 15px;
+        border-radius: 12px;
+    }
+    .status{
+        font-size: 12px;
+        color: var(--text_primary_color);
+        font-weight: 500;
+        .Pending {
+          color: #ff6f5e;
+        }
+        .Failed {
+          color: #ff204f;
+        }
+        .Cancelled {
+          color: #ff6f5e;
+        }
+        .Upcoming,.Success {
+          color: #17c3a1;
+        }
+    }
+    .view_btn{
+        padding: 5px 15px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+ }
+@media (max-width: map-get($grid-breakpoints, lg)) {
+    .sorting .sort_types ul li.card .card-body {
+        width: auto;
+        padding: 5px 10px 1px 3px !important;
+      }
+      .filter {
+        width: 73px !important;
+      }
+      .mt-xs-30 {
+        margin-top: 30px !important;
+      }
+      .pick_date ngb-datepicker {
+        left: 52px !important;
+      }
+      .bld_labl {
+        font-size: 12px !important;
+      }
+  .table_data{
+    padding: 0px 15px !important;
+  }
+  .duration{
+    padding: 8px 15px !important;
+  }
+  .hotelTableData{
+    padding: 0px 15px !important;
+    .HotelDetailsSec,.checkinSec,.duration,.view_btn{
+      font-size: 13px !important;
+    }
+  }
+}

@@ -1,0 +1,297 @@
+<div class="cardPaymentSec">
+  <div class="payment_gateway" *ngIf="isPaymentOptionAvailable('CC') || isPaymentOptionAvailable('DC')">
+    <div class="supp_cards" (click)="cardFlipInit()">
+      <div class="pt-xs-10 d-lg-flex align-items-center" *ngIf="(isMobile && !selectCard) || !isMobile">
+        <span translate class="labl" *ngIf="selectedTab === 'CC' || selectedTab == 'DC'">
+          Pay instantly and securely with your
+          <span translate *ngIf="selectedTab === 'CC' && isCreditCardAvl && !isPaymentOptionAvailable('DC')">
+            credit/debit card
+          </span>
+          <span translate
+            *ngIf="(selectedTab === 'CC' || selectedTab == 'DC') && isCreditCardAvl && isPaymentOptionAvailable('DC')">
+            credit/debit card
+          </span>
+        </span>
+        <span class="d-none d-lg-inline ml-auto">
+          <ul *ngIf="paymentMethods && paymentMethods.paymentOptions">
+            <li class="pl-1 pr-1" *ngFor="let paymentMethodName of paymentCCmethods">
+              <img ImageSrc
+                src="assets/svg/payment-icons/{{ getPaymentMethodName(paymentMethodName.paymentMethodName) }}-dark.svg"
+                alt="{{ paymentMethodName.paymentMethodName }}" loading="lazy" />
+            </li>
+          </ul>
+        </span>
+      </div>
+
+      <div id="errorMsg">
+        <div *ngIf="paymentErrors && paymentErrors.msg && paymentErrors.img" class="pay_wrong">
+          <img ImageSrc src="{{ paymentErrors.img }}" alt="error" loading="lazy" />
+          <span *ngIf="isConnected" translate>{{ paymentErrors.msg }}</span>
+        </div>
+        <div *ngIf="getNetWorkStatus()" class="pay_wrong">
+          <span translate>Please check your internet connection</span>
+        </div>
+      </div>
+
+      <div *ngIf="invalid_PaymentType" class="pay_wrong">
+        <img ImageSrc src="./../../../../assets/icons/Icon/Negative-scenarios/incorrect_card_icon.svg"
+          alt="incorrect_card" loading="lazy" />
+        <span translate>Your card number is not valid, or your card type is not supported. Please check your card number
+          or use a different card.</span>
+      </div>
+    </div>
+
+    <div class="card-container d-none d-lg-block" [ngClass]="{ flip_card: flip_Card }" (click)="cardFlipInit()">
+      <div class="card">
+        <div class="card-body">
+          <div class="flip front">
+            <div class="paymentMethodLogo">
+              <img ImageSrc *ngIf="selectedCardMethod" class="float-right"
+                src="https://www.travelstart.co.za/assets/svg/payment-icons/{{ selectedCardMethod }}-dark.svg"
+                alt="{{ selectedCardMethod }}" loading="lazy" />
+            </div>
+            <div class="clearfix"></div>
+            <div class="row card_details" [style.top]="selectedPaymentOption == 'CC' ? '40px' : '20px'">
+              <div class="col-sm-12">
+                <div class="row m-0">
+                  <div class="col-sm-9 text-left">
+                    <div class="form-group"
+                      *ngIf="selectedPaymentOption == 'CC_3D_INS' || selectedPaymentOption == 'CC_INS'">
+                      <label for="Selected Bank" translate>Selected Bank</label>
+                      <h6 *ngIf="!card_detailsForm.value.selectBank"></h6>
+                      <h5 *ngIf="card_detailsForm.value.selectBank">{{ card_detailsForm.value.selectBank }}</h5>
+                    </div>
+                    <div class="form-group">
+                      <label for="Card Number" translate>Card Number</label>
+                      <h5 *ngIf="card_detailsForm && card_detailsForm.value && card_detailsForm.value.cardNumber">
+                        {{ card_detailsForm.value.cardNumber }}
+                      </h5>
+                      <h6 *ngIf="!card_detailsForm.value.cardNumber">#### #### #### ####</h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="row m-0">
+                  <div class="col-lg-8 col-8">
+                    <div class="form-group text-left">
+                      <label translate for="cc_name">CardHolder Name</label>
+                      <h6 *ngIf="!card_detailsForm.value.cardName"></h6>
+                      <h5 *ngIf="card_detailsForm.value.cardName">
+                        {{ card_detailsForm.value.cardName | uppercase }}
+                      </h5>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-4">
+                    <div class="form-group">
+                      <label for="EXPIRY" translate>EXPIRY</label>
+                      <h6 *ngIf="!card_detailsForm.value.cardExpiry && !card_detailsForm.value.cardExpiryMonth"></h6>
+                      <h5 *ngIf="card_detailsForm.value.cardExpiry && card_detailsForm.value.cardExpiryMonth">
+                        {{ card_detailsForm.value.cardExpiryMonth }}/{{ card_detailsForm.value.cardExpiry }}
+                      </h5>
+                      <h5 *ngIf="card_detailsForm.value.cardExpiryMonth && !card_detailsForm.value.cardExpiry">
+                        {{ card_detailsForm.value.cardExpiryMonth }}/YY
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flip back" [style.backface-visibility]="!flip_Card ? 'hidden' : 'inherit'">
+            <div class="clearfix"></div>
+            <div class="col-12 p-0">
+              <div>
+                <div class="strip"></div>
+                <div class="clearfix"></div>
+                <div class="form-group col-12 card_details cvv_field float-right">
+                  <div class="clearfix"></div>
+                  <p translate class="text-right mb-1">CVV</p>
+                  <span class="cvv">
+                    <input readonly type="password" class="form-control" autocomplete="off"
+                      [value]="card_detailsForm.value.cvv" mask="000" title="Credit card n" required />
+                  </span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row m-0 Card-Enter" *ngIf="(isMobile && !selectCard) || !isMobile">
+      <div class="col-3" (click)="cardFlipInit()"></div>
+      <div class="col-lg-6 col-12 p-0">
+        <div class="card mt-lg-4">
+          <div class="details card-body p-0 ml-md-15">
+            <form [formGroup]="card_detailsForm">
+              <div class="form-group col-sm-12 p-0" (click)="cardFlipInit()">
+                <label for="Card Number" translate>Card Number</label>
+                <input type="tel" #card_number class="form-control" autocomplete="off" maxlength="19"
+                  (keypress)="onlyNumbers($event)" appCreditCardInput title="Credit card number"
+                  formControlName="cardNumber" placeholder="{{ '1234 4567 8912 3456' | translate }}"
+                  (input)="onKeyEnterEvent($event)" (change)="onChangeEvent($event)" required />
+                <img *ngIf="selectedCardMethod" class="float-right selectedCard d-lg-none" width="40px"
+                  src="https://www.travelstart.co.za/assets/svg/payment-icons/{{ selectedCardMethod }}-dark.svg"
+                  alt="{{ selectedCardMethod }}" loading="lazy" />
+                <img ImageSrc *ngIf="!selectedCardMethod" width="26px" class="float-right selectedCard d-lg-none"
+                  src="../../../assets/icons/dc-card-icn.svg" alt="dummy card" loading="lazy" />
+                <div translate class="validation_msg" *ngIf="submitted && paymentCardForm.cardNumber.errors?.required">
+                  Required Card Number
+                </div>
+                <div translate class="validation_msg" *ngIf="paymentCardForm.cardNumber.errors?.minlength">
+                  Please enter a valid Card Number
+                </div>
+              </div>
+              <div class="form-group col-sm-12 p-0" (click)="cardFlipInit()">
+                <label translate for="cc_name">Card Holder Name</label>
+                <input type="text" class="form-control" #cc_name maxlength="30"
+                  pattern="^[a-zA-Z]+[-'s]?[a-zA-Z ]{1,30}$" title="Full name" formControlName="cardName"
+                  placeholder="JOHN DOE" required />
+                <div translate class="validation_msg" *ngIf="submitted && paymentCardForm.cardName.errors?.required">
+                  Please Enter Card Holder Name
+                </div>
+                <div translate class="validation_msg"
+                  *ngIf="paymentCardForm?.cardName?.touched && paymentCardForm?.cardName?.errors?.pattern">
+                  Invalid Card Holder Name
+                </div>
+              </div>
+              <div class="form-group col-lg-4 col-6 p-0 float-left pr-2" (click)="cardFlipInit()">
+                <label for="Expiry Month" translate>Expiry Month</label>
+                <mat-select class="form-control" formControlName="cardExpiryMonth" title="Select expiry month"
+                  placeholder="MM">
+                  <mat-option *ngFor="let data of months" [value]="data.value">{{ data.value }}</mat-option>
+                </mat-select>
+                <div translate class="validation_msg"
+                  *ngIf="submitted && paymentCardForm.cardExpiryMonth.errors?.required">
+                  Please Select Expiry Month
+                </div>
+              </div>
+              <div class="form-group col-lg-4 col-6 p-0 float-left pr-2" (click)="cardFlipInit()">
+                <label for="Expiry Year" translate>Expiry Year</label>
+                <mat-select class="form-control" formControlName="cardExpiry" title="Select expiry year"
+                  placeholder="YYYY">
+                  <mat-option *ngFor="let data of expiryYears" [value]="data">{{ data }}</mat-option>
+                </mat-select>
+                <div translate class="validation_msg" *ngIf="submitted && paymentCardForm.cardExpiry.errors?.required">
+                  Please Select Expiry Year
+                </div>
+              </div>
+              <div class="form-group col-lg-4 col-12 p-0 float-left">
+                <label translate for="CVV">CVV</label>
+                <input type="password" class="form-control" maxlength="4" autocomplete="off" title="CVV" #cvv
+                  formControlName="cvv" placeholder="123" (keypress)="onlyNumbers($event)" (input)="onKeyEnter($event)"
+                  (click)="cardFlip()" required />
+                <div translate class="validation_msg"
+                  *ngIf="submitted && (paymentCardForm.cvv.errors?.required || paymentCardForm.cvv.errors?.minlength)">
+                  Please enter valid CVV
+                </div>
+                <div *ngIf="invalidCvv" class="validation_msg">
+                  <div translate>Invalid CVV</div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div>
+      <label for="offline deposit" class="btn p-0">
+        <mat-checkbox type="checkbox" (change)="showCompanyDetails($event)" class="mat-checkbox" [checked]="false">
+        </mat-checkbox>
+        <span translate class="labl ml-2">I require a VAT invoice</span>
+      </label>
+
+      <div *ngIf="showCompanyVat" class="row Card-Enter">
+        <div class="col-2"></div>
+        <div class="col-sm-8 pl-5">
+          <div class="form-group">
+            <label translate for="cc_name">Company name</label>
+            <input type="text" id="vatcompanyName" class="form-control" autocomplete="off"
+              [formControl]="companyName" />
+            <div *ngIf="submitted && companyName.errors">
+              <div translate class="validation_msg" *ngIf="companyName.errors.required">Required Company Name</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label translate for="cc_name">Company VAT No</label>
+            <input type="text" id="companyVat" class="form-control" autocomplete="off" [formControl]="companyVatNo" />
+            <div *ngIf="submitted && companyVatNo.errors">
+              <div class="validation_msg" *ngIf="companyVatNo.errors.required">
+                <span translate>Required Company VAT No</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div>
+        <hr class="mb-2 mt-0 d-none d-lg-block" />
+        <div class="labl proceed_txt"><span translate>By proceeding to book I agree and accept the</span>
+          <a href="{{ 'terms and conditions URL' | translate }}" target="_blank" rel="noopener"><span translate>Terms
+              and
+              Conditions</span></a>
+          <span translate>of the Travelstart website and its travel partners. </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button type="button" class="btn pull-right primary_btn paynow_btn mt-3" [disabled]="isLoading"
+      (click)="addCardDetails($event)" translate><i class="fa fa-spinner fa-spin mr-2" [hidden]="!isLoading"
+        aria-hidden="true"></i>Pay now</button>
+  </div>
+</div>
+
+
+
+
+
+<div class="custom-overlay" [ngClass]="{'custom-show': isModalVisible}">
+  <div class="custom-dialog" (click)="$event.stopPropagation()">
+    <div class="custom-content">
+      <div class="custom-body">
+        <div class="modal-body failed_modal_body">
+          <div class="text-center">
+            <img ImageSrc class=""
+              src="./../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg"
+              alt="payment failed" width="80px" loading="lazy" />
+            <div class="mt-3" *ngIf="!BookApiError && !paxNamelengthError">
+              <div><strong translate>Sorry, your booking has failed, please try again.</strong></div>
+              <div class="payment_failedtext">
+                <span translate>Don’t worry, no money has been deducted from your account.</span>
+              </div>
+            </div>
+            <div *ngIf="BookApiError && !paxNamelengthError">
+              <strong translate> {{ BookApiError.description }} </strong>
+            </div>
+            <div class="payment_failedtext" *ngIf="!BookApiError && paxNamelengthError">
+              <span translate>Hold up! It looks like your names have exceeded our max character limit to book
+                online.</span>
+              <span translate>Please contact us to assist you with your flight booking by calling</span>
+              <span translate>+27 21 468 4300</span>
+            </div>
+            <button *ngIf="
+                (BookApiError?.category === 'paymentfailures' || BookApiError?.category === 'validationfailures' || (!BookApiError && !paxNamelengthError))
+              " class="mt-3 btn ok-btn primary_btn" type="button" (click)="closeModal()" aria-label="Ok">
+              <span translate>Ok</span>
+            </button>
+
+            <button *ngIf="paxNamelengthError" class="mt-3 btn ok-btn primary_btn" type="button" data-dismiss="modal"
+              aria-label="Ok" (click)="navigateToTravellerpage()">
+              <span translate>Ok</span>
+            </button>
+
+            <button *ngIf="(BookApiError?.category === 'supplierfailures' || BookApiError?.category === 'unknown')"
+              (click)="flight_results()" class="mt-3 btn ok-btn primary_btn" type="button" data-dismiss="modal"
+              aria-label="Search New Flight">
+              <span translate>Search New Flight</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

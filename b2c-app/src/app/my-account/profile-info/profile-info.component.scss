@@ -1,0 +1,249 @@
+@import "./../../../theme/theme-variables.scss";
+
+.profileInfo {
+  .profile_Header {
+    .main_head {
+      color: var(--text_color_new);
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .sub_head {
+      font-size: 14px;
+      color: var(--text_info_color);
+    }
+  }
+  .profile_details {
+    .profile_img {
+      .profile_img {
+        height: 140px;
+        width: 140px;
+      }
+    }
+    .form-control {
+      height: 44px !important;
+      border-radius: 4px !important;
+      color: var(--text_color_new) !important;
+    }
+    .profile_Data {
+      .notActivated {
+        background-color: #fdf4d1;
+        padding: 10px;
+        h6 {
+          font-size: 18px;
+          font-weight: 500;
+        }
+        p {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+      form {
+        .pax_type {
+          color: var(--label_color);
+          font-size: 14px;
+          font-weight: 600;
+        }
+        .btn {
+          margin-left: 5px;
+          input[type="radio"] {
+            display: none;
+          }
+          input[type="radio"] + *::before {
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.6rem;
+            border-radius: 50%;
+            border-style: solid;
+            border-width: 0.1rem;
+            border-color: gray;
+          }
+          input[type="radio"]:checked + *::before {
+            background: radial-gradient(var(--text_link_color) 0%, var(--text_link_color) 40%, transparent 50%, transparent);
+            border-color: var(--border_active_color);
+          }
+
+          .g_type {
+            margin-left: 10px;
+            color: var(--text_color_new);
+            font-size: 14px;
+          }
+        }
+
+        ::-webkit-scrollbar {
+          display: none;
+        }
+        .control-label {
+          color: var(--text_color_new);
+          font-size: 14px;
+          font-weight: normal;
+        }
+        .form-control {
+          background-color: #ffffff;
+          border-radius: 0;
+          font-size: 14px;
+        }
+        .btn1 {
+          padding: 12px 50px 12px 50px !important;
+        }
+      }
+      .cancel_btn {
+        border: 1px solid var(--border_active_color);
+        border-radius: 3px;
+        background-color: #ffffff;
+        color: var(--text_link_color);
+      }
+      .delete_btn {
+        border: 1px solid var(--border_default_color);
+        border-radius: 3px;
+        color: var(--text_info_color);
+        background-color: #fff;
+        padding: 5px 15px;
+        font-size: 14px;
+      }
+      .sub_btn {
+        border: 1px solid var(--border_active_color);
+        border-radius: 3px;
+      }
+      .custom-select {
+        display: block !important;
+      }
+      .change_pwd {
+        font-size: 13px;
+        color: var(--text_link_color);
+        cursor: pointer;
+      }
+    }
+  }
+}
+::ng-deep .iti--separate-dial-code .iti__selected-flag {
+  background-color: #ffffff;
+  font-size: 13px;
+}
+::ng-deep .bg-primary {
+  background-color: var(--text_link_color) !important;
+  border: none;
+}
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  .profile_img {
+    display: block;
+  }
+  .mb-xs-0 {
+    margin-bottom: 0px !important;
+  }
+  .cancel_btn,
+  .sub_btn {
+    padding: 10.5px 35.5px 10.5px;
+  }
+  .cp_desk {
+    display: block;
+  }
+  .cp_mobile {
+    display: none;
+  }
+  .cp_border {
+    border-top: 1px solid var(--border_default_color);
+  }
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .profile_img {
+    display: none;
+  }
+  .mb-xs-0 {
+    margin-bottom: 0px !important;
+  }
+  .cancel_btn,
+  .sub_btn {
+    padding: 10.5px 58px 10.5px;
+  }
+  .cp_desk {
+    display: none;
+  }
+  .cp_mobile {
+    display: block;
+  }
+  .cp_border {
+    border-top: none;
+  }
+  #delete_Account_Modal{
+    .deleteAccountBody{
+        padding: 15px !important;
+    }
+  }
+}
+
+
+#delete_Account_Modal{
+  .deleteAccountHeader{
+    padding: 15px;
+    border-bottom: 1px solid var(--border_default_color);
+    font-size: 20px;
+    img{
+      float: right;
+      cursor: pointer;
+    }
+  }
+  .deleteAccountBody{
+    padding: 20px;
+    .subHead{
+      font-size: 18px;
+    }
+    .reasonsList{
+      ul{
+        list-style: none;
+        padding: 0;
+        li{
+          font-size: 14px;
+          padding: 5px 0px;
+         label{
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+         }
+          input[type=radio]{
+            margin-right: 10px !important;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .description{
+      font-size: 12px;
+      color: var(--text_info_color);
+      margin: 10px 0px;
+    }
+    .categoriesList{
+      ul{
+        padding: 0 10px;
+        display: inline-flex;
+      }
+      li{
+        font-size: 14px;
+        margin: 0px 10px;
+       
+      }
+    }
+    .confirmDiv{
+      font-size: 14px;
+      .delete{
+        color: red;
+      }
+    }
+  }
+  
+}
+.deleteAccount_modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  background-color: #ffffff;
+  border-radius: 6px;
+}

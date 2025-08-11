@@ -1,0 +1,304 @@
+@import "./../../../theme/theme-variables.scss";
+@import "./../../../theme/custom-overlay.scss";
+
+.payment_gateway {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  .labl {
+    color: var(--text_primary_color);
+    font-size: 14px;
+    &.proceed_txt a {
+      color: var(--text_link_color);
+    }
+  }
+  #cvv {
+    -webkit-text-security: disc;
+  }
+
+  .form-group {
+    label {
+      color: var(--text_primary_color);
+      //not added color code font-size: 11px;
+      font-weight: 500;
+      margin: 4px 0;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+  }
+  .supp_cards {
+    .cardlabl {
+      color: var(--text_primary_color);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .labl {
+      color: var(--text_primary_color);
+      font-size: 14px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: inline-block;
+      li {
+        display: inline-block;
+        img {
+          width: 40px;
+        }
+      }
+    }
+  }
+
+  .split_payment_sec {
+    background-color: var(--layover_bg_color);
+    padding: 10px 20px;
+    border-radius: 12px;
+    img {
+      position: relative;
+      top: -2px;
+    }
+    .heading {
+      color: #b54708;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .split_payment_txt {
+      color: var(--text_primary_color);
+      font-size: 12px;
+      line-height: 16px;
+      .price {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .pay_wrong {
+    font-size: 13px;
+    padding: 11px;
+    background: var(--dangerBgColor);
+    color: var(--text_danger_color);
+    position: relative;
+    top: 15px;
+    margin-top: 10px;
+    .payment_fail {
+      white-space: nowrap;
+      position: absolute;
+    }
+  }
+
+  .card-container {
+    display: block;
+    margin: 0 auto;
+    padding: 0 12px;
+    perspective: 900px;
+    text-align: center;
+    margin-top: 30px;
+    position: relative;
+    top: 5px;
+    z-index: 1000;
+    &.flip_card {
+      .card {
+        transform: rotateY(180deg);
+        .flip {
+          border-radius: 0px 10px;
+        }
+      }
+    }
+    .card {
+      position: relative;
+      width: 385px;
+      height: 200px;
+      transition: all 0.6s ease;
+      transform-style: preserve-3d;
+      -moz-transform-style: preserve-3d;
+      background: none;
+      border-radius: 10px;
+      border: 0;
+      margin: auto;
+      .flip {
+        position: absolute;
+        background-image: linear-gradient(28deg, #5b616e 6%, #030000 95%);
+        top: 0;
+        left: 0;
+        width: 385px;
+        height: 200px;
+        border-radius: 10px;
+        color: #687189;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.24;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9;
+        .quickteller_control {
+          border-radius: 2px;
+          letter-spacing: 0px !important;
+        }
+        .card_details {
+          position: relative;
+          width: 100%;
+          label {
+            color: #fff;
+            letter-spacing: 0.5px;
+          }
+          &.cvv_field {
+            top: 20px;
+          }
+          h5 {
+            color: $white;
+            font-size: 14px;
+            font-weight: 500;
+          }
+          .btn_cvv {
+            border-radius: 6px;
+            color: var(--text_link_color) !important;
+            background: none;
+            border: 1px solid var(--text_link_color);
+            font-size: 12px;
+            float: right;
+            position: relative;
+            top: 32px;
+            cursor: pointer;
+          }
+        }
+        .card_flip {
+          .fa {
+            position: relative;
+            top: 44px;
+            right: 0;
+            font-size: 16px;
+          }
+        }
+        &.back {
+          transform: rotateY(-180deg);
+          border-radius: 10px 0 0 10px;
+          img {
+            position: relative;
+            bottom: 100px;
+          }
+        }
+        .paymentMethodLogo {
+          position: absolute;
+          top: 16px;
+          right: 20px;
+        }
+        .redirectpaymentMethodLogo {
+          position: absolute;
+          top: 10px;
+          right: 30px;
+        }
+      }
+    }
+  }
+}
+
+.paynow_btn {
+  padding: 10px 40px;
+}
+
+.Card-Enter {
+  .card {
+    border: none;
+    .form-control {
+      height: 40px;
+    }
+  }
+}
+
+.strip {
+  height: 40px;
+  background-color: var(--payment_card_strip);
+  position: relative;
+  bottom: 20px;
+}
+.selectedCard {
+  position: relative;
+  top: -32px;
+  right: 5px;
+}
+.selectExpiry {
+  padding: 8px 10px;
+  border-radius: 3px;
+  border-color: $gray-400;
+  margin: 0px 20px 0px 0px;
+  font-weight: 500 !important;
+}
+
+.Process_fee {
+  font-size: 14px;
+  color: $color-neutral-800;
+}
+
+.payment_failedtext {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text_primary_color);
+  a {
+    color: var(--text_link_color);
+  }
+  .paymnt_addlTxt {
+    width: 48%;
+    border: 1px solid $color-neutral-100;
+    margin: 0px 5px;
+    padding: 10px;
+    .payment_fail_content {
+      font-size: 12px !important;
+      span {
+        display: list-item;
+      }
+    }
+  }
+}
+
+.newLabel {
+  position: relative;
+  .newLabel_txt {
+    font-size: 8px;
+    background: #3cb75d;
+    padding: 2px 4px;
+    position: absolute;
+    color: $white;
+    top: -3px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    right: -8px;
+    line-height: 10px;
+    font-weight: 500;
+  }
+}
+
+.EFT_failed {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  width: 50%;
+  .failed_modal_body {
+    padding: 40px 30px;
+  }
+  .dialog_content {
+    width: 450px;
+  }
+
+  .ok-btn {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    height: 34px;
+    color: $white;
+    padding: 4px 29px;
+    margin-top: 14px;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .cardPaymentSec {
+    margin-bottom: 150px;
+  }
+}

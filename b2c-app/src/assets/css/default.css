@@ -1,0 +1,68 @@
+body,.mat-toolbar {
+  font-family: "Helvetica Neue", sans-serif !important;
+}
+
+.search-sec{
+  padding: 0px;
+  border-radius: 0px;
+}
+
+.search_form input{
+  background-color: #ffffff;
+}
+
+.search_form .return_datepick{
+  border-radius: 0px !important;
+}
+
+.search-btn{
+  width: 100% !important;
+  border-radius: 0;
+}
+
+.travelAdvice{
+  color: var(--text_primary_color) !important;
+}
+
+.MoreFlightsBooking{
+  background-color: #dff4fe !important;
+}
+.MoreFlightsBooking::before{
+  border-right: 10px solid #dff4fe !important;
+}
+
+.itinerary_info .route_details .segments .direction{
+  background-color: #dff4fe;
+  color: #1db2f5;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+.onHover:hover {
+  background-position: 100% 0;
+  -moz-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  color: #fff;
+}
+/**new UI related changes only for Travelstart*/
+.flight_card .price_section .book_btn,.book_flight_btn{
+  background-color: #00C2F0 !important  ;
+  border-radius: 8px !important;
+}
+.flight_card .flight_info .dur, .flight_card .flight_info .stops,.perPerson,.baggage_Info{
+  color:#667085 !important ;
+}
+.wrapper .toolbar .nav_buttons ul li .nav-button .c-val{
+  font-family: "Helvetica Neue", sans-serif !important;
+}
+.primary_btn{
+  background-color: unset !important;
+  background-size: 300% 100%;
+  border-radius: 8px !important;
+  -moz-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  background-image: linear-gradient(to right, #00C2F0 10%, #00A1D4 50%, #00C2F0 100%) !important;
+}

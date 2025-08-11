@@ -1,0 +1,265 @@
+//datepicker customization
+.dropdown-menu {
+  z-index: 999 !important;
+  background: rgb(255, 255, 255) !important;
+  border-radius: 16px;
+
+  padding: 16px 32px !important;
+  border: none !important;
+}
+
+.ngb-dp-month-name,
+.ngb-dp-weekdays,
+.ngb-dp-header {
+  background-color: $white-secondary !important;
+}
+
+.custom-select {
+  display: none !important;
+}
+
+.ngb-dp-arrow {
+  position: absolute;
+  top: 20px;
+
+  &.right {
+    right: 20px;
+  }
+}
+
+.ngb-dp-week-number,
+.ngb-dp-weekday {
+  font-style: normal !important;
+}
+
+.ngb-dp-day {
+  font-size: 14px !important;
+}
+
+.ngb-dp-day.disabled,
+.ngb-dp-day.hidden {
+  color: #cdd3d6 !important;
+}
+
+.custom-day {
+  padding: 0.23rem 0.25rem !important;
+}
+
+.ngb-dp-month-name {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.ngb-dp-day,
+.ngb-dp-week-number,
+.ngb-dp-weekday {
+  width: 2.9rem !important;
+  height: 2.9rem !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.ngb-dp-weekday {
+  font-size: 12px;
+  color: var(--text_info_color) !important;
+  padding: 0.5rem 0 1rem;
+  font-weight: normal !important;
+}
+
+.ngb-dp-weekdays {
+  border: none !important;
+}
+
+.dobSelection {
+  height: 35px;
+
+  .form-control {
+    border-radius: 0px;
+    padding: 0px;
+    font-size: 14px;
+  }
+
+  .year {
+    padding-left: 0px;
+  }
+
+  .month {
+    padding: 0px;
+  }
+
+  .day {
+    padding-right: 0px;
+  }
+}
+
+ngb-datepicker {
+  left: 0px !important;
+  top: 0px !important;
+  padding-top: 0px !important;
+  padding-right: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 0px !important;
+  position: absolute !important;
+}
+
+@media (min-width: map-get($grid-breakpoints, md)) {
+  ngb-datepicker {
+    transform: translate(-270px, 60px) !important;
+    box-shadow: rgb(0 0 0 / 20%) 0px 6px 20px !important;
+  }
+  .arrive_date {
+    ngb-datepicker {
+      transform: translate(-410px, 60px) !important;
+    }
+  }
+}
+
+@media only screen and (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, md)) {
+  //Put your CSS here for 567px to 767px width devices (cover all width between 567px to 767px //
+  ngb-datepicker {
+    transform: translate(30%, 50px) !important;
+    position: fixed !important;
+    left: 40px !important;
+    overflow: hidden;
+    box-shadow: 5px 10px 100px #101010 !important;
+  }
+
+  .ngb-dp-months {
+    display: block !important;
+  }
+
+  .ngb-dp-month-name {
+    color: black !important;
+  }
+
+  .modal-dialog {
+    max-width: 100% !important;
+  }
+}
+
+@media only screen and (min-width: map-get($grid-breakpoints, md)) and (max-width: map-get($grid-breakpoints, lg)) {
+  //Put your CSS here for 567px to 767px width devices (cover all width between 567px to 767px //
+
+  .ngb-dp-months {
+    display: block !important;
+  }
+
+  .dropdown-menu {
+    padding: 10px 5px !important;
+  }
+
+  .modal-dialog {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  ngb-datepicker {
+    transform: translate(-20px, 50px) !important;
+    position: fixed !important;
+    left: 40px !important;
+    overflow: hidden;
+    box-shadow: 5px 10px 100px #101010 !important;
+  }
+
+  .ngb-dp-day,
+  .ngb-dp-week-number,
+  .ngb-dp-weekday {
+    width: 2.5rem !important;
+    height: 2.8rem !important;
+    border: none !important;
+    outline: none !important;
+  }
+
+  .dropdown-menu {
+    padding: 15px !important;
+    border-radius: 10px !important;
+  }
+
+  .ngb-dp-months {
+    display: block !important;
+  }
+
+  .ngb-dp-month-name {
+    color: black !important;
+  }
+
+  .mat-snack-bar-container {
+    width: 95% !important;
+    top: 40% !important;
+    left: 0 !important;
+  }
+
+  .dataTableCss .table_body .table_body_row {
+    line-height: 40px !important;
+    font-weight: 600;
+
+    .traveller_data {
+      font-size: 15px;
+    }
+
+    .date_flights .route_view {
+      font-size: 14px !important;
+    }
+  }
+
+  .widget_calender {
+    .ngb-dp-week {
+      display: inline-flex !important;
+      text-align: center !important;
+      padding-left: 0px !important;
+    }
+
+    .ngb-dp-month {
+      text-align: center !important;
+    }
+
+    .ngb-dp-day,
+    .ngb-dp-week-number,
+    .ngb-dp-weekday {
+      width: 2.9rem !important;
+      height: 3rem !important;
+      border: none !important;
+      outline: none !important;
+    }
+  }
+}
+
+.widget_calender {
+  .ngb-dp-week {
+    display: inline-flex !important;
+    text-align: center !important;
+    padding-left: 0px !important;
+  }
+
+  .ngb-dp-month {
+    text-align: center !important;
+  }
+
+  .ngb-dp-day,
+  .ngb-dp-week-number,
+  .ngb-dp-weekday {
+    width: 2.9rem !important;
+    height: 3rem !important;
+    border: none !important;
+    outline: none !important;
+  }
+}
+@media only screen and (min-width: map-get($grid-breakpoints, sm)) and (max-device-width: map-get($grid-breakpoints, lg)) {
+  .container {
+    max-width: 100% !important;
+  }
+  .widget_calender {
+    .ngb-dp-day,
+    .ngb-dp-week-number,
+    .ngb-dp-weekday {
+      height: 3rem !important;
+      border: none !important;
+      outline: none !important;
+    }
+    .ngb-dp-week {
+      padding-left: 15% !important;
+      display: inline-flex !important;
+    }
+  }
+}

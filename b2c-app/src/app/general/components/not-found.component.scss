@@ -1,0 +1,105 @@
+.page-not-found {
+  .desktop-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    .image {
+      width: 50%;
+    }
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+  .mobile-view {
+    display: none;
+    @media screen and (max-width: 768px) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 2rem 0;
+      .image {
+        width: 90%;
+      }
+    }
+  }
+  .flapp-banner {
+    position: relative;
+    .store-logos {
+      position: absolute;
+      left: 5.5rem;
+      bottom: 4rem;
+      display: flex;
+      @media screen and (max-width: 768px) {
+        bottom: unset;
+        top: 13.5rem;
+        left: unset;
+        margin-left: 50%;
+        transform: translateX(-53.5%);
+        width: 85%;
+        padding: 0 5rem;
+      }
+      @media screen and (max-width: 620px) {
+        top: 9.5rem;
+      }
+      @media screen and (max-width: 490px) {
+        top: 7.5rem;
+        width: 95%;
+      }
+      @media screen and (max-width: 395px) {
+        top: 5.5rem;
+        width: 100%;
+      }
+
+      .logos {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 1rem;
+        width: 100%;
+        a {
+          img {
+            width: 100%;
+          }
+        }
+        a:hover {
+          img {
+            filter: brightness(0.8);
+          }
+        }
+      }
+      .text {
+        margin: auto 1rem;
+        color: #fff;
+        font-weight: 600;
+        font-size: smaller;
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
+      }
+      .flapp-qr {
+        max-width: 128px;
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
+      }
+    }
+    .bg-image {
+      .desktop {
+        display: block;
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
+      }
+      .mobile {
+        display: none;
+        @media screen and (max-width: 768px) {
+          display: block;
+          width: 100%;
+          padding: 0 1rem;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,165 @@
+@import "../../../theme/theme-variables.scss";
+
+.Refund,
+.Commision {
+  color: yellowgreen;
+}
+.previewClass {
+  color: $color-link-blue;
+}
+.agentStaffTable ::ng-deep.ngx-datatable .datatable-body .datatable-scroll {
+  display: none;
+}
+.walletHistory ::ng-deep .ngx-datatable.material .datatable-footer {
+  display: none !important;
+}
+.walletHistory ::ng-deep .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+  line-height: 20px !important;
+}
+.view_dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  min-width: 50%;
+  min-height: 300px;
+  background-color: $white;
+  border-radius: 3px;
+
+  .mdl_heading {
+    font-size: 23px;
+    padding-bottom: 40px;
+    font-weight: 600;
+    border-bottom: 1px solid $chineseSilver;
+  }
+  .mdl_body {
+    padding: 15px 30px;
+    min-height: 300px;
+  }
+}
+
+::ng-deep {
+  .ngx-datatable.material {
+    background: #fff;
+    box-shadow: none !important;
+  }
+  .ngx-datatable .datatable-header .datatable-header-cell .sort-btn {
+    display: none !important;
+  }
+  .ngx-datatable.material .datatable-header {
+    border-bottom: 1px solid #dae1eb;
+    height: 50px !important;
+    width: 100%;
+    margin-top: 5px;
+  }
+  .ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
+    height: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    color: rgb(0, 0, 0, 0.7) !important;
+    padding: 15px;
+  }
+
+  .ngx-datatable.material:not(.cell-selection) .datatable-body-row:hover,
+  .ngx-datatable.material:not(.cell-selection) .datatable-body-row:hover .datatable-row-group {
+    background-color: transparent !important;
+  }
+  .datatable-body-row:hover .datatable-row-group {
+    background-color: transparent !important;
+  }
+  .ngx-datatable .datatable-body .datatable-row-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    border-bottom: 1px solid #dae1eb;
+  }
+
+  .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell,
+  .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-group-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    font-size: 13px;
+  }
+  .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+    text-align: left;
+    padding: 8px 1.2rem !important;
+    vertical-align: middle !important;
+    border-top: 0;
+    line-height: 44px !important;
+    color: rgba(0, 0, 0, 0.87);
+    transition: width 0.3s ease;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .ngx-datatable .datatable-header .datatable-header-cell .resize-handle {
+    cursor: ew-resize;
+    display: none !important;
+  }
+  .datatable-row-odd {
+    background-color: #fafafc;
+  }
+}
+
+.date_Wrap {
+  text-transform: uppercase;
+  .d_mnth {
+    color: #9098ac;
+    font-size: 10px;
+    line-height: 8px;
+  }
+  .d_date {
+    color: #2c304d;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+  }
+  .d_week {
+    color: #9098ac;
+    font-size: 10px;
+    line-height: 8px;
+  }
+}
+
+.trip_view {
+  font-weight: 600;
+  font-size: 12px;
+}
+.Pending {
+  color: #ff6f5e;
+  font-weight: 400;
+}
+.failed {
+  color: #ff204f;
+  font-weight: 400;
+}
+.cancelled {
+  color: #ff6f5e;
+  font-weight: 400;
+}
+.Upcoming {
+  color: #17c3a1;
+  font-weight: 400;
+}
+.img_flights {
+  margin: 0px 10px;
+}
+.booking_dt {
+  font-size: 14px;
+  font-weight: 400;
+  .day_arr {
+    font-size: 11px;
+  }
+}
+.bookingInfo {
+  font-size: 12px;
+  font-weight: 500;
+  color: #878f9d;
+}
+.q_recordLink {
+  color: $appActiveBlue;
+  border: 1px solid $appActiveBlue;
+  padding: 5px 8px;
+  border-radius: 3px;
+}

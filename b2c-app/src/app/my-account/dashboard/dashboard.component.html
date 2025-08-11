@@ -1,0 +1,218 @@
+<app-header></app-header>
+<div class="myaccount_page theme__dashboard-page">
+  <div class="myAct_bg"></div>
+  <div class="dashboard" [ngClass]="{'pt-md-5': tsCountry !== 'ABSA'}">
+    <div class="container" [ngClass]="{'h-100': tsCountry === 'ABSA'}">
+      <div class="row" [ngClass]="{'h-100': tsCountry === 'ABSA'}">
+        <div class="col-12 p-0" [ngClass]="{'theme__flex-column-full': tsCountry === 'ABSA'}">
+          <app-back-button
+          *ngIf="
+            tsCountry === 'ABSA' &&
+            (responsiveService.screenWidth == 'sm' ||
+              responsiveService.screenWidth == 'md')
+          "
+          [navigationLink]="'/'"
+          [isTextWhite]="true"
+          ><span translate>My Profile</span></app-back-button
+        >
+          <div class="mt-4">
+            <div class="main-tab-section">
+              <div class="sec_header d-none d-lg-inline-block">
+                <div>
+                  <h1>
+                    <img
+                      ImageSrc
+                      class="mr-2 ml-3 ml-md-0 remove_for_MM"
+                      width="22px"
+                      src="./../../../assets/icons/Shape.svg"
+                      alt="requirements"
+                      *ngIf="tabVal != 'My Profile'"
+                      [routerLink]="'/'"
+                      [queryParamsHandling]="'preserve'"
+                      routerLinkActive="active"
+                    />
+                    <span
+                      class=""
+                      *ngIf="tabVal !== 'Wallet'"
+                      [style.margin-left]="tabVal == 'My Profile' ? '20px' : '0px'"
+                      >{{ tabVal }}</span
+                    >
+                    <span translate *ngIf="tabVal == 'Wallet'"> Wallet</span>
+                  </h1>
+                </div>
+              </div>
+              <ul
+                class="nav nav-tabs card-header-tabs float-md-right dashbord_ul ml-lg-3"
+                id="myAccount"
+                role="tablist"
+              >
+                <li class="nav-item dashbord_li d-none" (click)="getTab('My Profile')">
+                  <a
+                    translate
+                    class="nav-link d-none"
+                    [ngClass]="{ active: routeUrl == '/my-account' }"
+                    id="mybookings"
+                    data-toggle="tab"
+                    href="#one"
+                    role="tab"
+                    aria-controls="One"
+                    aria-selected="true"
+                    >MY PROFILE</a
+                  >
+                </li>
+                <li class="nav-item" (click)="getTab('My Bookings')">
+                  <a
+                    translate
+                    class="nav-link theme__account-tab"
+                    [ngClass]="{ active: tabVal == 'My Bookings' }"
+                    id="two-tab"
+                    data-toggle="tab"
+                    href="#mybookings"
+                    role="tab"
+                    aria-controls="Two"
+                    aria-selected="true"
+                    >MY BOOKINGS</a
+                  >
+                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'My Bookings'" class="theme__highlight-bar"></div>
+                </li>
+                <li class="nav-item" (click)="getTab('Travellers')" *ngIf="tsCountry !== 'MM'">
+                  <a
+                    translate
+                    class="nav-link theme__account-tab"
+                    [ngClass]="{ active: tabVal == 'Travellers' }"
+                    id="three-tab"
+                    data-toggle="tab"
+                    href="#travellers"
+                    role="tab"
+                    aria-controls="Three"
+                    aria-selected="false"
+                    >{{ tsCountry === 'ABSA' ? 'Travellers' : 'TRAVELLERS' }}</a
+                  >
+                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'Travellers'" class="theme__highlight-bar"></div>
+                </li>
+                <li class="nav-item" (click)="getTab('Wallet')" *ngIf="isTsPlusUser && showWalletInfo">
+                  <a
+                    translate
+                    class="nav-link theme__account-tab"
+                    [ngClass]="{ active: tabVal == 'Wallet' }"
+                    id="five-tab"
+                    data-toggle="tab"
+                    href="#wallet"
+                    role="tab"
+                    aria-controls="five"
+                    aria-selected="false"
+                    >WALLET</a
+                  >
+                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'Wallet'" class="theme__highlight-bar"></div>
+                </li>
+                <li class="nav-item" (click)="getTab('Add Card')">
+                  <a
+                    translate
+                    class="nav-link theme__account-tab"
+                    [ngClass]="{ active: tabVal == 'Add Card' }"
+                    id="four-tab"
+                    data-toggle="tab"
+                    href="#payments"
+                    role="tab"
+                    aria-controls="Four"
+                    aria-selected="false"
+                    >{{ tsCountry === 'ABSA' ? 'Cards' : 'PAYMENTS' }}</a
+                  >
+                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'Add Card'" class="theme__highlight-bar"></div>
+                </li>
+                <li class="nav-item" (click)="getTab('Help')" *ngIf="tsCountry === 'ABSA'">
+                  <a
+                    translate
+                    class="nav-link theme__account-tab"
+                    [ngClass]="{ active: tabVal == 'Help' }"
+                    id="help"
+                    data-toggle="tab"
+                    href="#help"
+                    role="tab"
+                    aria-controls="help"
+                    aria-selected="false"
+                  >Help</a
+                  >
+                  <div *ngIf="tsCountry === 'ABSA' && tabVal == 'Help'" class="theme__highlight-bar"></div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="tabContent" [ngClass]="{'h-100 theme__hide-overflow': tsCountry === 'ABSA'}">
+              <div class="main tab-content" id="myAccountContent"  [ngClass]="{'theme__flex-column-full theme__scroll-overflow': tsCountry === 'ABSA'}">
+                <div
+                  class="tab-pane fade p-3"
+                  [ngClass]="{ active: routeUrl == '/my-account', show: routeUrl == '/my-account' }"
+                  id="mybookings"
+                  role="tabpanel"
+                  aria-labelledby="one-tab"
+                >
+                  <app-profile-info></app-profile-info>
+                </div>
+                <div
+                  *ngIf="tabVal === 'My Bookings'"
+                  class="tab-pane fade p-3"
+                  [ngClass]="{ active: tabVal == 'My Bookings', show: tabVal == 'My Bookings' }"
+                  id="travellers"
+                  role="tabpanel"
+                  aria-labelledby="two-tab"
+                >
+                  <app-bookings></app-bookings>
+                </div>
+
+                <!--Travellers-->
+                <div
+                  *ngIf="tabVal == 'Travellers'"
+                  class="tab-pane fade p-3 theme__travellers-section-container"
+                  [ngClass]="{ active: tabVal == 'Travellers', show: tabVal == 'Travellers' }"
+                  id="travellers"
+                  role="tabpanel"
+                  aria-labelledby="three-tab"
+                >
+                  <app-travellers *ngIf="tsCountry !== 'ABSA'"></app-travellers>
+                  <app-saved-travellers *ngIf="tsCountry === 'ABSA'"></app-saved-travellers>
+                  <!-- <h5 class="card-title">Saved Adults</h5> -->
+                </div>
+
+                <div
+                  *ngIf="tabVal == 'Wallet'"
+                  class="tab-pane fade p-3"
+                  [ngClass]="{ active: tabVal == 'Wallet', show: tabVal == 'Wallet' }"
+                  id="wallet"
+                  role="tabpanel"
+                  aria-labelledby="five-tab"
+                >
+                  <!-- <h5 class="card-title">Saved Adults</h5> -->
+                  <app-wallet></app-wallet>
+                </div>
+
+                <div
+                  *ngIf="tabVal === 'Add Card'"
+                  class="tab-pane fade p-3"
+                  id="four"
+                  [ngClass]="{ active: tabVal == 'Add Card', show: tabVal == 'Add Card', 'theme__add-card-container': tsCountry === 'ABSA' }"
+                  role="tabpanel"
+                  aria-labelledby="four-tab"
+                >
+                  <app-payments *ngIf="tsCountry !== 'ABSA'"></app-payments>
+                  <app-saved-cards *ngIf="tsCountry === 'ABSA'"></app-saved-cards>
+                </div>
+                <div
+                  *ngIf="tabVal == 'Help' && tsCountry === 'ABSA'"
+                  class="tab-pane fade"
+                  [ngClass]="{ active: tabVal == 'Help', show: tabVal == 'Help' }"
+                  id="help-tab"
+                  role="tabpanel"
+                  aria-labelledby="three-tab"
+                >
+                  <!-- <h5 class="card-title">Saved Adults</h5> -->
+                  <app-contact-us-form hideTopBar="true"></app-contact-us-form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

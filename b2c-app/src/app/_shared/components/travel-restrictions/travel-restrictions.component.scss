@@ -1,0 +1,93 @@
+@import "./../../../../theme/theme-variables.scss";
+
+.travel_restrictions {
+  .textHead {
+    background-image: url("https://cdn1.travelstart.com/assets/images/sherpa-hero-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: initial;
+    height: 200px;
+    .tsHeading {
+      padding: 20px 0px;
+      h4 {
+        font-size: 20px;
+        color: $color-neutral-900;
+        font-weight: 500;
+      }
+      h3 {
+        .tsHead {
+          font-size: 34px;
+          color: $color-link-blue;
+          font-weight: 500;
+        }
+        .tsHead2 {
+          font-size: 40px;
+          color: $color-link-blue;
+          font-weight: 500;
+        }
+      }
+      .safetyMatter {
+        padding-top: 15px;
+        h6 {
+          font-size: 13px;
+          color: $color-neutral-900;
+          font-weight: normal;
+          line-height: 24px;
+        }
+      }
+    }
+  }
+
+  .travel_restrictions_head {
+    position: absolute;
+    top: 90px;
+    .travel_head_1 {
+      color: $white;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .travel_head_2 {
+      color: $white;
+      font-size: 24px;
+      font-weight: 500;
+    }
+    .travel_desc_1 {
+      color: $white;
+      font-size: 16px;
+      font-weight: normal;
+    }
+    .travel_desc_2 {
+      color: $white;
+      font-size: 16px;
+      font-weight: normal;
+    }
+  }
+
+  .restrictions_txt {
+    padding: 30px;
+    h4 {
+      font-size: 20px;
+      color: $color-neutral-900;
+      font-weight: 500;
+    }
+    h6 {
+      font-size: 13px;
+      color: $color-neutral-900;
+      font-weight: normal;
+      line-height: 20px;
+    }
+    .disclaim_txt {
+      font-weight: 600;
+    }
+  }
+  .shipraTrip {
+    padding: 30px 30px 10px 30px;
+  }
+}
+@media (max-width: map-get($grid-breakpoints, md)) {
+  .travel_restrictions {
+    .textHead {
+      background-size: auto;
+    }
+  }
+}

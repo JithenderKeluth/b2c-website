@@ -1,0 +1,163 @@
+
+<div class="check_In_baggage_sec" *ngIf="pricedResult_data?.itineraries?.length > 0 && pricedResult_data?.baggageOptions?.allBaggage?.length != 0 && baggageAssignedPaxList.length > 0 && totalBaggageData.length > 0">
+<div class="baggage_desc d-none">
+    <span> <img ImageSrc src="../../../assets/icons/travellerpage_Icons/check-in_baggage-stars.svg" width="16px" alt="check-in_baggage-stars"></span>
+    <span translate>Add your check-in Baggage online and save 40%</span>
+</div>
+
+<div *ngFor="let baggageInfo of totalBaggageData;let mainIndex = index">
+  <div class="baggageItin">
+    <span *ngIf="baggageInfo.itinDirection == 'OUTBOUND'" class="d-lg-flex align-items-center">
+      <div class="d-flex align-items-center">
+        <div class="logo_img mr-2">
+          <img
+            ImageSrc
+            src="assets/img/carriers/retina48px/carrier-{{
+              pricedResult_data.itineraries[0].odoList[0].segments[0].airlineCode
+            }}.png"
+            alt="{{
+              pricedResult_data.itineraries[0].odoList[0].segments[0].airlineCode
+            }}"
+            width="25px"
+          />
+        </div>
+        <div class="">
+          {{
+            getCityName(pricedResult_data.itineraries[0].odoList[0].segments[0].origCode)
+          }}
+          -
+          {{
+            getCityName(
+              pricedResult_data.itineraries[0].odoList[0].segments[
+                pricedResult_data.itineraries[0].odoList[0].segments.length - 1
+              ].destCode
+            )
+          }}
+        </div>
+      </div>
+
+      <div *ngIf="pricedResult_data.itineraries[0].odoList[0].segments[0].baggageAllowance.length > 0" class="ml-auto  baggage_info mt-1 mt-lg-0">
+        <div *ngFor="let baggage of pricedResult_data.itineraries[0].odoList[0].segments[0].baggageAllowance">
+          <span *ngIf="handBag(baggage)">
+            <span translate class="des_baggage"> <img ImageSrc class="mb-1" src="../../../assets/icons/srp_Icons/new_hand_baggage.svg" alt="hand_baggage"> {{ bagageDesc(baggage) }}</span>
+
+            <span translate class="includedTag">Included</span>
+          </span>
+
+        </div>
+       </div>
+    </span>
+    <span *ngIf="baggageInfo.itinDirection == 'INBOUND'" class="d-lg-flex align-items-center">
+      <div class="d-flex align-items-center">
+        <div class="logo_img mr-2">
+          <img
+            ImageSrc
+            src="assets/img/carriers/retina48px/carrier-{{
+              pricedResult_data.itineraries[pricedResult_data.itineraries.length - 1]
+                .odoList[pricedResult_data.itineraries[
+                pricedResult_data.itineraries.length - 1
+              ].odoList.length-1].segments[0].airlineCode
+            }}.png"
+            alt="{{
+              pricedResult_data.itineraries[pricedResult_data.itineraries.length - 1]
+                .odoList[0].segments[
+                pricedResult_data.itineraries[
+                  pricedResult_data.itineraries.length - 1
+                ].odoList[0].segments.length - 1
+              ].airlineCode
+            }}"
+            width="25px"
+          />
+        </div>
+        <div class="">
+          {{
+            getCityName(
+              pricedResult_data.itineraries[0].odoList[0].segments[
+                pricedResult_data.itineraries[0].odoList[0].segments.length - 1
+              ].destCode
+            )
+          }}
+          -
+          {{
+            getCityName(pricedResult_data.itineraries[0].odoList[0].segments[0].origCode)
+          }}
+        </div>
+      </div>
+
+      <div *ngIf="pricedResult_data.itineraries[pricedResult_data.itineraries.length - 1].odoList[pricedResult_data.itineraries[pricedResult_data.itineraries.length - 1].odoList.length-1].segments[0].baggageAllowance.length > 0"
+         class="ml-auto baggage_info mt-1 mt-lg-0">
+        <div *ngFor="let baggage of pricedResult_data.itineraries[pricedResult_data.itineraries.length - 1].odoList[pricedResult_data.itineraries[pricedResult_data.itineraries.length - 1].odoList.length-1].segments[0].baggageAllowance">
+          <span *ngIf="handBag(baggage)">
+            <span translate class="des_baggage"> <img ImageSrc class="mb-1" src="../../../assets/icons/srp_Icons/new_hand_baggage.svg" alt="hand_baggage"> {{ bagageDesc(baggage) }}</span>
+
+            <span translate class="includedTag">Included</span>
+          </span>
+
+        </div>
+       </div>
+    </span>
+  </div>
+  <div [ngClass]="baggageInfo.itinDirection == 'OUTBOUND' || baggageInfo.itinDirection == 'INBOUND' ? 'baggage_InfoSec' :''" class="theme__baggage-info-sec theme__raise-priority">
+    <div *ngFor="let pax of baggageInfo.baggageValue;let paxIndex = index">
+      <div class="baggageInfo d-lg-flex align-items-center">
+        <div class="paxname mb-1 mb-lg-0">
+          {{pax.paxName}}
+        </div>
+        <ul class="mb-0">
+          <li class="" *ngFor="let baggage of pax.baggageData;let bagIndex = index" [ngClass]="bagIndex > 0 ? 'mt-1' : ''">
+            <div *ngIf="baggageInfo.itinDirection == baggage.direction" class="baggage_class d-lg-flex align-items-center">
+              <div class="paxname mb-1 mb-lg-0 d-none">
+                {{pax.paxName}}
+              </div>
+              <div class="card">
+                <div
+                class="card-body theme__raise-priority"
+                [ngClass]="{ 'selectedBag' : baggage.preSelected,'unselectBag' : !baggage.preSelected  }"
+              >
+                <div class="des_cls">
+                   <span class="bag_des ml-0 ml-lg-4 ml-xl-0 d-block">
+                     <img ImageSrc src="../../../assets/icons/srp_Icons/new_checked_baggage.svg" alt="checked_baggage">
+                     <span>
+                      {{ baggage.description }}
+                     </span>
+                     <span *ngIf="baggage.amount" class="float-right">
+                      +{{ baggage.currencyCode | currencyCode}}{{ baggage.amount }}
+                     </span>
+                    </span>
+                 </div>
+                <div class="select_cls text-right">
+                  <span>
+                    <label for="" class="baggage_select mb-0">
+                      <img
+                        ImageSrc
+                        *ngIf="baggage.preSelected == false"
+                        src="../../../assets/icons/travellerpage_Icons/tick_default.svg"
+                        alt="tick_default"
+                        (click)="selectedBaggage(mainIndex, paxIndex, bagIndex, true)"
+                      />
+                      <img
+                        ImageSrc
+                        *ngIf="baggage.preSelected == true"
+                        src="../../../assets/icons/travellerpage_Icons/tick_selected.svg"
+                        alt="tick_selected"
+                        (click)="selectedBaggage(mainIndex, paxIndex, bagIndex, false)"
+                      />
+                    </label>
+
+                  </span>
+                </div>
+              </div>
+              </div>
+
+            </div>
+
+          </li>
+        </ul>
+      </div>
+
+</div>
+  </div>
+
+</div>
+
+</div>

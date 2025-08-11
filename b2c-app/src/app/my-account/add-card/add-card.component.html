@@ -1,0 +1,124 @@
+<div class="d-flex flex-column add-card-container"
+     [ngClass]="{'add-card-container': dialogType === 'fullscreen-dialog', 'bottom-drawer-add-container': dialogType === 'bottom-drawer'}">
+
+  <div class="d-flex add-card-back-button px-2 py-1" *ngIf="dialogType==='fullscreen-dialog'">
+    <img ImageSrc (click)="closeDialog()" src="./../../../assets/icons/absa_icons/left-short-arrow.svg" alt="">
+    <div class="content" (click)="closeDialog()" translate>Add Debit/Credit Card</div>
+  </div>
+  <div class="d-flex justify-content-between bottom-drawer-back-button px-2 py-1"
+       *ngIf="dialogType==='bottom-drawer'">
+    <div class="content" (click)="closeDialog()" translate>Enter card details</div>
+    <div (click)="closeDialog()" class="close-dialog-button" aria-hidden="true">
+    <img
+      ImageSrc
+      src="../../../../assets/icons/srp_Icons/close-icn-new-all.svg"
+      alt="close"
+      aria-label="Close"
+    /></div>
+  </div>
+  <form [formGroup]="addCardForm" class="add-card-form">
+    <div class="section" [ngClass]="{'p-0': dialogType === 'bottom-drawer'}">
+      <div class="section-header mb-3" translate *ngIf="dialogType=== 'fullscreen-dialog'">Enter Card Details</div>
+      <div class="form-group">
+        <label translate>Card Number</label>
+        <input
+          type="tel"
+          class="form-control"
+          autocomplete="off"
+          maxlength="19"
+          appCreditCardInput
+          title="Credit card number"
+          formControlName="cardNumber"
+          id="card_number"
+          placeholder="{{ 'Card number' | translate }}"
+          (input)="onKeyEnterEvent($event)"
+          (paste)="onKeyEnterEvent($event)"
+          (keypress)="onlyNumbers($event)"
+          (change)="onKeyEnterEvent($event)"
+          required
+        />
+        <div translate class="validation_msg"
+             *ngIf="submitted && paymentCardForm?.cardNumber?.errors?.required">
+          Required Card Number
+        </div>
+        <div translate class="validation_msg" *ngIf="!(showAbsaCardMessageForSix && showAbsaCardMessageForEight) && paymentCardForm?.cardNumber?.errors?.minlength">
+          Please enter a valid Card Number
+        </div>
+        <div translate class="validation_msg" *ngIf="showAbsaCardMessageForSix && showAbsaCardMessageForEight">
+          Please use your Absa card
+        </div>
+      </div>
+      <div class="form-group">
+        <label translate for="cc_name">Name on Card</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cc_name"
+          formControlName="cardName"
+          placeholder="{{'Card holder name' | translate}}"
+          (change)="onChangeEvent($event)"
+          (input)="filterCardName($event)"
+          required
+        />
+        <div translate class="validation_msg" *ngIf="submitted && paymentCardForm?.cardName?.errors?.required">
+          Required Card Holder Name
+        </div>
+      </div>
+      <div class="form-group">
+        <label translate for="cc_name">Expiration Date</label>
+        <br/>
+        <div class="row">
+          <div class="col">
+            <select
+              name=""
+              id="card_expiry"
+              class="form-control selectExpiry col-sm-12"
+              formControlName="cardExpiryMonth"
+              (change)="clearCardExpirationMessage()"
+            >
+              <option translate value="">month</option>
+              <option value="01">01</option>
+              <option value="02">02</option>
+              <option value="03">03</option>
+              <option value="04">04</option>
+              <option value="05">05</option>
+              <option value="06">06</option>
+              <option value="07">07</option>
+              <option value="08">08</option>
+              <option value="09">09</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
+            <div translate class="validation_msg" *ngIf="submitted && paymentCardForm?.cardExpiryMonth?.errors?.required">
+              Required Expiration Month
+            </div>
+          </div>
+
+          <div class="col">
+            <select
+              matNativeControl
+              required
+              class="form-control selectExpiry col-sm-12"
+              formControlName="cardExpiry"
+              id="cardExpiryYear"
+              (change)="getExpiryYear()"
+            >
+              <option translate value="">year</option>
+              <option value="{{ val.year }}" *ngFor="let val of yearsArray">{{ val.year }}</option>
+            </select>
+            <div translate class="validation_msg" *ngIf="submitted && paymentCardForm?.cardExpiry?.errors?.required">
+              Required Expiration Year
+            </div>
+          </div>
+        </div>
+        <div translate class="validation_msg" *ngIf="showCardExpiredMessage">
+          Please enter a valid card that hasn't expired
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="theme__button-primary" (click)="onSubmit()" [disabled]="isLoading || (showAbsaCardMessageForSix && showAbsaCardMessageForEight) || paymentCardForm?.cardNumber?.errors?.minlength"><span translate>Add card</span></button>
+    </div>
+  </form>
+</div>

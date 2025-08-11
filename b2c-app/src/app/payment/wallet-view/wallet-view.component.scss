@@ -1,0 +1,96 @@
+@import "./../../../theme/theme-variables.scss";
+.payment_view_page {
+  background-color: #eef3f8;
+  padding: 20px 15px;
+  @media (max-width: map-get($grid-breakpoints, sm)) {
+    padding: 20px 0px;
+  }
+  .heading-font-size {
+    .header {
+      font-size: 20px;
+      @media (max-width: map-get($grid-breakpoints, sm)) {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+  }
+  .payment_cards_section {
+    .nav-tabs {
+      border: none;
+      position: relative;
+      bottom: -5px;
+
+      .nav-item {
+        padding: 0px;
+
+        .nav-link {
+          border: none;
+          color: var(--text_primary_color) !important;
+          font-size: 14px;
+          font-weight: 500;
+          padding: 12px 18px 18px 18px;
+          border-radius: 6px 6px 0px 0px;
+
+          &.active {
+            color: var(--text_link_color) !important;
+            font-weight: 500;
+            box-shadow: 10px -3px 8px -7px rgba(15, 34, 58, 0.12);
+
+            .option_name {
+              border-bottom: 2px solid var(--text_link_color) !important;
+              padding-bottom: 5px;
+            }
+          }
+        }
+      }
+    }
+
+    .tab-content {
+      z-index: 9;
+      position: relative;
+    }
+    @media (max-width: map-get($grid-breakpoints, sm)) {
+      border-radius: 10px;
+    }
+    .no-gateway {
+      font-size: 18px;
+    }
+  }
+  .iframe_payment_gateway {
+    padding: 20px;
+    .iframe_section {
+      padding: 30px;
+    }
+  }
+  .fares_display_section {
+    box-shadow: 0 2px 2px 0 rgba(5, 35, 49, 0.12);
+    background: $white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+  }
+  .btn-controls {
+    .back {
+      color: $color-blue-500;
+    }
+    .book_btn {
+      background-color: $color-teal-600;
+      color: $white;
+      padding: 10px 40px;
+      border-radius: 3px;
+    }
+  }
+  .coupon_info_section {
+    box-shadow: 0 2px 2px 0 rgba(5, 35, 49, 0.12);
+    background: $white;
+    padding: 15px 0px;
+    border-radius: 3px;
+  }
+  .paymentFooter {
+    font-size: 12px;
+  }
+  .back-page {
+    filter: grayscale(1) invert(1);
+    width: 25px;
+  }
+}

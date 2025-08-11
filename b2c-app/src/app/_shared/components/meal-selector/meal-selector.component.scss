@@ -1,0 +1,148 @@
+.meal-selection {
+  max-width: 100%;
+  background: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+  padding: 0 5px 10px 5px;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 2;
+  padding-top: 8px;
+}
+
+.title {
+  color: var(--text_color_new);
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  margin-bottom: 2px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  height: 20px;
+  width: 20px;
+  line-height: 16px;
+}
+
+.options-container {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 5px;
+  max-height: calc(100vh - 150px);
+}
+
+.form-check {
+  position: relative;
+  padding: 15px 0;
+  display: flex;
+  align-items: center;
+}
+
+.form-check:last-child {
+  border-bottom: none;
+}
+
+.form-check-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.form-check-label {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 45px;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+  color: var(--text_color_new);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.form-check-label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid var(--primary_btn_bg);
+  border-radius: 50%;
+  background: white;
+}
+
+.form-check-input:checked + .form-check-label:after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary_btn_bg);
+}
+
+@media screen {
+  .form-check-input:checked + .form-check-label:after {
+    left: calc(0px + (26px - 14px) / 2);
+  }
+}
+
+.meal-name {
+  font-size: 16px;
+  font-weight: 400;
+  margin-right: 10px;
+}
+
+.meal-price {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.apply-btn-container {
+  position: sticky;
+  bottom: 0;
+  padding: 20px 0 0;
+  margin-top: auto;
+  z-index: 2;
+  border-top: 1px solid #e4eaf4;
+}
+
+.apply-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary_btn_bg);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+}

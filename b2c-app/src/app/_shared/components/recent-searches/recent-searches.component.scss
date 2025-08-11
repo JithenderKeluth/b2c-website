@@ -1,0 +1,112 @@
+@import "./../../../../theme/theme-variables.scss";
+
+.recent_searches {
+  .sec_title {
+    h1 {
+      font-size: 14px;
+      letter-spacing: 0.4px;
+      color: $text-primary-color;
+      .baggage-seperate {
+        height: 11px;
+        width: 2px;
+        background-color: $color-neutral-100;
+        margin: 0 10px;
+        display: inline-block;
+      }
+    }
+    .clear_al {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: $color-blue-500;
+    }
+  }
+  .clear_al {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #1bb3f5;
+  }
+}
+.past_search_list {
+  ul {
+    list-style-type: none;
+    padding: 0;
+    li {
+      display: inline-block;
+      border-radius: 8px;
+      width: auto;
+      padding: 10px 15px;
+      margin-right: 10px;
+      font-size: 12px;
+      color: $text-primary-color;
+      font-weight: 600;
+      background-color: #fff;
+      border:1px solid  var(--border_default_color);
+      cursor: pointer;
+      .labl {
+        font-size: 12px;
+        font-weight: normal;
+        color: $text-primary-color;
+        margin: 0;
+      }
+      .dur {
+        color: #a5a5a5;
+      }
+    }
+  }
+  .w-18 {
+    width: 18%;
+  }
+  .w-54 {
+    width: 51%;
+  }
+}
+.search_val {
+  display: inline-flex;
+}
+.multiSearch {
+  display: flex;
+  .test {
+    margin-right: 21px;
+  }
+}
+
+::ng-deep.white_clr + .tooltip > .tooltip-inner {
+  background-color: #fff;
+  color: $text-primary-color;
+  width: auto !important;
+  padding: 5px 10px;
+  box-shadow: 0 6px 10px 0 rgb(0 41 99 / 20%);
+  opacity: 9;
+  font-size: 11px;
+}
+::ng-deep .tooltip.show {
+  opacity: 9;
+}
+::ng-deep.bs-tooltip-top .arrow::before {
+  top: 0;
+  border-width: 0.4rem 0.4rem 0;
+  border-top-color: #fff;
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .past_search_list {
+    ul {
+      li {
+        padding: 10px 15px !important;
+      }
+      width: auto;
+      overflow-x: auto;
+      white-space: nowrap;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+  .multiSearch {
+    display: inline-grid !important;
+  }
+}

@@ -1,0 +1,19 @@
+@import "./../../../theme/theme-variables.scss";
+.vocher_product {
+  h5 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  p {
+    font-size: 13px;
+    line-height: 25px;
+  }
+  .continue {
+    color: var(--primary_btn_bg);
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .price_breakup {
+    font-size: 13px;
+  }
+}

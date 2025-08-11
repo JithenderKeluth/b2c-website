@@ -1,0 +1,32 @@
+<div class="modal-dialog payment_error_dialog" role="document">
+  <div class="modal-content dialog_content">
+    <div class="modal-body">
+      <div class="text-center">
+        <img
+          ImageSrc
+          class="wid40per-xs"
+          src="./../../../../assets/icons/Icon/Negative-scenarios/something_went_wrong_icon.svg"
+          alt="Flight not available"
+        />
+        <div class="error_modal_text">
+          <div translate>Oops! It seems this link has expired.</div>
+          <div translate>Please contact us for further assistance.</div>
+        </div>
+
+        <div class="text-center">
+          <span
+            ><button
+              type="button"
+              aria-label="close"
+              class="btn ok-btn primary_btn"
+              (click)="goToSearchPage()"
+              data-dismiss="modal"
+            >
+              <span translate>close</span>
+            </button></span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

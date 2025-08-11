@@ -1,0 +1,118 @@
+<div class="container" [style.padding-bottom]="tsCountry == 'FS' ? '50px' : '0px'">
+  <div class="travel_app_section bg_img_web">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6">
+          <div class="content">
+            <label for="Download Travelstart App" class="title d-none">Download the Travelstart App</label>
+            <label for="title" class="title"
+              >Skip the wait, not the trip. <br class="d-none d-lg-inline" /><span class="title_link_clr"
+                >Get the app
+              </span>
+            </label>
+            <div class="d-none">
+              <ul class="p-lg-0">
+                <li>
+                  <span> <img ImageSrc src="../../../../assets/icons/app-tick.svg" alt="app-tick.svg" /></span>
+                  <span>Get your ticket in the app</span>
+                </li>
+                <li>
+                  <span> <img ImageSrc src="../../../../assets/icons/app-tick.svg" alt="app-tick.svg" /></span>
+                  <span>Make changes to your booking</span>
+                </li>
+                <li>
+                  <span> <img ImageSrc src="../../../../assets/icons/app-tick.svg" alt="app-tick.svg" /></span>
+                  <span>Manage your trip on the go</span>
+                </li>
+                <li>
+                  <span> <img ImageSrc src="../../../../assets/icons/app-tick.svg" alt="app-tick.svg" /></span>
+                  <span>Keep up-to-date with travel alerts</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="down_link mt-4 mb-3">
+            <div class="d-block d-lg-flex align-items-center">
+              <div class="social_btns">
+                <ul class="p-0">
+                  <li>
+                    <a href="{{ 'download_on_apple' | translate }}" target="_blank" rel="noopener">
+                      <img
+                        class="store_img d-none d-lg-block"
+                        ImageSrc
+                        src="./../../../../assets/icons/home_app_store.svg"
+                        alt="app_store_ios"
+                        loading="lazy"
+                      />
+                      <img
+                        ImageSrc
+                        class="store_img d-inline d-lg-none"
+                        src="./../../../../assets/icons/mweb_home_app_store.svg"
+                        alt="mweb_app_store"
+                        loading="lazy"
+                      />
+                    </a>
+                  </li>
+                  <li class="float-md-right float-lg-none">
+                    <a href="{{ 'download_on_google_play' | translate }}" target="_blank" rel="noopener">
+                      <img
+                        ImageSrc
+                        class="store_img d-none d-lg-block"
+                        src="./../../../../assets/icons/home_app_google.svg"
+                        alt="play_store_and"
+                        loading="lazy"
+                      />
+                      <img
+                        ImageSrc
+                        class="store_img d-inline d-lg-none"
+                        src="./../../../../assets/icons/mweb_upsell_play_store.svg"
+                        alt="mweb_play_store"
+                        loading="lazy"
+                      />
+                    </a>
+                  </li>
+                  <li *ngIf="tsCountry == 'ZA'">
+                    <a href="{{ 'huawei_appgallery' | translate }}" target="_blank" rel="noopener">
+                      <img
+                        ImageSrc
+                        class="store_img d-none d-lg-block"
+                        src="../../../../assets/icons/home_app_gallery.svg"
+                        alt="huawei_app_gallery"
+                        loading="lazy"
+                      />
+                      <img
+                        ImageSrc
+                        class="store_img d-inline d-lg-none"
+                        src="../../../../assets/icons/mweb_home_app_gallery.svg"
+                        alt="mweb_huawei"
+                        loading="lazy"
+                      />
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="text-center mx-3 d-none d-lg-block">
+                <span translate class="ordiv">OR</span>
+              </div>
+              <div class="d-none d-lg-block mb-3">
+                <img
+                  ImageSrc
+                  class="qrcode_img"
+                  [style.width.px]="tsCountry == 'ZA' ? 150 : 140"
+                  src="./../../../../assets/images/scan-new-img.png"
+                  alt="scan-new-img"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5 text-center text-lg-right d-lg-flex align-items-end">
+          <div class="app_img">
+            <img ImageSrc src="../../../../assets/images/home_app_upsell.png" alt="app_sell" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

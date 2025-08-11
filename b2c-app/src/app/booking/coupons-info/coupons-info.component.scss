@@ -1,0 +1,160 @@
+@import "./../../../theme/theme-variables.scss";
+
+.coupon_info {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 12px;
+
+  .content {
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    // border-bottom: 1px dashed $color-neutral-100;
+    padding-bottom: 10px;
+    .sec_title {
+      color: var(--text_primary_color);
+      font-size: 18px;
+      font-weight: 600;
+      .optional {
+        font-size: 14px;
+        color: var(--text_info_color);
+        margin-left: 5px;
+        font-weight: 500;
+      }
+    }
+    .input-group {
+      border: 1px solid var(--border_input_color);
+      padding: 2px;
+      height: 44px;
+      border-radius: 3px;
+      .voucher_color {
+        background-color: $white-secondary;
+      }
+    }
+    .cancelIcon {
+      padding: 7px;
+      margin-top: 1px;
+    }
+    .successMsg {
+      font-size: 13px;
+      padding: 4px;
+      background-color: $color-teal-50;
+      color: $color-teal-400;
+    }
+
+    h4 {
+      color: var(--text_primary_color);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    p {
+      margin-top: 11px;
+    }
+    .form-control {
+      height: 35px;
+      border: none;
+      border-radius: 0;
+    }
+    .apply_vocher {
+      border-radius: 3px;
+      color: $white-secondary;
+      text-transform: uppercase;
+      padding: 8px 15px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+  .content.form-control {
+    &:focus {
+      box-shadow: none;
+      border: 2px solid var(--text_link_color);
+    }
+  }
+  .coupons_list {
+    label {
+      margin: 0%;
+      padding: 20px 0;
+      border-bottom: 1px dashed var(--border_default_color);
+      display: block;
+    }
+    .code {
+      color: var(--text_primary_color);
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .fr_text {
+      color: var(--text_primary_color);
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 20px;
+      display: block;
+    }
+  }
+}
+.invalidVoucherTxt {
+  font-size: 14px;
+  color: var(--text_danger_color);
+}
+.exceededAmountVoucherTxt {
+  background-color: var(--layover_bg_color);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+@media (max-width: map-get($grid-breakpoints, lg)) {
+  .sec_title {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+  .coupon_info {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+  }
+}
+
+// wallet-vouchers section
+
+.wallet-vouchers {
+  h4 {
+    font-size: 16px;
+  }
+  background-image: linear-gradient(to bottom, #ffffff 0%, #ebedff 100%);
+  background: #ffffff;
+  border-radius: 12px;
+  font-size: 14px;
+  padding: 20px;
+  input[type="checkbox"] {
+    margin-left: 10px;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    .voucher-info {
+      border: 1px dashed #532bd7;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 14px;
+      margin-bottom: 6px;
+      .txt-mute {
+        color: var(--text_info_color);
+      }
+      .active {
+        color: #109379;
+      }
+      img {
+        cursor: pointer;
+      }
+    }
+  }
+  .savings {
+    color: #532bd7;
+    font-size: 14px;
+  }
+}

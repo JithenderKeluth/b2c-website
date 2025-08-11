@@ -1,0 +1,19 @@
+@import "./../../../theme/theme-variables.scss";
+.err_page {
+  margin: auto;
+  padding: 30px;
+  .err_msg {
+    h4 {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+  .ok-btn {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: capitalize;
+    height: 34px;
+    margin-top: 2%;
+    padding: 4px 29px;
+  }
+}

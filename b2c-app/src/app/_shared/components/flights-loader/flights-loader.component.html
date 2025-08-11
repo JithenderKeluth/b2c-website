@@ -1,0 +1,231 @@
+<div class="loader">
+  <div class="skeltonLoader" *ngIf="showSkeltonLoader">
+    <div class="sort_holders d-none d-lg-block">
+      <div class="row align-items-center">
+        <div class="col-2 ml-2">
+          <ngx-skeleton-loader
+            count="1"
+            [theme]="{ 'border-radius': '2px', height: '30px', 'background-color': '#f0f2f7' }"
+          ></ngx-skeleton-loader>
+        </div>
+        <div class="col-2 ml-2">
+          <ngx-skeleton-loader
+            count="1"
+            [theme]="{ 'border-radius': '2px', height: '20px', 'background-color': '#f0f2f7' }"
+          ></ngx-skeleton-loader>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-5 ml-5 pr-0" >
+          <ngx-skeleton-loader
+            count="1"
+            [theme]="{ 'border-radius': '2px', height: '30px', 'background-color': '#f0f2f7' }"
+          ></ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+    <div class="row mainDiv m-0 mt-2 pb-0" *ngFor="let item of generateFake(4)">
+      <div class="col-lg-10 col-12">
+        <div class="row align-items-center flight_sec" >
+          <div class="col-2 d-none d-lg-block">
+            <ngx-skeleton-loader
+              class="skelton_load"
+              [theme]="{
+                height: '40px',
+                margin: '0',
+                padding: '0',
+                'background-color': '#f0f2f7'
+              }"
+            ></ngx-skeleton-loader>
+          </div>
+          <div class="col-lg-2 col-4 mx-lg-4 text-center">
+            <ngx-skeleton-loader
+              class="skelton_load"
+              [theme]="{
+                height: '15px',
+                width: '50%',
+                margin: '0',
+                padding: '0',
+                'border-radius': '2px',
+                'background-color': '#f0f2f7'
+              }"
+            ></ngx-skeleton-loader>
+            <ngx-skeleton-loader
+              class="skelton_load"
+              [theme]="{
+                height: '15px',
+                margin: '0',
+                padding: '0',
+                'border-radius': '2px',
+                'background-color': '#f0f2f7'
+              }"
+            ></ngx-skeleton-loader>
+            <ngx-skeleton-loader
+            class="skelton_load"
+            [theme]="{
+              height: '15px',
+              margin: '0',
+              padding: '0',
+              'border-radius': '2px',
+              'background-color': '#f0f2f7'
+            }"
+          ></ngx-skeleton-loader>
+          </div>
+          <div class="col-lg-2 col-4 mx-lg-4">
+            <ngx-skeleton-loader
+              class="skelton_load"
+              [theme]="{
+                'border-radius': '2px',
+                height: '40px',
+                'background-color': '#f0f2f7',
+                margin: '0'
+              }"
+            ></ngx-skeleton-loader>
+          </div>
+          <div class="col-lg-2 col-4 mx-lg-4 text-center">
+            <ngx-skeleton-loader
+              class="skelton_load"
+              [theme]="{
+                height: '12px',
+                width: '50%',
+                margin: '0',
+                padding: '0',
+                'border-radius': '2px',
+                'background-color': '#f0f2f7'
+              }"
+            ></ngx-skeleton-loader>
+            <ngx-skeleton-loader
+              class="skelton_load"
+              [theme]="{
+                height: '15px',
+                margin: '0',
+                padding: '0',
+                'border-radius': '2px',
+                'background-color': '#f0f2f7'
+              }"
+            ></ngx-skeleton-loader>
+            <ngx-skeleton-loader
+            class="skelton_load"
+            [theme]="{
+              height: '15px',
+              margin: '0',
+              padding: '0',
+              'border-radius': '2px',
+              'background-color': '#f0f2f7'
+            }"
+          ></ngx-skeleton-loader>
+          </div>
+          </div>
+          <div *ngIf="tripType == 'return'">
+            <div class="row bor_top">
+              <div class="col-2 offset-10">
+                <ngx-skeleton-loader
+                class="skelton_load flight_details"
+                [theme]="{
+                  height: '20px',
+                  margin: '0',
+                  padding: '0',
+                  'border-radius': '2px',
+                  'background-color': '#f0f2f7'
+                }"
+              ></ngx-skeleton-loader>
+              </div>
+            </div>
+            <div class="row align-items-center flight_sec" >
+              <div class="col-2 d-none d-lg-block">
+                <ngx-skeleton-loader
+                  class="skelton_load"
+                  [theme]="{
+                    height: '40px',
+                    margin: '0',
+                    padding: '0',
+                    'background-color': '#f0f2f7'
+                  }"
+                ></ngx-skeleton-loader>
+              </div>
+              <div class="col-lg-2 col-4 mx-lg-4 text-center">
+                <ngx-skeleton-loader
+                  class="skelton_load"
+                  [theme]="{
+                    height: '15px',
+                    width: '50%',
+                    margin: '0',
+                    padding: '0',
+                    'border-radius': '2px',
+                    'background-color': '#f0f2f7'
+                  }"
+                ></ngx-skeleton-loader>
+                <ngx-skeleton-loader
+                  class="skelton_load"
+                  [theme]="{
+                    height: '15px',
+                    margin: '0',
+                    padding: '0',
+                    'border-radius': '2px',
+                    'background-color': '#f0f2f7'
+                  }"
+                ></ngx-skeleton-loader>
+                <ngx-skeleton-loader
+                class="skelton_load"
+                [theme]="{
+                  height: '15px',
+                  margin: '0',
+                  padding: '0',
+                  'border-radius': '2px',
+                  'background-color': '#f0f2f7'
+                }"
+              ></ngx-skeleton-loader>
+              </div>
+              <div class="col-lg-2 col-4 mx-lg-4">
+                <ngx-skeleton-loader
+                  class="skelton_load"
+                  [theme]="{
+                    'border-radius': '2px',
+                    height: '40px',
+                    'background-color': '#f0f2f7',
+                    margin: '0'
+                  }"
+                ></ngx-skeleton-loader>
+              </div>
+              <div class="col-lg-2 col-4 mx-lg-4 text-center">
+                <ngx-skeleton-loader
+                  class="skelton_load"
+                  [theme]="{
+                    height: '12px',
+                    width: '50%',
+                    margin: '0',
+                    padding: '0',
+                    'border-radius': '2px',
+                    'background-color': '#f0f2f7'
+                  }"
+                ></ngx-skeleton-loader>
+                <ngx-skeleton-loader
+                  class="skelton_load"
+                  [theme]="{
+                    height: '15px',
+                    margin: '0',
+                    padding: '0',
+                    'border-radius': '2px',
+                    'background-color': '#f0f2f7'
+                  }"
+                ></ngx-skeleton-loader>
+                <ngx-skeleton-loader
+                class="skelton_load"
+                [theme]="{
+                  height: '15px',
+                  margin: '0',
+                  padding: '0',
+                  'border-radius': '2px',
+                  'background-color': '#f0f2f7'
+                }"
+              ></ngx-skeleton-loader>
+              </div>
+              </div>
+          </div>
+
+      </div>
+      <div class="col-2 d-none d-lg-block price_sec_div">
+      </div>
+
+    </div>
+  </div>
+</div>

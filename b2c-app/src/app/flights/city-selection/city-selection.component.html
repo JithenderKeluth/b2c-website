@@ -1,0 +1,56 @@
+<div class="search_form">
+  <div class="row">
+    <div class="col-sm-12 ng-autocomplete">
+      <span class="searchIcon">
+        <img ImageSrc src="../../../assets/icons/search_icon.svg" alt="search" width="14px" loading="lazy" />
+      </span>
+      <input
+        type="text"
+        class="form-control borderRds bor-rad-3 airport-name-input"
+        matInput
+        [formControl]="city"
+        [matAutocomplete]="deptAirpt"
+        (input)="onKeypressEvent($event)"
+        id="cityval"
+        required
+        autocomplete="off"
+        placeholder="Enter City/Airport Name"
+      />
+      <mat-autocomplete class="citySelection" #deptAirpt="matAutocomplete" [displayWith]="displayFn">
+        <mat-progress-bar mode="indeterminate" class="mb-1" [hidden]="!city_load"></mat-progress-bar>
+        <mat-option
+          class="departAirports p-0"
+          *ngFor="let option of filteredOptions"
+          (click)="selectCity(option)"
+          [value]="option"
+        >
+          <div class="row mt-2 mb-1">
+            <div class="col-12 theme__city-selection-option-container">
+              <div class="d-inline-block align-top mt-2 theme__city-icon-container">
+                <img
+                  ImageSrc
+                  src="../../../assets/icons/srp_Icons/fly-city-light.svg"
+                  alt="fly-city-light"
+                  width="20px"
+                  loading="lazy"
+                />
+              </div>
+              <div class="d-inline-block" style="margin-left: 10px">
+                <span class="">{{ option['city'] }},</span>
+                <span class="">{{ option['airport'] }}</span>
+                <div class="clearfix"></div>
+                <span class="sub_txt">{{ option['city'] }},</span>
+                <span class="sub_txt">{{ option['country'] }}</span>
+              </div>
+              <div class="d-inline-block align-top mt-2 float-right theme__city-search-code-container">
+                <span class="city_search_code">
+                  {{ option['code'] }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+  </div>
+</div>

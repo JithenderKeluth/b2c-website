@@ -1,0 +1,37 @@
+@import "./../../../../theme/theme-variables.scss";
+
+.meili-wideget-container{
+    .widget-sec{
+        margin: 20px;
+    }
+}
+#meili-content_modal {
+    .modal-dialog {
+      width: 400px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) !important;
+      .modal-content{
+        border: none;
+        border-radius: 12px;
+        .modal-body {
+            padding: 30px;
+            font-size: 14px;
+            .heading_sec{
+              font-size: 18px;
+              font-weight: 600;
+            }
+          }
+      }
+     
+    }
+  }
+
+  @media (max-width: map-get($grid-breakpoints, lg)) {
+    #meili-content_modal {
+        .modal-dialog {
+            width: calc(100% - 20px) !important;
+        }
+    }
+  }

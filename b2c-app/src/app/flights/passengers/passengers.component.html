@@ -1,0 +1,147 @@
+<div class="travellers">
+  <div *ngIf="country === 'ABSA'" class="theme__travellers-header-container">
+    <span class="theme__travellers-header-title" translate>Select Travellers</span>
+    <span>
+      <button
+        class="theme__close-button"
+        aria-label="Close"
+        (click)="closeModal()"
+      >
+      <img
+        ImageSrc
+        src="../../../assets/icons/srp_Icons/close-icn-new-all.svg"
+        alt="close"
+        aria-label="Close"
+      />
+    </button>
+    </span>
+  </div>
+  <div class="theme__travellers-body-container">
+    <div *ngIf="country === 'ABSA'" translate class="youngAdtInfo with-icon">
+      <img
+        class="theme__info-icon"
+        ImageSrc
+        src="../../../assets/icons/srp_Icons/fare-breakdown-info.svg"
+        alt="fare-breakdown-info"
+        width="12px">
+      <div>
+        <span translate> There must be at least one adult per booking for online bookings.</span>
+        <span translate>To book for young adults travelling alone, please contact us by calling +27 21 468 4300</span>
+      </div>
+    </div>
+    <div class="validation_msg with-icon warning mt-3" *ngIf="country === 'ABSA' && (maxPassengerErrrMsg || ratioErrMsg)">
+      <img ImageSrc src="../../../assets/icons/absa_icons/error-icon.svg" alt="error-icon">
+      <div translate *ngIf="maxPassengerErrrMsg">
+        The maximum number of travellers allowed is 9.
+      </div>
+      <div translate *ngIf="ratioErrMsg">
+        The number of Infants cannot exceed the number of adults. Ratio is 1:1. Please contact us to make a special booking.
+      </div>
+    </div>
+    <div>
+      <div class="makeFlex theme__passengers-counter-section mb-0">
+        <div class="column adultCounter mb-3">
+          <p><span translate>Adults</span><span [ngClass]="{ 'font-weight-normal': country === 'ABSA' }" translate> (16+ yrs)</span></p>
+          <ul class="guestCounter adults-pax">
+            <li
+              #adultE1
+              [ngClass]="[travellers.adults == adults ? 'selected' : '']"
+              *ngFor="let adults of totalPassengersAllowed.Adults"
+              [attr.data-adult-id]="adults"
+              (click)="logAdults(adultE1)"
+            >
+              {{ adults }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="column youthCounter mb-3">
+          <p><span translate>Young Adult</span><span [ngClass]="{ 'font-weight-normal': country === 'ABSA' }" translate> (12-15 yrs)</span></p>
+        <ul class="guestCounter adults-pax">
+          <li
+            #youngAdultsE1
+            [ngClass]="[travellers.youngAdults == youngAdults ? 'selected' : '']"
+            *ngFor="let youngAdults of totalPassengersAllowed.youngAdults"
+            [attr.data-youngAdults-id]="youngAdults"
+            (click)="logYoungAdult(youngAdultsE1)"
+          >
+            {{ youngAdults }}
+          </li>
+        </ul>
+        </div>
+
+        <div class="column childCounter mb-3">
+          <p data-cy="childrenRange" class="childrenRange">
+            <span translate>Children</span> <span [ngClass]="{ 'font-weight-normal': country === 'ABSA' }" translate> (2-11 yrs)</span>
+          </p>
+          <ul class="guestCounter children-pax">
+            <li
+              #ChildrenE1
+              [ngClass]="[travellers.children == Children ? 'selected' : '']"
+              *ngFor="let Children of totalPassengersAllowed.Children"
+              [attr.data-child-id]="Children"
+              (click)="logChildren(ChildrenE1)"
+            >
+              {{ Children }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="column infantCounter mb-3">
+          <p class="infantRange"><span translate>Infants</span><span [ngClass]="{ 'font-weight-normal': country === 'ABSA' }" translate> (Under 2 yrs)</span></p>
+          <ul class="guestCounter infant-pax">
+            <li
+              #InfantsE1
+              [ngClass]="[travellers.infants == infants ? 'selected' : '']"
+              *ngFor="let infants of totalPassengersAllowed.Infants"
+              [attr.data-infants-id]="infants"
+              (click)="logInfants(InfantsE1)"
+            >
+              {{ infants }}
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="cabin_class d-none">
+        <p translate>Cabin class</p>
+        <ul class="guestCounter classSelect">
+          <li translate [ngClass]="[cabinClassSelected === 'ECONOMY' ? 'selected' : '']" (click)="onChange('ECONOMY')">
+            Economy
+          </li>
+          <li translate [ngClass]="[cabinClassSelected === 'PREMIUM' ? 'selected' : '']" (click)="onChange('PREMIUM')">
+            Premium
+          </li>
+          <li translate [ngClass]="[cabinClassSelected === 'BUSINESS' ? 'selected' : '']" (click)="onChange('BUSINESS')">
+            Business
+          </li>
+          <li translate [ngClass]="[cabinClassSelected === 'FIRST' ? 'selected' : '']" (click)="onChange('FIRST')">
+            First
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="country !== 'ABSA'" class="mt-2 mb-2">
+    <div translate class="validation_msg with-icon warning" *ngIf="maxPassengerErrrMsg">
+      The maximum number of travellers allowed is 9
+    </div>
+    <div translate class="validation_msg with-icon warning" *ngIf="ratioErrMsg">
+      The number of Infants cannot exceed the number of adults. Ratio is 1:1
+    </div>
+    <div translate class="youngAdtInfo with-icon mt-3">
+      <div class="mr-2">
+        <img
+          ImageSrc
+          src="../../../assets/icons/srp_Icons/fare-breakdown-info.svg"
+          alt="fare-breakdown-info"
+          width="12px">
+      </div>
+      <div>
+        <span translate> There must be at least one adult per booking for online bookings.</span>
+        <span translate>To book for young adults travelling alone, please contact us by calling +27 21 468 4300</span>
+      </div>
+    </div>
+  </div>
+</div>

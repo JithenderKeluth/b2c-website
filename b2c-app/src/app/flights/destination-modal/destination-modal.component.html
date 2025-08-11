@@ -1,0 +1,78 @@
+<div class="modal-dialog payment_error_dialog" role="document">
+  <div class="modal-content dialog_content destination_content">
+    <div class="modal-body consistent-modal-body">
+      <div class="text-center">
+        <img
+          ImageSrc
+          class="consistent-modal-icon"
+          [src]="'./../../../../assets/svg/airport-change-icn.svg'"
+          alt="Flight not available"
+          loading="lazy"
+        />
+
+        <div *ngIf="!showTransitVisa" translate class="consistent-header-txt">Important Message</div>
+        <div *ngIf="showTransitVisa" translate class="consistent-header-txt">ATTENTION GOOD LOOKING!</div>
+
+        <div class="consistent-body-text" *ngIf="!showTransitVisa && airportsArray && airportsArray.length == 1">
+          <span translate>Please be aware that you are booking a flight that lands at</span>
+          <span *ngFor="let airport of airportsArray; let i = index">
+            <strong>{{ getAirportName(airport.flightDesti) }}</strong>
+          </span>
+          <span translate>but leaves from</span>
+          <span *ngFor="let airport of airportsArray; let i = index"
+            ><strong>{{ getAirportName(airport.flightOrigin) }}</strong></span
+          >.
+          <br *ngIf="country === 'ABSA'" />
+          <span translate>If this is correct, click Continue.</span>
+          <span translate>If you want to change the flight, click Cancel and choose a different flight.</span>
+        </div>
+
+        <div *ngIf="showTransitVisa" class="consistent-body-text">
+          Transit visa may be required on this flight because of the stopover.
+        </div>
+
+        <div class="consistent-body-text" *ngIf="!showTransitVisa && airportsArray && airportsArray.length > 1">
+          <span translate
+            >One or more of your flights requires a change of airport before getting to the final destination.</span
+          >
+          <span translate>Please review your itinerary to ensure this suits your travel arrangements.</span>
+        </div>
+
+        <div class="modal-btn-container">
+          <span
+            ><button
+              type="button"
+              aria-label="cancelBtn"
+              class="btn ok-btn mr-3 cancelBtn default_btn"
+              data-dismiss="modal"
+            >
+              <span *ngIf="!showTransitVisa && airportsArray && airportsArray.length" translate>Cancel</span>
+              <span *ngIf="showTransitVisa && !airportsArray">Pick a new flight</span>
+            </button></span
+          >
+          <span
+            ><button
+              *ngIf="!showTransitVisa && airportsArray && airportsArray.length"
+              (click)="continueFlightSelection('airport')"
+              type="button"
+              aria-label="Continue"
+              class="btn ok-btn onHover refreshBtn primary_btn"
+            >
+              <span translate>Continue</span>
+            </button>
+
+            <button
+              *ngIf="showTransitVisa && !airportsArray"
+              (click)="continueFlightSelection('Transit-visa')"
+              type="button"
+              aria-label="Proceed to payment"
+              class="btn ok-btn onHover refreshBtn primary_btn"
+            >
+              <span>Proceed to payment</span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

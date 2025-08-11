@@ -1,0 +1,178 @@
+@import "./../../../theme/theme-variables.scss";
+
+.ts_plus_bg {
+    padding-bottom: 200px;
+    background-color: #0E0626;
+    background-image: url('https://cdn1.travelstart.com/assets/images/ts-plus-images/tsplus-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+        .link {
+            color: $color-link-blue;
+        }
+        .ts_logo{
+            padding-top: 40px;
+            img{
+                width: 300px;
+            }
+
+        }
+        .ts_plus_congs {
+            margin: 60px auto;
+            background-color: #0E0626;
+            background-image: url('https://cdn1.travelstart.com/assets/images/ts-plus-images/ts-success-bg.png');
+            background-repeat: no-repeat;
+            background-position: top;
+            border-radius: 20px;
+            background-size: cover;
+            width: 660px;
+            height: 600px;
+            .congs_content {
+                padding: 40px;
+
+                color: $white;
+                h4 {
+                    font-size: 36px;
+                }
+
+                h5 {
+                    font-size: 30px;
+                    color: $white;
+                    img{
+                        width: 145px;
+                        position: relative;
+                        bottom: 8px;
+                    }
+                }
+                h6{
+                  font-size: 28px;
+                }
+
+                    .exp_ts_app {
+                        padding: 15px 72px !important;
+                        li{
+                            list-style-type: decimal;
+                            font-size: 18px;
+                            line-height: 28px;
+                            text-align: left;
+
+                        }
+                    }
+                button{
+                    font-size: 18px;
+                    background-color: $color-link-blue;
+                    border: none !important;
+                    border-radius: 8px !important;
+                    padding: 8px 50px;
+                }
+                .social_links{
+                    p{
+                        font-size: 18px;
+                        font-weight: 500;
+                        color: #08B5F2;
+                    }
+                }
+                .social_btns {
+                    margin-left: 70px;
+                    ul {
+                      list-style-type: none;
+
+                      li {
+                        display: block;
+                        margin: 5px 0px;
+                      }
+                    }
+                  }
+
+            }
+        }
+}
+#success_modal{
+    .modal-content {
+        padding: 30px !important;
+        background-color: #1E1238 !important;
+        .close_icn{
+            img{
+                cursor: pointer;
+               }
+        }
+
+        .modal-body{
+            padding: 40px 0px;
+
+        }
+        .success_txt{
+            h6{
+                font-size: 32px;
+                font-weight: 600;
+                color: #00C2F0;
+            }
+            p{
+                color: $white;
+                font-size: 20px;
+                line-height: 20px;
+            }
+        }
+    }
+}
+
+@media (max-width: map-get($grid-breakpoints, lg)) {
+    .ts_plus_bg {
+        .ts_logo{
+            img{
+                width: 200px !important;
+            }
+        }
+        .ts_plus_congs {
+            height: auto !important;
+            overflow-y: auto !important;
+            .congs_content {
+                padding: 20px !important;
+
+                  ul li{
+                    line-height: 22px !important;
+                  }
+                .social_btns {
+                    margin-left: 0px !important;
+                    ul{
+                        display: inline-flex!important;
+                    }
+                }
+
+            }
+
+        }
+    }
+    #success_modal{
+        .modal-content {
+          .modal-body{
+            img{
+                width: 48px !important;
+            }
+          }
+            .success_txt h6{
+                font-size: 28px !important;
+            }
+        }
+    }
+
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)) {
+    .ts_plus_bg .ts_plus_congs{
+        width:  100% !important;
+        .congs_content {
+            .exp_ts_app{
+                padding: 10px 25px !important;
+            }
+        }
+    }
+}
+
+@media (min-width:map-get($grid-breakpoints, sm)) and (max-width:map-get($grid-breakpoints, lg)) {
+    .ts_plus_bg .ts_plus_congs .congs_content .exp_ts_app{
+        padding: 10px 85px !important;
+    }
+}
